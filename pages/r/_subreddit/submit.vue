@@ -6,6 +6,7 @@
 <script>
 import PostForm from '~/components/PostForm';
 export default {
+  middleware: ['auth'],
   components: {
     PostForm,
   },

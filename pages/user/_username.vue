@@ -35,6 +35,7 @@ import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
 import SelectUserPage from '~/components/SelectUserPage';
 export default {
+  middleware: ['auth'],
   defaultSort: 'new',
   components: {
     bImg,

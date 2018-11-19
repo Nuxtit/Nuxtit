@@ -11,6 +11,7 @@ import PostWithComments from '~/components/PostWithComments.vue';
 import first from 'lodash/first';
 
 export default {
+  middleware: ['auth'],
   components: {
     PostWithComments,
   },

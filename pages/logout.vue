@@ -4,10 +4,14 @@
 </template>
 
 <script>
+import sleep from '~/lib/sleep';
+
 export default {
   middleware: ['auth'],
-  mounted() {
-    this.$store.dispatch('auth/logout');
+  async mounted() {
+    await this.$store.dispatch('auth/logout');
+    await sleep(2500);
+    window.location = '/';
   },
 };
 </script>

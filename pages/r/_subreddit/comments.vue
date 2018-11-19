@@ -3,6 +3,7 @@
 </template>
 <script>
 export default {
+  middleware: ['auth'],
   props: {
     subreddit: {
       type: Object,

@@ -29,6 +29,7 @@ import RedditItems from '~/mixins/RedditItems';
 import { isVirtualSubreddit, makeVirtualSubreddit } from '~/lib/subreddit';
 
 export default {
+  middleware: ['auth'],
   defaultSort: 'hot',
   components: {
     ItemHtml,
