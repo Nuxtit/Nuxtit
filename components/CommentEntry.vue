@@ -77,7 +77,9 @@
       //- | &#32;
       ReportButton(:item='comment' v-if='!isAuthor')
       | &#32;
-      CrossPostButton(:item='comment')
+      CrossPostButton(
+        @click.prevent.stop='showCrossPost^=true'
+      )
       span.btn-see-source(
         @click.prevent.stop='showSource^=true'
       )
@@ -86,14 +88,20 @@
     CommentForm(
       v-if="showReply && !collapsed"
       :parent='comment'
-      @updated-comment='onCommentUpdated'
+      @updated-comment='onCommentCreated'
       @close='showReply = false'
     )
     CommentForm(
       v-if="showEdit && !collapsed"
       :comment='comment'
-      @created-comment='onCommentCreated'
+      @created-comment='onCommentUpdated'
       @close='showEdit = false'
+    )
+    PostForm(
+      v-if="showCrossPost && !collapsed"
+      :parent='item'
+      @created-post='onCrossPostCreated'
+      @close='showCrossPost = false'
     )
     pre(v-if="showSource && !collapsed")
       tt: small(v-text="comment.data")
@@ -118,6 +126,7 @@ import ShareButton from '~/components/ShareButton';
 import TimeAgo from '~/components/TimeAgo';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
+import { makeComputeToggler } from '~/lib/toggle_open';
 
 export default {
   name: 'CommentEntry',
@@ -164,8 +173,11 @@ export default {
     },
     linkTo() {
       const { parent_id, permalink, link_id, id } = this.comment.data;
-      if (parent_id && parent_id !== link_id && permalink) {
-        return permalink.replace(`/${id}/`, '/');
+      if (parent_id && permalink) {
+        const linkPath = permalink.replace(`/${id}/`, '/');
+        if (this.$route.path !== linkPath) {
+          return linkPath;
+        }
       }
       return null;
     },
@@ -176,9 +188,10 @@ export default {
     MeData() {
       return this.$store.state.auth.MeData || {};
     },
-    showSource: makeOpenHelper('source'),
-    showReply: makeOpenHelper('reply'),
-    showEdit: makeOpenHelper('edit'),
+    showSource: makeComputeToggler('source'),
+    showReply: makeComputeToggler('reply'),
+    showEdit: makeComputeToggler('edit'),
+    showCrossPost: makeComputeToggler('cross'),
   },
   methods: {
     toggleCollapsed($event) {
@@ -199,23 +212,11 @@ export default {
 
       this.comment.data.replies.data.children.push(newComment);
     },
+    onCrossPostCreated(newPost) {
+      //
+    },
   },
 };
-
-function makeOpenHelper(key) {
-  return {
-    get() {
-      return this.open === key;
-    },
-    set(value) {
-      if (value) {
-        this.open = key;
-      } else if (this.open === key) {
-        this.open = null;
-      }
-    },
-  };
-}
 </script>
 
 <style lang="sass">

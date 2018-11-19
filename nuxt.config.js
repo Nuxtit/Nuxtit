@@ -57,6 +57,7 @@ module.exports = {
     '@nuxtjs/axios',
     // Doc: https://bootstrap-vue.js.org/docs/
     // 'bootstrap-vue/nuxt',
+    // '@nuxtjs/sentry',
   ],
   /*
   ** Axios module configuration
@@ -92,4 +93,12 @@ module.exports = {
     redditClientSecret: process.env.REDDIT_CLIENT_SECRET,
     redditRedirectUri: process.env.REDDIT_REDIRECT_URI || 'http://127.0.0.1:10080/auth/reddit/callback',
   },
+
+  // sentry: {
+  //   public_key: '',
+  //   project_id: '',
+  //   config: {
+  //     // Additional config
+  //   },
+  // },
 };
