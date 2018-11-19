@@ -23,7 +23,10 @@
         :rows="3"
       )
     .form-group.post-url
-      label subreddit
+      label
+        | subreddit
+        span(v-if='isCrossPosting')
+        | x-post from /r/{{ parent.data.subreddit }}
       b-form-input(
         v-model="sr"
       )
@@ -58,6 +61,24 @@
           v-if='(body && !editingPost) || (editingPost && body !== editingPost.data.body)'
         )  (unsaved changes!)
       span(v-else) Done
+    .crossposts(v-if='crossPosts.length')
+      | Cross Posts:
+      table
+        tbody
+          tr(v-for='post in crossPosts')
+            td /u/{{ post.data.author }}
+            td /r/{{ post.data.subreddit }}
+            td
+              nuxt-link(
+                :to='post.data.permalink'
+                v-text='post.data.id'
+              )
+            td
+              a(
+                target='_blank'
+                :href='`https://www.reddit.com${post.data.permalink}`'
+              )
+                i.fa.fa-fw.fa-reddit
 </template>
 
 <script>
@@ -98,11 +119,11 @@ export default {
   ]),
   data() {
     return {
+      kind: 'link',
       title: '',
       url: '',
       video_poster_url: '',
       body: '',
-      kind: 'link',
       nsfw: false,
       resubmit: true,
       sendreplies: true,
@@ -112,6 +133,7 @@ export default {
       saving: false,
       trashing: false,
       errors: null,
+      crossPosts: [],
     };
   },
   computed: {
@@ -143,8 +165,18 @@ export default {
   },
   mounted() {
     this.editingPost = this.post;
-    if (this.post) {
-      this.body = this.post.data.body;
+    if (this.isEditing) {
+      this.body = this.post.data.selftext;
+    } else if (this.isCrossPosting) {
+      this.kind = 'link';
+      this.title = this.parent.data.title;
+      this.url = this.parent.data.url;
+      // this.video_poster_url = this.parent.data.video_poster_url;
+      this.body = this.parent.data.selftext;
+      // this.nsfw = this.parent.data.nsfw;
+      // this.resubmit = this.parent.data.resubmit;
+      // this.sendreplies = this.parent.data.sendreplies;
+      // this.spoiler = this.parent.data.spoiler;
     }
   },
   methods: {
@@ -201,11 +233,17 @@ export default {
           if (get(response, 'data.json.errors.length')) {
             this.errors = response.data.json.errors;
           } else {
-            this.editingPost = {
-              kind: 't1',
-              data: response.data,
-            };
-            this.$emit('created-post', this.editingPost);
+            const xpost_name = response.data.json.data.name;
+            const response2 = await this.$reddit.get(`/by_id/${xpost_name}`);
+            const xpost = get(response2.data, 'data.children.0');
+            if (xpost) {
+              this.crossPosts.push(get(response2.data, 'data.children.0'));
+            }
+            // this.editingPost = {
+            //   kind: 't1',
+            //   data: response.data,
+            // };
+            // this.$emit('created-post', this.editingPost);
           }
         }
       } catch (err) {

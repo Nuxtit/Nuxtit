@@ -95,26 +95,48 @@
           )
             i.fa.fa-fw.fa-reply
             span reply
-          CrossPostButton(:item='post')
+          CrossPostButton(
+            @click.prevent.stop='showCrossPost^=true'
+          )
           | &#32;
           span.btn-see-source(
             @click.prevent.stop='showSource^=true'
           )
             i.fa.fa-fw.fa-code
             span see source
-  .row(v-if="showSource")
+  .row(v-if='open')
     b-col
-      pre
+      CommentForm(
+        v-if="showReply"
+        :parent='post'
+        @updated-comment='onCommentCreated'
+        @close='showReply = false'
+      )
+      PostForm(
+        v-if="showEdit"
+        :post='post'
+        @created-comment='onPostUpdated'
+        @close='showEdit = false'
+      )
+      PostForm(
+        v-if="showCrossPost"
+        :parent='post'
+        @created-post='onCrossPostCreated'
+        @close='showCrossPost = false'
+      )
+      pre(v-if='showSource')
         tt: small(v-text="post.data")
 </template>
 
 <script>
 import bCol from 'bootstrap-vue/es/components/layout/col';
 import CommentEntry from '~/components/CommentEntry';
+import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
 import DeleteButton from '~/components/DeleteButton';
 import DownVote from '~/components/DownVote';
 import HideButton from '~/components/HideButton';
+import PostForm from '~/components/PostForm';
 import PostThumbnail from '~/components/PostThumbnail';
 import RemoveButton from '~/components/RemoveButton';
 import ReportButton from '~/components/ReportButton';
@@ -124,16 +146,19 @@ import ShareButton from '~/components/ShareButton';
 import TimeAgo from '~/components/TimeAgo';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
+import { makeComputeToggler } from '~/lib/toggle_open';
 
 export default {
   name: 'PostEntry',
   components: {
     bCol,
     CommentEntry,
+    CommentForm,
     CrossPostButton,
     DeleteButton,
     DownVote,
     HideButton,
+    PostForm,
     PostThumbnail,
     RemoveButton,
     ReportButton,
@@ -152,7 +177,9 @@ export default {
   },
   data() {
     return {
-      showSource: false,
+      // collapsed: false,
+      open: null,
+      // reply: null,
     };
   },
   computed: {
@@ -162,6 +189,27 @@ export default {
     },
     MeData() {
       return this.$store.state.auth.MeData || {};
+    },
+    showSource: makeComputeToggler('source'),
+    showReply: makeComputeToggler('reply'),
+    showEdit: makeComputeToggler('edit'),
+    showCrossPost: makeComputeToggler('cross'),
+  },
+  methods: {
+    onPostUpdated(updatedPost) {
+      // @todo
+    },
+    onCommentCreated(newComment) {
+      // this.comment.data.replies = this.comment.data.replies || {
+      //   data: {
+      //     children: [],
+      //   },
+      // };
+      // this.comment.data.replies.data.children.push(newComment);
+      this.post.data.num_comments++;
+    },
+    onCrossPostCreated(newCrossPost) {
+      // @todo
     },
   },
 };
