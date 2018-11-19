@@ -18,6 +18,4 @@ export default {
 </script>
 
 <style lang="sass">
-.btn-upvote
-  cursor: pointer
 </style>
