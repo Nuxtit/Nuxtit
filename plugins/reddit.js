@@ -9,6 +9,7 @@ const redirect_uri = process.env.redditRedirectUri;
 
 // @link https://www.reddit.com/dev/api/
 const OAUTH_BASE = 'https://oauth.reddit.com/';
+const API_BASE = 'https://api.reddit.com/';
 const X_RATELIMIT_REMAINING = 'x-ratelimit-remaining';
 
 let lastResponseHeaders;
@@ -99,7 +100,7 @@ const scopes = [
 
 export async function fetchAccessToken({ state, code, error }) {
   return axios.post(
-    'https://www.reddit.com/api/v1/access_token',
+    `${API_BASE}api/v1/access_token`,
     [
       'grant_type=authorization_code',
       `code=${code}`,
@@ -116,7 +117,7 @@ export async function fetchAccessToken({ state, code, error }) {
 
 export async function fetchRefreshedAccessToken({ refresh_token }) {
   return axios.post(
-    'https://www.reddit.com/api/v1/access_token',
+    `${API_BASE}api/v1/access_token`,
     ['grant_type=refresh_token', `refresh_token=${refresh_token}`].join('&'),
     {
       auth: {
