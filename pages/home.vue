@@ -1,7 +1,6 @@
 <template lang="pug">
   section.container
     div
-      logo
       h1.title
         | nuxt-r
       h2.subtitle
@@ -28,13 +27,8 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue';
-
 export default {
   middleware: ['auth'],
-  components: {
-    Logo,
-  },
   computed: {
     MeData() {
       return this.$store.state.auth.MeData || {};

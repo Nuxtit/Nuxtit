@@ -27,6 +27,7 @@
 import TimeAgo from '~/components/TimeAgo';
 
 export default {
+  middleware: ['auth'],
   components: {
     TimeAgo,
   },

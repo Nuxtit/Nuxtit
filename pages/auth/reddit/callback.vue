@@ -7,6 +7,7 @@
 
 <script>
 export default {
+  middleware: ['guest'],
   computed: {
     MeData() {
       return this.$store.state.auth.MeData || {};
