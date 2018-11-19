@@ -18,6 +18,7 @@ import PostList from '~/components/PostList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
 export default {
+  middleware: ['auth'],
   defaultSort: 'top',
   components: {
     PostList,

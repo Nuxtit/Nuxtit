@@ -17,6 +17,7 @@ import MixedList from '~/components/MixedList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
 export default {
+  middleware: ['auth'],
   defaultSort: 'new',
   components: {
     MixedList,

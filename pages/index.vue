@@ -1,28 +1,18 @@
 <template lang="pug">
   section.container
     div
-      logo
       h1.title
         | nuxt-r
       h2.subtitle
         | Nuxt Reddit Client
-      p You have to login to do anythign
+      p You have to login to do anything
       .links
+        nuxt-link.button--green(to='/login') Login
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue';
-
 export default {
   middleware: ['guest'],
-  components: {
-    Logo,
-  },
-  computed: {
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
-  },
 };
 </script>
 
