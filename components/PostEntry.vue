@@ -1,14 +1,11 @@
 <template lang="pug">
 .post-entry
   .row
-    .b-col.b-col-score
-      UpVote(:item='post')
-      br
-      Score(:item='post')
-      br
-      DownVote(:item='post')
     .b-col.b-col-thumbnail
-      PostThumbnail(:post="post")
+      PostThumbnail(
+        :post="post"
+        @expand="showImage^=true"
+      )
     .b-col.b-col-other
       .row
         b-col
@@ -33,6 +30,12 @@
               :to='post.data.is_self ? `/r/${post.data.domain}` : `/domain/${post.data.domain}`'
               v-text='`(${post.data.domain})`'
             )
+          .score.pull-right
+            UpVote(:item='post')
+            | &#32;
+            Score(:item='post')
+            | &#32;
+            DownVote(:item='post')
       .row
         b-col.small
           | submitted
@@ -48,10 +51,7 @@
           | &#32;
           | to
           | &#32;
-          nuxt-link(
-            :to='`/r/${post.data.subreddit}`'
-            v-text='post.data.subreddit_name_prefixed'
-          )
+          SubredditLink(:subreddit='post.data.subreddit')
           | &#32;
       .row
         b-col.small
@@ -124,6 +124,11 @@
         @created-post='onCrossPostCreated'
         @close='showCrossPost = false'
       )
+      PostImage(
+        v-if="showImage"
+        :post='post'
+        @close='showImage = false'
+      )
       pre(v-if='showSource')
         tt: small(v-text="post.data")
 </template>
@@ -137,12 +142,14 @@ import DeleteButton from '~/components/DeleteButton';
 import DownVote from '~/components/DownVote';
 import HideButton from '~/components/HideButton';
 import PostForm from '~/components/PostForm';
+import PostImage from '~/components/PostImage';
 import PostThumbnail from '~/components/PostThumbnail';
 import RemoveButton from '~/components/RemoveButton';
 import ReportButton from '~/components/ReportButton';
 import SaveButton from '~/components/SaveButton';
 import Score from '~/components/Score';
 import ShareButton from '~/components/ShareButton';
+import SubredditLink from '~/components/SubredditLink';
 import TimeAgo from '~/components/TimeAgo';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
@@ -159,12 +166,14 @@ export default {
     DownVote,
     HideButton,
     PostForm,
+    PostImage,
     PostThumbnail,
     RemoveButton,
     ReportButton,
     SaveButton,
     Score,
     ShareButton,
+    SubredditLink,
     TimeAgo,
     UpVote,
     UserLink,
@@ -194,6 +203,7 @@ export default {
     showReply: makeComputeToggler('reply'),
     showEdit: makeComputeToggler('edit'),
     showCrossPost: makeComputeToggler('cross'),
+    showImage: makeComputeToggler('image'),
   },
   methods: {
     onPostUpdated(updatedPost) {
@@ -227,15 +237,13 @@ export default {
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
-  .b-col-score
-    text-align: center;
-    width: 100px;
   .b-col-thumbnail
     width: 140px;
     padding-right: 0px;
     padding-left: 0px;
     margin-right: 15px;
     margin-left: 15px;
+    text-align: center;
   .b-col-other
     flex: 1;
   .btn-collapse, .btn-reply-toggle, .btn-edit-toggle, .btn-see-source
