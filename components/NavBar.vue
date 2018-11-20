@@ -1,7 +1,8 @@
 <template lang="pug">
 b-navbar(toggleable='md', type='dark')
   b-navbar-toggle(target='nav_collapse')
-  b-navbar-brand(href='/') NRC
+  b-navbar-brand(href='/')
+    | Redusa
   b-collapse#nav_collapse(is-nav='')
     b-navbar-nav
       b-nav-item(to='/home') Home
@@ -89,5 +90,5 @@ export default {
 };
 </script>
 
-<style>
+<style lang="sass">
 </style>

@@ -4,15 +4,16 @@
 
 - [x] Dark Theme
 - [x] Vote on comments and posts anywhere
-- [] user page
-- [] Browsing subreddit history
+- [x] user page
+- [x] Browsing subreddit history
 - [] Browsing multireddit history
-- [] Make Comments
-- [] collapse all/none
-- [] load more comments
-- [] post self posts
-- [] post link posts
-- [] crosspost
+- [x] Make Comments
+- [x] collapse all/none
+- [x] load more comments
+- [x] post self posts
+- [x] post link posts
+- [x] crosspost
+- [x] URL rewrites
 - [] subreddit pages
 - [] Queue - add things to a queue instead of new tabs.
 - [] post uploaded image posts
@@ -21,16 +22,16 @@
 - [] 404 page
 - [] highlight friends and followees
 - [] masstagger
-- [] Bootstrap 4 Vue codesplitted
+- [x] Bootstrap 4 Vue codesplitted
 - [] "other discussions"
 - [] download from reddit/imgur (bypass '\_d')
-- [] image preview in app
+- [x] image preview in app
 - [] browsing history
 - [] Replace 1MB fontawesome 4.7 icons with treeshaked file http://fontello.com/
 
 # TBA
 
-- Settings to hide icon-text or icons
+- Settings to hide icon-text or icons or gold
 - User selecting theme: https://bootswatch.com/
 - Settings disable masstagger
 
@@ -49,6 +50,7 @@
     - Syncing sounds like it would impact battery usage over time.
     - may require addition of backend infrastructure.
 - filter user's history by search + subreddit
+- quickly edit own flair
 
 # Avoiding Consideration
 
