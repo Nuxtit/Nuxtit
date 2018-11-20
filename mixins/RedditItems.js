@@ -55,9 +55,10 @@ export default function({ path, query }) {
       },
     },
     watch: {
-      redditQueryJson(newValue, oldValue) {
+      async redditQueryJson(newValue, oldValue) {
         if (newValue !== oldValue) {
-          this.fetchItems();
+          await this.fetchItems();
+          window.scrollTo(0, 0);
         }
       },
     },
