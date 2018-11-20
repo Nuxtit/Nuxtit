@@ -2,7 +2,7 @@
   section.container
     div
       h1.title
-        | nuxt-r
+        | Redusa
       h2.subtitle
         | Nuxt Reddit Client
       .links
