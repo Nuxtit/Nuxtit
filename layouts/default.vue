@@ -2,13 +2,19 @@
   div
     NavBar
     nuxt
+    br
+    BackToTop
+      button.btn.btn-info.btn-to-top(type="button")
+        i.fa.fa-chevron-up
 </template>
 
 <script>
+import BackToTop from 'vue-backtotop';
 import NavBar from '~/components/NavBar';
 
 export default {
   components: {
+    BackToTop,
     NavBar,
   },
 };

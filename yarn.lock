@@ -7327,6 +7327,12 @@ vue-analytics@^5.4.0:
   version "5.16.0"
   resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.16.0.tgz#82e88703a0678cba076d51acacd6569bc8f7d54c"
 
+vue-backtotop@^1.4.12:
+  version "1.4.12"
+  resolved "https://registry.yarnpkg.com/vue-backtotop/-/vue-backtotop-1.4.12.tgz#8fe0a9ebb530bd55268b8c1a4494bcb3c86d59a3"
+  dependencies:
+    vue "^2.3.3"
+
 vue-eslint-parser@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-2.0.3.tgz#c268c96c6d94cfe3d938a5f7593959b0ca3360d1"
@@ -7403,7 +7409,7 @@ vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
 
-vue@^2.5.17:
+vue@^2.3.3, vue@^2.5.17:
   version "2.5.17"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
 
