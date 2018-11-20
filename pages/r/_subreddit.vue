@@ -22,6 +22,7 @@
 
 <script>
 import first from 'lodash/first';
+import ValidatePostSort from '~/mixins/ValidatePostSort';
 import ItemHtml from '~/components/ItemHtml';
 import PostList from '~/components/PostList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
