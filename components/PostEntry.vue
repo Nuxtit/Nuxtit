@@ -1,14 +1,14 @@
 <template lang="pug">
 .post-entry
   .row
-    .b-col.b-col-thumbnail
+    .col-thumbnail
       PostThumbnail(
         :post="post"
         @expand="showImage^=true"
       )
-    .b-col.b-col-other
+    .col-other
       .row
-        b-col
+        .col
           nuxt-link(
             v-if="post.data.is_self"
             :to='post.data.permalink'
@@ -37,7 +37,7 @@
             | &#32;
             DownVote(:item='post')
       .row
-        b-col.small
+        .col.small
           | submitted
           | &#32;
           TimeAgo(:value='post.data.created_utc')
@@ -54,7 +54,7 @@
           SubredditLink(:subreddit='post.data.subreddit')
           | &#32;
       .row
-        b-col.small
+        .col.small
           nuxt-link(
             :to='post.data.permalink'
           )
@@ -105,7 +105,7 @@
             i.fa.fa-fw.fa-code
             span see source
   .row(v-if='open')
-    b-col
+    .col
       CommentForm(
         v-if="showReply"
         :parent='post'
@@ -134,7 +134,6 @@
 </template>
 
 <script>
-import bCol from 'bootstrap-vue/es/components/layout/col';
 import CommentEntry from '~/components/CommentEntry';
 import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
@@ -158,7 +157,6 @@ import { makeComputeToggler } from '~/lib/toggle_open';
 export default {
   name: 'PostEntry',
   components: {
-    bCol,
     CommentEntry,
     CommentForm,
     CrossPostButton,
@@ -229,22 +227,25 @@ export default {
 .post-entry + .post-entry
   border-top: 1px solid #444;
 .post-entry
+  padding-right: 5px;
+  padding-left: 5px;
   padding-top: 5px;
   padding-bottom: 5px;
-  .b-col
+  .col-thumbnail, .col-other
     position: relative;
     width: 100%;
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
-  .b-col-thumbnail
+  .col-thumbnail
     width: 140px;
     padding-right: 0px;
     padding-left: 0px;
     margin-right: 15px;
     margin-left: 15px;
     text-align: center;
-  .b-col-other
+  .col-other
+    padding-left: 0px;
     flex: 1;
   .btn-collapse, .btn-reply-toggle, .btn-edit-toggle, .btn-see-source
     cursor: pointer;
