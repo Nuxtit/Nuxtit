@@ -45,12 +45,16 @@ export default {
       set(value) {
         /* eslint-disable */
         const { $route, selectedValue } = this;
+        const name = $route.name.endsWith('-sort') ?
+          $route.name :
+          $route.name+'-sort';
         this.$router.push({
-          ...this.$route,
+          ...$route,
           params: {
-            ...this.$route.params,
+            ...$route.params,
             sort: value,
           },
+          name,
         });
       },
     },

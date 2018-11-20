@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import ValidatePostSort from '~/mixins/ValidatePostSort';
 import PostList from '~/components/PostList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
@@ -34,6 +35,7 @@ export default {
         };
       },
     }),
+    ValidatePostSort,
   ],
 };
 </script>
