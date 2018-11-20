@@ -53,11 +53,12 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-97423-2'
+    }],
+    '@nuxtjs/sentry',
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
-    // Doc: https://bootstrap-vue.js.org/docs/
-    // 'bootstrap-vue/nuxt',
-    // '@nuxtjs/sentry',
   ],
   /*
   ** Axios module configuration
@@ -90,15 +91,17 @@ module.exports = {
     redditClientId: process.env.REDDIT_CLIENT_ID,
     // if there is a secret key, then we're not in production
     // if there is not a secret key, we need the correct OAuth stuff
-    redditClientSecret: process.env.REDDIT_CLIENT_SECRET,
-    redditRedirectUri: process.env.REDDIT_REDIRECT_URI || 'http://127.0.0.1:10080/auth/reddit/callback',
+    // redditClientSecret: process.env.REDDIT_CLIENT_SECRET,
+    redditRedirectUri: process.env.REDDIT_REDIRECT_URI ||
+      'http://127.0.0.1:10080/auth/reddit/callback',
   },
 
-  // sentry: {
-  //   public_key: '',
-  //   project_id: '',
-  //   config: {
-  //     // Additional config
-  //   },
-  // },
+  sentry: {
+    // @link https://docs.sentry.io/clients/javascript/config/
+    public_key: process.env.SENTRY_DSN,
+    config: {
+      // Additional config
+      release: '0.0.0',
+    },
+  },
 };
