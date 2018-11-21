@@ -37,7 +37,7 @@ export default {
     PostList,
     RedditPagination,
   },
-  async asyncData({ reddit, route }) {
+  async asyncData({ store, reddit, route }) {
     const { subreddit } = route.params;
     if (isVirtualSubreddit(subreddit)) {
       return {
@@ -46,7 +46,8 @@ export default {
       };
     }
     return {
-      subreddit: (await reddit.get(`/r/${subreddit}/about`)).data,
+      subreddit: await store.dispatch('subreddits/require', subreddit),
+      // subreddit: (await reddit.get(`/r/${subreddit}/about`)).data,
       // rules: (await reddit.get(`/r/${subreddit}/about/rules`)).data,
       // docs are wrong, DNE
       // sidebar: (await reddit.get(`/r/${subreddit}/sidebar`)).data,

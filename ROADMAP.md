@@ -16,6 +16,8 @@
 - [x] URL rewrites
 - [x] Scroll to Top when fetching new page of posts
 - [x] check for new messages every 5 minutes
+- [x] cache subreddit about
+- [x] local storage sync across tabs
 - [] subreddit pages
 - [] Queue - add things to a queue instead of new tabs.
 - [] post uploaded image posts
@@ -25,7 +27,7 @@
 - [] highlight friends and followees
 - [] masstagger
 - [x] Bootstrap 4 Vue codesplitted
-- [] "other discussions"
+- [x] "other discussions"
 - [] download from reddit/imgur (bypass '\_d')
 - [x] image preview in app
 - [] browsing history

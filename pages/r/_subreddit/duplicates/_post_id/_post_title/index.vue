@@ -1,19 +1,19 @@
 <template lang="pug">
-  PostWithComments(
+  PostWithDuplicates(
     :subreddit='subreddit'
     :post='post'
-    :comments='comments'
+    :duplicates='duplicates'
   )
 </template>
 
 <script>
-import PostWithComments from '~/components/PostWithComments.vue';
+import PostWithDuplicates from '~/components/PostWithDuplicates.vue';
 import first from 'lodash/first';
 
 export default {
   middleware: ['auth'],
   components: {
-    PostWithComments,
+    PostWithDuplicates,
   },
   props: {
     subreddit: {
@@ -27,9 +27,18 @@ export default {
       `/r/${subreddit}/comments/${post_id}`,
     )).data;
 
+    const post = first(posts.data.children);
+
+    const duplicates = (await reddit.get(`/api/info`, {
+      params: {
+        url: post.data.url,
+      },
+    })).data;
+
     return {
-      post: first(posts.data.children),
+      post,
       comments,
+      duplicates,
     };
   },
 };

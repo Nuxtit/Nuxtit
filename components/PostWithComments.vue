@@ -17,7 +17,10 @@
       )
         i.fa.fa-fw.btn-collapse.fa-minus
         | collapse all
-
+      nuxt-link.btn.btn-primary.pull-right(
+        :to='`/r/${$route.params.subreddit}/duplicates/${$route.params.post_id}/${$route.params.post_title}`'
+      )
+        | duplicates
 
     CommentTree(:comments='comments', ref='comments')
 </template>
