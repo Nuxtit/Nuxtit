@@ -104,4 +104,8 @@ module.exports = {
       release: '0.0.0',
     },
   },
+
+  router: {
+    middleware: ['redirects'],
+  },
 };
