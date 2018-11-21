@@ -18,6 +18,5 @@ export default async ctx => {
 };
 
 async function onInterval(ctx) {
-  console.log('onInterval');
   await ctx.store.dispatch('auth/fetchMe');
 }
