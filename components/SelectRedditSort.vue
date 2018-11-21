@@ -45,17 +45,28 @@ export default {
       set(value) {
         /* eslint-disable */
         const { $route, selectedValue } = this;
-        const name = $route.name.endsWith('-sort') ?
-          $route.name :
-          $route.name+'-sort';
-        this.$router.push({
-          ...$route,
-          params: {
-            ...$route.params,
-            sort: value,
-          },
-          name,
-        });
+        console.log('current', 'name', $route.name);
+
+        if ($route.params.sort) {
+          this.$router.push({
+            ...$route,
+            params: {
+              ...$route.params,
+              sort: value,
+            },
+          });
+        } else if (this.$router.resolve({ name: `${$route.name}-sort` })) {
+          this.$router.push({
+            ...$route,
+            params: {
+              ...$route.params,
+              sort: value,
+            },
+            name: `${$route.name}-sort`,
+          });
+        } else {
+          throw new Error(`Failed to resolve route '${$route.name}-sort'`);
+        }
       },
     },
     MeData() {
