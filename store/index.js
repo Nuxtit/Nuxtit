@@ -14,9 +14,13 @@ export const mutations = {
 
 export const actions = {
   async nuxtClientInit({ state, dispatch }, ctx) {
-    if (!get(state, 'auth.MeData.name')) {
-      // @todo
-      await dispatch('auth/fetchMe');
+    const accessToken = get(ctx.store.state, 'auth.OAuthData.access_token');
+    const username = get(state, 'auth.MeData.name');
+    if (accessToken) {
+      if (!username) {
+        // @todo
+        await dispatch('auth/fetchMe');
+      }
     }
   },
 };

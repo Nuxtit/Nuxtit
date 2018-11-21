@@ -5,22 +5,26 @@
 )
   .card
     .card-header.text-muted
-      i.fa.fa-fw.btn-collapse(
-        :class='collapsed ? "fa-plus" : "fa-minus"'
-        @click.prevent.stop='toggleCollapsed'
-      )
-      | &#32;
       UserLink(:username='comment.data.author')
       | &#32;
       // @todo flair
       | &#32;
       TimeAgo(:value='comment.data.created_utc')
       .score.pull-right
+        i.fa.fa-fw.btn-collapse(
+          :class='collapsed ? "fa-plus" : "fa-minus"'
+          @click.prevent.stop='toggleCollapsed'
+        )
+        | &#32;
+        | &nbsp;
+        | &#32;
         UpVote(:item='comment')
         | &#32;
         Score(:item='comment')
         | &#32;
         DownVote(:item='comment')
+        | &nbsp;
+        | &nbsp;
     .card-body(v-if="!collapsed")
       ItemHtml(:item='comment')
     .card-footer.text-muted(v-if="!collapsed")
