@@ -33,7 +33,6 @@ export const actions = {
     const response = await fetchAccessToken(params);
     commit('OAuthData', {
       ...state.OAuthData,
-      expires_at: Date.now() + response.data.expires_in,
       ...response.data,
     });
   },

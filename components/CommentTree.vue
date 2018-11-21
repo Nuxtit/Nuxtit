@@ -41,8 +41,6 @@ export default {
   },
   methods: {
     async collapseAll(value = true) {
-      console.log(this);
-      console.log({ value });
       const { $children } = this;
       for (let i = 0, len = $children.length; i < len; i++) {
         if ($children[i] && $children[i].setCollapsed) {

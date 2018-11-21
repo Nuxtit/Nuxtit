@@ -18,7 +18,6 @@ export const actions = {
     const { reddit } = this.app.context;
     try {
       const sr = (await reddit.get(`/r/${subreddit}/about`)).data;
-      console.log('all', state.SrCache.length);
       commit(
         'SrCache',
         [
@@ -53,8 +52,6 @@ export const getters = {
       const lc = `${subreddit}`.toLowerCase();
       return find(state.SrCache, entry => {
         const display_name = get(entry, 'data.display_name');
-        // eslint-disable-next-line
-        console.log(`${display_name}`.toLowerCase(), `${display_name}`.toLowerCase() === lc, lc);
         if (`${display_name}`.toLowerCase() === lc) {
           return true;
         }
