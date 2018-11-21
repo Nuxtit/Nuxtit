@@ -1,5 +1,5 @@
 <template lang="pug">
-  section.container
+  section.container.home
     div
       h1.title
         | Redusa
@@ -38,8 +38,8 @@ export default {
 </script>
 
 <style>
-.container {
-  min-height: 100vh;
+.container.home {
+  min-height: 40vh;
   display: flex;
   justify-content: center;
   align-items: center;
