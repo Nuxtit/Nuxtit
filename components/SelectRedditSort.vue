@@ -45,7 +45,6 @@ export default {
       set(value) {
         /* eslint-disable */
         const { $route, selectedValue } = this;
-        console.log('current', 'name', $route.name);
 
         if ($route.params.sort) {
           this.$router.push({
