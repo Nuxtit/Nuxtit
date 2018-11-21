@@ -35,7 +35,7 @@ export default function(ctx) {
 
   async function getAccessToken() {
     const expiresAt = get(ctx.store.state, 'auth.OAuthData.expires_at', 0);
-    if (expiresAt <= Date.now() + 500) {
+    if (expiresAt >= Date.now() + 500) {
       await ctx.store.dispatch('auth/fetchRefreshedAccessToken');
     }
     return get(ctx.store.state, 'auth.OAuthData.access_token');
