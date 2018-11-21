@@ -1,6 +1,6 @@
 import axios from 'axios';
 import get from 'lodash/get';
-import ls from '~/lib/ls';
+import * as ls from '~/lib/ls';
 import { fetchAccessToken, fetchRefreshedAccessToken } from '~/plugins/reddit';
 
 export const state = () => {
@@ -11,14 +11,7 @@ export const state = () => {
 };
 
 export const mutations = {
-  OAuthData(state, data) {
-    ls.set('OAuthData', data);
-    state.OAuthData = data;
-  },
-  MeData(state, data) {
-    ls.set('MeData', data);
-    state.MeData = data;
-  },
+  ...ls.syncVuexMutators(['OAuthData', 'MeData']),
 };
 
 export const actions = {
