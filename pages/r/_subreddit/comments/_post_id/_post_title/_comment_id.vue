@@ -22,7 +22,6 @@ export default {
     },
   },
   async asyncData({ reddit, route }) {
-    console.log('asyncData', route.params);
     const { subreddit, post_id, comment_id } = route.params;
     const [posts, comments] = (await reddit.get(
       `/r/${subreddit}/comments/${post_id}`,

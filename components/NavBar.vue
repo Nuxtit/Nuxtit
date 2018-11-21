@@ -22,13 +22,14 @@ b-navbar(toggleable='md', type='dark')
         b-dropdown-item(to='/logout') Signout
       b-nav-item(right v-else to='/login')
         | Signin
-  b-nav-nav(right to='/mail' title="Mail")
-    i.fa.fa-envelope.text-danger(v-if="MeData.has_mail")
-    i.fa.fa-envelope-o(v-else)
+  b-navbar-nav
+    b-nav-item(right to='/mail' title="Mail")
+      i.fa.fa-envelope.text-danger(v-if="MeData.has_mail")
+      i.fa.fa-envelope-o(v-else)
 
-  b-nav-nav(right href='https://mod.reddit.com/' title="Mail" v-if="MeData.has_mod_mail")
-    i.fa.fa-shield.text-danger(v-if="MeData.new_modmail_exists")
-    i.fa.fa-shield(v-else)
+    b-nav-item(right href='https://mod.reddit.com/' title="Mail" v-if="MeData.has_mod_mail")
+      i.fa.fa-shield.text-danger(v-if="MeData.new_modmail_exists")
+      i.fa.fa-shield(v-else)
 </template>
 
 <script>
