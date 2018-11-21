@@ -14,6 +14,8 @@
 - [x] post link posts
 - [x] crosspost
 - [x] URL rewrites
+- [x] Scroll to Top when fetching new page of posts
+- [x] check for new messages every 5 minutes
 - [] subreddit pages
 - [] Queue - add things to a queue instead of new tabs.
 - [] post uploaded image posts
