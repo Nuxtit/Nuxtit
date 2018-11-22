@@ -5,23 +5,31 @@
 )
   .card
     .card-header.text-muted
+      b-badge(v-if='comment.data.stickied')
+        | [stickied]
+      | &#32;
       UserLink(:username='comment.data.author')
+      | &#32;
+      b-badge(v-if='comment.data.is_submitter')
+        | [OP]
       | &#32;
       FlairBadge(:item='comment' type='author')
       | &#32;
       TimeAgo(:value='comment.data.created_utc')
+      template(v-if='comment.data.edited') *
       .score.pull-right
         i.fa.fa-fw.btn-collapse(
           :class='collapsed ? "fa-plus" : "fa-minus"'
           @click.prevent.stop='toggleCollapsed'
         )
-        | &#32;
         | &nbsp;
-        | &#32;
+        | &nbsp;
         UpVote(:item='comment')
-        | &#32;
+        | &nbsp;
+        | &nbsp;
         Score(:item='comment')
-        | &#32;
+        | &nbsp;
+        | &nbsp;
         DownVote(:item='comment')
         | &nbsp;
         | &nbsp;
@@ -66,6 +74,7 @@
         i.fa.fa-fw.fa-edit
         span edit
       span.btn-reply-toggle(
+        v-if='comment.data.send_replies'
         @click.prevent.stop='showReply^=true'
       )
         i.fa.fa-fw.fa-reply
@@ -116,6 +125,7 @@
 </template>
 
 <script>
+import get from 'lodash/get';
 import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
 import DeleteButton from '~/components/DeleteButton';
@@ -160,7 +170,7 @@ export default {
   },
   data() {
     return {
-      collapsed: false,
+      collapsed: get(this.comment, 'data.collapsed'),
       open: null,
       reply: null,
     };
