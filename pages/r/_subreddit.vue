@@ -1,7 +1,7 @@
 <template lang="pug">
   div
-    h3 {{subreddit.data.title}}
-    h4 /r/{{subreddit.data.display_name}}
+    h3 /r/{{subreddit.data.display_name}}
+    h4 {{subreddit.data.title}}
     p
       nuxt-link.btn.btn-primary(
         :to='`/r/${$route.params.subreddit}/submit`'
