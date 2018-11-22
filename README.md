@@ -2,6 +2,10 @@
 
 > Webapp Reddit Client written in Vue/Nuxt
 
+This app is in EARLY ALPHA, expect bugs and missing features.
+
+[https://redusa.netlify.com](https://redusa.netlify.com)
+
 [Find us on Reddit](https://old.reddit.com/r/Redusa/)
 
 ## Build Setup
