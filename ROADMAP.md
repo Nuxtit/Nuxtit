@@ -35,6 +35,11 @@
 - [] browsing history
 - [] Replace 1MB fontawesome 4.7 icons with treeshaked file http://fontello.com/
 - [] a small number of existing tests (thinking about using ava)
+- [] comment replaces CommentForm up after you click done
+- [] post shows up in /duplicates after you click done
+- [] subreddit subscribe button
+- [] message telling you that you can't post in a sub
+- [] Post Sorts need time period filter
 
 # TBA
 

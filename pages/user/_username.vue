@@ -16,6 +16,7 @@
       | /u/{{user.data.name}}
       .pull-right
         SelectUserPage(:user='user')
+    SubscribeButton(:item='user')
     .small
       a(
         :href='`https://www.reddit.com${$route.fullPath}`'
@@ -23,6 +24,12 @@
       )
         i.fa.fa-fw.fa-reddit
         span see on reddit
+      | &#32;
+      span.btn-see-source(
+        @click.prevent.stop='showSource^=true'
+      )
+        i.fa.fa-fw.fa-code
+        span see source
     hr
     nuxt-child(:user='user')
 </template>
@@ -34,6 +41,9 @@ import PostList from '~/components/PostList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
 import SelectUserPage from '~/components/SelectUserPage';
+import SubscribeButton from '~/components/SubscribeButton';
+import { makeComputeToggler } from '~/lib/toggle_open';
+
 export default {
   middleware: ['auth'],
   defaultSort: 'new',
@@ -42,6 +52,7 @@ export default {
     PostList,
     RedditPagination,
     SelectUserPage,
+    SubscribeButton,
   },
   async asyncData({ reddit, route }) {
     const { username } = route.params;

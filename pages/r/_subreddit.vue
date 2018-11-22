@@ -2,6 +2,7 @@
   div
     h3 /r/{{subreddit.data.display_name}}
     h4 {{subreddit.data.title}}
+    p {{subreddit.data.subscribers}} subscribers
     p
       nuxt-link.btn.btn-primary(
         :to='`/r/${$route.params.subreddit}/submit`'
@@ -11,11 +12,25 @@
         :to='`/r/${$route.params.subreddit}/submit?selftext=true`'
       )
         | Submit a new text post
+      SubscribeButton(
+        v-if='subreddit.data.name'
+        :item='subreddit'
+      )
+      | &#32;
+      span.btn-see-source(
+        @click.prevent.stop='showSource^=true'
+      )
+        i.fa.fa-fw.fa-code
+        span see source
     //- ItemHtml(:value='subreddit.data.description_html')
     //- hr
     //- pre: tt {{ {subreddit} }}
     //- pre: tt {{ {sidebar} }}
     //- pre: tt {{ {rules} }}
+
+
+    pre(v-if='showSource')
+      tt: small(v-text="subreddit.data")
     hr
     nuxt-child(:subreddit='subreddit')
 </template>
@@ -26,8 +41,10 @@ import ValidatePostSort from '~/mixins/ValidatePostSort';
 import ItemHtml from '~/components/ItemHtml';
 import PostList from '~/components/PostList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
+import SubscribeButton from '~/components/SubscribeButton.vue';
 import RedditItems from '~/mixins/RedditItems';
 import { isVirtualSubreddit, makeVirtualSubreddit } from '~/lib/subreddit';
+import { makeComputeToggler } from '~/lib/toggle_open';
 
 export default {
   middleware: ['auth'],
@@ -36,6 +53,15 @@ export default {
     ItemHtml,
     PostList,
     RedditPagination,
+    SubscribeButton,
+  },
+  data() {
+    return {
+      open: null,
+    };
+  },
+  computed: {
+    showSource: makeComputeToggler('source'),
   },
   async asyncData({ store, reddit, route }) {
     const { subreddit } = route.params;
@@ -46,8 +72,7 @@ export default {
       };
     }
     return {
-      subreddit: await store.dispatch('subreddits/require', subreddit),
-      // subreddit: (await reddit.get(`/r/${subreddit}/about`)).data,
+      subreddit: (await reddit.get(`/r/${subreddit}/about`)).data,
       // rules: (await reddit.get(`/r/${subreddit}/about/rules`)).data,
       // docs are wrong, DNE
       // sidebar: (await reddit.get(`/r/${subreddit}/sidebar`)).data,
