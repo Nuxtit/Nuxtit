@@ -22,9 +22,7 @@
             v-text='post.data.title'
           )
           | &#32;
-          template(v-if='post.data.link_flair_text')
-            b-badge(v-text='post.data.link_flair_text')
-            | &#32;
+          FlairBadge(:item='post' type='link')
           small(v-if='post.data.domain'): tt
             nuxt-link(
               :to='post.data.is_self ? `/r/${post.data.domain}` : `/domain/${post.data.domain}`'
@@ -44,10 +42,9 @@
           | &#32;
           | by
           | &#32;
-          nuxt-link(
-            :to='`/user/${post.data.author}`'
-            v-text='post.data.author'
-          )
+          UserLink(:username='post.data.author')
+          | &#32;
+          FlairBadge(:item='post' type='author')
           | &#32;
           | to
           | &#32;
@@ -139,6 +136,7 @@ import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
 import DeleteButton from '~/components/DeleteButton';
 import DownVote from '~/components/DownVote';
+import FlairBadge from '~/components/FlairBadge';
 import HideButton from '~/components/HideButton';
 import PostForm from '~/components/PostForm';
 import PostImage from '~/components/PostImage';
@@ -162,6 +160,7 @@ export default {
     CrossPostButton,
     DeleteButton,
     DownVote,
+    FlairBadge,
     HideButton,
     PostForm,
     PostImage,

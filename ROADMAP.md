@@ -16,7 +16,7 @@
 - [x] URL rewrites
 - [x] Scroll to Top when fetching new page of posts
 - [x] check for new messages every 5 minutes
-- [x] cache subreddit about
+- [x] show link and user flair
 - [x] local storage sync across tabs
 - [] subreddit pages
 - [] Queue - add things to a queue instead of new tabs.
@@ -40,6 +40,7 @@
 - [] subreddit subscribe button
 - [] message telling you that you can't post in a sub
 - [] Post Sorts need time period filter
+- [] cache subreddit about
 
 # TBA
 
