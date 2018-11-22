@@ -2,7 +2,7 @@
   div
     NavBar
     nuxt
-    br
+    div.last-br
     BackToTop
       button.btn.btn-info.btn-to-top(type="button")
         i.fa.fa-chevron-up
@@ -70,5 +70,11 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+
+.last-br {
+  /* the user needs to be able to scroll back far enough to click buttons */
+  /* otherwise the scroll to top button wiill block other buttons */
+  padding-bottom: 3rem;
 }
 </style>
