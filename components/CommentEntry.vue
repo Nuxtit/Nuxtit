@@ -7,7 +7,7 @@
     .card-header.text-muted
       UserLink(:username='comment.data.author')
       | &#32;
-      // @todo flair
+      FlairBadge(:item='comment' type='author')
       | &#32;
       TimeAgo(:value='comment.data.created_utc')
       .score.pull-right
@@ -120,6 +120,7 @@ import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
 import DeleteButton from '~/components/DeleteButton';
 import DownVote from '~/components/DownVote';
+import FlairBadge from '~/components/FlairBadge';
 import HideButton from '~/components/HideButton';
 import ItemHtml from '~/components/ItemHtml';
 import RemoveButton from '~/components/RemoveButton';
@@ -139,6 +140,7 @@ export default {
     CrossPostButton,
     DeleteButton,
     DownVote,
+    FlairBadge,
     HideButton,
     ItemHtml,
     RemoveButton,
