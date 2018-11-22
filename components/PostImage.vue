@@ -32,13 +32,24 @@ export default {
       required: true,
     },
   },
+  srcPaths: [
+    // @todo should we attempt to embed videos?
+    // 'preview.images.0.variants.mp4.source.url',
+    'preview.images.0.variants.gif.source.url',
+    'preview.images.0.source.url',
+    'preview.images.0.resolutions.0.url', // @toodo how to get $last instead of zero?
+    'url',
+  ],
   computed: {
     imageSrc() {
-      const source = get(this.post.data, 'preview.images.0.source.url');
-      if (source) {
-        return source;
+      let src;
+      for (let i = 0, len = this.$options.srcPaths.length; i < len; i++) {
+        src = get(this.post.data, this.$options.srcPaths[i]);
+        if (src && src.startsWith('https://')) {
+          return src;
+        }
       }
-      return this.post.data.url;
+      return null;
     },
   },
 };

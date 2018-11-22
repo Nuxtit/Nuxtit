@@ -34,30 +34,27 @@ export default {
       required: true,
     },
   },
+  srcPaths: [
+    // @todo is this a good idea?
+    // 'preview.images.0.variants.mp4.source.url',
+    'preview.images.0.variants.gif.source.url',
+    'preview.images.0.source.url',
+    'preview.images.0.resolutions.0.url',
+    'url',
+  ],
   computed: {
     imageSrc() {
-      const { thumbnail, preview } = this.post.data;
-      if (thumbnail) {
-        if (thumbnail.startsWith('https://')) {
-          return thumbnail;
+      let src = this.post.data.thumbnail;
+      if (src && src.startsWith('https://')) {
+        return src;
+      }
+      for (let i = 0, len = this.$options.srcPaths.length; i < len; i++) {
+        src = get(this.post.data, this.$options.srcPaths[i]);
+        if (src && src.startsWith('https://')) {
+          return src;
         }
       }
-      if (preview && preview.images && preview.images.length) {
-        for (let i = 0, p; i < preview.images.length; i++) {
-          p = find(get(preview.images[i], 'resolutions'), p => {
-            return p && p.url;
-          });
-          if (p) {
-            return p.url;
-          }
-          const p = find(get(preview.images[i], 'source'), p => {
-            return p && p.url;
-          });
-          if (p) {
-            return p.url;
-          }
-        }
-      }
+      return null;
     },
   },
 };
