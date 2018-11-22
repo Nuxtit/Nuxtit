@@ -22,6 +22,17 @@
       )
         i.fa.fa-fw.fa-code
         span see source
+    p
+      | Your flair on this sub looks like:
+      | &#32;
+      UserLink(:username='MeData.name')
+      | &#32;
+      FlairBadge(
+        :item='subreddit'
+        type='user'
+        show-none
+      )
+
     //- ItemHtml(:value='subreddit.data.description_html')
     //- hr
     //- pre: tt {{ {subreddit} }}
@@ -38,10 +49,12 @@
 <script>
 import first from 'lodash/first';
 import ValidatePostSort from '~/mixins/ValidatePostSort';
+import FlairBadge from '~/components/FlairBadge';
 import ItemHtml from '~/components/ItemHtml';
 import PostList from '~/components/PostList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import SubscribeButton from '~/components/SubscribeButton.vue';
+import UserLink from '~/components/UserLink';
 import RedditItems from '~/mixins/RedditItems';
 import { isVirtualSubreddit, makeVirtualSubreddit } from '~/lib/subreddit';
 import { makeComputeToggler } from '~/lib/toggle_open';
@@ -50,10 +63,12 @@ export default {
   middleware: ['auth'],
   defaultSort: 'hot',
   components: {
+    FlairBadge,
     ItemHtml,
     PostList,
     RedditPagination,
     SubscribeButton,
+    UserLink,
   },
   data() {
     return {
@@ -61,6 +76,9 @@ export default {
     };
   },
   computed: {
+    MeData() {
+      return this.$store.state.auth.MeData || {};
+    },
     showSource: makeComputeToggler('source'),
   },
   async asyncData({ store, reddit, route }) {
