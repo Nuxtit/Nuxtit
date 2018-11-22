@@ -1,6 +1,8 @@
-# nuxt-r
+# Redusa
 
-> Nuxt Reddit Client
+> Webapp Reddit Client written in Vue/Nuxt
+
+[Find us on Reddit](https://old.reddit.com/r/Redusa/)
 
 ## Build Setup
 

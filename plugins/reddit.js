@@ -34,14 +34,10 @@ export default function(ctx) {
   Vue.prototype.$reddit = ctx.reddit;
 
   async function getAccessToken() {
-    console.log('getAccessToken');
     const expiresAt = get(ctx.store.state, 'auth.OAuthData.expires_at', 0);
-    console.log('getAccessToken', (expiresAt - Date.now()) / (1000 * 60));
-    console.log('getAccessToken', expiresAt >= Date.now() + 500);
     if (expiresAt >= Date.now() + 500) {
       await ctx.store.dispatch('auth/fetchRefreshedAccessToken');
     }
-    await ctx.store.dispatch('auth/fetchRefreshedAccessToken');
     return get(ctx.store.state, 'auth.OAuthData.access_token');
   }
 
