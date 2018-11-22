@@ -23,6 +23,21 @@
           )
           | &#32;
           FlairBadge(:item='post' type='link')
+          | &#32;
+          b-badge(v-if='post.data.is_video') [video]
+          | &#32;
+          b-badge(v-if='post.data.stickied') [stickied]
+          | &#32;
+          b-badge(v-if='post.data.pinned') [pinned]
+          | &#32;
+          b-badge(v-if='post.data.over_18') [nsfw]
+          | &#32;
+          b-badge(v-if='post.data.spoiler') [spoiler]
+          | &#32;
+          b-badge(v-if='post.data.locked') [locked]
+          | &#32;
+          b-badge(v-if='post.data.num_crossposts') [crossposts: {{ post.data.num_crossposts }}]
+          | &#32;
           small(v-if='post.data.domain'): tt
             nuxt-link(
               :to='post.data.is_self ? `/r/${post.data.domain}` : `/domain/${post.data.domain}`'
@@ -39,6 +54,7 @@
           | submitted
           | &#32;
           TimeAgo(:value='post.data.created_utc')
+          template(v-if='post.data.edited') *
           | &#32;
           | by
           | &#32;
@@ -49,6 +65,9 @@
           | to
           | &#32;
           SubredditLink(:subreddit='post.data.subreddit')
+          | &#32;
+          b-badge(v-if='post.data.quarantine')
+            | [quarantine]
           | &#32;
       .row
         .col.small
@@ -88,6 +107,7 @@
             i.fa.fa-fw.fa-edit
             span edit
           span.btn-reply-toggle(
+            vif="post.data.send_replies"
             @click.prevent.stop='showReply^=true'
           )
             i.fa.fa-fw.fa-reply
