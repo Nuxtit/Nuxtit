@@ -30,8 +30,11 @@
 - [x] "other discussions"
 - [] download from reddit/imgur (bypass '\_d')
 - [x] image preview in app
+    - [x] preview supports imgur gifv as .gif
+    - [ ] imgur album support
 - [] browsing history
 - [] Replace 1MB fontawesome 4.7 icons with treeshaked file http://fontello.com/
+- [] a small number of existing tests (thinking about using ava)
 
 # TBA
 
