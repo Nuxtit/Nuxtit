@@ -2,11 +2,11 @@
   .posts-thumbnail
     span(v-if="!imageSrc && post.data.thumbnail === 'image'")
       | image
-    span(v-else-if="post.data.thumbnail === 'default'" title="default")
+    span(v-else-if="!imageSrc && post.data.thumbnail === 'default'" title="default")
       i.fa.fa-fw.fa-5x.fa-question-circle-o
-    span(v-else-if="post.data.thumbnail === 'self'" title="self")
+    span(v-else-if="!imageSrc && post.data.thumbnail === 'self'" title="self")
       i.fa.fa-fw.fa-5x.fa-file-text
-    span(v-else-if="post.data.thumbnail === 'spoiler'" title="spoiler")
+    span(v-else-if="!imageSrc && post.data.thumbnail === 'spoiler'" title="spoiler")
       i.fa.fa-fw.fa-5x.fa-question-circle-o
     b-img(
       v-else-if="imageSrc"

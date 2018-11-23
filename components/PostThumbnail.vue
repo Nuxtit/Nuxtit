@@ -15,6 +15,7 @@
       i.fa.fa-fw.fa-5x.fa-user-secret
     img.cursor-pointer(
       v-else-if="imageSrc"
+      :class='imageSrc === post.data.url ? "max-108-mh-144" : null'
       :src="imageSrc"
       :alt="post.data.title"
       @click.prevent.default='$emit("expand")'
@@ -75,4 +76,8 @@ export default {
 <style lang="sass">
 .cursor-pointer
   cursor: pointer;
+
+.max-108-mh-144
+  max-width: 108px;
+  max-height: 144px;
 </style>
