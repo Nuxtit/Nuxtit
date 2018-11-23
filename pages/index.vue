@@ -2,6 +2,8 @@
   section.container
     div
       h1.title
+        img(src='/android-chrome-192x192.png' alt='Redusa')
+        | &#32;
         | Redusa
       h2.subtitle
         | Nuxt Reddit Client
