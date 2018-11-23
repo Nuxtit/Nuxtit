@@ -38,16 +38,28 @@ export default {
     'preview.images.0.variants.gif.source.url',
     'preview.images.0.source.url',
     'preview.images.0.resolutions.0.url', // @toodo how to get $last instead of zero?
-    'url',
   ],
   computed: {
     imageSrc() {
       let src;
+      let path;
       for (let i = 0, len = this.$options.srcPaths.length; i < len; i++) {
-        src = get(this.post.data, this.$options.srcPaths[i]);
+        path = this.$options.srcPaths[i];
+        src = get(this.post.data, path);
         if (src && src.startsWith('https://')) {
           return src;
         }
+      }
+      for (let i = 0, len = this.$options.srcPaths.length; i < len; i++) {
+        path = 'crosspost_parent_list.0.' + this.$options.srcPaths[i];
+        src = get(this.post.data, path);
+        if (src && src.startsWith('https://')) {
+          return src;
+        }
+      }
+      src = this.post.data.url;
+      if (src && src.startsWith('https://')) {
+        return src;
       }
       return null;
     },
