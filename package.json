@@ -1,8 +1,8 @@
 {
-  "name": "nuxt-r",
+  "name": "redusa",
   "version": "1.0.0",
-  "description": "Nuxt Reddit Client",
-  "author": "NRC",
+  "description": "Redusa - Nuxt Reddit Client",
+  "author": "Redusa",
   "private": true,
   "scripts": {
     "dev": "nuxt",
