@@ -2,6 +2,8 @@
 b-navbar(toggleable='md', type='dark')
   b-navbar-toggle(target='nav_collapse')
   b-navbar-brand(href='/')
+    img(src='favicon-32x32.png' alt='Redusa')
+    | &#32;
     | Redusa
   b-collapse#nav_collapse(is-nav)
     b-navbar-nav

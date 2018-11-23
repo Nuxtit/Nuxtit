@@ -18,12 +18,21 @@ module.exports = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description },
+      { name: 'apple-mobile-web-app-title', content: 'Redusa' },
+      { name: 'application-name', content: 'Redusa' },
+      { name: 'msapplication-TileColor', content: '#2b5797' },
+      { name: 'theme-color', content: '#444444' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: '/css/bootstrap-darkly.min.css' },
       // @todo http://fontello.com/
       { rel: 'stylesheet', href: '/css/font-awesome-4.7.0/css/font-awesome.min.css' },
+
+      { rel: 'apple-touch-iconicon', sizes: '180x180', href: '/apple-touch-icon.png' },
+      { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
+      { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
+      { rel: 'manifest', href: '/site.webmanifest' },
     ],
   },
 
