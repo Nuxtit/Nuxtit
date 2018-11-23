@@ -2,6 +2,7 @@ import Vue from 'vue';
 import sleep from '~/lib/sleep';
 import axios from 'axios';
 import get from 'lodash/get';
+import isString from 'lodash/isString';
 import qs from 'qs';
 
 const redditClientId = process.env.redditClientId;
@@ -11,6 +12,7 @@ const redirect_uri = process.env.redditRedirectUri;
 const OAUTH_BASE = 'https://oauth.reddit.com/';
 const API_BASE = 'https://api.reddit.com/';
 const X_RATELIMIT_REMAINING = 'x-ratelimit-remaining';
+const CONTENT_TYPE = 'Content-Type';
 
 let lastResponseHeaders;
 
@@ -19,14 +21,15 @@ export default function(ctx) {
     baseURL: OAUTH_BASE,
     headers: {
       // 'User-Agent': 'axios-reddit-client/v0.0.0',
-      'Content-Type': 'application/x-www-form-urlencoded',
+      [CONTENT_TYPE]: 'application/x-www-form-urlencoded',
     },
     responseType: 'json',
     maxRedirects: 0,
     transformRequest(data, headers) {
-      // if (data) {
-      //   data.raw_json = 1;
-      // }
+      if (isString(data) && data[0] === '{') {
+        headers[CONTENT_TYPE] = 'application/json';
+        return data;
+      }
       return qs.stringify(data, { arrayFormat: 'brackets' });
     },
   });
