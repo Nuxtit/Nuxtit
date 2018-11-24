@@ -57,15 +57,22 @@ export default function(ctx) {
       }
     }
 
+    config.apiLog = {
+      start: now(),
+      username: ctx.store.getters['auth/username'],
+    };
     return config;
   });
 
   ctx.reddit.interceptors.response.use(
     async response => {
+      ctx.store.dispatch('apilog/add', response);
+
       lastResponseHeaders = response.headers;
       return response;
     },
     async err => {
+      ctx.store.dispatch('apilog/add', err.response || err);
       console.error('intercepter.err', err);
       throw err;
     },
@@ -154,14 +161,18 @@ export function getOAuthLoginHref() {
 async function isAccessTokenExpired(ctx) {
   const expiresAt = get(ctx.store.state, 'auth.OAuthData.expires_at', 0);
   const isExpired = expiresAt >= Date.now() + 500;
-  console.log('isAccessTokenExpired', { isExpired, expiresAt });
+  // console.log('isAccessTokenExpired', { isExpired, expiresAt });
   return expiresAt >= Date.now() + 500;
 }
 
 async function getAccessToken(ctx) {
-  console.log('getAccessToken');
+  // console.log('getAccessToken');
   if (isAccessTokenExpired(ctx)) {
     await ctx.store.dispatch('auth/fetchRefreshedAccessToken');
   }
   return get(ctx.store.state, 'auth.OAuthData.access_token');
+}
+
+function now() {
+  return Date.now() / 1000;
 }

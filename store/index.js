@@ -28,6 +28,8 @@ export const actions = {
         OAuthData: 'auth/OAuthData',
         MeData: 'auth/MeData',
         SrCache: 'subreddits/SrCache',
+        History: 'history/History',
+        ApiLog: 'apilog/ApiLog',
       },
       commit,
     });
