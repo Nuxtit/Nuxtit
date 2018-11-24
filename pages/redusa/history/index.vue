@@ -1,14 +1,15 @@
 <template lang="pug">
   .history-list
-    | todo history-list
+    .btn.btn-danger(
+      @click.prevent.stop='$store.dispatch("history/flush")'
+    )
+      | Flush History
+    hr
     HistoryEntry(
       v-for='(item, index) in list'
       :key='item.timestamp'
       :item='item'
     )
-    ul
-      li(v-for='(item, index) in list')
-        | {{ {index, item} }}
 </template>
 
 <script>
