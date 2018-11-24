@@ -18,7 +18,7 @@
         SelectUserPage(:user='user')
     SubscribeButton(:item='user')
     FriendButton(:item='user')
-    FollowButton(:item='user')
+    FollowButton(:item='user' v-if='user.data.subreddit')
     .small
       a(
         :href='`https://www.reddit.com${$route.fullPath}`'
