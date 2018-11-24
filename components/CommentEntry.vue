@@ -1,8 +1,5 @@
 <template lang="pug">
-.comment-entry(
-  :data-parent-id='comment.data.parent_id || "none"'
-  :data-id='comment.data.id'
-)
+.comment-entry
   .card
     .card-header.text-muted
       b-badge(v-if='comment.data.stickied')

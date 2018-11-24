@@ -115,6 +115,6 @@ module.exports = {
   },
 
   router: {
-    middleware: ['redirects'],
+    middleware: ['redirects', 'history'],
   },
 };
