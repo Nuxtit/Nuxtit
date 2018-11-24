@@ -2,7 +2,7 @@
 b-navbar(toggleable='md', type='dark')
   b-navbar-toggle(target='nav_collapse')
   b-navbar-brand(href='/')
-    img(src='favicon-32x32.png' alt='Redusa')
+    img(src='/favicon-32x32.png' alt='Redusa')
     | &#32;
     | Redusa
   b-collapse#nav_collapse(is-nav)
@@ -21,6 +21,21 @@ b-navbar(toggleable='md', type='dark')
         template(slot='button-content')
           em {{ MeData.name }}
         b-dropdown-item(:to='`/user/${MeData.name}`') Profile
+        b-dropdown-item(to='/redusa/history')
+          | History
+          |
+          b-badge(
+            v-if='historyCount'
+            v-text='historyCount'
+          )
+        b-dropdown-item(to='/redusa/apilog')
+          | API Log
+          b-badge(
+            variant='danger'
+            v-if='apilogErrorCount'
+            v-text='apilogErrorCount'
+          )
+        b-dropdown-divider
         b-dropdown-item(to='/logout') Signout
       b-nav-item(right v-else to='/login')
         | Signin
@@ -36,6 +51,7 @@ b-navbar(toggleable='md', type='dark')
 
 <script>
 import get from 'lodash/get';
+import bDropdownDivider from 'bootstrap-vue/es/components/dropdown/dropdown-divider';
 import bNavbar from 'bootstrap-vue/es/components/navbar/navbar';
 import bNavbarBrand from 'bootstrap-vue/es/components/navbar/navbar-brand';
 import bNavbarToggle from 'bootstrap-vue/es/components/navbar/navbar-toggle';
@@ -51,6 +67,7 @@ export default {
     bNavbarBrand,
     bNavbarToggle,
     bNavbarNav,
+    bDropdownDivider,
     bNavForm,
     bNavItem,
     bNavItemDropdown,
@@ -58,6 +75,12 @@ export default {
   computed: {
     MeData() {
       return this.$store.state.auth.MeData || {};
+    },
+    historyCount() {
+      return this.$store.getters['history/count'];
+    },
+    apilogErrorCount() {
+      return this.$store.getters['apilog/errorCount'];
     },
     /**
      * @todo

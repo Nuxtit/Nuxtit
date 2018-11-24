@@ -54,4 +54,7 @@ export const getters = {
   isAuthenticated(state) {
     return !!get(state, 'MeData.name');
   },
+  username(state) {
+    return get(state, 'MeData.name');
+  },
 };

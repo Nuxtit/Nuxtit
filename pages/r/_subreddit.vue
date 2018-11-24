@@ -1,5 +1,17 @@
 <template lang="pug">
   div
+    .container.subreddit-banner(:style='subredditBannerStyles')
+      br
+      b-img.profile-icon-img(
+        v-if="subreddit.data.icon_img"
+        :src="subreddit.data.icon_img"
+        thumbnail
+        width="128"
+        height="128"
+      )
+      br
+      br
+      br
     h3 /r/{{subreddit.data.display_name}}
     h4 {{subreddit.data.title}}
     p {{subreddit.data.subscribers}} subscribers
@@ -48,6 +60,7 @@
 
 <script>
 import first from 'lodash/first';
+import bImg from 'bootstrap-vue/es/components/image/img';
 import ValidatePostSort from '~/mixins/ValidatePostSort';
 import FlairBadge from '~/components/FlairBadge';
 import ItemHtml from '~/components/ItemHtml';
@@ -63,6 +76,7 @@ export default {
   middleware: ['auth'],
   defaultSort: 'hot',
   components: {
+    bImg,
     FlairBadge,
     ItemHtml,
     PostList,
@@ -80,6 +94,15 @@ export default {
       return this.$store.state.auth.MeData || {};
     },
     showSource: makeComputeToggler('source'),
+    subredditBannerStyles() {
+      const subreddit = this.subreddit.data;
+      const banner_img = subreddit ? subreddit.banner_img : null;
+      return {
+        'background-image': banner_img
+          ? `url("${subreddit.banner_img}")`
+          : null,
+      };
+    },
   },
   async asyncData({ store, reddit, route }) {
     const { subreddit } = route.params;
