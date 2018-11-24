@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import filter from 'lodash/filter';
 import * as ls from '~/lib/ls';
 
 const APILOG = 'ApiLog';
@@ -32,6 +33,9 @@ export const actions = {
 
     commit(APILOG, [entry, ...state[APILOG]].slice(0, 32));
   },
+  flush({ commit }) {
+    commit(APILOG, []);
+  },
 };
 
 export const getters = {
@@ -40,6 +44,9 @@ export const getters = {
   },
   count(state) {
     return get(state[APILOG], 'length') || 0;
+  },
+  errorCount(state) {
+    return filter(state[APILOG], entry => entry.status >= 300).length;
   },
   find(state) {
     return timestamp => {

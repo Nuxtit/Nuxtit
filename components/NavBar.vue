@@ -30,6 +30,7 @@ b-navbar(toggleable='md', type='dark')
           )
         b-dropdown-item(to='/redusa/apilog')
           | API Log
+          |
           b-badge(
             variant='danger'
             v-if='apilogErrorCount'
