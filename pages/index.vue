@@ -7,9 +7,17 @@
         | Redusa
       h2.subtitle
         | Nuxt Reddit Client
+      p This app is in EARLY ALPHA, expect bugs and missing features.
       p You have to login to do anything
+      p
       .links
         nuxt-link.button--green(to='/login') Login
+        a.button--green(
+          href='https://github.com/Redusa/Redusa'
+          target='_blank'
+        )
+          i.fa.fa-fw.fa-github
+          | Watch us on Github!
 </template>
 
 <script>
