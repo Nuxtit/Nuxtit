@@ -49,6 +49,9 @@ export const actions = {
       ].slice(0, 32),
     );
   },
+  flush({ commit }) {
+    commit(HISTORY, []);
+  },
 };
 
 export const getters = {
