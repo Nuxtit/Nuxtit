@@ -4,8 +4,8 @@
     :class='classes'
     @click.stop.prevent="subscribe"
   )
-    i.fa.fa-fw.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-bookmark(v-else)
+    i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
+    i.fa.fa-fw.fa-btn.fa-bookmark(v-else)
     span(v-if='busy && item.data.user_is_subscriber') unsubscribing
     span(v-else-if='busy && !item.data.user_is_subscriber') subscribing
     span(v-else-if='item.data.user_is_subscriber') subscribed

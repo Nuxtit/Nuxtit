@@ -24,13 +24,13 @@
         :href='`https://www.reddit.com${$route.fullPath}`'
         target='_blank'
       )
-        i.fa.fa-fw.fa-reddit
+        i.fa.fa-fw.fa-btn.fa-reddit
         span see on reddit
       | &#32;
       span.btn-see-source(
         @click.prevent.stop='showSource^=true'
       )
-        i.fa.fa-fw.fa-code
+        i.fa.fa-fw.fa-btn.fa-code
         span see source
     pre(v-if="showSource")
       tt: small(v-text="user.data")

@@ -26,7 +26,7 @@ export default {
   computed: {
     classes() {
       return {
-        'fa fa-fw': true,
+        'fa fa-fw fa-btn': true,
         'text-danger': this.item.data.likes === false,
         'fa-arrow-down': !this.voting,
         'fa-spinner fa-spinning': this.voting,

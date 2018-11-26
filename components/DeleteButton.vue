@@ -4,8 +4,8 @@
     :class='classes'
     @click.stop.prevent="trash"
   )
-    i.fa.fa-fw.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-trash(v-else)
+    i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
+    i.fa.fa-fw.fa-btn.fa-trash(v-else)
     span(v-if='prompted') Are you sure? (delete)
     span(v-else-if='busy && item.data.deleted') deleting
     span(v-else-if='busy && !item.data.deleted') deleting

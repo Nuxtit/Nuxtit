@@ -17,8 +17,8 @@
       v-disabled='isSaveDisabled'
       @click.prevent.stop='save'
     )
-      i.fa.fa-fw.fa-spinner.fa-spin(v-if='saving')
-      i.fa.fa-fw.fa-save(v-else)
+      i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='saving')
+      i.fa.fa-fw.fa-btn.fa-save(v-else)
       span(v-if='editingComment && editingComment.data.id && saving') Updating
       span(v-else-if='editingComment && editingComment.data.id && editingComment.data.body === body') Update
       span(v-else-if='editingComment && editingComment.data.id') Update
@@ -27,7 +27,7 @@
     button.btn.btn-info.btn-cancel(
       @click.prevent.stop='$emit("close")'
     )
-      i.fa.fa-fw.fa-times
+      i.fa.fa-fw.fa-btn.fa-times
       span(v-if='!editingComment || !editingComment.data.id || body !== editingComment.data.body')
         | Cancel
         span.small(
@@ -41,6 +41,7 @@ import get from 'lodash/get';
 import bFormTextarea from 'bootstrap-vue/es/components/form-textarea/form-textarea';
 import UserLink from '~/components/UserLink';
 import { startMinWait } from '~/lib/sleep';
+import thingsToTree from '~/lib/thingsToTree';
 
 export default {
   name: 'CommentForm',
@@ -119,14 +120,22 @@ export default {
             this.$emit('updated-comment', this.editingComment);
           }
         } else {
+          const parent_id = this.parent.data.name;
           const response = await this.$reddit.post('/api/comment', {
             thing_id: this.parent.data.name,
             text: this.body,
             return_rtjson: true,
+            api_type: 'json',
           });
 
           if (get(response, 'data.json.errors.length')) {
             this.errors = response.data.json.errors;
+          } else if (get(response, 'data.json.data.things')) {
+            const tree = thingsToTree(
+              get(response, 'data.json.data.things'),
+              parent_id,
+            );
+            this.$emit('append-replies', tree);
           } else {
             this.editingComment = {
               kind: 't1',

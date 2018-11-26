@@ -27,7 +27,9 @@ export const actions = {
     entry.data = response.config.data;
     entry.params = response.config.params;
     entry.method = response.config.method;
-    entry.result = response.data;
+    if (entry.result !== 200) {
+      entry.result = response.data;
+    }
 
     // console.log('apiLog.actions.add().entry', entry);
 

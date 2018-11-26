@@ -19,6 +19,8 @@ import CommentList from '~/components/CommentList';
 import CommentTree from '~/components/CommentTree';
 import DownVote from '~/components/DownVote';
 import ItemHtml from '~/components/ItemHtml';
+import MessageEntry from '~/components/MessageEntry';
+import MessageTree from '~/components/MessageTree';
 import MixedList from '~/components/MixedList';
 import PostEntry from '~/components/PostEntry';
 import PostList from '~/components/PostList';
@@ -50,6 +52,8 @@ Vue.component('b-select', bSelect);
 // because they call each other recursively
 Vue.component('CommentTree', CommentTree);
 Vue.component('CommentEntry', CommentEntry);
+Vue.component('MessageTree', MessageTree);
+Vue.component('MessageEntry', MessageEntry);
 
 export default async ctx => {
   //

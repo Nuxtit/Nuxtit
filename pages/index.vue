@@ -16,7 +16,7 @@
           href='https://github.com/Redusa/Redusa'
           target='_blank'
         )
-          i.fa.fa-fw.fa-github
+          i.fa.fa-fw.fa-btn.fa-github
           | Watch us on Github!
 </template>
 

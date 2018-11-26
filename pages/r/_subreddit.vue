@@ -32,7 +32,7 @@
       span.btn-see-source(
         @click.prevent.stop='showSource^=true'
       )
-        i.fa.fa-fw.fa-code
+        i.fa.fa-fw.fa-btn.fa-code
         span see source
     p
       | Your flair on this sub looks like:

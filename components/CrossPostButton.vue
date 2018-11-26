@@ -2,7 +2,7 @@
   span.btn-cross-post(
     @click.prevent.stop='$emit("click", $event)'
   )
-    i.fa.fa-fw.fa-repeat
+    i.fa.fa-fw.fa-btn.fa-repeat
     span crosspost
 </template>
 

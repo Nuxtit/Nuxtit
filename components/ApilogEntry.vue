@@ -20,19 +20,19 @@
           v-if='item.method !== "get"'
           @click.prevent.stop='showPayload^=true'
         )
-          i.fa.fa-fw.fa-code
+          i.fa.fa-fw.fa-btn.fa-code
           span see payload
         | &#32;
         span.btn-see-result(
           @click.prevent.stop='showResult^=true'
         )
-          i.fa.fa-fw.fa-code
+          i.fa.fa-fw.fa-btn.fa-code
           span see result
         | &#32;
         span.btn-see-source(
           @click.prevent.stop='showSource^=true'
         )
-          i.fa.fa-fw.fa-code
+          i.fa.fa-fw.fa-btn.fa-code
           span see source
     .card-body(v-if='showPayload && item.method !== "get"')
       pre: tt {{ item.data }}

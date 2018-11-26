@@ -4,8 +4,8 @@
     :class='classes'
     @click.stop.prevent="follow"
   )
-    i.fa.fa-fw.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-bookmark(v-else)
+    i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
+    i.fa.fa-fw.fa-btn.fa-bookmark(v-else)
     span(v-if='busy && item.data.subreddit.user_is_subscriber') unfollowing...
     span(v-else-if='busy && !item.data.subreddit.user_is_subscriber') following...
     span(v-else-if='item.data.subreddit.user_is_subscriber') following

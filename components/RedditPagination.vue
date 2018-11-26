@@ -4,8 +4,8 @@
       v-disabled='fetching || !before'
       :to='$mergeRouteQuery({ before, after: void 0, count: (count - limit) || void 0 })'
     )
-      i.fa.fa-fw.fa-spinner.fa-spin(v-if='fetching')
-      i.fa.fa-fw.fa-chevron-left(v-else)
+      i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='fetching')
+      i.fa.fa-fw.fa-btn.fa-chevron-left(v-else)
       | &#32;
       | prev
     nuxt-link.after.btn.btn-secondary(
@@ -14,8 +14,8 @@
     )
       | next
       | &#32;
-      i.fa.fa-fw.fa-spinner.fa-spin(v-if='fetching')
-      i.fa.fa-fw.fa-chevron-right(v-else)
+      i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='fetching')
+      i.fa.fa-fw.fa-btn.fa-chevron-right(v-else)
     SelectQueryLimit.select-limit(
       v-disabled='fetching'
     )

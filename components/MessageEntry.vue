@@ -1,19 +1,26 @@
 <template lang="pug">
-.comment-entry
-  .card
-    .card-header.text-muted
-      b-badge(v-if='comment.data.stickied')
-        | [stickied]
+.message-entry
+  .card(:class='{"border-info": message.data.new}')
+    .card-header
+      b-badge(variant='info' v-if='message.data.new') new
       | &#32;
-      UserLink(:username='comment.data.author')
+      span(v-text='message.data.subject')
       | &#32;
-      b-badge(v-if='comment.data.is_submitter')
-        | [OP]
-      | &#32;
-      FlairBadge(:item='comment' type='author')
-      | &#32;
-      TimeAgo(:value='comment.data.created_utc')
-      template(v-if='comment.data.edited') *
+      em: nuxt-link.text-muted(
+        :to='message.data.context'
+        v-text='message.data.link_title'
+      )
+      | &#32;from&#32;
+      UserLink(:username='message.data.author')
+      | &#32;via&#32;
+      SubredditLink(
+        v-if='message.data.subreddit'
+        :subreddit='message.data.subreddit'
+      )
+      | &#32;sent&#32;
+      TimeAgo(:value='message.data.created_utc')
+      | &#32;to&#32;
+      UserLink(:username='message.data.dest')
       .score.pull-right
         i.fa.fa-fw.fa-btn.btn-collapse(
           :class='collapsed ? "fa-plus" : "fa-minus"'
@@ -21,34 +28,32 @@
         )
         | &nbsp;
         | &nbsp;
-        UpVote(:item='comment')
+        UpVote(:item='message')
         | &nbsp;
         | &nbsp;
-        Score(:item='comment')
+        Score(:item='message')
         | &nbsp;
         | &nbsp;
-        DownVote(:item='comment')
+        DownVote(:item='message')
         | &nbsp;
         | &nbsp;
     .card-body(v-if="!collapsed")
-      ItemHtml(:item='comment')
+      ItemHtml(:item='message')
     .card-footer.text-muted(v-if="!collapsed")
       a(
-        :href='`https://www.reddit.com${comment.data.permalink}`'
+        :href='`https://www.reddit.com${message.data.context}`'
         target='_blank'
       )
         i.fa.fa-fw.fa-btn.fa-reddit
         span see on reddit
       | &#32;
       nuxt-link(
-        :to='comment.data.permalink'
+        :to='message.data.context'
       )
         i.fa.fa-fw.fa-btn.fa-external-link
         span permalink
       | &#32;
-      SaveButton(:item='comment')
-      | &#32;
-      ShareButton(:item='comment')
+      ShareButton(:item='message')
       | &#32;
       nuxt-link(
         v-if='parentTo'
@@ -62,34 +67,25 @@
         :to='linkTo'
       )
         i.fa.fa-fw.fa-btn.fa-level-up
-        span full comments
+        span full comments ({{ message.data.num_comments }})
       | &#32;
-      span.btn-edit-toggle(
-        v-if='isAuthor'
-        @click.prevent.stop='showEdit^=true'
-      )
-        i.fa.fa-fw.fa-btn.fa-edit
-        span edit
       span.btn-reply-toggle(
-        v-if='comment.data.send_replies'
         @click.prevent.stop='showReply^=true'
       )
         i.fa.fa-fw.fa-btn.fa-reply
         span reply
       | &#32;
-      //- HideButton(:item='comment')
-      //- | &#32;
-      RemoveButton(:item='comment')
+      DeleteButton(:item='message' v-if='isAuthor')
       | &#32;
-      DeleteButton(:item='comment' v-if='isAuthor')
+      ReportButton(:item='message' v-if='!isAuthor')
       | &#32;
-      //- GiveGoldButton(:item='comment' v-if='!isAuthor')
-      //- | &#32;
-      ReportButton(:item='comment' v-if='!isAuthor')
+      MarkUnreadButton(:item='message' v-if='!isAuthor')
       | &#32;
-      CrossPostButton(
-        @click.prevent.stop='showCrossPost^=true'
-      )
+      BlockUserButton(:item='message' v-if='!isAuthor')
+      | &#32;
+      //- CrossPostButton(
+      //-   @click.prevent.stop='showCrossPost^=true'
+      //- )
       span.btn-see-source(
         @click.prevent.stop='showSource^=true'
       )
@@ -97,32 +93,37 @@
         span see source
     CommentForm(
       v-if="showReply && !collapsed"
-      :parent='comment'
+      :parent='message'
+      @append-replies='onAppendReplies'
       @created-comment='onCommentCreated'
       @close='showReply = false'
     )
     CommentForm(
       v-if="showEdit && !collapsed"
-      :comment='comment'
+      :message='message'
       @updated-comment='onCommentUpdated'
       @close='showEdit = false'
     )
-    PostForm(
-      v-if="showCrossPost && !collapsed"
-      :parent='item'
-      @created-post='onCrossPostCreated'
-      @close='showCrossPost = false'
-    )
+    //- PostForm(
+    //-   v-if="showCrossPost && !collapsed"
+    //-   :parent='message'
+    //-   @created-post='onCrossPostCreated'
+    //-   @close='showCrossPost = false'
+    //- )
     pre(v-if="showSource && !collapsed")
-      tt: small(v-text="comment.data")
-  CommentTree(
+      tt: small(v-text="message.data")
+  MessageTree(
     v-if='showReplies && !collapsed'
-    :comments='comment.data.replies'
+    :messages='message.data.replies'
   )
+
+  pre(v-if="showSource")
+    tt: small(v-text="message.data")
 </template>
 
 <script>
 import get from 'lodash/get';
+import BlockUserButton from '~/components/BlockUserButton';
 import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
 import DeleteButton from '~/components/DeleteButton';
@@ -130,20 +131,24 @@ import DownVote from '~/components/DownVote';
 import FlairBadge from '~/components/FlairBadge';
 import HideButton from '~/components/HideButton';
 import ItemHtml from '~/components/ItemHtml';
+import MarkUnreadButton from '~/components/MarkUnreadButton';
+import MessageTree from '~/components/MessageTree';
 import PostForm from '~/components/PostForm';
 import RemoveButton from '~/components/RemoveButton';
 import ReportButton from '~/components/ReportButton';
 import SaveButton from '~/components/SaveButton';
 import Score from '~/components/Score';
 import ShareButton from '~/components/ShareButton';
+import SubredditLink from '~/components/SubredditLink';
 import TimeAgo from '~/components/TimeAgo';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
 import { makeComputeToggler } from '~/lib/toggle_open';
 
 export default {
-  name: 'CommentEntry',
+  name: 'MessageEntry',
   components: {
+    BlockUserButton,
     CommentForm,
     CrossPostButton,
     DeleteButton,
@@ -151,53 +156,73 @@ export default {
     FlairBadge,
     HideButton,
     ItemHtml,
+    MarkUnreadButton,
+    MessageTree,
     PostForm,
     RemoveButton,
     ReportButton,
     SaveButton,
     Score,
     ShareButton,
+    SubredditLink,
     TimeAgo,
     UpVote,
     UserLink,
   },
   props: {
-    comment: {
+    message: {
       type: Object,
       required: true,
     },
   },
   data() {
     return {
-      collapsed: get(this.comment, 'data.collapsed'),
+      collapsed: get(this.message, 'data.collapsed'),
       open: null,
+      // open: 'source',
       reply: null,
     };
   },
   computed: {
     showReplies() {
-      const { replies } = this.comment.data;
+      const { replies } = this.message.data;
       return replies && replies.data.children && replies.data.children.length;
     },
+    /**
+     * compare to CommentEntry.computed.parentTO
+     * the JSON here is missing link_id compare
+     **/
     parentTo() {
-      const { parent_id, permalink, link_id, id } = this.comment.data;
-      if (parent_id && parent_id !== link_id && permalink) {
-        return '/' + permalink.replace(id, parent_id.slice(3));
+      const { context, link_id, id } = this.message.data;
+      const parent_id = this.message.data.parent_id
+        ? this.message.data.parent_id.replace('t1_', '')
+        : null;
+      if (parent_id && context) {
+        const search = this.$router.resolve(context);
+        if (search && search.route && search.route.params.comment_id) {
+          return {
+            ...search.route,
+            params: {
+              ...search.route.params,
+              comment_id: parent_id,
+            },
+          };
+        }
       }
       return null;
     },
     linkTo() {
-      const { parent_id, permalink, link_id, id } = this.comment.data;
-      if (parent_id && permalink) {
-        const linkPath = permalink.replace(`/${id}/`, '/');
-        if (this.$route.path !== linkPath) {
+      const { context, id } = this.message.data;
+      if (context) {
+        const linkPath = context.replace(`/${id}/`, '/');
+        if (this.$route.path !== linkPath && context !== linkPath) {
           return linkPath;
         }
       }
       return null;
     },
     isAuthor() {
-      const { author } = this.comment.data;
+      const { author } = this.message.data;
       return author && author === this.MeData.name;
     },
     MeData() {
@@ -219,13 +244,25 @@ export default {
       // @todo
     },
     onCommentCreated(newComment) {
-      this.comment.data.replies = this.comment.data.replies || {
+      this.message.data.replies = this.message.data.replies || {
         data: {
           children: [],
         },
       };
 
-      this.comment.data.replies.data.children.push(newComment);
+      this.message.data.replies.data.children.push(newComment);
+    },
+    onAppendReplies(replies) {
+      this.message.data.replies = this.message.data.replies || {
+        data: {
+          children: [],
+        },
+      };
+
+      this.message.data.replies.data.children = [
+        ...this.message.data.replies.data.children,
+        ...replies,
+      ];
     },
     onCrossPostCreated(newPost) {
       //
@@ -235,7 +272,10 @@ export default {
 </script>
 
 <style lang="sass">
-.comment-entry
+.message-entry
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+.message-entry
   .card
     .card-header, .card-footer, .card-body
       padding: 0.20rem;
