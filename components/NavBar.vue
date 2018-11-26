@@ -8,7 +8,7 @@ b-navbar(toggleable='md', type='dark')
   b-collapse#nav_collapse(is-nav)
     b-navbar-nav
       b-nav-item(to='/home') Home
-      b-nav-item(href='#', disabled='') Disabled
+      b-nav-item(to='/subreddits') Subreddits
 
     // Right aligned nav items
     b-navbar-nav.ml-auto
@@ -41,7 +41,7 @@ b-navbar(toggleable='md', type='dark')
       b-nav-item(right v-else to='/login')
         | Signin
   b-navbar-nav
-    b-nav-item(right to='/mail' title="Mail")
+    b-nav-item(right :to='MeData.has_mail ? "/message/inbox" : "/message"' title="Mail")
       i.fa.fa-envelope.text-danger(v-if="MeData.has_mail")
       i.fa.fa-envelope-o(v-else)
 

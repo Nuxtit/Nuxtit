@@ -9,13 +9,13 @@
         v-if='hasComments'
         @click.prevent.stop='$refs.comments.collapseAll(false)'
       )
-        i.fa.fa-fw.btn-collapse.fa-plus
+        i.fa.fa-fw.fa-btn.btn-collapse.fa-plus
         | uncollapse all
       .btn.btn-secondary(
         v-if='hasComments'
         @click.prevent.stop='$refs.comments.collapseAll(true)'
       )
-        i.fa.fa-fw.btn-collapse.fa-minus
+        i.fa.fa-fw.fa-btn.btn-collapse.fa-minus
         | collapse all
       nuxt-link.btn.btn-primary.pull-right(
         :to='`/r/${$route.params.subreddit}/duplicates/${$route.params.post_id}/${$route.params.post_title}`'

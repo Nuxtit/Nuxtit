@@ -5,8 +5,8 @@
     :class='classes'
     @click.stop.prevent="remove"
   )
-    i.fa.fa-fw.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-remove(v-else)
+    i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
+    i.fa.fa-fw.fa-btn.fa-remove(v-else)
     span(v-if='busy && item.data.removed') unremoving
     span(v-else-if='busy && !item.data.removed') removing
     span(v-else-if='item.data.removed') removed

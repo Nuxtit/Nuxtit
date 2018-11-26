@@ -21,7 +21,11 @@
 - [] subreddit pages
 - [] Queue - add things to a queue instead of new tabs.
 - [] post uploaded image posts
-- [] retry failed actions with transparency log
+- [x] api log
+- [x] mailbox (all-inbox, reply, sent)
+- [] mailbox compose
+- [] mailbox modmail
+- [] retry failed actions
 - [] Multi-Reddits
 - [] 404 page
 - [] highlight friends and followees
@@ -32,12 +36,12 @@
 - [x] image preview in app
     - [x] preview supports imgur gifv as .gif
     - [ ] imgur album support
-- [] browsing history
+- [x] browsing history
 - [] Replace 1MB fontawesome 4.7 icons with treeshaked file http://fontello.com/
 - [] a small number of existing tests (thinking about using ava)
 - [] comment replaces CommentForm up after you click done
 - [] post shows up in /duplicates after you click done
-- [] subreddit subscribe button
+- [x] subreddit subscribe button
 - [] message telling you that you can't post in a sub
 - [] Post Sorts need time period filter
 - [] cache subreddit about

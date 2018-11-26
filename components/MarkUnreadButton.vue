@@ -1,23 +1,23 @@
 <template lang="pug">
-  span.btn-hide(
+  span.btn-mark-unread(
     v-disabled="busy"
     :class='classes'
     @click.stop.prevent="hide"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-plus-circle(v-else-if='item.data.hidden')
+    i.fa.fa-fw.fa-btn.fa-plus-circle(v-else-if='isUnread')
     i.fa.fa-fw.fa-btn.fa-minus-circle(v-else)
-    span(v-if='busy && item.data.hidden') unhiding
-    span(v-else-if='busy && !item.data.hidden') hiding
-    span(v-else-if='item.data.hidden') hidden
-    span(v-else) hide
+    span(v-if='busy && isUnread') unmarking read
+    span(v-else-if='busy && !isUnread') marking unread
+    span(v-else-if='isUnread') mark read
+    span(v-else) mark unread
 </template>
 
 <script>
 import { startMinWait } from '~/lib/sleep';
 
 export default {
-  name: 'HideButton',
+  name: 'MarkUnreadButton',
   props: {
     item: {
       type: Object,
@@ -31,26 +31,36 @@ export default {
     };
   },
   computed: {
+    isUnread: {
+      get() {
+        return this.item.data.new;
+      },
+      set(value) {
+        this.item.data.new = !!value;
+      },
+    },
     classes() {
       return {
-        'text-muted': this.item.data.hidden === true,
+        'text-muted': this.isUnread === false,
+        'text-info': this.isUnread === true,
       };
     },
   },
   methods: {
     async hide($event) {
-      const { hidden, name } = this.item.data;
+      const { name } = this.item.data;
+      const { isUnread } = this;
       const minWait = startMinWait();
       try {
         this.busy = true;
         const response = await this.$reddit.post(
-          `/api/${hidden ? 'unhide' : 'hide'}`,
+          `/api/${isUnread ? 'read_message' : 'unread_message'}`,
           {
             // category: '???',
             id: name, // fullname
           },
         );
-        this.item.data.hidden = !hidden;
+        this.isUnread = !isUnread;
       } catch (err) {
         console.error(err);
         this.error = err;

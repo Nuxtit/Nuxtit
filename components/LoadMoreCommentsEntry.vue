@@ -7,14 +7,14 @@ CommentTree.comment-tree-loaded(
   .btn-load-more(
     @click.prevent.stop='loadMore'
   )
-    i.fa.fa-fw.fa-spinner.fa-spin(v-if='fetching')
-    i.fa.fa-fw.fa-comments(v-else)
+    i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='fetching')
+    i.fa.fa-fw.fa-btn.fa-comments(v-else)
     | load more comments ({{ item.data.count }} replies)
 </template>
 
 <script>
-import find from 'lodash/find';
 import startMinWait from '~/lib/sleep';
+import thingsToTree from '~/lib/thingsToTree';
 
 // the backend can't handle large incoming requests
 const MAX_MORE_CHILDREN = 500;
@@ -51,32 +51,9 @@ export default {
           },
         });
 
-        const allChildren = response.data.json.data.things || [];
-        const rootChildren = allChildren.filter(
-          i => i.data.parent_id === parent_id,
-        );
-        const otherChildren = allChildren.filter(
-          i => i.data.parent_id !== parent_id,
-        );
-        otherChildren.forEach(c1 => {
-          const c2 = find(
-            allChildren,
-            c2 => c2.data.name === c1.data.parent_id,
-          );
-          if (c2) {
-            if (c2.data.replies) {
-              c2.data.replies.data.children.push(c1);
-            } else {
-              c2.data.replies = {
-                data: {
-                  children: [c1],
-                },
-              };
-            }
-          }
-        });
+        const tree = thingsToTree(response.data.json.data.things, parent_id);
 
-        this.$emit('append-children', rootChildren);
+        this.$emit('append-children');
         this.$emit('remove-more', this.item);
       } finally {
         await minWait;

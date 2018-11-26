@@ -76,14 +76,14 @@
           )
             | {{ post.data.num_comments }}
             | &#32;
-            i.fa.fa-fw.fa-comments
+            i.fa.fa-fw.fa-btn.fa-comments
             span comments
           | &#32;
           a(
             :href='`https://www.reddit.com${post.data.permalink}`'
             target='_blank'
           )
-            i.fa.fa-fw.fa-reddit
+            i.fa.fa-fw.fa-btn.fa-reddit
             span see on reddit
           | &#32;
           SaveButton(:item='post')
@@ -104,13 +104,13 @@
             v-if='isAuthor'
             @click.prevent.stop='showEdit^=true'
           )
-            i.fa.fa-fw.fa-edit
+            i.fa.fa-fw.fa-btn.fa-edit
             span edit
           span.btn-reply-toggle(
             vif="post.data.send_replies"
             @click.prevent.stop='showReply^=true'
           )
-            i.fa.fa-fw.fa-reply
+            i.fa.fa-fw.fa-btn.fa-reply
             span reply
           CrossPostButton(
             @click.prevent.stop='showCrossPost^=true'
@@ -119,7 +119,7 @@
           span.btn-see-source(
             @click.prevent.stop='showSource^=true'
           )
-            i.fa.fa-fw.fa-code
+            i.fa.fa-fw.fa-btn.fa-code
             span see source
   .row(v-if='open')
     .col
