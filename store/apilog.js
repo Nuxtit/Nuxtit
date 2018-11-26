@@ -27,7 +27,7 @@ export const actions = {
     entry.data = response.config.data;
     entry.params = response.config.params;
     entry.method = response.config.method;
-    if (entry.result !== 200) {
+    if (entry.status !== 200) {
       entry.result = response.data;
     }
 
