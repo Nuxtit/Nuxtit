@@ -8,6 +8,7 @@ b-navbar(toggleable='md', type='dark')
   b-collapse#nav_collapse(is-nav)
     b-navbar-nav
       b-nav-item(to='/home') Home
+      b-nav-item(to='/multis/mine') MultiSubs
       b-nav-item(to='/subreddits') Subreddits
 
     // Right aligned nav items
