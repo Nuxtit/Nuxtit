@@ -4,9 +4,9 @@
     :class='classes'
     @click.stop.prevent="setFriend"
   )
-    i.fa.fa-fw.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-minus(v-if="item.data.is_friend")
-    i.fa.fa-fw.fa-plus(v-else)
+    i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
+    i.fa.fa-fw.fa-btn.fa-minus(v-if="item.data.is_friend")
+    i.fa.fa-fw.fa-btn.fa-plus(v-else)
     span(v-if='busy && item.data.is_friend') unfriending
     span(v-else-if='busy && !item.data.is_friend') friending
     span(v-else-if='item.data.is_friend') friend

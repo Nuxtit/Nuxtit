@@ -1,23 +1,23 @@
 <template lang="pug">
-  span.btn-hide(
+  span.btn-block-user(
     v-disabled="busy"
     :class='classes'
     @click.stop.prevent="hide"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-plus-circle(v-else-if='item.data.hidden')
+    i.fa.fa-fw.fa-btn.fa-plus-circle(v-else-if='item.data.is_user_blocked')
     i.fa.fa-fw.fa-btn.fa-minus-circle(v-else)
-    span(v-if='busy && item.data.hidden') unhiding
-    span(v-else-if='busy && !item.data.hidden') hiding
-    span(v-else-if='item.data.hidden') hidden
-    span(v-else) hide
+    span(v-if='busy && item.data.is_user_blocked') unblocking
+    span(v-else-if='busy && !item.data.is_user_blocked') blocking
+    span(v-else-if='item.data.is_user_blocked') blocked
+    span(v-else) block
 </template>
 
 <script>
 import { startMinWait } from '~/lib/sleep';
 
 export default {
-  name: 'HideButton',
+  name: 'BlockUserButton',
   props: {
     item: {
       type: Object,
@@ -31,26 +31,32 @@ export default {
     };
   },
   computed: {
+    username() {
+      return this.message.data.author;
+    },
     classes() {
       return {
-        'text-muted': this.item.data.hidden === true,
+        'text-muted': this.item.data.is_user_blocked === true,
       };
     },
   },
   methods: {
     async hide($event) {
-      const { hidden, name } = this.item.data;
+      const { is_user_blocked, name } = this.item.data;
+      const { username } = this;
       const minWait = startMinWait();
       try {
         this.busy = true;
+        // @todo test unblock button
         const response = await this.$reddit.post(
-          `/api/${hidden ? 'unhide' : 'hide'}`,
+          `/api/${is_user_blocked ? 'unblock_user' : 'block_user'}`,
           {
-            // category: '???',
-            id: name, // fullname
+            api_type: 'json',
+            // account_id: // fullname of user
+            name: username, // fullname
           },
         );
-        this.item.data.hidden = !hidden;
+        this.item.data.is_user_blocked = !is_user_blocked;
       } catch (err) {
         console.error(err);
         this.error = err;

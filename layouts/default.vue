@@ -77,4 +77,10 @@ html {
   /* otherwise the scroll to top button wiill block other buttons */
   padding-bottom: 3rem;
 }
+
+.fa-btn {
+  /*margin: -2px;*/
+  /* increase clickable area */
+  padding: 4px;
+}
 </style>

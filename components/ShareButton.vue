@@ -5,8 +5,8 @@
     :class='classes'
     @click.stop.prevent="share"
   )
-    i.fa.fa-fw.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-share(v-else)
+    i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
+    i.fa.fa-fw.fa-btn.fa-share(v-else)
     span(v-if='busy && item.data.saved') unsharing
     span(v-else-if='busy && !item.data.saved') sharing
     span(v-else-if='item.data.saved') shared
