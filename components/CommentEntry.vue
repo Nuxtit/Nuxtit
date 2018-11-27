@@ -12,6 +12,8 @@
       | &#32;
       FlairBadge(:item='comment' type='author')
       | &#32;
+      MasstaggerBadge(:item='comment' type='author')
+      | &#32;
       TimeAgo(:value='comment.data.created_utc')
       template(v-if='comment.data.edited') *
       .score.pull-right
@@ -130,6 +132,7 @@ import DownVote from '~/components/DownVote';
 import FlairBadge from '~/components/FlairBadge';
 import HideButton from '~/components/HideButton';
 import ItemHtml from '~/components/ItemHtml';
+import MasstaggerBadge from '~/components/MasstaggerBadge';
 import PostForm from '~/components/PostForm';
 import RemoveButton from '~/components/RemoveButton';
 import ReportButton from '~/components/ReportButton';
@@ -151,6 +154,7 @@ export default {
     FlairBadge,
     HideButton,
     ItemHtml,
+    MasstaggerBadge,
     PostForm,
     RemoveButton,
     ReportButton,

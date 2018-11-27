@@ -8,7 +8,6 @@
 import first from 'lodash/first';
 import bImg from 'bootstrap-vue/es/components/image/img';
 import ValidatePostSort from '~/mixins/ValidatePostSort';
-import FlairBadge from '~/components/FlairBadge';
 import ItemHtml from '~/components/ItemHtml';
 import PostList from '~/components/PostList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
@@ -23,7 +22,6 @@ export default {
   defaultSort: 'hot',
   components: {
     bImg,
-    FlairBadge,
     ItemHtml,
     PostList,
     RedditPagination,
