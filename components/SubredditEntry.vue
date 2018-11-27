@@ -29,7 +29,6 @@
 
 <script>
 import CrossPostButton from '~/components/CrossPostButton';
-import FlairBadge from '~/components/FlairBadge';
 import ItemHtml from '~/components/ItemHtml';
 import ReportButton from '~/components/ReportButton';
 import ShareButton from '~/components/ShareButton';
@@ -41,7 +40,6 @@ import { makeComputeToggler } from '~/lib/toggle_open';
 export default {
   name: 'SubredditEntry',
   components: {
-    FlairBadge,
     ItemHtml,
     ReportButton,
     ShareButton,

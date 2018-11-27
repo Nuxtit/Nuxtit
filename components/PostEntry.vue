@@ -62,6 +62,8 @@
           | &#32;
           FlairBadge(:item='post' type='author')
           | &#32;
+          MasstaggerBadge(:item='post' type='author')
+          | &#32;
           | to
           | &#32;
           SubredditLink(:subreddit='post.data.subreddit')
@@ -158,6 +160,7 @@ import DeleteButton from '~/components/DeleteButton';
 import DownVote from '~/components/DownVote';
 import FlairBadge from '~/components/FlairBadge';
 import HideButton from '~/components/HideButton';
+import MasstaggerBadge from '~/components/MasstaggerBadge';
 import PostForm from '~/components/PostForm';
 import PostImage from '~/components/PostImage';
 import PostThumbnail from '~/components/PostThumbnail';
@@ -182,6 +185,7 @@ export default {
     DownVote,
     FlairBadge,
     HideButton,
+    MasstaggerBadge,
     PostForm,
     PostImage,
     PostThumbnail,
