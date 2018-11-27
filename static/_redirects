@@ -1,5 +1,5 @@
-#netlify
-/*    /index.html   200
-
 #masstagger
 /masstagger/*  https://masstagger.com/:splat  200
+
+#netlify
+/*    /index.html   200
