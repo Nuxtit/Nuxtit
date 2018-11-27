@@ -68,7 +68,33 @@ module.exports = {
     '@nuxtjs/sentry',
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
+    // ['@nuxtjs/proxy', {
+    //   '/masstagger': {
+    //     pathRewrite: { '^/masstagger' : '' },
+    //     target: 'https://masstagger.com',
+    //     ws: false,
+    //   },
+    // }],
+    '@nuxtjs/proxy',
   ],
+
+  proxy: {
+    '/masstagger': {
+      pathRewrite: { '^/masstagger' : '' },
+      target: 'https://masstagger.com',
+      ws: false,
+    },
+  },
+  // proxy: {
+  //   '^/masstagger': {
+  //     target: 'https://masstagger.com',
+  //     ws: false,
+  //     pathRewrite: {
+  //       '^/masstagger' : '/'
+  //     },
+  //   },
+  // },
+
   /*
   ** Axios module configuration
   */

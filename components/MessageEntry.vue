@@ -12,6 +12,8 @@
       )
       | &#32;from&#32;
       UserLink(:username='message.data.author')
+      | &#32;
+      MasstaggerBadge(:item='message' type='author')
       | &#32;via&#32;
       SubredditLink(
         v-if='message.data.subreddit'

@@ -5,8 +5,9 @@
 - [x] Dark Theme
 - [x] Vote on comments and posts anywhere
 - [x] user page
-- [x] Browsing subreddit history
-- [] Browsing multireddit history
+- [x] Browsing subreddit posts
+- [x] Browsing multireddit posts
+- [] Browse /r/:subreddit/comments (comments without post, and for multis if possible)
 - [x] Make Comments
 - [x] collapse all/none
 - [x] load more comments
