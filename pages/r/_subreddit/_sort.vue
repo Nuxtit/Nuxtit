@@ -20,7 +20,7 @@ import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
 export default {
   middleware: ['auth'],
-  defaultSort: 'top',
+  defaultSort: 'hot',
   components: {
     PostList,
     RedditPagination,
@@ -28,7 +28,7 @@ export default {
   mixins: [
     RedditItems({
       path({ route }) {
-        return `/r/${route.params.subreddit}/${route.params.sort || 'top'}`;
+        return `/r/${route.params.subreddit}/${route.params.sort || 'hot'}`;
       },
       query({ route }) {
         return {
