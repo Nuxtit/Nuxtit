@@ -58,9 +58,11 @@ export default {
     },
     removeMore(moreItem) {
       this.comments.data.children = this.comments.data.children.filter(c => {
-        if (c.kind !== 'more') return true;
-        if (c.data.name !== moreItem.data.name) return true;
-        if (c.data.count !== moreItem.data.count) return true;
+        if (c && c.data) {
+          if (c.kind !== 'more') return true;
+          if (c.data.name !== moreItem.data.name) return true;
+          if (c.data.count !== moreItem.data.count) return true;
+        }
         return false;
       });
     },
