@@ -5,6 +5,7 @@
         | Redusa
       h2.subtitle
         | Nuxt Reddit Client
+      p This app is in EARLY ALPHA, expect bugs and missing features.
       .links
         nuxt-link.button--green(v-if='!MeData.name', to='/login') Login
         nuxt-link.button--grey(to='/best') /best
@@ -24,6 +25,18 @@
           //- dont know what /users is for, so come back to it whenever
           //- nuxt-link.button--grey(to='/users') /users
         nuxt-link.button--green(v-if='MeData.name', :to='`/user/${MeData.name}`') /u/{{ MeData.name }}
+      .links
+        a.button--green(
+          href='https://github.com/Redusa/Redusa'
+          target='_blank'
+        )
+          i.fa.fa-fw.fa-btn.fa-github
+          | Watch us on Github!
+        nuxt-link.button--green(
+          to='/r/Redusa'
+        )
+          i.fa.fa-fw.fa-btn.fa-reddit
+          | Visit Our Subreddit
 </template>
 
 <script>
