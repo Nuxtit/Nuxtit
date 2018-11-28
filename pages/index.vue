@@ -18,6 +18,12 @@
         )
           i.fa.fa-fw.fa-btn.fa-github
           | Watch us on Github!
+        a.button--green(
+          href='https://www.reddit.com/r/Redusa'
+          target='_blank'
+        )
+          i.fa.fa-fw.fa-btn.fa-reddit
+          | Visit Our Subreddit
 </template>
 
 <script>
