@@ -26,7 +26,7 @@
       label
         | subreddit
         span(v-if='isCrossPosting')
-        | x-post from /r/{{ parent.data.subreddit }}
+          | x-post from /r/{{ parent.data.subreddit }}
       b-form-input(
         v-model="sr"
       )

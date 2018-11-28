@@ -16,14 +16,6 @@
     h4 {{subreddit.data.title}}
     p {{subreddit.data.subscribers}} subscribers
     p
-      nuxt-link.btn.btn-primary(
-        :to='`/r/${$route.params.subreddit}/submit`'
-      )
-        | Submit a new link
-      nuxt-link.btn.btn-primary(
-        :to='`/r/${$route.params.subreddit}/submit?selftext=true`'
-      )
-        | Submit a new text post
       SubscribeButton(
         v-if='subreddit.data.name'
         :item='subreddit'
@@ -45,25 +37,41 @@
         show-none
       )
 
-    //- ItemHtml(:value='subreddit.data.description_html')
-    //- hr
-    //- pre: tt {{ {subreddit} }}
-    //- pre: tt {{ {sidebar} }}
-    //- pre: tt {{ {rules} }}
-
-
     pre(v-if='showSource')
       tt: small(v-text="subreddit.data")
-    hr
-    nuxt-child(:subreddit='subreddit')
+    b-nav(tabs)
+      b-nav-item(
+        :to='`/r/${$route.params.subreddit}`'
+      ) Posts
+      b-nav-item(
+        :to='`/r/${$route.params.subreddit}/description`'
+      ) Description
+      b-nav-item(
+        :to='`/r/${$route.params.subreddit}/community-details`'
+      ) Community Details
+      b-nav-item(
+        :to='`/r/${$route.params.subreddit}/submit`'
+      ) {{ subreddit.data.submit_text_label || "Submit a new link" }}
+      b-nav-item(
+        :to='`/r/${$route.params.subreddit}/submit?selftext=true`'
+      ) {{ subreddit.data.submit_link_label || "Submit a new text post" }}
+    .row.clearfix
+      .col.col-12.col-sm-12.col-md-4.col-lg-3.col-xl-3.order-md-12(
+        v-if='showSideBar'
+      )
+        CommunityDetails(:subreddit='subreddit')
+      .col.order-md-1
+        nuxt-child(:subreddit='subreddit')
 </template>
 
 <script>
 import first from 'lodash/first';
 import bImg from 'bootstrap-vue/es/components/image/img';
+import bNav from 'bootstrap-vue/es/components/nav/nav';
+import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
+import CommunityDetails from '~/components/CommunityDetails';
 import ValidatePostSort from '~/mixins/ValidatePostSort';
 import FlairBadge from '~/components/FlairBadge';
-import ItemHtml from '~/components/ItemHtml';
 import PostList from '~/components/PostList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import SubscribeButton from '~/components/SubscribeButton.vue';
@@ -77,8 +85,10 @@ export default {
   defaultSort: 'hot',
   components: {
     bImg,
+    bNav,
+    bNavItem,
+    CommunityDetails,
     FlairBadge,
-    ItemHtml,
     PostList,
     RedditPagination,
     SubscribeButton,
@@ -102,6 +112,12 @@ export default {
           ? `url("${subreddit.banner_img}")`
           : null,
       };
+    },
+    showSideBar() {
+      return ![
+        'r-subreddit-description',
+        'r-subreddit-community-details',
+      ].includes(this.$route.name);
     },
   },
   async asyncData({ store, reddit, route }) {
