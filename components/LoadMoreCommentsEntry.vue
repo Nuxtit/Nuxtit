@@ -53,7 +53,7 @@ export default {
 
         const tree = thingsToTree(response.data.json.data.things, parent_id);
 
-        this.$emit('append-children');
+        this.$emit('append-children', tree);
         this.$emit('remove-more', this.item);
       } finally {
         await minWait;
