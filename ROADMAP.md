@@ -27,10 +27,11 @@
 - [] mailbox compose
 - [] mailbox modmail
 - [] retry failed actions
-- [] Multi-Reddits
+- [x] Browse Your Multi-Reddits
+- [] Add subreddits to your mutis
 - [] 404 page
 - [] highlight friends and followees
-- [] masstagger
+- [x] masstagger
 - [x] Bootstrap 4 Vue codesplitted
 - [x] "other discussions"
 - [] download from reddit/imgur (bypass '\_d')
@@ -43,7 +44,7 @@
 - [] comment replaces CommentForm up after you click done
 - [] post shows up in /duplicates after you click done
 - [x] subreddit subscribe button
-- [] message telling you that you can't post in a sub
+- [x] message telling you that you can't post in a sub
 - [] Post Sorts need time period filter
 - [] cache subreddit about
 
