@@ -78,7 +78,6 @@ export const actions = {
 export const getters = {
   find(state) {
     return username => {
-      console.log('find', username.toUpperCase(), state.cache);
       if (username) {
         return state.cache[username.toUpperCase()];
       }
