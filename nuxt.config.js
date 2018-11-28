@@ -106,6 +106,13 @@ module.exports = {
   ** Build configuration
   */
   build: {
+
+    splitChunks: {
+      layouts: false,
+      pages: false,
+      commons: false,
+    },
+
     /*
     ** You can extend webpack config here
     */
