@@ -1,5 +1,5 @@
 <template lang="pug">
-  section.container
+  section.container.index
     div
       h1.title
         img(src='/android-chrome-192x192.png' alt='Redusa')
@@ -27,7 +27,7 @@ export default {
 </script>
 
 <style>
-.container {
+.container.index {
   min-height: 100vh;
   display: flex;
   justify-content: center;

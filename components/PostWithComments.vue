@@ -4,6 +4,8 @@
     .post-body.container
       .card.card-block.bg-faded
         ItemHtml(:item='post')
+    p.alert.alert-danger(v-if='subreddit.data.user_is_banned')
+      | You are banned from this subreddit.
     p
       .btn.btn-secondary(
         v-if='hasComments'
