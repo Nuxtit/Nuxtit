@@ -19,6 +19,9 @@
 - [x] check for new messages every 5 minutes
 - [x] show link and user flair
 - [x] local storage sync across tabs
+- [ ] full search
+- [ ] saved searches
+- [ ] green response message for post/crosspost/comment/sent-mail saved/updated
 - [] subreddit pages
 - [] Queue - add things to a queue instead of new tabs.
 - [] post uploaded image posts

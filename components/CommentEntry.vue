@@ -48,6 +48,11 @@
         i.fa.fa-fw.fa-btn.fa-external-link
         span permalink
       | &#32;
+      SubredditLink(
+        v-if='!$route.params.subreddit && comment.data.subreddit'
+        :subreddit='comment.data.subreddit'
+      )
+      | &#32;
       SaveButton(:item='comment')
       | &#32;
       ShareButton(:item='comment')
@@ -139,6 +144,7 @@ import ReportButton from '~/components/ReportButton';
 import SaveButton from '~/components/SaveButton';
 import Score from '~/components/Score';
 import ShareButton from '~/components/ShareButton';
+import SubredditLink from '~/components/SubredditLink';
 import TimeAgo from '~/components/TimeAgo';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
@@ -161,6 +167,7 @@ export default {
     SaveButton,
     Score,
     ShareButton,
+    SubredditLink,
     TimeAgo,
     UpVote,
     UserLink,

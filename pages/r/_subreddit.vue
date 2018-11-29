@@ -42,19 +42,34 @@
     b-nav(tabs)
       b-nav-item(
         :to='`/r/${$route.params.subreddit}`'
-      ) Posts
+      )
+        i.fa.fa-fw.fa-btn.fa-list
+        | &#32;
+        | Posts
       b-nav-item(
         :to='`/r/${$route.params.subreddit}/description`'
-      ) Description
+      )
+        i.fa.fa-fw.fa-btn.fa-book
+        | &#32;
+        | Description
       b-nav-item(
         :to='`/r/${$route.params.subreddit}/community-details`'
-      ) Community Details
+      )
+        i.fa.fa-fw.fa-btn.fa-book
+        | &#32;
+        | Community Details
       b-nav-item(
         :to='`/r/${$route.params.subreddit}/submit`'
-      ) {{ subreddit.data.submit_text_label || "Submit a new link" }}
+      )
+        i.fa.fa-fw.fa-btn.fa-pencil-square-o
+        | &#32;
+        | {{ subreddit.data.submit_text_label || "Submit a new link" }}
       b-nav-item(
         :to='`/r/${$route.params.subreddit}/submit?selftext=true`'
-      ) {{ subreddit.data.submit_link_label || "Submit a new text post" }}
+      )
+        i.fa.fa-fw.fa-btn.fa-pencil-square-o
+        | &#32;
+        | {{ subreddit.data.submit_link_label || "Submit a new text post" }}
     .row.clearfix
       .col.col-12.col-sm-12.col-md-4.col-lg-3.col-xl-3.order-md-12(
         v-if='showSideBar'
