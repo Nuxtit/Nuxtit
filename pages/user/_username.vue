@@ -15,7 +15,6 @@
     h2(style='')
       | /u/{{user.data.name}}
       .pull-right
-        SelectUserPage(:user='user')
     SubscribeButton(:item='user')
     FriendButton(:item='user')
     FollowButton(:item='user' v-if='user.data.subreddit')
@@ -34,19 +33,79 @@
         span see source
     pre(v-if="showSource")
       tt: small(v-text="user.data")
-    hr
+    b-nav(tabs)
+      b-nav-item(
+        :to='`/r/${$route.params.username}/about`'
+      )
+        i.fa.fa-fw.fa-btn.fa-book
+        | &#32;
+        | About
+      b-nav-item(
+        :to='`/r/${$route.params.username}/overview`'
+      )
+        i.fa.fa-fw.fa-btn.fa-book
+        | &#32;
+        | Overview
+      b-nav-item(
+        :to='`/r/${$route.params.username}/submitted`'
+      )
+        i.fa.fa-fw.fa-btn.fa-list
+        | &#32;
+        | Submitted
+      b-nav-item(
+        :to='`/r/${$route.params.username}/comments`'
+      )
+        i.fa.fa-fw.fa-btn.fa-comments
+        | &#32;
+        | Comments
+      b-nav-item(
+        v-if='showUpvotedTab'
+        :to='`/r/${$route.params.username}/upvoted`'
+      )
+        i.fa.fa-fw.fa-btn.fa-arrow-up
+        | &#32;
+        | Upvoted
+      b-nav-item(
+        v-if='showDownvotedTab'
+        :to='`/r/${$route.params.username}/downvoted`'
+      )
+        i.fa.fa-fw.fa-btn.fa-arrow-down
+        | &#32;
+        | Downvoted
+      b-nav-item(
+        v-if='showSavedTab'
+        :to='`/r/${$route.params.username}/saved`'
+      )
+        i.fa.fa-fw.fa-btn.fa-save
+        | &#32;
+        | Saved
+      b-nav-item(
+        v-if='showHiddenTab'
+        :to='`/r/${$route.params.username}/hidden`'
+      )
+        i.fa.fa-fw.fa-btn.fa-minus-circle
+        | &#32;
+        | Hidden
+      b-nav-item(
+        v-if='showGildedTab'
+        :to='`/r/${$route.params.username}/gilded`'
+      )
+        i.fa.fa-fw.fa-btn.fa-money
+        | &#32;
+        | Gilded
     nuxt-child(:user='user')
 </template>
 
 <script>
 import first from 'lodash/first';
 import bImg from 'bootstrap-vue/es/components/image/img';
+import bNav from 'bootstrap-vue/es/components/nav/nav';
+import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import FollowButton from '~/components/FollowButton.vue';
 import FriendButton from '~/components/FriendButton.vue';
 import PostList from '~/components/PostList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
-import SelectUserPage from '~/components/SelectUserPage';
 import SubscribeButton from '~/components/SubscribeButton';
 import { makeComputeToggler } from '~/lib/toggle_open';
 
@@ -55,11 +114,12 @@ export default {
   defaultSort: 'new',
   components: {
     bImg,
+    bNav,
+    bNavItem,
     FollowButton,
     FriendButton,
     PostList,
     RedditPagination,
-    SelectUserPage,
     SubscribeButton,
   },
   data() {
@@ -74,6 +134,9 @@ export default {
     };
   },
   computed: {
+    MeData() {
+      return this.$store.state.auth.MeData || {};
+    },
     showSource: makeComputeToggler('source'),
     subredditBannerStyles() {
       const { subreddit } = this.user.data;
@@ -83,6 +146,24 @@ export default {
           ? `url("${subreddit.banner_img}")`
           : null,
       };
+    },
+    isAuthor() {
+      return this.MeData.name === this.user.data.name;
+    },
+    showUpvotedTab() {
+      return this.isAuthor;
+    },
+    showDownvotedTab() {
+      return this.isAuthor;
+    },
+    showSavedTab() {
+      return this.isAuthor;
+    },
+    showHiddenTab() {
+      return this.isAuthor;
+    },
+    showGildedTab() {
+      return this.isAuthor;
     },
   },
 };
