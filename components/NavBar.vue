@@ -13,9 +13,10 @@ b-navbar(toggleable='md', type='dark')
 
     // Right aligned nav items
     b-navbar-nav.ml-auto
-      //- b-nav-form
-      //-   b-form-input.mr-sm-2(size='sm', type='text', placeholder='Search')
-      //-   b-button.my-2.my-sm-0(size='sm', type='submit') Search
+      SearchInput(
+        v-if='!isSearchPage'
+        is-navbar
+      )
 
       b-nav-item-dropdown(right v-if="MeData.name")
         // Using button-content slot
@@ -61,6 +62,7 @@ import bNavbarNav from 'bootstrap-vue/es/components/navbar/navbar-nav';
 import bNavForm from 'bootstrap-vue/es/components/nav/nav-form';
 import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import bNavItemDropdown from 'bootstrap-vue/es/components/nav/nav-item-dropdown';
+import SearchInput from '~/components/SearchInput';
 
 export default {
   name: 'NavBar',
@@ -73,6 +75,7 @@ export default {
     bNavForm,
     bNavItem,
     bNavItemDropdown,
+    SearchInput,
   },
   computed: {
     MeData() {
@@ -114,8 +117,13 @@ export default {
     // new_modmail_exists() {
     //   return get(this.MeData, 'new_modmail_exists', false);
     // },
+    isSearchPage() {
+      return searchRegEx.test(this.$route.name);
+    },
   },
 };
+
+const searchRegEx = /\bsearch\b/;
 </script>
 
 <style lang="sass">
