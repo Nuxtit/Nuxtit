@@ -75,7 +75,7 @@ html {
 .last-br {
   /* the user needs to be able to scroll back far enough to click buttons */
   /* otherwise the scroll to top button wiill block other buttons */
-  padding-bottom: 3rem;
+  padding-bottom: 10rem;
 }
 
 .fa-btn {
