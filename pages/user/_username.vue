@@ -35,60 +35,60 @@
       tt: small(v-text="user.data")
     b-nav(tabs)
       b-nav-item(
-        :to='`/r/${$route.params.username}/about`'
+        :to='`/user/${$route.params.username}/about`'
       )
         i.fa.fa-fw.fa-btn.fa-book
         | &#32;
         | About
       b-nav-item(
-        :to='`/r/${$route.params.username}/overview`'
+        :to='`/user/${$route.params.username}/overview`'
       )
         i.fa.fa-fw.fa-btn.fa-book
         | &#32;
         | Overview
       b-nav-item(
-        :to='`/r/${$route.params.username}/submitted`'
+        :to='`/user/${$route.params.username}/submitted`'
       )
         i.fa.fa-fw.fa-btn.fa-list
         | &#32;
         | Submitted
       b-nav-item(
-        :to='`/r/${$route.params.username}/comments`'
+        :to='`/user/${$route.params.username}/comments`'
       )
         i.fa.fa-fw.fa-btn.fa-comments
         | &#32;
         | Comments
       b-nav-item(
         v-if='showUpvotedTab'
-        :to='`/r/${$route.params.username}/upvoted`'
+        :to='`/user/${$route.params.username}/upvoted`'
       )
         i.fa.fa-fw.fa-btn.fa-arrow-up
         | &#32;
         | Upvoted
       b-nav-item(
         v-if='showDownvotedTab'
-        :to='`/r/${$route.params.username}/downvoted`'
+        :to='`/user/${$route.params.username}/downvoted`'
       )
         i.fa.fa-fw.fa-btn.fa-arrow-down
         | &#32;
         | Downvoted
       b-nav-item(
         v-if='showSavedTab'
-        :to='`/r/${$route.params.username}/saved`'
+        :to='`/user/${$route.params.username}/saved`'
       )
         i.fa.fa-fw.fa-btn.fa-save
         | &#32;
         | Saved
       b-nav-item(
         v-if='showHiddenTab'
-        :to='`/r/${$route.params.username}/hidden`'
+        :to='`/user/${$route.params.username}/hidden`'
       )
         i.fa.fa-fw.fa-btn.fa-minus-circle
         | &#32;
         | Hidden
       b-nav-item(
         v-if='showGildedTab'
-        :to='`/r/${$route.params.username}/gilded`'
+        :to='`/user/${$route.params.username}/gilded`'
       )
         i.fa.fa-fw.fa-btn.fa-money
         | &#32;
