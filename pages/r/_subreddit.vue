@@ -71,12 +71,12 @@
         | &#32;
         | {{ subreddit.data.submit_link_label || "Submit a new text post" }}
     .row.clearfix
+      .col.order-md-1
+        nuxt-child(:subreddit='subreddit')
       .col.col-12.col-sm-12.col-md-4.col-lg-3.col-xl-3.order-md-12(
         v-if='showSideBar'
       )
         CommunityDetails(:subreddit='subreddit')
-      .col.order-md-1
-        nuxt-child(:subreddit='subreddit')
 </template>
 
 <script>
