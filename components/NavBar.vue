@@ -23,6 +23,15 @@ b-navbar(toggleable='md', type='dark')
         template(slot='button-content')
           em {{ MeData.name }}
         b-dropdown-item(:to='`/user/${MeData.name}`') Profile
+        b-dropdown-divider
+        b-dropdown-item(
+          @click='censorUsernames^=true'
+        )
+          i.fa.fa-btn.fa-check-square-o(v-if='censorUsernames')
+          i.fa.fa-btn.fa-square-o(v-else)
+          | &#32;
+          | Censor Usernames
+        b-dropdown-divider
         b-dropdown-item(to='/redusa/history')
           | History
           |
@@ -78,6 +87,14 @@ export default {
     SearchInput,
   },
   computed: {
+    censorUsernames: {
+      get() {
+        return this.$store.getters['settings/censorUsernames'];
+      },
+      set(value) {
+        return this.$store.dispatch('settings/censorUsernames', value);
+      },
+    },
     MeData() {
       return this.$store.state.auth.MeData || {};
     },
