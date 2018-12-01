@@ -46,15 +46,17 @@ export default function({ path, query, shouldAttemptApi }) {
         return !(get(this.items, 'data.children.length', 0) > 0);
       },
     },
-    async asyncData({ reddit, route }) {
+    async asyncData({ reddit, route, store }) {
       if (shouldAttemptApi({ route })) {
+        const items = (await reddit.get(path({ route }), {
+          params: {
+            ...defaultParams,
+            ...query({ route }),
+          },
+        })).data;
+
         return {
-          items: (await reddit.get(path({ route }), {
-            params: {
-              ...defaultParams,
-              ...query({ route }),
-            },
-          })).data,
+          items,
         };
       } else {
         return emptyCollection();
@@ -63,16 +65,19 @@ export default function({ path, query, shouldAttemptApi }) {
     methods: {
       async fetchItems() {
         const route = this.$route;
+        const store = this.$store;
         if (shouldAttemptApi({ route })) {
           const minWait = startMinWait();
           try {
             this.fetching = true;
-            this.items = (await this.$reddit.get(path({ route }), {
+            const items = (await this.$reddit.get(path({ route }), {
               params: {
                 ...defaultParams,
                 ...query({ route }),
               },
             })).data;
+
+            this.items = items;
           } finally {
             await minWait;
             this.fetching = false;

@@ -1,11 +1,17 @@
 import axios from 'axios';
 import get from 'lodash/get';
 import * as ls from '~/lib/ls';
-import { fetchAccessToken, fetchRefreshedAccessToken } from '~/plugins/reddit';
+import { options, Types } from '~/lib/settings';
 
 export const state = () => {
   return {
-    Settings: ls.get('Settings'),
+    Settings: {
+      ...options.reduce((carry, { key, defaultValue }) => {
+        carry[key] = defaultValue;
+        return carry;
+      }, {}),
+      ...ls.get('Settings', {}),
+    },
   };
 };
 
@@ -14,16 +20,52 @@ export const mutations = {
 };
 
 export const actions = {
-  async censorUsernames({ state, commit }, value) {
-    commit('Settings', {
-      ...state.Settings,
-      censorUsernames: !!value,
-    });
-  },
+  ...options.reduce((carry, { key, action, type }) => {
+    if (action) {
+      carry[key] = action;
+    } else if (type === Types.Boolean) {
+      carry[key] = ({ commit, state }, value) => {
+        value = !!value;
+        if (state[key] !== value) {
+          commit('Settings', {
+            ...state.Settings,
+            [key]: value,
+          });
+        }
+      };
+    } else if (type === Types.BooleanNullable) {
+      carry[key] = ({ commit, state }, value) => {
+        value = value === null ? null : !!value;
+        if (state[key] !== value) {
+          commit('Settings', {
+            ...state.Settings,
+            [key]: value,
+          });
+        }
+      };
+    } else if (type === Types.Integer) {
+      carry[key] = ({ commit, state }, value) => {
+        value = parseInt(value);
+        if (isNaN(value)) {
+          value = isNaN(defaultValue) ? 0 : defaultValue;
+        }
+        if (state[key] !== value) {
+          commit('Settings', {
+            ...state.Settings,
+            [key]: value,
+          });
+        }
+      };
+    } else {
+      throw new Error('undefined action');
+    }
+    return carry;
+  }, {}),
 };
 
 export const getters = {
-  censorUsernames(state) {
-    return !!get(state, 'Settings.censorUsernames');
-  },
+  ...options.reduce((carry, { key, getter }) => {
+    carry[key] = getter || (state => state.Settings[key]);
+    return carry;
+  }, {}),
 };
