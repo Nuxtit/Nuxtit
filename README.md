@@ -1,5 +1,7 @@
 # Redusa
 
+[![Build Status](https://travis-ci.com/Redusa/Redusa.svg?branch=master)](https://travis-ci.com/Redusa/Redusa)
+
 > Webapp Reddit Client written in Vue/Nuxt
 
 This app is in EARLY ALPHA, expect bugs and missing features.
