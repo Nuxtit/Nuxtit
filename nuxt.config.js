@@ -1,6 +1,7 @@
 require('dotenv').load();
 const pkg = require('./package');
 
+/* eslint-disable */
 module.exports = {
   server: {
     port: 10080, // default: 3000
