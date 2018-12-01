@@ -1,6 +1,13 @@
 <template lang="pug">
   b-badge(
-    v-if='masstaggerSubs'
+    v-if='masstaggerSubs === true'
+    variant='secondary'
+  )
+    small
+      i.fa.fa-fw.fa-spinner.fa-spin
+      | &#32;loading masstagger
+  b-badge.badge-mt(
+    v-else-if='masstaggerSubs'
     v-text='masstaggerSubs'
     variant='danger'
   )
@@ -40,16 +47,10 @@ export default {
       return this.MeData.name === this.username;
     },
   },
-  mounted() {
-    const { isAuthor, username } = this;
-    if (!isAuthor) {
-      if (username) {
-        /* no await */ this.$store.dispatch('masstagger/require', username);
-      }
-    }
-  },
 };
 </script>
 
 <style lang="sass">
+.badge.badge-mt
+  white-space: normal;
 </style>

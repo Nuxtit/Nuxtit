@@ -7,6 +7,7 @@ import findLast from 'lodash/findLast';
 import first from 'lodash/first';
 
 import bCollapse from 'bootstrap-vue/es/components/collapse/collapse';
+import bFormCheckbox from 'bootstrap-vue/es/components/form-checkbox/form-checkbox';
 import bFormInput from 'bootstrap-vue/es/components/form-input/form-input';
 import bButton from 'bootstrap-vue/es/components/button/button';
 import bDropdownItem from 'bootstrap-vue/es/components/dropdown/dropdown-item';
@@ -42,6 +43,7 @@ import QueryParamCount from '~/mixins/QueryParamCount';
 import QueryParamLimit from '~/mixins/QueryParamLimit';
 
 Vue.component('b-collapse', bCollapse);
+Vue.component('b-form-checkbox', bFormCheckbox);
 Vue.component('b-form-input', bFormInput);
 Vue.component('b-button', bButton);
 Vue.component('b-dropdown-item', bDropdownItem);

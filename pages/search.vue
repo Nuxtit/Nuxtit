@@ -94,7 +94,7 @@ export default {
     ValidatePostSort,
   ],
   mounted() {
-    console.log('searchpage');
+    // console.log('searchpage');
   },
 };
 </script>
