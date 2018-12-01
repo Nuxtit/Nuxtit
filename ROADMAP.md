@@ -31,6 +31,9 @@
 - [] mailbox modmail
 - [] retry failed actions
 - [x] Browse Your Multi-Reddits
+- [x] settings page
+- [x] masstagger settings
+- [x] censor usernames option (for screenshots)
 - [] Add subreddits to your mutis
 - [] 404 page
 - [] highlight friends and followees

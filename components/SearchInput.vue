@@ -48,17 +48,19 @@ export default {
   },
   mounted() {
     this.q = this.$route.query.q || '';
-    if (this.q) {
-      console.log('do search');
-    } else {
-      console.log('wait for search text');
-    }
+    // if (this.isSearchPage) {
+    //   if (this.q) {
+    //     console.log('do search');
+    //   } else {
+    //     console.log('wait for search text');
+    //   }
+    // }
   },
   methods: {
     async submit($event) {
       const { q, subreddit, isSearchPage } = this;
       if (isSearchPage) {
-        console.log('updating search');
+        // console.log('updating search');
         this.$router.push({
           query: {
             ...this.$route.query,
@@ -66,7 +68,7 @@ export default {
           },
         });
       } else {
-        console.log('lets goto search page');
+        // console.log('lets goto search page');
         this.$router.push({
           name: 'search',
           query: {

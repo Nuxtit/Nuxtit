@@ -1,9 +1,9 @@
 import axios from 'axios';
 import get from 'lodash/get';
-import debounce from 'lodash/debounce';
-import sleep from '~/lib/sleep';
+import isArray from 'lodash/isArray';
+import isObject from 'lodash/isObject';
+import isString from 'lodash/isString';
 import qs from 'qs';
-import Vue from 'vue';
 
 const masstagger = axios.create({
   baseURL: '/masstagger',
@@ -22,7 +22,6 @@ const masstagger = axios.create({
 
 export const state = () => ({
   cache: {},
-  pending: {},
 });
 
 export const mutations = {
@@ -32,32 +31,54 @@ export const mutations = {
       ...newValues,
     };
   },
-  pending(state, username) {
-    state.pending[username] = true;
-  },
-  notPending(state, username) {
-    Vue.delete(state.pending, username);
-  },
 };
 
 export const actions = {
-  async require({ state, dispatch, commit }, username) {
-    if (get(state.cache, username)) return;
-    if (state.pending[username]) return;
-    commit('pending', username);
-    dispatch('fetchTags');
-  },
-  fetchTags: debounce(async function({ state, commit }) {
-    await sleep(5);
-    const users = Object.keys(state.pending).map(s => s.toUpperCase());
+  async fetchTags({ commit, rootGetters, rootState, state }, mixedTree) {
+    const mtMin = rootGetters['settings/mtMin'];
+    const mtEnable = rootGetters['settings/mtEnable'];
+    const mtTagMe = rootGetters['settings/mtTagMe'];
+    const username = rootGetters['auth/username'];
+
+    if (!mtEnable) return;
+
+    const users = {};
+
+    crawlTree(mixedTree, u => {
+      if (isString(u)) {
+        users[u.toUpperCase()] = true;
+      }
+    });
+
+    if (!mtTagMe && username) {
+      delete users[username];
+    }
+
+    for (let key in users) {
+      if (state.cache[key]) {
+        // already pending
+        delete users[key];
+      }
+    }
+
+    const userNamesList = Object.keys(users);
+    if (userNamesList.length === 0) {
+      return;
+    }
+
+    // record pending...
+    commit('merge', users);
+
+    // console.log({ users });
+
     const response = await masstagger.post(
       '/users/subs',
       {
-        users: JSON.stringify(users),
+        users: JSON.stringify(userNamesList),
       },
       {
         params: {
-          min: 5,
+          min: mtMin,
         },
       },
     );
@@ -68,11 +89,19 @@ export const actions = {
         data[user.username] = get(user.subreddits, 'length')
           ? 'posts in: ' + user.subreddits.map(sr => '/r/' + sr).join(', ')
           : '';
-        commit('notPending', user.username);
       }
     }
+
+    for (let key in users) {
+      if (!(data[key] && state.cache[key] === true)) {
+        // we were expecting a result but now we have to cancel
+        // pending
+        data[key] = null;
+      }
+    }
+
     commit('merge', data);
-  }, 25),
+  },
 };
 
 export const getters = {
@@ -83,4 +112,23 @@ export const getters = {
       }
     };
   },
+  cachedCount(state) {
+    return Object.keys(state.cache).length;
+  },
 };
+
+function crawlTree(mt, addUser) {
+  if (!mt) return;
+  if (isArray(mt)) {
+    for (let i = mt.length - 1; i >= 0; i--) {
+      crawlTree(mt[i], addUser);
+    }
+  }
+  addUser(mt.author);
+  addUser(mt.approved_by);
+  addUser(mt.mod_reason_by);
+  addUser(mt.banned_by);
+  crawlTree(mt.data, addUser);
+  crawlTree(mt.children, addUser);
+  crawlTree(mt.things, addUser);
+}

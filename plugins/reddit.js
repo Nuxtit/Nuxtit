@@ -68,6 +68,11 @@ export default function(ctx) {
     async response => {
       ctx.store.dispatch('apilog/add', response);
 
+      /* no await */ ctx.store.dispatch(
+        'masstagger/fetchTags',
+        response && response.data,
+      );
+
       lastResponseHeaders = response.headers;
       return response;
     },

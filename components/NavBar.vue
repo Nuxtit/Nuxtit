@@ -24,6 +24,7 @@ b-navbar(toggleable='md', type='dark')
           em {{ MeData.name }}
         b-dropdown-item(:to='`/user/${MeData.name}`') Profile
         b-dropdown-divider
+        b-dropdown-item(to='/redusa/settings') Settings
         b-dropdown-item(
           @click='censorUsernames^=true'
         )
