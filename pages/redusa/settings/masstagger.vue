@@ -1,5 +1,17 @@
 <template lang="pug">
   .container
+    .alert.alert-danger(
+      v-if='isAvailable'
+    )
+      | This application uses the html5 SharedWorker feature
+      | to cache masstagger. Please use a browser that supports
+      | the SharedWorker feature to get the most from this app.
+      br
+      | See&#32;
+      a(
+        href='https://caniuse.com/#feat=sharedworkers'
+        target='blank'
+      ) Shared Worker Browser Support
     .alert.alert-info
       | Note that we are currently unable to distinguish between regular
       | users of a subreddit and outsiders that choose to argue against
@@ -49,7 +61,7 @@ export default {
     bNavItem,
   },
   computed: {
-    ...mapGetters('masstagger', ['cachedCount']),
+    ...mapGetters('masstagger', ['cachedCount', 'isAvailable']),
     ...BindSettings(['mtEnable', 'mtMin', 'mtTagMe']),
   },
 };
