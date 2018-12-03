@@ -26,6 +26,7 @@ export const state = () => ({
 
 export const mutations = {
   merge(state, newValues) {
+    // console.log('masstagger.mutations.merge', { newValues });
     state.cache = {
       ...state.cache,
       ...newValues,
@@ -41,6 +42,7 @@ export const actions = {
     const username = rootGetters['auth/username'];
 
     if (!mtEnable) return;
+    if (!this.app.context.sharedWorker) return;
 
     const users = {};
 
@@ -49,6 +51,9 @@ export const actions = {
         users[u.toUpperCase()] = true;
       }
     });
+
+    delete users['[DELETED]'];
+    delete users['[REMOVED]'];
 
     if (!mtTagMe && username) {
       delete users[username];
@@ -61,46 +66,16 @@ export const actions = {
       }
     }
 
-    const userNamesList = Object.keys(users);
-    if (userNamesList.length === 0) {
-      return;
-    }
-
     // record pending...
     commit('merge', users);
 
     // console.log({ users });
-
-    const response = await masstagger.post(
-      '/users/subs',
-      {
-        users: JSON.stringify(userNamesList),
+    this.app.context.sharedWorker.port.postMessage({
+      fetchTags: {
+        users,
+        mtMin,
       },
-      {
-        params: {
-          min: mtMin,
-        },
-      },
-    );
-    const data = {};
-    if (response.data.users) {
-      for (let i = response.data.users.length - 1, user; i >= 0; i--) {
-        user = response.data.users[i];
-        data[user.username] = get(user.subreddits, 'length')
-          ? 'posts in: ' + user.subreddits.map(sr => '/r/' + sr).join(', ')
-          : '';
-      }
-    }
-
-    for (let key in users) {
-      if (!(data[key] && state.cache[key] === true)) {
-        // we were expecting a result but now we have to cancel
-        // pending
-        data[key] = null;
-      }
-    }
-
-    commit('merge', data);
+    });
   },
 };
 
@@ -114,6 +89,9 @@ export const getters = {
   },
   cachedCount(state) {
     return Object.keys(state.cache).length;
+  },
+  isAvailable(state) {
+    return 'SharedWorker' in window;
   },
 };
 
