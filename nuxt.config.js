@@ -86,15 +86,6 @@ module.exports = {
       ws: false,
     },
   },
-  // proxy: {
-  //   '^/masstagger': {
-  //     target: 'https://masstagger.com',
-  //     ws: false,
-  //     pathRewrite: {
-  //       '^/masstagger' : '/'
-  //     },
-  //   },
-  // },
 
   /*
   ** Axios module configuration
@@ -127,6 +118,9 @@ module.exports = {
           exclude: /(node_modules)/,
         });
       }
+
+      config.output.globalObject = 'this';
+      // config.output.globalObject = `typeof self !== 'undefined' ? self : this`;
     },
   },
 
