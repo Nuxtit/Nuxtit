@@ -41,7 +41,7 @@
         | &nbsp;
     .card-body(v-if="!collapsed")
       ItemHtml(:item='message')
-    .card-footer.text-muted(v-if="!collapsed")
+    .card-footer.text-muted.bg-light(v-if="!collapsed")
       a(
         :href='`https://www.reddit.com${message.data.context}`'
         target='_blank'
