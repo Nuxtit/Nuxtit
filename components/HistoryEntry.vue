@@ -15,7 +15,7 @@
             tt {{ se.fullPath }}
         td
           TimeAgo(:value='se.timestamp')
-    .card-footer
+    .card-footer.bg-light
       span.btn-see-source(
         @click.prevent.stop='showSource^=true'
       )
