@@ -66,8 +66,18 @@
       table
         tbody
           tr(v-for='post in crossPosts')
-            td /u/{{ post.data.author }}
-            td /r/{{ post.data.subreddit }}
+            td
+              nuxt-link(
+                :to='`/u/${post.data.author}`'
+                v-text='`/u/${post.data.author}`'
+              )
+            td
+              nuxt-link(
+                :to='`/r/${post.data.subreddit}`'
+                v-text='`/r/${post.data.subreddit}`'
+              )
+            td
+              AddToQueueButton(:item='post')
             td
               nuxt-link(
                 :to='post.data.permalink'
@@ -83,6 +93,7 @@
 
 <script>
 import get from 'lodash/get';
+import AddToQueueButton from '~/components/AddToQueueButton';
 import bFormTextarea from 'bootstrap-vue/es/components/form-textarea/form-textarea';
 import bFormInput from 'bootstrap-vue/es/components/form-input/form-input';
 
@@ -93,6 +104,7 @@ import { startMinWait } from '~/lib/sleep';
 export default {
   name: 'PostForm',
   components: {
+    AddToQueueButton,
     bFormInput,
     bFormTextarea,
     UserLink,
