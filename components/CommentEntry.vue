@@ -35,6 +35,7 @@
     .card-body(v-if="!collapsed")
       ItemHtml(:item='comment')
     .card-footer.text-muted.bg-light(v-if="!collapsed")
+      AddToQueueButton(:item='comment')
       a(
         :href='`https://www.reddit.com${comment.data.permalink}`'
         target='_blank'
@@ -130,6 +131,7 @@
 
 <script>
 import get from 'lodash/get';
+import AddToQueueButton from '~/components/AddToQueueButton';
 import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
 import DeleteButton from '~/components/DeleteButton';
@@ -153,6 +155,7 @@ import { makeComputeToggler } from '~/lib/toggle_open';
 export default {
   name: 'CommentEntry',
   components: {
+    AddToQueueButton,
     CommentForm,
     CrossPostButton,
     DeleteButton,
