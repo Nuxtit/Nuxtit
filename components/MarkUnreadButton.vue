@@ -74,6 +74,6 @@ export default {
 </script>
 
 <style lang="sass">
-.btn-hide
+.btn-mark-unread
   cursor: pointer
 </style>

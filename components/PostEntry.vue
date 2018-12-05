@@ -73,6 +73,8 @@
           | &#32;
       .row
         .col.small
+          AddToQueueButton(:item='post')
+          | &#32;
           nuxt-link(
             :to='post.data.permalink'
           )
@@ -153,6 +155,7 @@
 </template>
 
 <script>
+import AddToQueueButton from '~/components/AddToQueueButton';
 import CommentEntry from '~/components/CommentEntry';
 import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
@@ -178,6 +181,7 @@ import { makeComputeToggler } from '~/lib/toggle_open';
 export default {
   name: 'PostEntry',
   components: {
+    AddToQueueButton,
     CommentEntry,
     CommentForm,
     CrossPostButton,

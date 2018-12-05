@@ -42,6 +42,8 @@
     .card-body(v-if="!collapsed")
       ItemHtml(:item='message')
     .card-footer.text-muted.bg-light(v-if="!collapsed")
+      AddToQueueButton(:item='message')
+      | &#32;
       a(
         :href='`https://www.reddit.com${message.data.context}`'
         target='_blank'
@@ -125,6 +127,7 @@
 
 <script>
 import get from 'lodash/get';
+import AddToQueueButton from '~/components/AddToQueueButton';
 import BlockUserButton from '~/components/BlockUserButton';
 import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
@@ -134,6 +137,7 @@ import FlairBadge from '~/components/FlairBadge';
 import HideButton from '~/components/HideButton';
 import ItemHtml from '~/components/ItemHtml';
 import MarkUnreadButton from '~/components/MarkUnreadButton';
+import MasstaggerBadge from '~/components/MasstaggerBadge';
 import MessageTree from '~/components/MessageTree';
 import PostForm from '~/components/PostForm';
 import RemoveButton from '~/components/RemoveButton';
@@ -150,6 +154,7 @@ import { makeComputeToggler } from '~/lib/toggle_open';
 export default {
   name: 'MessageEntry',
   components: {
+    AddToQueueButton,
     BlockUserButton,
     CommentForm,
     CrossPostButton,
@@ -159,6 +164,7 @@ export default {
     HideButton,
     ItemHtml,
     MarkUnreadButton,
+    MasstaggerBadge,
     MessageTree,
     PostForm,
     RemoveButton,
