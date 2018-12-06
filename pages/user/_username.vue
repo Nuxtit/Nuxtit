@@ -15,10 +15,15 @@
     h2(style='')
       | /u/{{user.data.name}}
       .pull-right
-    SubscribeButton(:item='user')
-    FriendButton(:item='user')
-    FollowButton(:item='user' v-if='user.data.subreddit')
-    .small
+    p
+      SubscribeButton(:item='user')
+      | &#32;
+      FriendButton(:item='user')
+      | &#32;
+      FollowButton(:item='user' v-if='user.data.subreddit')
+      | &#32;
+      TimeAgo(:value='user.data.created_utc')
+      | &#32;
       a(
         :href='`https://www.reddit.com${$route.fullPath}`'
         target='_blank'
@@ -107,6 +112,7 @@ import PostList from '~/components/PostList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
 import SubscribeButton from '~/components/SubscribeButton';
+import TimeAgo from '~/components/TimeAgo';
 import { makeComputeToggler } from '~/lib/toggle_open';
 
 export default {
@@ -121,6 +127,7 @@ export default {
     PostList,
     RedditPagination,
     SubscribeButton,
+    TimeAgo,
   },
   data() {
     return {
