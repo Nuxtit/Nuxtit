@@ -1,6 +1,8 @@
 import * as RedusaSharedWorker from 'shared-worker-loader!~/lib/worker/shared';
 
-const INTERVAL_MS = 5 * 60000;
+const INTERVAL_MS = 30000; // ms
+
+const TWO_MINUTES = 120; // seconds
 
 export default async ctx => {
   if ('SharedWorker' in window) {
@@ -33,5 +35,14 @@ export default async ctx => {
 };
 
 async function onInterval(ctx) {
-  await ctx.store.dispatch('auth/fetchMe');
+  if (ctx.store.state.windowActive) {
+    const lastFetchedAt = ctx.store.getters['auth/fetchedAt'];
+    if (!lastFetchedAt || now() > lastFetchedAt + TWO_MINUTES) {
+      await ctx.store.dispatch('auth/fetchMe');
+    }
+  }
+}
+
+function now() {
+  return Date.now() / 1000;
 }

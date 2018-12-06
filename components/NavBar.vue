@@ -54,12 +54,19 @@ b-navbar(toggleable='md', type='dark')
         | Signin
   b-navbar-nav
     b-nav-item(right :to='MeData.has_mail ? "/message/inbox" : "/message"' title="Mail")
-      i.fa.fa-envelope.text-danger(v-if="MeData.has_mail")
-      i.fa.fa-envelope-o(v-else)
+      b-badge.text-secondary(
+        v-if="MeData.has_mail"
+        variant='danger'
+      )
+        i.fa.fa-btn.fa-envelope
+        | {{ inbox_count }}
+      i.fa.fa-btn.fa-envelope-o(v-else)
 
     b-nav-item(right href='https://mod.reddit.com/' title="Mail" v-if="MeData.has_mod_mail")
-      i.fa.fa-shield.text-danger(v-if="MeData.new_modmail_exists")
-      i.fa.fa-shield(v-else)
+      b-badge.text-secondary(
+        variant='success'
+      )
+        i.fa.fa-btn.fa-shield
 
     b-nav-item.text-info(
       v-if="firstQueueEntry"
@@ -153,9 +160,9 @@ export default {
     // link_karma() {
     //   return get(this.MeData, 'link_karma', 0);
     // },
-    // inbox_count() {
-    //   return get(this.MeData, 'inbox_count', 0);
-    // },
+    inbox_count() {
+      return get(this.MeData, 'inbox_count', 0);
+    },
     // is_suspended() {
     //   return get(this.MeData, 'is_suspended', false);
     // },

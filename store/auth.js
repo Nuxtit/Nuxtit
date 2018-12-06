@@ -20,6 +20,7 @@ export const actions = {
 
     try {
       const response = await reddit.get('api/v1/me');
+      response.data.fetchedAt = now();
       commit('MeData', response.data);
     } catch (err) {
       if (get(err.response, 'status') === 401) {
@@ -51,6 +52,9 @@ export const actions = {
 };
 
 export const getters = {
+  fetchedAt(state) {
+    return get(state, 'MeData.fetchedAt');
+  },
   isAuthenticated(state) {
     return !!get(state, 'MeData.name');
   },
@@ -58,3 +62,7 @@ export const getters = {
     return get(state, 'MeData.name');
   },
 };
+
+function now() {
+  return Date.now() / 1000;
+}
