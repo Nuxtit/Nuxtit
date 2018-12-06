@@ -30,6 +30,7 @@ export const actions = {
         SrCache: 'subreddits/SrCache',
         History: 'history/History',
         ApiLog: 'apilog/ApiLog',
+        Queue: 'queue/Queue',
       },
       commit,
     });
