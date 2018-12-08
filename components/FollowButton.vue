@@ -46,7 +46,7 @@ export default {
         this.busy = true;
         const response = await this.$reddit.post('/api/subscribe', {
           action: user_is_subscriber ? 'unsub' : 'sub',
-          sr_name: name, // fullname
+          sr_name: `u_${name}`, // `u_${username}`
           api_type: 'json',
         });
         this.item.data.subreddit.user_is_subscriber = !user_is_subscriber;
