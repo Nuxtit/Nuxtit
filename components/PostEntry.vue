@@ -36,6 +36,12 @@
           | &#32;
           b-badge(v-if='post.data.locked') [locked]
           | &#32;
+          b-badge(v-if='post.data.approved', variant='success') [approved]
+          | &#32;
+          b-badge(v-if='post.data.removed', variant='danger') [removed]
+          | &#32;
+          b-badge(v-if='post.data.spam', variant='danger') [spam]
+          | &#32;
           b-badge(v-if='post.data.num_crossposts') [crossposts: {{ post.data.num_crossposts }}]
           | &#32;
           small(v-if='post.data.domain'): tt
@@ -78,10 +84,8 @@
           nuxt-link(
             :to='post.data.permalink'
           )
-            | {{ post.data.num_comments }}
-            | &#32;
             i.fa.fa-fw.fa-btn.fa-comments
-            span comments
+            span comments ({{ post.data.num_comments }})
           | &#32;
           a(
             :href='`https://www.reddit.com${post.data.permalink}`'
@@ -96,29 +100,51 @@
           | &#32;
           HideButton(:item='post')
           | &#32;
-          RemoveButton(:item='post')
-          | &#32;
-          DeleteButton(:item='post' v-if='isAuthor')
-          | &#32;
-          //- GiveGoldButton(:item='post' v-if='!isAuthor')
-          //- | &#32;
-          ReportButton(:item='post' v-if='!isAuthor')
-          | &#32;
-          span.btn-edit-toggle(
-            v-if='isAuthor'
-            @click.prevent.stop='showEdit^=true'
-          )
-            i.fa.fa-fw.fa-btn.fa-edit
-            span edit
+          template(v-if='post.data.can_mod_post')
+            SpamButton(:item='post')
+            | &#32;
+            RemoveButton(:item='post')
+            | &#32;
+            ApproveButton(:item='post')
+            | &#32;
+            LockButton(:item='post')
+            | &#32;
+          template(v-if='isAuthor || post.data.can_mod_post')
+            NsfwButton(:item='post')
+            | &#32;
+            SpoilerButton(:item='post')
+            | &#32;
+          template(v-if='isAuthor')
+            DeleteButton(:item='post')
+            | &#32;
+            span.btn-edit-toggle(
+              @click.prevent.stop='showEdit^=true'
+            )
+              i.fa.fa-fw.fa-btn.fa-edit
+              span edit
+          template(v-if='!isAuthor')
+            //- GiveGoldButton(:item='post')
+            //- | &#32;
+            ReportButton(:item='post' v-if='!isAuthor')
+            | &#32;
           span.btn-reply-toggle(
             vif="post.data.send_replies"
             @click.prevent.stop='showReply^=true'
           )
             i.fa.fa-fw.fa-btn.fa-reply
             span reply
+          | &#32;
           CrossPostButton(
             @click.prevent.stop='showCrossPost^=true'
           )
+          | &#32;
+          span.btn-see-reports(
+            v-if='post.data.user_reports.length > 0'
+            @click.prevent.stop='showReports^=true'
+          )
+            i.fa.fa-fw.fa-btn.fa-bullhorn
+            | &#32;
+            span reports ({{ post.data.user_reports.length }})
           | &#32;
           span.btn-see-source(
             @click.prevent.stop='showSource^=true'
@@ -150,12 +176,15 @@
         :post='post'
         @close='showImage = false'
       )
+      pre(v-if='showReports')
+        tt: small(v-text="post.data.user_reports")
       pre(v-if='showSource')
         tt: small(v-text="post.data")
 </template>
 
 <script>
 import AddToQueueButton from '~/components/AddToQueueButton';
+import ApproveButton from '~/components/ApproveButton';
 import CommentEntry from '~/components/CommentEntry';
 import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
@@ -163,7 +192,9 @@ import DeleteButton from '~/components/DeleteButton';
 import DownVote from '~/components/DownVote';
 import FlairBadge from '~/components/FlairBadge';
 import HideButton from '~/components/HideButton';
+import LockButton from '~/components/LockButton';
 import MasstaggerBadge from '~/components/MasstaggerBadge';
+import NsfwButton from '~/components/NsfwButton';
 import PostForm from '~/components/PostForm';
 import PostImage from '~/components/PostImage';
 import PostThumbnail from '~/components/PostThumbnail';
@@ -172,6 +203,8 @@ import ReportButton from '~/components/ReportButton';
 import SaveButton from '~/components/SaveButton';
 import Score from '~/components/Score';
 import ShareButton from '~/components/ShareButton';
+import SpamButton from '~/components/SpamButton';
+import SpoilerButton from '~/components/SpoilerButton';
 import SubredditLink from '~/components/SubredditLink';
 import TimeAgo from '~/components/TimeAgo';
 import UpVote from '~/components/UpVote';
@@ -182,6 +215,7 @@ export default {
   name: 'PostEntry',
   components: {
     AddToQueueButton,
+    ApproveButton,
     CommentEntry,
     CommentForm,
     CrossPostButton,
@@ -189,7 +223,9 @@ export default {
     DownVote,
     FlairBadge,
     HideButton,
+    LockButton,
     MasstaggerBadge,
+    NsfwButton,
     PostForm,
     PostImage,
     PostThumbnail,
@@ -198,6 +234,8 @@ export default {
     SaveButton,
     Score,
     ShareButton,
+    SpamButton,
+    SpoilerButton,
     SubredditLink,
     TimeAgo,
     UpVote,
@@ -226,6 +264,7 @@ export default {
     },
     showSource: makeComputeToggler('source'),
     showReply: makeComputeToggler('reply'),
+    showReports: makeComputeToggler('reports'),
     showEdit: makeComputeToggler('edit'),
     showCrossPost: makeComputeToggler('cross'),
     showImage: makeComputeToggler('image'),
