@@ -98,6 +98,12 @@
         i.fa.fa-fw.fa-btn.fa-money
         | &#32;
         | Gilded
+      b-nav-item(
+        :to='`/user/${$route.params.username}/karma-table`'
+      )
+        i.fa.fa-fw.fa-btn.fa-table
+        | &#32;
+        | Karma Table
     nuxt-child(:user='user')
 </template>
 

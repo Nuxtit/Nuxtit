@@ -4,7 +4,7 @@
       :collection='items'
       :fetching='fetching'
     )
-    PostList(:posts='items')
+    KarmaTable(:items='items')
     RedditPagination(
       v-if='showBottomPagination'
       :collection='items'
@@ -13,30 +13,40 @@
 </template>
 
 <script>
-import includes from 'lodash/includes';
-import ValidatePostSort from '~/mixins/ValidatePostSort';
-import PostList from '~/components/PostList.vue';
+import KarmaTable from '~/components/KarmaTable.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
 export default {
   middleware: ['auth'],
-  defaultSort: 'hot',
+  defaultSort: 'new',
   components: {
-    PostList,
+    KarmaTable,
     RedditPagination,
   },
   mixins: [
     RedditItems({
       path({ route }) {
-        return `/me/m/${route.params.multi}/${route.params.sort || 'hot'}`;
+        return `/user/${route.params.username}/overview`;
       },
       query({ route }) {
         return {
+          limit: 100,
           ...route.query,
+          sort: route.params.sort || 'new',
         };
       },
     }),
-    ValidatePostSort,
   ],
+  beforeMount() {
+    if (!this.$route.query.limit) {
+      this.$router.push({
+        ...this.$route,
+        query: {
+          ...this.$route.query,
+          limit: 100,
+        },
+      });
+    }
+  },
 };
 </script>
