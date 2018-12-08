@@ -16,6 +16,13 @@
       | &#32;
       TimeAgo(:value='comment.data.created_utc')
       template(v-if='comment.data.edited') *
+      | &#32;
+      b-badge(v-if='comment.data.approved', variant='success') [approved]
+      | &#32;
+      b-badge(v-if='comment.data.removed', variant='danger') [removed]
+      | &#32;
+      b-badge(v-if='comment.data.spam', variant='danger') [spam]
+      | &#32;
       .score.pull-right
         i.fa.fa-fw.fa-btn.btn-collapse(
           :class='collapsed ? "fa-plus" : "fa-minus"'
@@ -36,6 +43,7 @@
       ItemHtml(:item='comment')
     .card-footer.text-muted.bg-light(v-if="!collapsed")
       AddToQueueButton(:item='comment')
+      | &#32;
       a(
         :href='`https://www.reddit.com${comment.data.permalink}`'
         target='_blank'
@@ -87,8 +95,13 @@
       | &#32;
       //- HideButton(:item='comment')
       //- | &#32;
-      RemoveButton(:item='comment')
-      | &#32;
+      template(v-if='comment.data.can_mod_post')
+        SpamButton(:item='comment')
+        | &#32;
+        RemoveButton(:item='comment')
+        | &#32;
+        ApproveButton(:item='comment' v-if='comment.data.removed')
+        | &#32;
       DeleteButton(:item='comment' v-if='isAuthor')
       | &#32;
       //- GiveGoldButton(:item='comment' v-if='!isAuthor')
@@ -98,6 +111,12 @@
       CrossPostButton(
         @click.prevent.stop='showCrossPost^=true'
       )
+      span.btn-see-reports(
+        v-if='comment.data.user_reports.length > 0'
+        @click.prevent.stop='showReports^=true'
+      )
+        i.fa.fa-fw.fa-btn.fa-code
+        span reports ({{ comment.data.user_reports.length }})
       span.btn-see-source(
         @click.prevent.stop='showSource^=true'
       )
@@ -121,6 +140,8 @@
       @created-post='onCrossPostCreated'
       @close='showCrossPost = false'
     )
+    pre(v-if="showReports && !collapsed")
+      tt: small(v-text="comment.data.user_reports")
     pre(v-if="showSource && !collapsed")
       tt: small(v-text="comment.data")
   CommentTree(
@@ -131,6 +152,7 @@
 
 <script>
 import get from 'lodash/get';
+import ApproveButton from '~/components/ApproveButton';
 import AddToQueueButton from '~/components/AddToQueueButton';
 import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
@@ -146,6 +168,7 @@ import ReportButton from '~/components/ReportButton';
 import SaveButton from '~/components/SaveButton';
 import Score from '~/components/Score';
 import ShareButton from '~/components/ShareButton';
+import SpamButton from '~/components/SpamButton';
 import SubredditLink from '~/components/SubredditLink';
 import TimeAgo from '~/components/TimeAgo';
 import UpVote from '~/components/UpVote';
@@ -155,6 +178,7 @@ import { makeComputeToggler } from '~/lib/toggle_open';
 export default {
   name: 'CommentEntry',
   components: {
+    ApproveButton,
     AddToQueueButton,
     CommentForm,
     CrossPostButton,
@@ -170,6 +194,7 @@ export default {
     SaveButton,
     Score,
     ShareButton,
+    SpamButton,
     SubredditLink,
     TimeAgo,
     UpVote,
@@ -219,6 +244,7 @@ export default {
     },
     showSource: makeComputeToggler('source'),
     showReply: makeComputeToggler('reply'),
+    showReports: makeComputeToggler('reports'),
     showEdit: makeComputeToggler('edit'),
     showCrossPost: makeComputeToggler('cross'),
   },

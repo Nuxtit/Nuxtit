@@ -97,7 +97,7 @@ const scopes = [
   // 'modconfig',
   // 'modflair',
   // 'modlog',
-  // 'modposts',
+  'modposts',
   // 'modwiki',
   'mysubreddits',
   'privatemessages',
