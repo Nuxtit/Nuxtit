@@ -76,7 +76,7 @@ export default {
   },
   beforeMount() {
     if (!this.$route.query.limit) {
-      this.$router.push({
+      this.$router.replace({
         ...this.$route,
         query: {
           ...this.$route.query,
