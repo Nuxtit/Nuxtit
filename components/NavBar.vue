@@ -67,27 +67,6 @@ b-navbar(toggleable='md', type='dark')
         variant='success'
       )
         i.fa.fa-btn.fa-shield
-
-    b-nav-item.text-info(
-      v-if="firstQueueEntry"
-      title="Queue"
-      :to='firstQueueEntry.route'
-      right
-    )
-      b-badge(
-        @click.prevent.stop='pop'
-        variant='primary'
-      ) POP
-    b-nav-item.text-info(
-      v-if="queueCount > 0"
-      title="Queue"
-      to='/redusa/queue'
-      right
-    )
-      b-badge(
-        variant='secondary'
-        v-text='`Q: ${queueCount}`'
-      )
 </template>
 
 <script>
@@ -127,12 +106,6 @@ export default {
     MeData() {
       return this.$store.state.auth.MeData || {};
     },
-    firstQueueEntry() {
-      return this.$store.getters['queue/first'];
-    },
-    queueCount() {
-      return this.$store.getters['queue/count'];
-    },
     historyCount() {
       return this.$store.getters['history/count'];
     },
@@ -171,11 +144,6 @@ export default {
     // },
     isSearchPage() {
       return searchRegEx.test(this.$route.name);
-    },
-  },
-  methods: {
-    pop() {
-      this.$store.dispatch('queue/pop');
     },
   },
 };
