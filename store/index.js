@@ -31,6 +31,7 @@ export const actions = {
         History: 'history/History',
         ApiLog: 'apilog/ApiLog',
         Queue: 'queue/Queue',
+        QueueDone: 'queue/QueueDone',
       },
       commit,
     });
