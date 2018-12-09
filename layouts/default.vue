@@ -1,6 +1,7 @@
 <template lang="pug">
   div
     NavBar
+    QueueBar
     nuxt
     div.last-br
     BackToTop
@@ -11,11 +12,13 @@
 <script>
 import BackToTop from 'vue-backtotop';
 import NavBar from '~/components/NavBar';
+import QueueBar from '~/components/QueueBar';
 
 export default {
   components: {
     BackToTop,
     NavBar,
+    QueueBar,
   },
 };
 </script>

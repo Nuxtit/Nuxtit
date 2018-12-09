@@ -2,7 +2,10 @@
 .apilog-entry
   .card
     .card-header
-      span(v-text='item.text')
+      nuxt-link(
+        :to='item.route'
+        v-text='item.text'
+      )
       .pull-right
         //- TimeAgo.text-muted(:value='item.createdAt')
         | &#32;
