@@ -5,7 +5,7 @@
 <script>
 export default {
   mounted() {
-    this.$router.push('/message/inbox');
+    this.$router.replace('/message/inbox');
   },
 };
 </script>
