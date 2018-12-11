@@ -1,6 +1,7 @@
 <template lang="pug">
+  span.mt-disabled(v-if='mtDisabled')
   b-badge(
-    v-if='masstaggerSubs === true'
+    v-else-if='masstaggerSubs === true'
     variant='secondary'
   )
     small
@@ -39,6 +40,9 @@ export default {
     },
     username() {
       return this.item.data.author;
+    },
+    mtDisabled() {
+      return !this.$store.getters['masstagger/mtEnable'];
     },
     masstaggerSubs() {
       return this.$store.getters['masstagger/find'](this.username);
