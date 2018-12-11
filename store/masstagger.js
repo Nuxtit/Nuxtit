@@ -4,6 +4,7 @@ import isArray from 'lodash/isArray';
 import isObject from 'lodash/isObject';
 import isString from 'lodash/isString';
 import qs from 'qs';
+import { Kind } from '~/lib/enum';
 
 const masstagger = axios.create({
   baseURL: '/masstagger',
@@ -101,6 +102,9 @@ function crawlTree(mt, addUser) {
     for (let i = mt.length - 1; i >= 0; i--) {
       crawlTree(mt[i], addUser);
     }
+  }
+  if (mt.kind === Kind.User && mt.data) {
+    addUser(mt.data.name);
   }
   addUser(mt.author);
   addUser(mt.approved_by);
