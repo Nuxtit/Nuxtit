@@ -24,6 +24,7 @@
 import { startMinWait } from '~/lib/sleep';
 import { mapGetters, mapActions } from 'vuex';
 import { Kind } from '~/lib/enum';
+import now from '~/lib/now';
 
 export default {
   name: 'AddToQueueButton',
@@ -119,10 +120,6 @@ export default {
     },
   },
 };
-
-function now() {
-  return Date.now() / 1000;
-}
 </script>
 
 <style lang="sass">
