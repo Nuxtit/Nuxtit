@@ -1,4 +1,5 @@
 import * as RedusaSharedWorker from 'shared-worker-loader!~/lib/worker/shared';
+import now from '~/lib/now';
 
 const INTERVAL_MS = 30000; // ms
 
@@ -41,8 +42,4 @@ async function onInterval(ctx) {
       await ctx.store.dispatch('auth/fetchMe');
     }
   }
-}
-
-function now() {
-  return Date.now() / 1000;
 }

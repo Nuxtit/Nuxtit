@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 import filter from 'lodash/filter';
 import * as ls from '~/lib/ls';
+import now from '~/lib/now';
 
 const APILOG = 'ApiLog';
 
@@ -15,7 +16,8 @@ export const mutations = {
 };
 
 export const actions = {
-  add({ state, commit }, response) {
+  add({ state, commit }, input) {
+    const response = input.response || input;
     // console.log('apiLog.actions.add().response', response);
     const entry = response.config.apiLog;
     const { baseURL } = response.config;
@@ -56,7 +58,3 @@ export const getters = {
     };
   },
 };
-
-function now() {
-  return Date.now() / 1000;
-}

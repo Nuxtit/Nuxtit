@@ -2,6 +2,7 @@ import axios from 'axios';
 import get from 'lodash/get';
 import * as ls from '~/lib/ls';
 import { fetchAccessToken, fetchRefreshedAccessToken } from '~/plugins/reddit';
+import now from '~/lib/now';
 
 export const state = () => {
   return {
@@ -62,7 +63,3 @@ export const getters = {
     return get(state, 'MeData.name');
   },
 };
-
-function now() {
-  return Date.now() / 1000;
-}
