@@ -42,7 +42,7 @@ export default {
       return this.item.data.author;
     },
     mtDisabled() {
-      return !this.$store.getters['masstagger/mtEnable'];
+      return !this.$store.getters['settings/mtEnable'];
     },
     masstaggerSubs() {
       return this.$store.getters['masstagger/find'](this.username);
