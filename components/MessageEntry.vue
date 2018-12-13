@@ -42,7 +42,7 @@
     .card-body(v-if="!collapsed")
       ItemHtml(:item='message')
     .card-footer.text-muted.bg-light(v-if="!collapsed")
-      AddToQueueButton(:item='message')
+      AddToQueueButton(:item='message' v-if='message.data.context')
       | &#32;
       a(
         :href='`https://www.reddit.com${message.data.context}`'
