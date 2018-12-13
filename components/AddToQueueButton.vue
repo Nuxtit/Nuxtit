@@ -99,8 +99,9 @@ export default {
         // console.log(data);
       } else if (kind === Kind.Message) {
         return {
-          name: 'redusa_mail',
-          route: '/message/inbox',
+          name: data.name,
+          title: data.subject,
+          route: data.context,
           createdAt: now(),
         };
         // console.log(data);
