@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import filter from 'lodash/filter';
 import * as ls from '~/lib/ls';
 import { fetchAccessToken, fetchRefreshedAccessToken } from '~/plugins/reddit';
+import now from '~/lib/now';
 
 const HISTORY = 'History';
 
@@ -67,7 +68,3 @@ export const getters = {
     };
   },
 };
-
-function now() {
-  return Date.now() / 1000;
-}
