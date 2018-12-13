@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  mounted() {
+  beforeMount() {
     this.$router.replace('/message/inbox');
   },
 };
