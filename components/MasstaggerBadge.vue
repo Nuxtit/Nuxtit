@@ -8,11 +8,15 @@
     small
       i.fa.fa-fw.fa-spinner.fa-spin
       | &#32;loading masstagger
-  b-badge.badge-mt(
+  a(
     v-else-if='masstaggerSubs'
-    v-text='masstaggerSubs'
-    variant='danger'
+    :href='`https://masstagger.com/user/${username.toUpperCase()}`'
+    target='_blank'
   )
+    b-badge.badge-mt(
+      v-text='masstaggerSubs'
+      variant='danger'
+    )
   b-badge.no-flair(v-else-if='showNone')
     | (no masstagger subs)
   span.no-flair(v-else)
