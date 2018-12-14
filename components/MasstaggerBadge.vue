@@ -1,5 +1,6 @@
 <template lang="pug">
-  span.mt-disabled(v-if='mtDisabled')
+  BotBadge(v-if='isBot')
+  span.mt-disabled(v-else-if='mtDisabled')
   b-badge(
     v-else-if='masstaggerSubs === true'
     variant='secondary'
@@ -18,8 +19,14 @@
 </template>
 
 <script>
+import BotBadge from '~/components/BotBadge';
+import { isBot } from '~/lib/bots';
+
 export default {
   name: 'MasstaggerBadge',
+  components: {
+    BotBadge,
+  },
   props: {
     type: {
       type: String,
@@ -47,8 +54,8 @@ export default {
     masstaggerSubs() {
       return this.$store.getters['masstagger/find'](this.username);
     },
-    isAuthor() {
-      return this.MeData.name === this.username;
+    isBot() {
+      return isBot(this.username);
     },
   },
 };

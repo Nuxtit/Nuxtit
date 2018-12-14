@@ -4,6 +4,7 @@ import isArray from 'lodash/isArray';
 import isObject from 'lodash/isObject';
 import isString from 'lodash/isString';
 import qs from 'qs';
+import { isBot } from '~/lib/bots';
 import { Kind } from '~/lib/enum';
 
 const masstagger = axios.create({
@@ -61,7 +62,7 @@ export const actions = {
     }
 
     for (let key in users) {
-      if (state.cache[key]) {
+      if (state.cache[key] || isBot(key)) {
         // already pending
         delete users[key];
       }
