@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import includes from 'lodash/includes';
 import isFunction from 'lodash/isFunction';
 import { startMinWait } from '~/lib/sleep';
 import QueryParamLimit, { defaultLimit } from '~/mixins/QueryParamLimit';
@@ -30,6 +31,7 @@ export default function({ path, query, shouldAttemptApi }) {
       return {
         fetching: false,
         items: null,
+        filterOptions: { text: 'subreddit' },
       };
     },
     computed: {
@@ -47,6 +49,7 @@ export default function({ path, query, shouldAttemptApi }) {
       },
     },
     async asyncData({ reddit, route, store }) {
+      // console.log('asyncData');
       if (shouldAttemptApi({ route })) {
         const items = (await reddit.get(path({ route }), {
           params: {
@@ -55,6 +58,7 @@ export default function({ path, query, shouldAttemptApi }) {
           },
         })).data;
 
+        console.log('asyncData');
         return {
           items,
         };
@@ -64,6 +68,7 @@ export default function({ path, query, shouldAttemptApi }) {
     },
     methods: {
       async fetchItems() {
+        // console.log(this.$options.name, 'fetchItems');
         const route = this.$route;
         const store = this.$store;
         if (shouldAttemptApi({ route })) {
@@ -78,14 +83,37 @@ export default function({ path, query, shouldAttemptApi }) {
             })).data;
 
             this.items = items;
+            this.setItemsFilteredProperty();
           } finally {
             await minWait;
             this.fetching = false;
           }
         }
       },
+      setItemsFilteredProperty() {
+        const { text } = this.filterOptions;
+
+        for (let i = this.items.data.children.length - 1, item; i >= 0; i--) {
+          item = this.items.data.children[i];
+          this.$set(item, 'redusaHide', !isMatch(item));
+        }
+
+        function isMatch({ kind, data }) {
+          if (text) {
+            if (includes(data.body, text)) {
+              return true;
+            }
+          }
+          return false;
+        }
+      },
     },
     watch: {
+      filterOptions: {
+        deep: true,
+        immediate: true,
+        handler: 'setItemsFilteredProperty',
+      },
       async redditQueryJson(newValue, oldValue) {
         if (newValue !== oldValue) {
           await this.fetchItems();
