@@ -31,7 +31,7 @@ export default function({ path, query, shouldAttemptApi }) {
       return {
         fetching: false,
         items: null,
-        filterOptions: { text: 'subreddit' },
+        filterOptions: { text: '' },
       };
     },
     computed: {
@@ -58,7 +58,7 @@ export default function({ path, query, shouldAttemptApi }) {
           },
         })).data;
 
-        console.log('asyncData');
+        // console.log('asyncData');
         return {
           items,
         };
@@ -103,8 +103,9 @@ export default function({ path, query, shouldAttemptApi }) {
             if (includes(data.body, text)) {
               return true;
             }
+            return false;
           }
-          return false;
+          return true;
         }
       },
     },
