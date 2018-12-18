@@ -21,7 +21,7 @@
     @click.prevent.stop='popNext'
   )
     i.fa.fa-fw.fa-step-forward
-    small {{ nextEntry.text }}
+    small {{ (nextEntry.text || '').slice(0, 64) }}
 </template>
 
 <script>
