@@ -6,17 +6,20 @@
         v-model="kind"
         :options='$options.kinds'
       )
-    .form-group.post-url(v-if='!selftext')
+      | {{ {kind, isEditing} }}
+    .form-group.post-url(v-if='kind !== "self"')
       label URL
       b-form-input(
+        :disabled='isEditing'
         v-model="url"
       )
     .form-group.post-url
       label Title
       b-form-input(
+        :disabled='isEditing'
         v-model="title"
       )
-    .form-group.post-body(v-if='selftext')
+    .form-group.post-body(v-if='kind === "self"')
       label Text
       b-form-textarea(
         v-model="body"
@@ -28,6 +31,7 @@
         span(v-if='isCrossPosting')
           | x-post from /r/{{ parent.data.subreddit }}
       b-form-input(
+        :disabled='isEditing'
         v-model="sr"
       )
     p
@@ -179,6 +183,8 @@ export default {
     this.editingPost = this.post;
     if (this.isEditing) {
       this.body = this.post.data.selftext;
+      this.kind = this.post.data.is_self ? 'self' : 'link';
+      this.sr = this.post.data.subreddit;
     } else if (this.isCrossPosting) {
       this.kind = 'link';
       this.title = this.parent.data.title;
