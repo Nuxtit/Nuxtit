@@ -21,6 +21,9 @@ export default {
       return this.item.data.score;
     },
     title() {
+      if (this.item.data.score_hidden) {
+        return 'score hidden';
+      }
       const { upvote_ratio } = this.item.data;
       if (isNumber(upvote_ratio)) {
         return `${upvote_ratio * 100}%`;
