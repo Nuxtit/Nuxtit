@@ -15,6 +15,9 @@ export default {
   },
   computed: {
     humanNumber() {
+      if (this.item.data.score_hidden) {
+        return '?';
+      }
       return this.item.data.score;
     },
     title() {
