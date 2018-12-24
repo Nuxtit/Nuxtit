@@ -92,6 +92,7 @@ export default function({ path, query, shouldAttemptApi }) {
       },
       setItemsFilteredProperty() {
         const { text } = this.filterOptions;
+        const lc_text = (text || '').toLowerCase();
 
         for (let i = this.items.data.children.length - 1, item; i >= 0; i--) {
           item = this.items.data.children[i];
@@ -99,8 +100,9 @@ export default function({ path, query, shouldAttemptApi }) {
         }
 
         function isMatch({ kind, data }) {
-          if (text) {
-            if (includes(data.body, text)) {
+          if (lc_text) {
+            const lc_body = (data.body || '').toLowerCase();
+            if (includes(lc_body, lc_text)) {
               return true;
             }
             return false;
