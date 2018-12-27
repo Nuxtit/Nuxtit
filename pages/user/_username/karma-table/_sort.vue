@@ -1,27 +1,10 @@
 <template lang="pug">
   div
-    .row.text-center
-      .col(v-if='firstTimestamp')
-        span.text-muted from:&#32;
-        DateTime(
-          :value='firstTimestamp'
-        )
-      .col
-        h5
-          | {{ items.data.children.length }} Items
-          br
-          small.text-muted on this page
-      .col(v-if='lastTimestamp')
-        span.text-muted until:&#32;
-        DateTime(
-          v-if='lastTimestamp'
-          :value='lastTimestamp'
-        )
     RedditPagination(
       :collection='items'
       :fetching='fetching'
     )
-    KarmaTable(:items='items')
+    KarmaTable(:items='items' :user='user')
     RedditPagination(
       v-if='showBottomPagination'
       :collection='items'
@@ -30,19 +13,14 @@
 </template>
 
 <script>
-import DateTime from '~/components/DateTime.vue';
 import KarmaTable from '~/components/KarmaTable.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
-import first from 'lodash/first';
-import get from 'lodash/get';
-import last from 'lodash/last';
 
 export default {
   middleware: ['auth'],
   defaultSort: 'new',
   components: {
-    DateTime,
     KarmaTable,
     RedditPagination,
   },
@@ -60,18 +38,10 @@ export default {
       },
     }),
   ],
-  computed: {
-    firstTimestamp() {
-      const { sort } = this.$route.params;
-      if (sort && sort !== 'new') return;
-      const item = first(this.items.data.children);
-      return get(item.data, 'created_utc');
-    },
-    lastTimestamp() {
-      const { sort } = this.$route.params;
-      if (sort && sort !== 'new') return;
-      const item = last(this.items.data.children);
-      return get(item.data, 'created_utc');
+  props: {
+    user: {
+      type: Object,
+      required: true,
     },
   },
   beforeMount() {
