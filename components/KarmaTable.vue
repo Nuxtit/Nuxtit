@@ -144,9 +144,9 @@ export default {
         text += `##### /u/${
           user.data.name
         } Karma Summary from ${
-          dateNumToString(firstTimestamp)
+          dateNumToString(firstTimestamp > lastTimestamp ? firstTimestamp : lastTimestamp)
         } until ${
-          dateNumToString(lastTimestamp)
+          dateNumToString(firstTimestamp > lastTimestamp ? lastTimestamp : firstTimestamp)
         } \n`;
         /*eslint-enable*/
       }
