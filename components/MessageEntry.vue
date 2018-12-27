@@ -28,17 +28,18 @@
           :class='collapsed ? "fa-plus" : "fa-minus"'
           @click.prevent.stop='toggleCollapsed'
         )
-        | &nbsp;
-        | &nbsp;
-        UpVote(:item='message')
-        | &nbsp;
-        | &nbsp;
-        Score(:item='message')
-        | &nbsp;
-        | &nbsp;
-        DownVote(:item='message')
-        | &nbsp;
-        | &nbsp;
+        template(v-if='showVoting')
+          | &nbsp;
+          | &nbsp;
+          UpVote(:item='message')
+          | &nbsp;
+          | &nbsp;
+          Score(:item='message')
+          | &nbsp;
+          | &nbsp;
+          DownVote(:item='message')
+          | &nbsp;
+          | &nbsp;
     .card-body(v-if="!collapsed")
       ItemHtml(:item='message')
     .card-footer.text-muted.bg-light(v-if="!collapsed")
@@ -120,9 +121,6 @@
     v-if='showReplies && !collapsed'
     :messages='message.data.replies'
   )
-
-  pre(v-if="showSource")
-    tt: small(v-text="message.data")
 </template>
 
 <script>
@@ -150,6 +148,7 @@ import TimeAgo from '~/components/TimeAgo';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
 import { makeComputeToggler } from '~/lib/toggle_open';
+import { Kind } from '~/lib/enum';
 
 export default {
   name: 'MessageEntry',
@@ -192,6 +191,12 @@ export default {
     };
   },
   computed: {
+    showVoting() {
+      const { kind } = this.message;
+      if (kind === Kind.Comment) return true;
+      if (kind === Kind.Post) return true;
+      return false;
+    },
     showReplies() {
       const { replies } = this.message.data;
       return replies && replies.data.children && replies.data.children.length;
