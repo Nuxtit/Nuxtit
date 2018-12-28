@@ -23,6 +23,11 @@
       | &#32;
       b-badge(v-if='comment.data.spam', variant='danger') [spam]
       | &#32;
+      nuxt-link(
+        v-if='!$route.params.post_id && comment.data.link_title'
+        :to='comment.data.permalink'
+      )
+        small on {{ comment.data.link_title }}
       .score.pull-right
         i.fa.fa-fw.fa-btn.btn-collapse(
           :class='collapsed ? "fa-plus" : "fa-minus"'
