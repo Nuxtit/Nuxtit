@@ -94,6 +94,9 @@ export default function({ path, query, shouldAttemptApi }) {
         const { text } = this.filterOptions;
         const lc_text = (text || '').toLowerCase();
 
+        if (!get(this.items, 'data.children.length')) {
+          return;
+        }
         for (let i = this.items.data.children.length - 1, item; i >= 0; i--) {
           item = this.items.data.children[i];
           this.$set(item, 'redusaHide', !isMatch(item));
