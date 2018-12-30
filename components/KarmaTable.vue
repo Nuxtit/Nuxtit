@@ -76,6 +76,7 @@ import PostEntry from '~/components/PostEntry';
 import SubredditLink from '~/components/SubredditLink';
 import { Kind } from '~/lib/enum';
 import { makeComputeToggler } from '~/lib/toggle_open';
+import { sortObject } from '~/lib/object';
 
 export default {
   name: 'KarmaTable',
@@ -105,29 +106,33 @@ export default {
     showMarkdown: makeComputeToggler('markdown'),
     showSource: makeComputeToggler('source'),
     rows() {
-      return this.items.data.children.reduce((carry, { kind, data }) => {
-        if (!carry[data.subreddit]) {
-          carry[data.subreddit] = {
-            pc: 0,
-            pk: 0,
-            cc: 0,
-            ck: 0,
-            oc: 0,
-          };
-        }
-        if (isInteger(data.score)) {
-          if (kind === Kind.Post) {
-            carry[data.subreddit].pk += data.score;
-            carry[data.subreddit].pc++;
-          } else if (kind === Kind.Comment) {
-            carry[data.subreddit].ck += data.score;
-            carry[data.subreddit].cc++;
-          } else {
-            carry[data.subreddit].oc++;
+      const unsorted = this.items.data.children.reduce(
+        (carry, { kind, data }) => {
+          if (!carry[data.subreddit]) {
+            carry[data.subreddit] = {
+              pc: 0,
+              pk: 0,
+              cc: 0,
+              ck: 0,
+              oc: 0,
+            };
           }
-        }
-        return carry;
-      }, {});
+          if (isInteger(data.score)) {
+            if (kind === Kind.Post) {
+              carry[data.subreddit].pk += data.score;
+              carry[data.subreddit].pc++;
+            } else if (kind === Kind.Comment) {
+              carry[data.subreddit].ck += data.score;
+              carry[data.subreddit].cc++;
+            } else {
+              carry[data.subreddit].oc++;
+            }
+          }
+          return carry;
+        },
+        {},
+      );
+      return sortObject(unsorted);
     },
     rowsMarkdown() {
       const {
