@@ -53,7 +53,7 @@ b-navbar(toggleable='md', type='dark')
       b-nav-item(right v-else to='/login')
         | Signin
   b-navbar-nav
-    b-nav-item(right :to='MeData.has_mail ? "/message/inbox" : "/message"' title="Mail")
+    b-nav-item(right to='/message/inbox' title="Mail")
       b-badge.text-secondary(
         v-if="MeData.has_mail"
         variant='danger'
