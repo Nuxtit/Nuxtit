@@ -61,6 +61,9 @@ export default {
           },
         );
         this.isUnread = !isUnread;
+
+        // update the red icon + mail count
+        /* no await */ this.$store.dispatch('auth/fetchMe');
       } catch (err) {
         console.error(err);
         this.error = err;
