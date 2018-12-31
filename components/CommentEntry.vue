@@ -23,7 +23,9 @@
       | &#32;
       b-badge(v-if='comment.data.approved', variant='success') [approved]
       | &#32;
-      b-badge(v-if='comment.data.removed', variant='danger') [removed]
+      b-badge(v-if='comment.data.removed', variant='danger')
+        template(v-if='comment.data.removal_reason') [removed: {{comment.data.removal_reason}}]
+        template [removed]
       | &#32;
       b-badge(v-if='comment.data.spam', variant='danger') [spam]
       | &#32;
