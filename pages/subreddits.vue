@@ -6,9 +6,9 @@
         exact
         to='/subreddits'
       ) all
-      //- b-nav-item(
-      //-   to='/subreddits/search'
-      //- ) search
+      b-nav-item(
+        to='/subreddits/search'
+      ) search
       b-nav-item(
         to='/subreddits/mine'
       ) mine
