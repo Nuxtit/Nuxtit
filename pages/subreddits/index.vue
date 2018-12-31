@@ -4,7 +4,9 @@
       :collection='items'
       :fetching='fetching'
     )
-    SubredditList(:subreddits='items')
+    p(v-if='!(items.data && items.data.children)')
+      | No subreddits found
+    SubredditList(v-else :subreddits='items')
     RedditPagination(
       v-if='showBottomPagination'
       :collection='items'

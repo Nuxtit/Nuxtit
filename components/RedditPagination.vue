@@ -53,19 +53,19 @@ export default {
   computed: {
     lastId() {
       return get(
-        findLast(this.collection.data.children, item => item.data.name),
+        findLast(get(this, 'collection.data.children'), item => item.data.name),
         'data.name',
       );
     },
     firstId() {
       return get(
-        find(this.collection.data.children, item => item.data.name),
+        find(get(this, 'collection.data.children'), item => item.data.name),
         'data.name',
       );
     },
     after() {
       const { collection, $route, lastId, count } = this;
-      if (collection.data.after) {
+      if (get(collection, 'data.after')) {
         return collection.data.after;
       }
       // if (lastId) {
@@ -79,7 +79,7 @@ export default {
     },
     before() {
       const { collection, $route, firstId, count } = this;
-      if (collection.data.before) {
+      if (get(collection, 'data.before')) {
         return collection.data.before;
       }
       if (firstId) {

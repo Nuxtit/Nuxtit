@@ -1,5 +1,6 @@
 <template lang="pug">
-  .subreddits
+  .subreddits-search
+    SubredditSearchInput
     RedditPagination(
       :collection='items'
       :fetching='fetching'
@@ -18,16 +19,18 @@
 import RedditItems from '~/mixins/RedditItems';
 import RedditPagination from '~/components/RedditPagination';
 import SubredditList from '~/components/SubredditList';
+import SubredditSearchInput from '~/components/SubredditSearchInput';
 
 export default {
   components: {
     RedditPagination,
     SubredditList,
+    SubredditSearchInput,
   },
   mixins: [
     RedditItems({
       path({ route }) {
-        return '/subreddits/new';
+        return '/subreddits/search';
       },
       query({ route }) {
         return {
