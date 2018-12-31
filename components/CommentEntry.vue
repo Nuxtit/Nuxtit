@@ -14,6 +14,10 @@
       | &#32;
       MasstaggerBadge(:item='comment' type='author')
       | &#32;
+      GildedBadge(:item='comment')
+      | &#32;
+      b-badge(v-if='comment.data.author_patreon_flair') [patreon]
+      | &#32;
       TimeAgo(:value='comment.data.created_utc')
       template(v-if='comment.data.edited') *
       | &#32;
@@ -164,6 +168,7 @@ import CrossPostButton from '~/components/CrossPostButton';
 import DeleteButton from '~/components/DeleteButton';
 import DownVote from '~/components/DownVote';
 import FlairBadge from '~/components/FlairBadge';
+import GildedBadge from '~/components/GildedBadge';
 import HideButton from '~/components/HideButton';
 import ItemHtml from '~/components/ItemHtml';
 import MasstaggerBadge from '~/components/MasstaggerBadge';
@@ -190,6 +195,7 @@ export default {
     DeleteButton,
     DownVote,
     FlairBadge,
+    GildedBadge,
     HideButton,
     ItemHtml,
     MasstaggerBadge,
