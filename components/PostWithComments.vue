@@ -6,6 +6,8 @@
         ItemHtml(:item='post')
     p.alert.alert-danger(v-if='subreddit.data.user_is_banned')
       | You are banned from this subreddit.
+    p.alert.alert-danger(v-if='post.data.locked')
+      | Comments are locked.
     p
       .btn.btn-secondary(
         v-if='hasComments'
