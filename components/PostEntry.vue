@@ -40,7 +40,9 @@
           | &#32;
           b-badge(v-if='post.data.approved', variant='success') [approved]
           | &#32;
-          b-badge(v-if='post.data.removed', variant='danger') [removed]
+          b-badge(v-if='post.data.removed', variant='danger')
+            template(v-if='post.data.removal_reason') [removed: {{post.data.removal_reason}}]
+            template [removed]
           | &#32;
           b-badge(v-if='post.data.spam', variant='danger') [spam]
           | &#32;
