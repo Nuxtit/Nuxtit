@@ -51,12 +51,19 @@ export default function({ path, query, shouldAttemptApi }) {
     async asyncData({ reddit, route, store }) {
       // console.log('asyncData');
       if (shouldAttemptApi({ route })) {
-        const items = (await reddit.get(path({ route }), {
-          params: {
-            ...defaultParams,
-            ...query({ route }),
-          },
-        })).data;
+        const items = (await reddit
+          .get(path({ route }), {
+            params: {
+              ...defaultParams,
+              ...query({ route }),
+            },
+          })
+          .catch(err => {
+            if (err.message === 'Network Error') {
+              return { data: emptyCollection() };
+            }
+            throw err;
+          })).data;
 
         // console.log('asyncData');
         return {

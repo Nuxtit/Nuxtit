@@ -2,13 +2,13 @@
   div
     .container.subreddit-banner(:style='subredditBannerStyles')
       br
-      b-img.profile-icon-img(
-        v-if="subreddit.data.icon_img"
-        :src="subreddit.data.icon_img"
-        thumbnail
-        width="128"
-        height="128"
-      )
+      //- b-img.profile-icon-img(
+      //-   v-if="subreddit.data.icon_img"
+      //-   :src="subreddit.data.icon_img"
+      //-   thumbnail
+      //-   width="128"
+      //-   height="128"
+      //- )
       br
       br
       br
@@ -72,7 +72,25 @@
         | {{ subreddit.data.submit_link_label || "Submit a new text post" }}
     .row.clearfix
       .col.order-md-1
-        nuxt-child(:subreddit='subreddit')
+        p.alert.alert-danger(v-if='subreddit.networkError')
+          strong Network Error, subreddit might not exist
+          br
+          | Reddit apps are required to use OAuth and CORS.
+          | When a subreddit does not exist,
+          | the reddit website redirects the user to a subreddit
+          | search page. Reddit did not configure their CORS setup
+          | to allow the redirect. As a result, Redusa (this webapp)
+          | only recieves an undetailed "Network Error". Reddit
+          | needs to update their OAuth endpoints to return a JSON
+          | 404 or update their CORS.
+          br
+          br
+          nuxt-link.btn.btn-primary(
+            :to='`/subreddits/search?q=${$route.params.subreddit}`'
+          )
+            i.fa.fa-search.fa-fw
+            | Search for subreddits matching "{{ $route.params.subreddit }}"
+        nuxt-child(v-else :subreddit='subreddit')
       .col.col-12.col-sm-12.col-md-4.col-lg-3.col-xl-3.order-md-12(
         v-if='showSideBar'
       )
@@ -144,7 +162,32 @@ export default {
       };
     }
     return {
-      subreddit: (await reddit.get(`/r/${subreddit}/about`)).data,
+      subreddit: (await reddit
+        .get(`/r/${subreddit}/about`, {
+          params: {
+            api_type: 'json',
+          },
+        })
+        .catch(err => {
+          // attempting to handle 404 subreddit DNE
+          if (err.message === 'Network Error') {
+            return {
+              data: {
+                ...makeVirtualSubreddit(subreddit),
+                networkError: true,
+              },
+            };
+            // console.error(err);
+            // console.error(err.response); // undefined
+            // console.error(err.config); // valid, but useless
+            // console.error(err.request); // undefined
+            // console.error(err.code); // undefined
+            // console.error(err.message); // 'Network Error'
+            // console.error(err.prototype); // undefined
+          }
+
+          throw err;
+        })).data,
       // rules: (await reddit.get(`/r/${subreddit}/about/rules`)).data,
       // docs are wrong, DNE
       // sidebar: (await reddit.get(`/r/${subreddit}/sidebar`)).data,
