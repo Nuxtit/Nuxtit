@@ -36,6 +36,8 @@
           | &#32;
           b-badge(v-if='post.data.locked') [locked]
           | &#32;
+          b-badge(v-if='post.data.author_patreon_flair') [patreon]
+          | &#32;
           b-badge(v-if='post.data.approved', variant='success') [approved]
           | &#32;
           b-badge(v-if='post.data.removed', variant='danger') [removed]
@@ -69,6 +71,8 @@
           FlairBadge(:item='post' type='author')
           | &#32;
           MasstaggerBadge(:item='post' type='author')
+          | &#32;
+          GildedBadge(:item='post')
           | &#32;
           | to
           | &#32;
@@ -125,7 +129,7 @@
           template(v-if='!isAuthor')
             //- GiveGoldButton(:item='post')
             //- | &#32;
-            ReportButton(:item='post' v-if='!isAuthor')
+            ReportButton(:item='post')
             | &#32;
           span.btn-reply-toggle(
             vif="post.data.send_replies"
@@ -191,6 +195,7 @@ import CrossPostButton from '~/components/CrossPostButton';
 import DeleteButton from '~/components/DeleteButton';
 import DownVote from '~/components/DownVote';
 import FlairBadge from '~/components/FlairBadge';
+import GildedBadge from '~/components/GildedBadge';
 import HideButton from '~/components/HideButton';
 import LockButton from '~/components/LockButton';
 import MasstaggerBadge from '~/components/MasstaggerBadge';
@@ -222,6 +227,7 @@ export default {
     DeleteButton,
     DownVote,
     FlairBadge,
+    GildedBadge,
     HideButton,
     LockButton,
     MasstaggerBadge,
