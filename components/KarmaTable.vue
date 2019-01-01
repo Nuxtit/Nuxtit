@@ -1,22 +1,5 @@
 <template lang="pug">
   .karma-table
-    .row.text-center
-      .col(v-if='firstTimestamp')
-        span.text-muted from:&#32;
-        DateTime(
-          :value='firstTimestamp'
-        )
-      .col
-        h5
-          | {{ items.data.children.length }} Items
-          br
-          small.text-muted on this page
-      .col(v-if='lastTimestamp')
-        span.text-muted until:&#32;
-        DateTime(
-          v-if='lastTimestamp'
-          :value='lastTimestamp'
-        )
     p
       span.btn-see-markdown(
         @click.prevent.stop='showMarkdown^=true'
@@ -63,28 +46,18 @@
 </template>
 
 <script>
-import get from 'lodash/get';
-import first from 'lodash/first';
-import find from 'lodash/find';
-import isInteger from 'lodash/isInteger';
 import isNumber from 'lodash/isNumber';
 import last from 'lodash/last';
 import bFormTextarea from 'bootstrap-vue/es/components/form-textarea/form-textarea';
 import DateTime from '~/components/DateTime.vue';
-import CommentEntry from '~/components/CommentEntry';
-import PostEntry from '~/components/PostEntry';
 import SubredditLink from '~/components/SubredditLink';
-import { Kind } from '~/lib/enum';
 import { makeComputeToggler } from '~/lib/toggle_open';
-import { sortObject } from '~/lib/object';
 
 export default {
   name: 'KarmaTable',
   components: {
     bFormTextarea,
-    CommentEntry,
     DateTime,
-    PostEntry,
     SubredditLink,
   },
   props: {
@@ -92,7 +65,7 @@ export default {
       type: Object,
       required: true,
     },
-    items: {
+    rows: {
       type: Object,
       required: true,
     },
@@ -105,54 +78,15 @@ export default {
   computed: {
     showMarkdown: makeComputeToggler('markdown'),
     showSource: makeComputeToggler('source'),
-    rows() {
-      const unsorted = this.items.data.children.reduce(
-        (carry, { kind, data }) => {
-          if (!carry[data.subreddit]) {
-            carry[data.subreddit] = {
-              pc: 0,
-              pk: 0,
-              cc: 0,
-              ck: 0,
-              oc: 0,
-            };
-          }
-          if (isInteger(data.score)) {
-            if (kind === Kind.Post) {
-              carry[data.subreddit].pk += data.score;
-              carry[data.subreddit].pc++;
-            } else if (kind === Kind.Comment) {
-              carry[data.subreddit].ck += data.score;
-              carry[data.subreddit].cc++;
-            } else {
-              carry[data.subreddit].oc++;
-            }
-          }
-          return carry;
-        },
-        {},
-      );
-      return sortObject(unsorted);
-    },
     rowsMarkdown() {
-      const {
-        rows,
-        user,
-        firstTimestamp,
-        lastTimestamp,
-        dateNumToString,
-      } = this;
+      const { rows, user } = this;
       const columnAlignments = ':--|--:|--:|--:|--:|--:|--:\n';
       let text = '';
       if (user) {
         /*eslint-disable*/
         text += `##### /u/${
           user.data.name
-        } Karma Summary from ${
-          dateNumToString(firstTimestamp > lastTimestamp ? firstTimestamp : lastTimestamp)
-        } until ${
-          dateNumToString(firstTimestamp > lastTimestamp ? lastTimestamp : firstTimestamp)
-        } \n`;
+        } Karma Summary \n`;
         /*eslint-enable*/
       }
       text += 'Subreddit|Comments|(Karma)|(avg)|Posts|(Karma)|(avg)\n';
@@ -175,39 +109,20 @@ export default {
       }
       return text;
     },
-    firstTimestamp() {
-      const { sort } = this.$route.params;
-      if (sort && sort !== 'new') return;
-      const item =
-        find(this.items.data.children, item => {
-          if (item.data) {
-            if (item.data.pinned) return false;
-            if (item.data.stickied) return false;
-          }
-          return true;
-        }) || last(this.items.data.children);
-      return get(item.data, 'created_utc');
-    },
-    lastTimestamp() {
-      const { sort } = this.$route.params;
-      if (sort && sort !== 'new') return;
-      const item = last(this.items.data.children);
-      return get(item.data, 'created_utc');
-    },
   },
   methods: {
-    toDate(value) {
-      if (value instanceof Date) {
-        return value;
-      }
-      if (isNumber(value)) {
-        return new Date(value * 1000);
-      }
-      return new Date(value);
-    },
-    dateNumToString(value) {
-      return this.toDate(value).toLocaleString();
-    },
+    // toDate(value) {
+    //   if (value instanceof Date) {
+    //     return value;
+    //   }
+    //   if (isNumber(value)) {
+    //     return new Date(value * 1000);
+    //   }
+    //   return new Date(value);
+    // },
+    // dateNumToString(value) {
+    //   return this.toDate(value).toLocaleString();
+    // },
   },
 };
 </script>
