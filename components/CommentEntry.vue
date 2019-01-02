@@ -18,6 +18,8 @@
       | &#32;
       b-badge(v-if='comment.data.author_patreon_flair') [patreon]
       | &#32;
+      b-badge(v-if='comment.data.author_cakeday') [cakeday]
+      | &#32;
       TimeAgo(:value='comment.data.created_utc')
       template(v-if='comment.data.edited') *
       | &#32;

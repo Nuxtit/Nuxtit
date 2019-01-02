@@ -38,6 +38,8 @@
           | &#32;
           b-badge(v-if='post.data.author_patreon_flair') [patreon]
           | &#32;
+          b-badge(v-if='post.data.author_cakeday') [cakeday]
+          | &#32;
           b-badge(v-if='post.data.approved', variant='success') [approved]
           | &#32;
           b-badge(v-if='post.data.removed', variant='danger')
