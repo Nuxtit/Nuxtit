@@ -34,10 +34,25 @@
         :to='comment.data.permalink'
       )
         small on {{ comment.data.link_title }}
-      .score.pull-right
+      .pull-right
         i.fa.fa-fw.fa-btn.btn-collapse(
           :class='collapsed ? "fa-plus" : "fa-minus"'
           @click.prevent.stop='toggleCollapsed'
+        )
+    .card-body(v-if="!collapsed")
+      ItemHtml(:item='comment')
+      .options-icons.pull-right
+        span.btn-reply-toggle(
+          v-if='comment.data.send_replies'
+          :class='showReply ? "text-info" : ""'
+          @click.prevent.stop='showReply^=true'
+        )
+          i.fa.fa-fw.fa-btn.fa-reply
+        | &nbsp;
+        | &nbsp;
+        i.fa.fa-cog.fa-fw.fa-btn.btn-options(
+          :class='showOptions ? "text-info" : ""'
+          @click.prevent.stop='showOptions^=true'
         )
         | &nbsp;
         | &nbsp;
@@ -50,9 +65,7 @@
         DownVote(:item='comment')
         | &nbsp;
         | &nbsp;
-    .card-body(v-if="!collapsed")
-      ItemHtml(:item='comment')
-    .card-footer.text-muted.bg-light(v-if="!collapsed")
+    .card-footer.text-muted.bg-light(v-if="!collapsed && showOptions")
       AddToQueueButton(:item='comment')
       | &#32;
       a(
@@ -97,12 +110,6 @@
       )
         i.fa.fa-fw.fa-btn.fa-edit
         span edit
-      span.btn-reply-toggle(
-        v-if='comment.data.send_replies'
-        @click.prevent.stop='showReply^=true'
-      )
-        i.fa.fa-fw.fa-btn.fa-reply
-        span reply
       | &#32;
       //- HideButton(:item='comment')
       //- | &#32;
@@ -260,6 +267,7 @@ export default {
     showReports: makeComputeToggler('reports'),
     showEdit: makeComputeToggler('edit'),
     showCrossPost: makeComputeToggler('cross'),
+    showOptions: makeComputeToggler('options'),
   },
   methods: {
     toggleCollapsed($event) {
@@ -297,4 +305,6 @@ export default {
         font-size: 0.85rem;
   .btn-collapse, .btn-reply-toggle, .btn-edit-toggle, .btn-see-source
     cursor: pointer;
+  .options-icons
+    margin-top: -1rem;
 </style>
