@@ -1,12 +1,25 @@
 <template lang="pug">
   div
     h3 /r/{{multi.data.display_name}}
+    b-nav(tabs)
+      b-nav-item(
+        :to='`/r/${$route.params.multi}`'
+      )
+        i.fa.fa-fw.fa-btn.fa-list
+        | &#32;
+        | Posts
+      b-nav-item(
+        :to='`/r/${$route.params.multi}/comments`'
+      )
+        i.fa.fa-fw.fa-btn.fa-list
+        | &#32;
+        | Comments
     nuxt-child(:multi='multi')
 </template>
 
 <script>
-import first from 'lodash/first';
-import bImg from 'bootstrap-vue/es/components/image/img';
+import bNav from 'bootstrap-vue/es/components/nav/nav';
+import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import ValidatePostSort from '~/mixins/ValidatePostSort';
 import ItemHtml from '~/components/ItemHtml';
 import PostList from '~/components/PostList.vue';
@@ -21,7 +34,8 @@ export default {
   middleware: ['auth'],
   defaultSort: 'hot',
   components: {
-    bImg,
+    bNav,
+    bNavItem,
     ItemHtml,
     PostList,
     RedditPagination,
