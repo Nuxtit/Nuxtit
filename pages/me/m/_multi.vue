@@ -3,13 +3,13 @@
     h3 /r/{{multi.data.display_name}}
     b-nav(tabs)
       b-nav-item(
-        :to='`/r/${$route.params.multi}`'
+        :to='`/me/m/${$route.params.multi}`'
       )
         i.fa.fa-fw.fa-btn.fa-list
         | &#32;
         | Posts
       b-nav-item(
-        :to='`/r/${$route.params.multi}/comments`'
+        :to='`/me/m/${$route.params.multi}/comments`'
       )
         i.fa.fa-fw.fa-btn.fa-list
         | &#32;
