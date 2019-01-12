@@ -31,6 +31,11 @@
       | &#32;
       b-badge(v-if='comment.data.spam', variant='danger') [spam]
       | &#32;
+      SubredditLink(
+        v-if='!$route.params.subreddit && comment.data.subreddit'
+        :subreddit='comment.data.subreddit'
+      )
+      | &#32;
       nuxt-link(
         v-if='!$route.params.post_id && comment.data.link_title'
         :to='comment.data.permalink'
@@ -82,11 +87,6 @@
       )
         i.fa.fa-fw.fa-btn.fa-external-link
         span permalink
-      | &#32;
-      SubredditLink(
-        v-if='!$route.params.subreddit && comment.data.subreddit'
-        :subreddit='comment.data.subreddit'
-      )
       | &#32;
       SaveButton(:item='comment')
       | &#32;
