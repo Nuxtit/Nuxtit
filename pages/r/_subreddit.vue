@@ -47,6 +47,12 @@
         | &#32;
         | Posts
       b-nav-item(
+        :to='`/r/${$route.params.subreddit}/comments`'
+      )
+        i.fa.fa-fw.fa-btn.fa-list
+        | &#32;
+        | Comments
+      b-nav-item(
         :to='`/r/${$route.params.subreddit}/description`'
       )
         i.fa.fa-fw.fa-btn.fa-book
