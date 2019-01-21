@@ -45,12 +45,19 @@ export default {
       },
     },
   },
-  data() {
-    return {
-      q: '',
-    };
-  },
   computed: {
+    q: {
+      get() {
+        return this.$route.query.q;
+      },
+      set(value) {
+        this.$router.push(
+          this.$mergeRouteQuery({
+            q: value || void 0,
+          }),
+        );
+      },
+    },
     subreddit() {
       return this.$route.params.subreddit;
     },
