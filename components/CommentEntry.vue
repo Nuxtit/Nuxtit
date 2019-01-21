@@ -163,7 +163,7 @@
     pre(v-if="showReports && !collapsed")
       tt: small(v-text="comment.data.user_reports")
     pre(v-if="showSource && !collapsed")
-      tt: small(v-text="comment.data")
+      tt: small(v-text="comment")
   CommentTree(
     v-if='showReplies && !collapsed'
     :comments='comment.data.replies'

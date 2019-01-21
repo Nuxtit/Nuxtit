@@ -116,7 +116,7 @@
     //-   @close='showCrossPost = false'
     //- )
     pre(v-if="showSource && !collapsed")
-      tt: small(v-text="message.data")
+      tt: small(v-text="message")
   MessageTree(
     v-if='showReplies && !collapsed'
     :messages='message.data.replies'
