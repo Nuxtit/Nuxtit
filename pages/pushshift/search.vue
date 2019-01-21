@@ -5,7 +5,7 @@
         .col
           SelectQueryKind()
         .col
-          SelectQueryLimit(:max="500")
+          SelectQuerySize(:max="500")
       .row
         .col
           SelectQuerySubredditCsv()
@@ -23,6 +23,20 @@
             :busy="fetching"
             @update-search="fetchItems"
           )
+          br
+          p
+            strong aaaa bbbb
+            br
+            span find items containing "aaaa" AND "bbbb"
+            br
+            strong aaaa | bbbb
+            br
+            span find items containing "aaaa" OR "bbbb"
+            br
+            strong cccc | (aaaa | bbbb)
+            br
+            span find items containing "aaaa" OR "bbbb", and always "cccc"
+            br
         .col
           p
             strong subreddit:<em>subreddit</em>
@@ -70,10 +84,10 @@
     //-       | Type in a query to start searching
     template(v-if='!zeroResults')
       .pull-right
-        a.btn.btn-pimary(
+        nuxt-link.btn.btn-pimary(
           v-if="lastCreatedAt"
           :to="$mergeRouteQuery({ before: lastCreatedAt + 1 })"
-          @click.prevent.stop="nextPage"
+          @click.native="nextPage"
         ) next page
     template(v-if='$route.query.q && zeroResults')
       br
@@ -90,7 +104,7 @@ import RedditPagination from '~/components/RedditPagination.vue';
 import PushshiftItems from '~/mixins/PushshiftItems';
 import SearchInput from '~/components/SearchInput';
 import SelectQueryKind from '~/components/SelectQueryKind';
-import SelectQueryLimit from '~/components/SelectQueryLimit';
+import SelectQuerySize from '~/components/SelectQuerySize';
 import SelectQueryAuthorCsv from '~/components/SelectQueryAuthorCsv';
 import SelectQueryText from '~/components/SelectQueryText';
 import SelectQuerySubredditCsv from '~/components/SelectQuerySubredditCsv';
@@ -104,7 +118,7 @@ export default {
     RedditPagination,
     SearchInput,
     SelectQueryKind,
-    SelectQueryLimit,
+    SelectQuerySize,
     SelectQueryText,
     SelectQueryAuthorCsv,
     SelectQuerySubredditCsv,

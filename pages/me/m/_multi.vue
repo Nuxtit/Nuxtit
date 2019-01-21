@@ -14,6 +14,12 @@
         i.fa.fa-fw.fa-btn.fa-list
         | &#32;
         | Comments
+      b-nav-item(
+        :to='{ path: "/pushshift/search/", query: { kind: "comment", subreddit: multi.data.subreddits.map(s=>s.name).join(",") } }'
+      )
+        i.fa.fa-fw.fa-btn.fa-list
+        | &#32;
+        | Pushshift
     nuxt-child(:multi='multi')
 </template>
 
@@ -29,6 +35,7 @@ import UserLink from '~/components/UserLink';
 import RedditItems from '~/mixins/RedditItems';
 import { makeVirtualSubreddit } from '~/lib/subreddit';
 import { makeComputeToggler } from '~/lib/toggle_open';
+import find from 'lodash/find';
 
 export default {
   middleware: ['auth'],
@@ -49,8 +56,11 @@ export default {
   },
   async asyncData({ store, reddit, route }) {
     const { multi } = route.params;
+    const multis = await reddit.get(`/api/multi/mine`);
+    //eslint-disable-next-line
+    console.log(multis.data, multi, find(multis.data, m => m.data.name === multi));
     return {
-      multi: makeVirtualSubreddit(multi),
+      multi: find(multis.data, m => m.data.name === multi),
     };
   },
 };
