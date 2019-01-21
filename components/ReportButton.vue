@@ -1,16 +1,11 @@
 <template lang="pug">
   span.btn-hide(
-    v-show='false /* @todo */'
     v-disabled="busy"
     :class='classes'
-    @click.stop.prevent="hide"
+    @click.stop.prevent="report"
   )
-    i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-hide(v-else)
-    span(v-if='busy && item.data.hidden') unhiding
-    span(v-else-if='busy && !item.data.hidden') hiding
-    span(v-else-if='item.data.hidden') hidden
-    span(v-else) hide
+    i.fa.fa-fw.fa-btn.fa-bullhorn
+    | &#32;report
 </template>
 
 <script>
@@ -38,26 +33,34 @@ export default {
     },
   },
   methods: {
-    async hide($event) {
-      // const { removed, name } = this.item.data;
-      // const minWait = startMinWait();
-      // try {
-      //   this.busy = true;
-      //   const response = await this.$reddit.post(
-      //     `/api/${removed ? 'remove' : 'unremove'}`,
-      //     {
-      //       // category: '???',
-      //       id: name, // fullname
+    async report($event) {
+      const { item } = this;
+      const { subreddit, name } = this.item.data;
+      const responses = {};
+      // responses.is_current_user_subscribed = await this.$reddit.get(
+      //   '/api/is_current_user_subscribed.json',
+      //   {
+      //     params: {
+      //       sr_name: subreddit,
       //     },
-      //   );
-      //   this.item.data.removed = !removed;
-      // } catch (err) {
-      //   console.error(err);
-      //   this.error = err;
-      // } finally {
-      //   await minWait;
-      //   this.busy = false;
-      // }
+      //   },
+      // );
+      // responses.sitewide_rules = await this.$reddit.get('sitewide_rules.json');
+      // responses.report_form = await this.$reddit.get('/api/report_form', {
+      //   params: {
+      //     thing: name,
+      //     api_type: 'json',
+      //     r: subreddit,
+      //     // renderstyle: 'html',
+      //   },
+      // });
+
+      const srRulesResponse = await this.$reddit.get(
+        `/r/${subreddit}/about/rules`,
+      );
+
+      const { rules, site_rules, site_rules_flow } = srRulesResponse.data;
+      console.log({ rules, site_rules, site_rules_flow });
     },
   },
 };

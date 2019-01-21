@@ -24,7 +24,7 @@
       span see source
   .subreddit-row-source(v-if='open')
     pre(v-if='showSource')
-      tt: small(v-text="subreddit.data")
+      tt: small(v-text="subreddit")
 </template>
 
 <script>
