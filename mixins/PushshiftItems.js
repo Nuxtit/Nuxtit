@@ -14,6 +14,7 @@ import QueryParamKind, { parseKind } from '~/mixins/QueryParamKind';
 import Vue from 'vue';
 
 const defaultParams = Object.freeze({
+  size: 25,
   // limit: 25,
   // pretty: false,
   sort: 'desc',
@@ -54,7 +55,7 @@ export default function({ path, query, shouldAttemptApi }) {
 
       const params = {
         q: route.query.q || void 0,
-        limit: route.query.limit || void 0,
+        size: route.query.size || void 0,
         before: route.query.before || void 0,
         after: route.query.after || void 0,
       };
