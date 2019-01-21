@@ -9,12 +9,14 @@
       v-model='q'
     )
     b-button.my-2.my-sm-0(
+      :disabled="busy"
       size='sm'
       type='submit'
       @keyup.enter.prevent.stop="$emit('update-search')"
       @click.prevent.stop="$emit('update-search')"
     )
-      i.fa.fa-fw.fa-btn.fa-search
+      i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if="busy")
+      i.fa.fa-fw.fa-btn.fa-search(v-if="!busy")
       | &#32;
       | Search
 </template>
@@ -34,6 +36,14 @@ export default {
     bButton,
     bFormInput,
     bNavForm,
+  },
+  props: {
+    busy: {
+      type: Boolean,
+      default() {
+        return false;
+      },
+    },
   },
   data() {
     return {

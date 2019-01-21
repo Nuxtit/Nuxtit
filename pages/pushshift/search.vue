@@ -5,10 +5,22 @@
         .col
           SelectQueryKind()
         .col
+          SelectQueryLimit(:max="500")
+      .row
+        .col
           SelectQuerySubredditCsv()
       .row
         .col
+          SelectQueryAuthorCsv()
+      .row
+        .col
+          SelectQueryText(path="after" placeholder="after: 1{s,m,h,d}")
+        .col
+          SelectQueryText(path="before" placeholder="before: 1{s,m,h,d}")
+      .row
+        .col
           SearchInput(
+            :busy="fetching"
             @update-search="fetchItems"
           )
         .col
@@ -51,11 +63,18 @@
       //-   :collection='items'
       //-   :fetching='fetching'
       //- )
-    template(v-if='!$route.query.q')
-      br
-      .container
-        .alert.alert-primary
-          | Type in a query to start searching
+    //- template(v-if='!$route.query.q')
+    //-   br
+    //-   .container
+    //-     .alert.alert-primary
+    //-       | Type in a query to start searching
+    template(v-if='!zeroResults')
+      .pull-right
+        a.btn.btn-pimary(
+          v-if="lastCreatedAt"
+          :to="$mergeRouteQuery({ before: lastCreatedAt + 1 })"
+          @click.prevent.stop="nextPage"
+        ) next page
     template(v-if='$route.query.q && zeroResults')
       br
       .container
@@ -71,6 +90,9 @@ import RedditPagination from '~/components/RedditPagination.vue';
 import PushshiftItems from '~/mixins/PushshiftItems';
 import SearchInput from '~/components/SearchInput';
 import SelectQueryKind from '~/components/SelectQueryKind';
+import SelectQueryLimit from '~/components/SelectQueryLimit';
+import SelectQueryAuthorCsv from '~/components/SelectQueryAuthorCsv';
+import SelectQueryText from '~/components/SelectQueryText';
 import SelectQuerySubredditCsv from '~/components/SelectQuerySubredditCsv';
 
 export default {
@@ -82,6 +104,9 @@ export default {
     RedditPagination,
     SearchInput,
     SelectQueryKind,
+    SelectQueryLimit,
+    SelectQueryText,
+    SelectQueryAuthorCsv,
     SelectQuerySubredditCsv,
   },
   mixins: [

@@ -1,5 +1,8 @@
+import chunk from 'lodash/chunk';
 import get from 'lodash/get';
 import find from 'lodash/find';
+import last from 'lodash/last';
+import flatten from 'lodash/flatten';
 import map from 'lodash/map';
 import includes from 'lodash/includes';
 import isFunction from 'lodash/isFunction';
@@ -51,10 +54,14 @@ export default function({ path, query, shouldAttemptApi }) {
 
       const params = {
         q: route.query.q || void 0,
+        limit: route.query.limit || void 0,
+        before: route.query.before || void 0,
+        after: route.query.after || void 0,
       };
 
       if (kind === Kind.Post || kind === Kind.Comment) {
         params.subreddit = route.query.subreddit || void 0;
+        params.author = route.query.author || void 0;
       }
       return params;
     };
@@ -76,7 +83,6 @@ export default function({ path, query, shouldAttemptApi }) {
       redditQuery() {
         return query({
           route: this.$route,
-          kind: this.kind,
         });
       },
       redditQueryJson() {
@@ -84,6 +90,13 @@ export default function({ path, query, shouldAttemptApi }) {
       },
       zeroResults() {
         return !(get(this.items, 'data.children.length', 0) > 0);
+      },
+      lastCreatedAt() {
+        const lastCreatedAt = get(
+          last(get(this.items, 'data.children')),
+          'data.created_utc',
+        );
+        return lastCreatedAt || null;
       },
     },
     async asyncData({ reddit, route, store }) {
@@ -167,6 +180,17 @@ export default function({ path, query, shouldAttemptApi }) {
           return true;
         }
       },
+      async nextPage() {
+        await this.$router.push(
+          this.$mergeRouteQuery({
+            before: this.lastCreatedAt + 1,
+          }),
+        );
+        await this.$nextTick();
+        await this.$nextTick();
+        await this.fetchItems();
+        window.scrollTo(0, 400);
+      },
     },
     watch: {
       filterOptions: {
@@ -188,14 +212,21 @@ export default function({ path, query, shouldAttemptApi }) {
 async function pushshiftItemsToRedditItems({ reddit, input, route }) {
   const kind = parseKind(route.query.kind);
   /* eslint-disable */
-  const response = await reddit.get('/api/info', {
-    params: {
-      id:  input.map(entry => `${kind}_${entry.id}`).join(','),
-      // url
-    },
-  });
-  console.log({ response });
-  const redditChildren = get(response, 'data.data.children');
+
+  // this api call only acepts 100;
+  const chunks = chunk(input, 100);
+  let responses = [];
+  for (let i = 0; i < chunks.length; i++) {
+    responses.push(await reddit.get('/api/info', {
+      params: {
+        id:  chunks[i].map(entry => `${kind}_${entry.id}`).join(','),
+        // url
+      },
+    }))
+  }
+  const redditChildren = flatten(
+    responses.map(response => get(response, 'data.data.children')),
+  );
   console.log({ redditChildren });
   const children = map(input, (item) => {
     const redditItem = find(redditChildren, redditItem => {
