@@ -85,6 +85,11 @@ module.exports = {
       target: 'https://masstagger.com',
       ws: false,
     },
+    '/api-pushshift': {
+      pathRewrite: { '^/api-pushshift' : '' },
+      target: 'https://api.pushshift.io',
+      ws: false,
+    },
   },
 
   /*

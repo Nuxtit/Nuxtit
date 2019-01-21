@@ -187,7 +187,7 @@
       pre(v-if='showReports')
         tt: small(v-text="post.data.user_reports")
       pre(v-if='showSource')
-        tt: small(v-text="post.data")
+        tt: small(v-text="post")
 </template>
 
 <script>

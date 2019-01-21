@@ -19,7 +19,7 @@ export default {
 
 function parseLimit(value) {
   value = parseInt(value) || defaultLimit;
-  value = Math.min(100, value);
+  value = Math.min(1000, value);
   value = Math.max(1, value);
   return value;
 }

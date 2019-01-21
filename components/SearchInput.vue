@@ -11,6 +11,8 @@
     b-button.my-2.my-sm-0(
       size='sm'
       type='submit'
+      @keyup.enter.prevent.stop="$emit('update-search')"
+      @click.prevent.stop="$emit('update-search')"
     )
       i.fa.fa-fw.fa-btn.fa-search
       | &#32;
