@@ -8,6 +8,8 @@
           SelectQueryKind()
         .col
           SelectQuerySize(:max="500")
+        .col(v-if="$route.query.kind === 'post'")
+          SelectQueryPostGroupBy()
       .row
         .col
           SelectQuerySubredditCsv()
@@ -60,7 +62,14 @@
         //-   :collection='items'
         //-   :fetching='fetching'
         //- )
-        MixedList(:items='items')
+        PostsGroupedByLinks(
+          v-if='$route.query.kind === "post" && $route.query.post_group_by === "link_url"'
+          :items='items'
+        )
+        MixedList(
+          v-else
+          :items='items'
+        )
         //- RedditPagination(
         //-   v-if='showBottomPagination'
         //-   :collection='items'
@@ -91,8 +100,10 @@ import ValidatePostSort from '~/mixins/ValidatePostSort';
 import MixedList from '~/components/MixedList.vue';
 import PushshiftList from '~/components/PushshiftList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
+import PostsGroupedByLinks from '~/components/PostsGroupedByLinks';
 import PushshiftItems from '~/mixins/PushshiftItems';
 import SearchInput from '~/components/SearchInput';
+import SelectQueryPostGroupBy from '~/components/SelectQueryPostGroupBy';
 import SelectQueryKind from '~/components/SelectQueryKind';
 import SelectQuerySize from '~/components/SelectQuerySize';
 import SelectQueryAuthorCsv from '~/components/SelectQueryAuthorCsv';
@@ -108,6 +119,8 @@ export default {
     PushshiftList,
     RedditPagination,
     SearchInput,
+    PostsGroupedByLinks,
+    SelectQueryPostGroupBy,
     SelectQueryKind,
     SelectQuerySize,
     SelectQueryText,

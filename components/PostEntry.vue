@@ -1,7 +1,7 @@
 <template lang="pug">
 .post-entry
   .row
-    .col-thumbnail
+    .col-thumbnail(v-if='showThumbnail')
       PostThumbnail(
         :post="post"
         @expand="showImage^=true"
@@ -255,6 +255,10 @@ export default {
     post: {
       type: Object,
       required: true,
+    },
+    showThumbnail: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
