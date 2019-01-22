@@ -3,6 +3,7 @@
     b-form-input(
       name='subreddit'
       v-model='subreddit'
+      placeholder='subreddits'
     )
 </template>
 
