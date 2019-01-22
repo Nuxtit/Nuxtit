@@ -13,10 +13,13 @@ b-navbar(toggleable='md', type='dark')
 
     // Right aligned nav items
     b-navbar-nav.ml-auto
-      SearchInput(
-        v-if='!isSearchPage'
-        is-navbar
-      )
+      .btn-group
+        nuxt-link.btn.btn-primary(to='/search')
+          i.fa.fa-search.fa-btn
+          | Search
+        nuxt-link.btn.btn-primary(to='/pushshift/search')
+          | Pushshift
+
 
       b-nav-item-dropdown(right v-if="MeData.name")
         // Using button-content slot

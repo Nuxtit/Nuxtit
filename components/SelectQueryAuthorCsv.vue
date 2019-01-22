@@ -3,6 +3,7 @@
     b-form-input(
       name='author'
       v-model='author'
+      placeholder='authors'
     )
 </template>
 
