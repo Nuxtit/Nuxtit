@@ -1,14 +1,14 @@
 <template lang="pug">
   span.btn-remove(
-    v-disabled="busy || item.data.removed"
+    v-disabled="busy || isRemoved"
     :class='classes'
     @click.stop.prevent="remove"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-remove(v-else)
-    span(v-if='busy && item.data.removed') unremoving
-    span(v-else-if='busy && !item.data.removed') removing
-    span(v-else-if='item.data.removed') removed
+    span(v-if='busy && isRemoved') unremoving
+    span(v-else-if='busy && !isRemoved') removing
+    span(v-else-if='isRemoved') removed
     span(v-else) remove
 </template>
 
@@ -32,9 +32,21 @@ export default {
     };
   },
   computed: {
+    isRemoved() {
+      if (this.item.data.removed) {
+        return true;
+      }
+      if (!this.item.data.approved) {
+        // @link https://old.reddit.com/r/bugs/comments/ak741x/when_automoderator_removes_a_comment_in_the_api/?
+        if (this.item.data.banned_by === 'AutoModerator') {
+          return true;
+        }
+      }
+      return false;
+    },
     classes() {
       return {
-        'text-success': this.item.data.removed === true,
+        'text-success': this.isRemoved,
       };
     },
   },
