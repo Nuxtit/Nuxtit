@@ -1,9 +1,10 @@
 <template lang="pug">
-  span.btn-save(
+  span.btn-add-to-queue(
     v-show='isValidQueueable'
     v-disabled="busy"
     :class='classes'
     @click.stop.prevent="addToQueue"
+    :title='tooltip'
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-times(v-else-if='queued')
@@ -67,47 +68,49 @@ export default {
     },
     isValidQueueable() {
       const { kind, data } = this.item;
-      // console.log(kind, data);
-      if (kind === Kind.Comment) {
-        return true;
-      } else if (kind === Kind.Post) {
-        return true;
-      } else if (kind === Kind.Message) {
+      const { payload } = this;
+
+      if (!(payload && payload.route)) {
         return false;
-      } else {
-        // console.log('kind', kind, data);
       }
-      return false;
+      return true;
     },
     payload() {
       const { kind, data } = this.item;
+      console.log('payload', { kind, data });
+      const route = data.permalink || data.context;
+      const createdAt = now();
       if (kind === Kind.Comment) {
         return {
           name: data.name,
           text: (data.body || '').slice(0, 128),
-          route: data.permalink,
-          createdAt: now(),
+          route,
+          createdAt,
         };
         // console.log(data);
       } else if (kind === Kind.Post) {
         return {
           name: data.name,
           text: data.title,
-          route: data.permalink,
-          createdAt: now(),
+          route,
+          createdAt,
         };
         // console.log(data);
       } else if (kind === Kind.Message) {
+        console.log(data);
         return {
           name: data.name,
           title: data.subject,
-          route: data.context,
-          createdAt: now(),
+          route,
+          createdAt,
         };
         // console.log(data);
       } else {
         // console.log('kind', kind);
       }
+    },
+    tooltip() {
+      return JSON.stringify(this.payload, null, 2);
     },
   },
   methods: {
@@ -124,6 +127,6 @@ export default {
 </script>
 
 <style lang="sass">
-.btn-save
+.btn-add-to-queue
   cursor: pointer
 </style>
