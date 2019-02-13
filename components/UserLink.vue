@@ -1,5 +1,7 @@
 <template lang="pug">
+  tt(v-if="username==='[deleted]'" v-text="username")
   nuxt-link(
+    v-else
     :to="`/user/${username}`"
     v-text="`/u/${username}`"
     :style='styles'

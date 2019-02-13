@@ -34,7 +34,7 @@ argv.option({
   type: 'int',
   description:
     'the sum of all comments/posts by a user in the subreddits must add up to this value',
-  example: "'script --subreddit=stallmanwasright --min-comment-karma=100'",
+  example: "'script --subreddit=stallmanwasright --min-karma=100'",
 });
 
 argv.option({
@@ -61,7 +61,7 @@ argv.option({
   type: 'int',
   description:
     'the sum of all post karma by a user in the subreddits must add up to this value',
-  example: "'script --subreddit=stallmanwasright --min-comment-karma=100'",
+  example: "'script --subreddit=stallmanwasright --min-post-karma=100'",
 });
 
 argv.option({
@@ -70,7 +70,7 @@ argv.option({
   type: 'int',
   description:
     'the count of all posts by a user in the subreddits must add up to this value',
-  example: "'script --subreddit=stallmanwasright --min-comment-count=100'",
+  example: "'script --subreddit=stallmanwasright --min-post-count=100'",
 });
 
 const args = argv.run();

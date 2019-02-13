@@ -23,11 +23,9 @@
       TimeAgo(:value='comment.data.created_utc')
       template(v-if='comment.data.edited') *
       | &#32;
-      b-badge(v-if='comment.data.approved', variant='success') [approved]
+      ApprovedBadge(:item="comment")
       | &#32;
-      b-badge(v-if='comment.data.removed', variant='danger')
-        template(v-if='comment.data.removal_reason') [removed: {{comment.data.removal_reason}}]
-        template [removed]
+      RemovedBadge(:item="comment")
       | &#32;
       b-badge(v-if='comment.data.spam', variant='danger') [spam]
       | &#32;
@@ -137,6 +135,12 @@
       )
         i.fa.fa-fw.fa-btn.fa-code
         span reports ({{ comment.data.user_reports.length }})
+      span.btn-see-reports(
+        v-if='comment.data.user_reports_dismissed && comment.data.user_reports_dismissed.length > 0'
+        @click.prevent.stop='showReports^=true'
+      )
+        i.fa.fa-fw.fa-btn.fa-code
+        span reports (dismissed) ({{ comment.data.user_reports_dismissed.length }})
       span.btn-see-source(
         @click.prevent.stop='showSource^=true'
       )
@@ -161,7 +165,10 @@
       @close='showCrossPost = false'
     )
     pre(v-if="showReports && !collapsed")
-      tt: small(v-text="comment.data.user_reports")
+      .alert.alert-danger(v-if="comment.data.user_reports && comment.data.user_reports.length > 0")
+        tt: small(v-text="comment.data.user_reports")
+      .alert.alert-info(v-if="comment.data.user_reports_dismissed && comment.data.user_reports_dismissed.length > 0")
+        tt: small(v-text="comment.data.user_reports_dismissed")
     pre(v-if="showSource && !collapsed")
       tt: small(v-text="comment")
   CommentTree(
@@ -173,6 +180,7 @@
 <script>
 import get from 'lodash/get';
 import ApproveButton from '~/components/ApproveButton';
+import ApprovedBadge from '~/components/ApprovedBadge';
 import AddToQueueButton from '~/components/AddToQueueButton';
 import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
@@ -184,6 +192,7 @@ import HideButton from '~/components/HideButton';
 import ItemHtml from '~/components/ItemHtml';
 import MasstaggerBadge from '~/components/MasstaggerBadge';
 import PostForm from '~/components/PostForm';
+import RemovedBadge from '~/components/RemovedBadge';
 import RemoveButton from '~/components/RemoveButton';
 import ReportButton from '~/components/ReportButton';
 import SaveButton from '~/components/SaveButton';
@@ -200,6 +209,7 @@ export default {
   name: 'CommentEntry',
   components: {
     ApproveButton,
+    ApprovedBadge,
     AddToQueueButton,
     CommentForm,
     CrossPostButton,
@@ -211,6 +221,7 @@ export default {
     ItemHtml,
     MasstaggerBadge,
     PostForm,
+    RemovedBadge,
     RemoveButton,
     ReportButton,
     SaveButton,
@@ -236,6 +247,18 @@ export default {
     };
   },
   computed: {
+    isRemoved() {
+      if (this.comment.data.removed) {
+        return true;
+      }
+      if (!this.comment.data.approved) {
+        // @link https://old.reddit.com/r/bugs/comments/ak741x/when_automoderator_removes_a_comment_in_the_api/?
+        if (this.comment.data.banned_by === 'AutoModerator') {
+          return true;
+        }
+      }
+      return false;
+    },
     showReplies() {
       const { replies } = this.comment.data;
       return replies && replies.data.children && replies.data.children.length;

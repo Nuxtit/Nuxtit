@@ -38,7 +38,7 @@ export default {
       }
       if (!this.item.data.approved) {
         // @link https://old.reddit.com/r/bugs/comments/ak741x/when_automoderator_removes_a_comment_in_the_api/?
-        if (this.item.data.banned_by === 'AutoModerator') {
+        if (this.item.data.banned_by) {
           return true;
         }
       }
