@@ -37,6 +37,9 @@ export default {
         'text-success': this.item.data.approved === true,
       };
     },
+    isApproved() {
+      return this.item.data.approved;
+    },
   },
   methods: {
     async approve($event) {

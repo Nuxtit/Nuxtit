@@ -40,11 +40,9 @@
           | &#32;
           b-badge(v-if='post.data.author_cakeday') [cakeday]
           | &#32;
-          b-badge(v-if='post.data.approved', variant='success') [approved]
+          ApprovedBadge(:item="post")
           | &#32;
-          b-badge(v-if='post.data.removed', variant='danger')
-            template(v-if='post.data.removal_reason') [removed: {{post.data.removal_reason}}]
-            template [removed]
+          RemovedBadge(:item="post")
           | &#32;
           b-badge(v-if='post.data.spam', variant='danger') [spam]
           | &#32;
@@ -184,8 +182,11 @@
         :post='post'
         @close='showImage = false'
       )
-      pre(v-if='showReports')
-        tt: small(v-text="post.data.user_reports")
+      pre(v-if="showReports")
+        .alert.alert-danger(v-if="post.data.user_reports && post.data.user_reports.length > 0")
+          tt: small(v-text="post.data.user_reports")
+        .alert.alert-info(v-if="post.data.user_reports_dismissed && post.data.user_reports_dismissed.length > 0")
+          tt: small(v-text="post.data.user_reports_dismissed")
       pre(v-if='showSource')
         tt: small(v-text="post")
 </template>
@@ -193,6 +194,7 @@
 <script>
 import AddToQueueButton from '~/components/AddToQueueButton';
 import ApproveButton from '~/components/ApproveButton';
+import ApprovedBadge from '~/components/ApprovedBadge';
 import CommentEntry from '~/components/CommentEntry';
 import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
@@ -208,6 +210,7 @@ import PostForm from '~/components/PostForm';
 import PostImage from '~/components/PostImage';
 import PostThumbnail from '~/components/PostThumbnail';
 import RemoveButton from '~/components/RemoveButton';
+import RemovedBadge from '~/components/RemovedBadge';
 import ReportButton from '~/components/ReportButton';
 import SaveButton from '~/components/SaveButton';
 import Score from '~/components/Score';
@@ -225,6 +228,7 @@ export default {
   components: {
     AddToQueueButton,
     ApproveButton,
+    ApprovedBadge,
     CommentEntry,
     CommentForm,
     CrossPostButton,
@@ -240,6 +244,7 @@ export default {
     PostImage,
     PostThumbnail,
     RemoveButton,
+    RemovedBadge,
     ReportButton,
     SaveButton,
     Score,
