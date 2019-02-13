@@ -10,6 +10,12 @@
     span(v-else-if='busy && !isRemoved') removing
     span(v-else-if='isRemoved') removed
     span(v-else) remove
+    a(
+      v-if="offerBan && item.data.subreddit"
+      target="_blank"
+      :href="`https://old.reddit.com/r/${item.data.subreddit}/about/banned/`"
+    )  (ban?)
+
 </template>
 
 <script>
@@ -29,6 +35,7 @@ export default {
     return {
       busy: false,
       error: null,
+      offerBan: false,
     };
   },
   computed: {
@@ -83,6 +90,7 @@ export default {
         if (this.item.data.approved_at_utc) {
           this.item.data.approved_at_utc = null;
         }
+        this.offerBan = true;
       } catch (err) {
         console.error(err);
         this.error = err;
