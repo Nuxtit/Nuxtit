@@ -1,0 +1,38 @@
+/*!
+ * More Dark
+ * more css rules on top of bootstrap darkly
+*/
+select option,
+select, select.form-control.custom-select,
+textarea,
+textarea.form-control,
+input,
+input.form-control {
+    background-color: #333;
+    color: #ccc;
+}
+select option:focus,
+select:focus,
+select.form-control.custom-select:focus,
+textarea:focus,
+textarea.form-control:focus,
+input:focus,
+input.form-control:focus {
+    background-color: #222;
+    color: #ddd;
+}
+select option.disabled,
+select.disabled,
+select.form-control.custom-select.disabled,
+textarea.disabled,
+textarea.form-control.disabled,
+input.disabled,
+input.form-control.disabled,
+.form-control:disabled {
+    background-color: #555;
+    color: #ddd;
+    cursor: not-allowed;
+}
+.custom-checkbox {
+    cursor: not-allowed;
+}

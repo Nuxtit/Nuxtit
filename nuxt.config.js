@@ -29,6 +29,7 @@ module.exports = {
       { rel: 'stylesheet', href: '/css/bootstrap-darkly.min.css' },
       // @todo http://fontello.com/
       { rel: 'stylesheet', href: '/css/font-awesome-4.7.0/css/font-awesome.min.css' },
+      { rel: 'stylesheet', href: '/css/more_dark.css' },
 
       { rel: 'apple-touch-iconicon', sizes: '180x180', href: '/apple-touch-icon.png' },
       { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
