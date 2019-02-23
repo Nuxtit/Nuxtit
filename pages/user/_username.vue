@@ -104,6 +104,12 @@
         i.fa.fa-fw.fa-btn.fa-table
         | &#32;
         | Karma Table
+      b-nav-item(
+        :to='{ path: "/pushshift/search/", query: { kind: "comment", author: $route.params.username } }'
+      )
+        i.fa.fa-fw.fa-btn.fa-list
+        | &#32;
+        | Pushshift
     nuxt-child(:user='user')
 </template>
 
