@@ -111,8 +111,6 @@
            p(@click.stop)
              | Read the <a target="_blank" href="https://www.reddit.com/help/contentpolicy">Reddit Content Policy</a>
              | and <a target="_blank" :href="`/r/${item.data.subreddit}/about/rules`">r/{{ item.data.subreddit }}'s rules</a>.
-      </div>
-
 </template>
 
 <script>
@@ -261,6 +259,7 @@ export default {
       this.item.reported = true;
     },
     async prompt($event) {
+      if (this.showingReportModal) return;
       const { item } = this;
       const { subreddit, name } = this.item.data;
       const responses = {};

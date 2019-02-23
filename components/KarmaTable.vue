@@ -48,7 +48,6 @@
 <script>
 import isNumber from 'lodash/isNumber';
 import last from 'lodash/last';
-import bFormTextarea from 'bootstrap-vue/es/components/form-textarea/form-textarea';
 import DateTime from '~/components/DateTime.vue';
 import SubredditLink from '~/components/SubredditLink';
 import { makeComputeToggler } from '~/lib/toggle_open';
@@ -56,7 +55,6 @@ import { makeComputeToggler } from '~/lib/toggle_open';
 export default {
   name: 'KarmaTable',
   components: {
-    bFormTextarea,
     DateTime,
     SubredditLink,
   },
