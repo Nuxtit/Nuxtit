@@ -119,7 +119,6 @@
 <script>
 import get from 'lodash/get';
 import AddToQueueButton from '~/components/AddToQueueButton';
-import bFormTextarea from 'bootstrap-vue/es/components/form-textarea/form-textarea';
 import bFormInput from 'bootstrap-vue/es/components/form-input/form-input';
 
 import QueryParamSelftext from '~/mixins/QueryParamSelftext';
@@ -131,7 +130,6 @@ export default {
   components: {
     AddToQueueButton,
     bFormInput,
-    bFormTextarea,
     UserLink,
   },
   mixins: [QueryParamSelftext],

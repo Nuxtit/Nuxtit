@@ -16,6 +16,7 @@ import bDropdownItem from 'bootstrap-vue/es/components/dropdown/dropdown-item';
 import bBadge from 'bootstrap-vue/es/components/badge/badge';
 import bSelect from 'bootstrap-vue/es/components/form-select/form-select';
 import bModal from 'bootstrap-vue/es/components/modal/modal';
+import bFormTextarea from 'bootstrap-vue/es/components/form-textarea/form-textarea';
 
 import CommentEntry from '~/components/CommentEntry';
 import CommentForm from '~/components/CommentForm';
@@ -50,6 +51,7 @@ Vue.component('b-form-checkbox', bFormCheckbox);
 Vue.component('b-form-radio-group', bFormRadioGroup);
 Vue.component('b-form-radio', bFormRadio);
 Vue.component('b-form-input', bFormInput);
+Vue.component('b-form-textarea', bFormTextarea);
 Vue.component('b-button', bButton);
 Vue.component('b-dropdown-item', bDropdownItem);
 Vue.component('b-badge', bBadge);
