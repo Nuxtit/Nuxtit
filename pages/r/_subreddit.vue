@@ -82,6 +82,13 @@
         i.fa.fa-fw.fa-btn.fa-list
         | &#32;
         | Pushshift
+      b-nav-item(
+        v-if="subreddit.data.user_is_moderator"
+        :to='`/r/${$route.params.subreddit}/about/banned`'
+      )
+        i.fa.fa-fw.fa-btn.fa-ban
+        | &#32;
+        | Banned Users
     .row.clearfix
       .col.order-md-1
         p.alert.alert-danger(v-if='subreddit.networkError')
