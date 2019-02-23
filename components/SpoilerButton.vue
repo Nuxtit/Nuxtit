@@ -1,15 +1,14 @@
 <template lang="pug">
-  span.btn-remove(
-    v-show='false /* @todo */'
+  span.btn-spoiler(
     v-disabled="busy"
     :class='classes'
-    @click.stop.prevent="remove"
+    @click.stop.prevent="spoiler"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-remove(v-else)
-    span(v-if='busy && item.data.removed') unmarking spoiler
-    span(v-else-if='busy && !item.data.removed') marking spoiler
-    span(v-else-if='item.data.removed') spoiler
+    i.fa.fa-fw.fa-btn.fa-user-secret(v-else)
+    span(v-if='busy && item.data.spoiler') unmarking spoiler
+    span(v-else-if='busy && !item.data.spoiler') marking spoiler
+    span(v-else-if='item.data.spoiler') unspoiler
     span(v-else) spoiler
 </template>
 
@@ -33,37 +32,37 @@ export default {
   computed: {
     classes() {
       return {
-        'text-success': this.item.data.removed === true,
+        // 'text-success': this.item.data.spoiler === true,
       };
     },
   },
   methods: {
-    async remove($event) {
-      // const { removed, name } = this.item.data;
-      // const minWait = startMinWait();
-      // try {
-      //   this.busy = true;
-      //   const response = await this.$reddit.post(
-      //     `/api/${removed ? 'remove' : 'unremove'}`,
-      //     {
-      //       // category: '???',
-      //       id: name, // fullname
-      //     },
-      //   );
-      //   this.item.data.removed = !removed;
-      // } catch (err) {
-      //   console.error(err);
-      //   this.error = err;
-      // } finally {
-      //   await minWait;
-      //   this.busy = false;
-      // }
+    async spoiler($event) {
+      const { spoiler, name } = this.item.data;
+      const minWait = startMinWait();
+      try {
+        this.busy = true;
+        const response = await this.$reddit.post(
+          `/api/${spoiler ? 'unspoiler' : 'spoiler'}`,
+          {
+            // category: '???',
+            id: name, // fullname
+          },
+        );
+        this.item.data.spoiler = !spoiler;
+      } catch (err) {
+        console.error(err);
+        this.error = err;
+      } finally {
+        await minWait;
+        this.busy = false;
+      }
     },
   },
 };
 </script>
 
 <style lang="sass">
-.btn-remove
+.btn-spoiler
   cursor: pointer
 </style>

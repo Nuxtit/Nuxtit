@@ -34,6 +34,27 @@
         :disabled='isEditing'
         v-model="sr"
       )
+    .form-group.post-url
+      b-form-checkbox(
+        :disabled='isEditing'
+        v-model="sendreplies"
+      ) sendreplies
+    .form-group.post-url
+      b-form-checkbox(
+        :disabled='isEditing'
+        v-model="nsfw"
+      ) nsfw
+    .form-group.post-url
+      b-form-checkbox(
+        :disabled='isEditing'
+        v-model="spoiler"
+      ) spoiler
+    .form-group.post-url(
+      v-if="originalContentTagEnabled"
+    )
+      b-form-checkbox(
+        v-model="oc"
+      ) oc
     p
       span(v-if='isEditing') Editing
       span(v-else-if='isCrossPosting') Cross Posting
@@ -144,12 +165,15 @@ export default {
       resubmit: true,
       sendreplies: true,
       spoiler: false,
+      oc: false,
       sr: this.$route.params.subreddit || null,
       editingPost: null,
       saving: false,
       trashing: false,
       errors: null,
       crossPosts: [],
+      // subredditCache: {},
+      // subredditCachePromises: {},
     };
   },
   computed: {
@@ -178,13 +202,23 @@ export default {
     MeData() {
       return this.$store.state.auth.MeData || {};
     },
+    originalContentTagEnabled() {
+      // if (this.sr && this.subredditCache[this.sr]) {
+      //   return this.subredditCache[this.sr].original_content_tag_enabled;
+      // }
+      return null;
+    },
   },
   mounted() {
     this.editingPost = this.post;
     if (this.isEditing) {
+      this.title = this.post.data.title;
       this.body = this.post.data.selftext;
       this.kind = this.post.data.is_self ? 'self' : 'link';
       this.sr = this.post.data.subreddit;
+      this.nsfw = this.post.data.over_18;
+      this.sendreplies = this.post.data.send_replies;
+      this.spoiler = this.post.data.spoiler;
     } else if (this.isCrossPosting) {
       this.kind = 'link';
       this.title = this.parent.data.title;
@@ -207,28 +241,20 @@ export default {
           // @todo
           const kind = this.selftext ? 'self' : 'link';
 
-          const response = await this.$reddit.post('/api/editusertext', {
-            // thing_id: this.editingPost.data.name,
-            extension: 'json',
-            sr: this.sr,
-            title: this.title,
-            url: this.selftext ? void 0 : this.url,
-            text: this.selftext ? this.body : void 0,
-            return_rtjson: true,
-            api_type: 'json',
-            // flair_id: // a string no longer than 36 characters
-            // flair_text: //a string no longer than 64 characters
-            kind: this.kind, // one of (link, self, image, video, videogif)
-            nsfw: !!this.nsfw,
-            resubmit: !!this.resubmit,
-            spoiler: !!this.spoiler,
-          });
+          if (this.body !== this.editingPost.selftext) {
+            const response = await this.$reddit.post('/api/editusertext', {
+              thing_id: this.editingPost.data.name,
+              text: this.body,
+              return_rtjson: true,
+              api_type: 'json',
+            });
 
-          if (get(response, 'data.json.errors.length')) {
-            this.errors = response.data.json.errors;
-          } else {
-            Object.assign(this.editingPost.data, response.data);
-            this.$emit('updated-post', this.editingPost);
+            if (get(response, 'data.json.errors.length')) {
+              this.errors = response.data.json.errors;
+            } else {
+              Object.assign(this.editingPost.data, response.data);
+              this.$emit('updated-post', this.editingPost);
+            }
           }
         } else {
           const response = await this.$reddit.post('/api/submit', {
@@ -246,6 +272,7 @@ export default {
             nsfw: !!this.nsfw,
             resubmit: !!this.resubmit,
             spoiler: !!this.spoiler,
+            sendreplies: !!this.sendreplies,
           });
 
           if (get(response, 'data.json.errors.length')) {
