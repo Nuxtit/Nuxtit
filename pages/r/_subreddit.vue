@@ -89,6 +89,13 @@
         i.fa.fa-fw.fa-btn.fa-ban
         | &#32;
         | Banned Users
+      b-nav-item(
+        v-if="subreddit.data.user_is_moderator"
+        :to='`/r/${$route.params.subreddit}/about/log`'
+      )
+        i.fa.fa-fw.fa-btn.fa-ban
+        | &#32;
+        | Mod Log
     .row.clearfix
       .col.order-md-1
         p.alert.alert-danger(v-if='subreddit.networkError')
