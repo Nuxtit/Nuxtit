@@ -8,11 +8,14 @@ import first from 'lodash/first';
 
 import bCollapse from 'bootstrap-vue/es/components/collapse/collapse';
 import bFormCheckbox from 'bootstrap-vue/es/components/form-checkbox/form-checkbox';
+import bFormRadioGroup from 'bootstrap-vue/es/components/form-radio/form-radio-group';
+import bFormRadio from 'bootstrap-vue/es/components/form-radio/form-radio';
 import bFormInput from 'bootstrap-vue/es/components/form-input/form-input';
 import bButton from 'bootstrap-vue/es/components/button/button';
 import bDropdownItem from 'bootstrap-vue/es/components/dropdown/dropdown-item';
 import bBadge from 'bootstrap-vue/es/components/badge/badge';
 import bSelect from 'bootstrap-vue/es/components/form-select/form-select';
+import bModal from 'bootstrap-vue/es/components/modal/modal';
 
 import CommentEntry from '~/components/CommentEntry';
 import CommentForm from '~/components/CommentForm';
@@ -44,11 +47,14 @@ import QueryParamLimit from '~/mixins/QueryParamLimit';
 
 Vue.component('b-collapse', bCollapse);
 Vue.component('b-form-checkbox', bFormCheckbox);
+Vue.component('b-form-radio-group', bFormRadioGroup);
+Vue.component('b-form-radio', bFormRadio);
 Vue.component('b-form-input', bFormInput);
 Vue.component('b-button', bButton);
 Vue.component('b-dropdown-item', bDropdownItem);
 Vue.component('b-badge', bBadge);
 Vue.component('b-select', bSelect);
+Vue.component('b-modal', bModal);
 
 // these two lines fix a hotreload bugfix
 // because they call each other recursively
