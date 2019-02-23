@@ -3,7 +3,7 @@
  * more css rules on top of bootstrap darkly
 */
 select option,
-select, select.form-control.custom-select,
+select, select.custom-select,
 textarea,
 textarea.form-control,
 input,

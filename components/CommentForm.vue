@@ -38,7 +38,6 @@
 
 <script>
 import get from 'lodash/get';
-import bFormTextarea from 'bootstrap-vue/es/components/form-textarea/form-textarea';
 import UserLink from '~/components/UserLink';
 import { startMinWait } from '~/lib/sleep';
 import thingsToTree from '~/lib/thingsToTree';
@@ -46,7 +45,6 @@ import thingsToTree from '~/lib/thingsToTree';
 export default {
   name: 'CommentForm',
   components: {
-    bFormTextarea,
     UserLink,
   },
   props: {

@@ -111,6 +111,8 @@
             | &#32;
             RemoveButton(:item='post')
             | &#32;
+            BanButton(:item='post')
+            | &#32;
             ApproveButton(:item='post')
             | &#32;
             LockButton(:item='post')
@@ -195,6 +197,7 @@
 import AddToQueueButton from '~/components/AddToQueueButton';
 import ApproveButton from '~/components/ApproveButton';
 import ApprovedBadge from '~/components/ApprovedBadge';
+import BanButton from '~/components/BanButton';
 import CommentEntry from '~/components/CommentEntry';
 import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
@@ -229,6 +232,7 @@ export default {
     AddToQueueButton,
     ApproveButton,
     ApprovedBadge,
+    BanButton,
     CommentEntry,
     CommentForm,
     CrossPostButton,
