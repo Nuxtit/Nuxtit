@@ -4,6 +4,7 @@
   b-badge(
     v-else-if='masstaggerSubs === true'
     variant='secondary'
+    v-show="false /*mt is constantly down*/"
   )
     small
       i.fa.fa-fw.fa-spinner.fa-spin
@@ -32,10 +33,6 @@ export default {
     BotBadge,
   },
   props: {
-    type: {
-      type: String,
-      required: true,
-    },
     item: {
       type: Object,
       default: null,
@@ -44,13 +41,17 @@ export default {
       type: Boolean,
       default: false,
     },
+    name: {
+      type: String,
+      default: null,
+    },
   },
   computed: {
     MeData() {
       return this.$store.state.auth.MeData || {};
     },
     username() {
-      return this.item.data.author;
+      return this.name || this.item.data.author;
     },
     mtDisabled() {
       return !this.$store.getters['settings/mtEnable'];

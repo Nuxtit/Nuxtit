@@ -33,6 +33,18 @@ import QueryParamLimit from '~/mixins/QueryParamLimit';
 import SelectQueryLimit from '~/components/SelectQueryLimit';
 import SelectRedditSort from '~/components/SelectRedditSort';
 
+function get_name(item) {
+  if (item) {
+    if (item.data && item.data.name) {
+      return item.data.name;
+    }
+    if (item.name) {
+      return item.name;
+    }
+  }
+  return null;
+}
+
 export default {
   name: 'RedditPagination',
   components: {
@@ -52,16 +64,12 @@ export default {
   },
   computed: {
     lastId() {
-      return get(
-        findLast(get(this, 'collection.data.children'), item => item.data.name),
-        'data.name',
+      return get_name(
+        findLast(get(this, 'collection.data.children'), get_name),
       );
     },
     firstId() {
-      return get(
-        find(get(this, 'collection.data.children'), item => item.data.name),
-        'data.name',
-      );
+      return get_name(find(get(this, 'collection.data.children'), get_name));
     },
     after() {
       const { collection, $route, lastId, count } = this;

@@ -1,36 +1,33 @@
 <template lang="pug">
   div
+    h2 Banned Users
     RedditPagination(
       :collection='items'
       :fetching='fetching'
     )
-    ClientsideFilter(v-model='filterOptions')
-    CommentList(:comments='items')
+    BannedUserList(:users='items')
     RedditPagination(
       v-if='showBottomPagination'
       :collection='items'
       :fetching='fetching'
     )
 </template>
-
 <script>
-import ValidatePostSort from '~/mixins/ValidatePostSort';
-import ClientsideFilter from '~/components/ClientsideFilter.vue';
-import CommentList from '~/components/CommentList.vue';
+import BannedUserList from '~/components/BannedUserList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
+
 export default {
   middleware: ['auth'],
-  defaultSort: 'hot',
+  defaultSort: 'new',
   components: {
-    ClientsideFilter,
-    CommentList,
+    BannedUserList,
     RedditPagination,
   },
   mixins: [
     RedditItems({
       path({ route }) {
-        return `/r/${route.params.subreddit}/comments`;
+        return `/r/${route.params.subreddit}/about/banned`;
       },
       query({ route }) {
         return {
@@ -39,8 +36,11 @@ export default {
       },
     }),
   ],
+  props: {
+    subreddit: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>
-
-<style>
-</style>
