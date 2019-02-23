@@ -76,6 +76,12 @@
         i.fa.fa-fw.fa-btn.fa-pencil-square-o
         | &#32;
         | {{ subreddit.data.submit_link_label || "Submit a new text post" }}
+      b-nav-item(
+        :to='{ path: "/pushshift/search/", query: { kind: "comment", subreddit: $route.params.subreddit } }'
+      )
+        i.fa.fa-fw.fa-btn.fa-list
+        | &#32;
+        | Pushshift
     .row.clearfix
       .col.order-md-1
         p.alert.alert-danger(v-if='subreddit.networkError')
