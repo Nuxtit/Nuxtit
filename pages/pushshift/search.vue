@@ -5,11 +5,10 @@
     )
       .row
         .col
-          SelectQueryKinds()
-      .row
+          SelectQueryKind()
         .col
           SelectQuerySize(:max="500")
-        .col
+        .col(v-if="$route.query.kind === 'post'")
           SelectQueryPostGroupBy()
       .row
         .col
@@ -85,7 +84,7 @@
         .pull-right
           nuxt-link.btn.btn-pimary(
             v-if="lastCreatedAt"
-            :to="$mergeRouteQuery({ before: lastCreatedAt })"
+            :to="$mergeRouteQuery({ before: lastCreatedAt + 1 })"
             @click.native="nextPage"
           ) next page
       template(v-if='$route.query.q && zeroResults')
@@ -105,7 +104,7 @@ import PostsGroupedByLinks from '~/components/PostsGroupedByLinks';
 import PushshiftItems from '~/mixins/PushshiftItems';
 import SearchInput from '~/components/SearchInput';
 import SelectQueryPostGroupBy from '~/components/SelectQueryPostGroupBy';
-import SelectQueryKinds from '~/components/SelectQueryKinds';
+import SelectQueryKind from '~/components/SelectQueryKind';
 import SelectQuerySize from '~/components/SelectQuerySize';
 import SelectQueryAuthorCsv from '~/components/SelectQueryAuthorCsv';
 import SelectQueryText from '~/components/SelectQueryText';
@@ -122,7 +121,7 @@ export default {
     SearchInput,
     PostsGroupedByLinks,
     SelectQueryPostGroupBy,
-    SelectQueryKinds,
+    SelectQueryKind,
     SelectQuerySize,
     SelectQueryText,
     SelectQueryAuthorCsv,

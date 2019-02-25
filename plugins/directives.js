@@ -8,7 +8,6 @@ import first from 'lodash/first';
 
 import bCollapse from 'bootstrap-vue/es/components/collapse/collapse';
 import bFormCheckbox from 'bootstrap-vue/es/components/form-checkbox/form-checkbox';
-import bFormCheckboxGroup from 'bootstrap-vue/es/components/form-checkbox/form-checkbox-group';
 import bFormRadioGroup from 'bootstrap-vue/es/components/form-radio/form-radio-group';
 import bFormRadio from 'bootstrap-vue/es/components/form-radio/form-radio';
 import bFormInput from 'bootstrap-vue/es/components/form-input/form-input';
@@ -49,7 +48,6 @@ import QueryParamLimit from '~/mixins/QueryParamLimit';
 
 Vue.component('b-collapse', bCollapse);
 Vue.component('b-form-checkbox', bFormCheckbox);
-Vue.component('b-form-checkbox-group', bFormCheckboxGroup);
 Vue.component('b-form-radio-group', bFormRadioGroup);
 Vue.component('b-form-radio', bFormRadio);
 Vue.component('b-form-input', bFormInput);

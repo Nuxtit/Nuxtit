@@ -3,26 +3,15 @@ import get from 'lodash/get';
 import find from 'lodash/find';
 import last from 'lodash/last';
 import flatten from 'lodash/flatten';
-import forEach from 'lodash/forEach';
 import map from 'lodash/map';
 import includes from 'lodash/includes';
 import isFunction from 'lodash/isFunction';
-import orderBy from 'lodash/orderBy';
 import { Kind } from '~/lib/enum';
-import { applyBadActorScan } from '~/lib/applyBadActorScan';
 import { startMinWait } from '~/lib/sleep';
 import pushshift from '~/lib/pushshift';
 import QueryParamLimit, { defaultLimit } from '~/mixins/QueryParamLimit';
-import QueryParamKinds, {
-  parseKinds,
-  parseKind,
-} from '~/mixins/QueryParamKinds';
+import QueryParamKind, { parseKind } from '~/mixins/QueryParamKind';
 import Vue from 'vue';
-
-const fieldsByKind = {
-  comment: 'created_utc,author,id,parent_id,link_id,selftext',
-  submission: 'created_utc,author,body,id,parent_id,selftext,title,url',
-};
 
 const defaultParams = Object.freeze({
   size: 25,
@@ -30,7 +19,6 @@ const defaultParams = Object.freeze({
   // pretty: false,
   sort: 'desc',
   // sort_type: 'new',
-  // fields: 'created_utc,author,body,id,parent_id,link_id,selftext,title,url',
 });
 
 function returnTrue() {
@@ -50,24 +38,19 @@ export default function({ path, query, shouldAttemptApi }) {
     shouldAttemptApi = returnTrue;
   }
   if (!isFunction(path)) {
-    path = ({ route, kind }) => {
-      console.log('path.kind', kind);
-      const resource =
-        {
-          [Kind.Comment]: 'comment',
-          [Kind.Post]: 'submission',
-          [Kind.Subreddit]: 'subreddit',
-          post: 'submission',
-        }[parseKinds(kind || route.query.kind)] ||
-        kind ||
-        route.query.kind;
-      console.log('path.resource', resource);
+    path = ({ route }) => {
+      console.log('path.kind', parseKind(route.query.kind));
+      const resource = {
+        [Kind.Comment]: 'comment',
+        [Kind.Post]: 'submission',
+        [Kind.Subreddit]: 'subreddit',
+      }[parseKind(route.query.kind)];
       return `/reddit/search/${resource}`;
     };
   }
   if (!isFunction(query)) {
     query = ({ route }) => {
-      const kinds = parseKinds(route.query.kinds);
+      const kind = parseKind(route.query.kind);
       // const sort_type = route.query.sort_type || 'new';
 
       const params = {
@@ -77,14 +60,16 @@ export default function({ path, query, shouldAttemptApi }) {
         after: route.query.after || void 0,
       };
 
-      params.subreddit = route.query.subreddit || void 0;
-      params.author = route.query.author || void 0;
+      if (kind === Kind.Post || kind === Kind.Comment) {
+        params.subreddit = route.query.subreddit || void 0;
+        params.author = route.query.author || void 0;
+      }
       return params;
     };
   }
 
   return {
-    mixins: [QueryParamLimit, QueryParamKinds],
+    mixins: [QueryParamLimit, QueryParamKind],
     data() {
       return {
         fetching: false,
@@ -102,7 +87,7 @@ export default function({ path, query, shouldAttemptApi }) {
         });
       },
       redditQueryJson() {
-        return JSON.stringify(this.redditQuery) + JSON.stringify(this.kinds);
+        return JSON.stringify(this.redditQuery) + this.kind;
       },
       zeroResults() {
         return !(get(this.items, 'data.children.length', 0) > 0);
@@ -118,35 +103,25 @@ export default function({ path, query, shouldAttemptApi }) {
     async asyncData({ reddit, route, store }) {
       // console.log('asyncData');
       if (shouldAttemptApi({ route })) {
-        let items = parseKinds(route.query.kinds);
-        items = items.map(async kind => {
-          try {
-            console.log(path({ route, kind }));
-            const response = await pushshift.get(path({ route, kind }), {
-              params: {
-                ...defaultParams,
-                ...query({ route }),
-                fields: fieldsByKind[kind],
-              },
-            });
-            forEach(response.data.data, item => {
-              item.kind = parseKind(kind);
-            });
-            return response.data.data;
-          } catch (err) {
+        const items = (await pushshift
+          .get(path({ route }), {
+            params: {
+              ...defaultParams,
+              ...query({ route }),
+            },
+          })
+          .catch(err => {
             if (err.message === 'Network Error') {
               return { data: emptyCollection() };
             }
             throw err;
-          }
-        });
-        items = await Promise.all(items);
+          })).data.data;
 
         // console.log('asyncData');
         return {
           items: await pushshiftItemsToRedditItems({
             reddit,
-            input: orderBy(flatten(items), ['created_utc'], ['desc']),
+            input: items,
             route,
           }),
         };
@@ -164,7 +139,7 @@ export default function({ path, query, shouldAttemptApi }) {
           const minWait = startMinWait();
           try {
             this.fetching = true;
-            const items = (await pushshift.get(path({ route, kind }), {
+            const items = (await pushshift.get(path({ route }), {
               params: {
                 ...defaultParams,
                 ...query({ route }),
@@ -175,9 +150,7 @@ export default function({ path, query, shouldAttemptApi }) {
               reddit,
               input: items,
               route,
-              kind,
             });
-
             this.setItemsFilteredProperty();
           } finally {
             await minWait;
@@ -197,7 +170,7 @@ export default function({ path, query, shouldAttemptApi }) {
           this.$set(item, 'redusaHide', !isMatch(item));
         }
 
-        function isMatch({ kinds, data }) {
+        function isMatch({ kind, data }) {
           if (lc_text) {
             const lc_body = (data.body || '').toLowerCase();
             if (includes(lc_body, lc_text)) {
@@ -238,13 +211,8 @@ export default function({ path, query, shouldAttemptApi }) {
 }
 
 async function pushshiftItemsToRedditItems({ reddit, input, route }) {
+  const kind = parseKind(route.query.kind);
   /* eslint-disable */
-
-  let badActors = null;
-  console.log('applyBadActorScan', route.query.post_group_by === 'bad_actor', route.query.post_group_by);
-  if (route.query.post_group_by === 'bad_actor') {
-    badActors = await applyBadActorScan(input);
-  }
 
   // this api call only acepts 100;
   const chunks = chunk(input, 100);
@@ -252,7 +220,7 @@ async function pushshiftItemsToRedditItems({ reddit, input, route }) {
   for (let i = 0; i < chunks.length; i++) {
     responses.push(await reddit.get('/api/info', {
       params: {
-        id:  chunks[i].map(entry => `${entry.kind}_${entry.id}`).join(','),
+        id:  chunks[i].map(entry => `${kind}_${entry.id}`).join(','),
         // url
       },
     }))
@@ -280,7 +248,6 @@ async function pushshiftItemsToRedditItems({ reddit, input, route }) {
   return {
     data: {
       children,
-      badActors,
     },
   };
 }
