@@ -14,9 +14,8 @@ export default {
   name: 'SelectQueryPostGroupBy',
   mixins: [QueryParamPostGroupBy],
   selectOptions: Object.freeze([
-    { value: false, text: 'List' },
-    { value: 'link_url', text: 'Group By Link URL' },
-    { value: 'bad_actor', text: 'Bad Actor Scan' },
+    { value: false, text: 'None' },
+    { value: 'link_url', text: 'Link URL' },
   ]),
 };
 </script>

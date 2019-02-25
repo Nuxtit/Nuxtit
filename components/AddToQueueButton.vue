@@ -77,7 +77,7 @@ export default {
     },
     payload() {
       const { kind, data } = this.item;
-      // console.log('payload', { kind, data });
+      console.log('payload', { kind, data });
       const route = data.permalink || data.context;
       const createdAt = now();
       if (kind === Kind.Comment) {
