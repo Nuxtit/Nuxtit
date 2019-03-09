@@ -4,6 +4,7 @@ import axios from 'axios';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import qs from 'qs';
+import axiosRetry from 'axios-retry';
 
 const redditClientId = process.env.redditClientId;
 const redirect_uri = process.env.redditRedirectUri;
@@ -32,6 +33,11 @@ export default function(ctx) {
       }
       return qs.stringify(data, { arrayFormat: 'brackets' });
     },
+  });
+
+  axiosRetry(ctx.reddit, {
+    retries: 9,
+    retryDelay: axiosRetry.exponentialDelay,
   });
 
   Vue.prototype.$reddit = ctx.reddit;
