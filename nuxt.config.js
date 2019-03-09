@@ -69,7 +69,7 @@ module.exports = {
     }],
     '@nuxtjs/sentry',
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios',
+    // '@nuxtjs/axios',
     // ['@nuxtjs/proxy', {
     //   '/masstagger': {
     //     pathRewrite: { '^/masstagger' : '' },
@@ -91,13 +91,6 @@ module.exports = {
       target: 'https://api.pushshift.io',
       ws: false,
     },
-  },
-
-  /*
-  ** Axios module configuration
-  */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
   },
 
   /*
