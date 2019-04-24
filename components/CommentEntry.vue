@@ -298,6 +298,11 @@ export default {
     showCrossPost: makeComputeToggler('cross'),
     showOptions: makeComputeToggler('options'),
   },
+  mounted() {
+    if (get(this.comment, 'data.user_reports.length') > 0) {
+      this.showOptions = true;
+    }
+  },
   methods: {
     toggleCollapsed($event) {
       this.collapsed ^= true;
