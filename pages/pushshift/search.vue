@@ -24,6 +24,38 @@
       .row
         .col
           SelectQueryText(path="q" placeholder="query")
+      .row
+        .col
+          b-button.my-2.my-sm-0(
+            :disabled="saveDisabled"
+            size='sm'
+            type='submit'
+            @click.prevent.stop="saveSearch"
+          )
+            i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if="saving")
+            i.fa.fa-fw.fa-btn.fa-save(v-if="!saving")
+            | &#32;
+            | Save
+          b-button.my-2.my-sm-0(
+            :disabled="removeDisabled"
+            size='sm'
+            type='button'
+            @click.prevent.stop="removeSearch"
+          )
+            i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if="removed")
+            i.fa.fa-fw.fa-btn.fa-save(v-if="!removing")
+            | &#32;
+            | Remove
+        .col
+          b-form-input(
+            name="name",
+            v-model="name",
+            placeholder="type in a name to save search"
+          )
+        .col
+          b-select(name="saved_search" v-model="selectedSearch", :options="savedSearchOptions")
+      .row
+        .col
           b-button.my-2.my-sm-0(
             :disabled="fetching"
             size='sm'
@@ -55,7 +87,6 @@
             strong cccc | (aaaa | bbbb) -dddd -eeee*
             br
             span same as above, but will exclude matches containing "eeee" and exclude matches that contain a match for the wildcard phrase "eeee*"
-            br
     .container
       template(v-if='$route.query.q || !zeroResults')
         //- RedditPagination(
@@ -96,6 +127,7 @@
 
 <script>
 import bButton from 'bootstrap-vue/es/components/button/button';
+import QueryParamSavedsearchname from '~/mixins/QueryParamSavedsearchname';
 import ValidatePostSort from '~/mixins/ValidatePostSort';
 import MixedList from '~/components/MixedList.vue';
 import PushshiftList from '~/components/PushshiftList.vue';
@@ -109,6 +141,9 @@ import SelectQuerySize from '~/components/SelectQuerySize';
 import SelectQueryAuthorCsv from '~/components/SelectQueryAuthorCsv';
 import SelectQueryText from '~/components/SelectQueryText';
 import SelectQuerySubredditCsv from '~/components/SelectQuerySubredditCsv';
+import get from 'lodash/get';
+import { startMinWait } from '~/lib/sleep';
+import { mapGetters } from 'vuex';
 
 export default {
   middleware: ['auth'],
@@ -128,13 +163,86 @@ export default {
     SelectQuerySubredditCsv,
   },
   mixins: [
+    QueryParamSavedsearchname,
     PushshiftItems({
       //
     }),
     ValidatePostSort,
   ],
+  data() {
+    return {
+      saving: false,
+    };
+  },
+  computed: {
+    ...mapGetters('searches', ['list']),
+    saveDisabled() {
+      if (this.saving || !this.name) {
+        return true;
+      }
+      // @todo disable if same
+      return false;
+    },
+    removeDisabled() {
+      if (this.removing || !this.name) {
+        return true;
+      }
+      // @todo disable if same
+      return false;
+    },
+    savedSearchOptions() {
+      return Object.keys(this.list);
+    },
+    selectedSearch: {
+      get() {
+        return get(get(this.list, this.name, null), 'name');
+      },
+      set(value) {
+        const next = get(this.list, value);
+        if (next) {
+          this.name = next.name;
+          this.$router.push(
+            JSON.parse(
+              JSON.stringify({
+                path: this.$route.path,
+                query: {
+                  ...next,
+                },
+              }),
+            ),
+          );
+        }
+      },
+    },
+  },
   mounted() {
     // console.log('searchpage');
+  },
+  methods: {
+    async saveSearch() {
+      if (this.name) {
+        const minWait = startMinWait();
+        try {
+          this.saving = true;
+          await this.$store.dispatch('searches/set', this.$route.query);
+        } finally {
+          await minWait;
+          this.saving = false;
+        }
+      }
+    },
+    async removeSearch() {
+      if (this.name) {
+        const minWait = startMinWait();
+        try {
+          this.removing = true;
+          await this.$store.dispatch('searches/remove', this.name);
+        } finally {
+          await minWait;
+          this.removing = false;
+        }
+      }
+    },
   },
 };
 </script>

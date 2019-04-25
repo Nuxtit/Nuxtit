@@ -32,6 +32,7 @@ export const actions = {
         ApiLog: 'apilog/ApiLog',
         Queue: 'queue/Queue',
         QueueDone: 'queue/QueueDone',
+        Searches: 'searches/Searches',
       },
       commit,
     });
