@@ -1,6 +1,9 @@
 <template lang="pug">
   .mixed-list
-    template(v-for='item in items.data.children')
+    template(
+      v-if='items.data && items.data && items.data.children'
+      v-for='item in items.data.children'
+    )
       PushshiftMissingEntry(
         v-if="item.pushshiftMissing"
         :item='item'
