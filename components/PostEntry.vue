@@ -146,6 +146,10 @@
             @click.prevent.stop='showCrossPost^=true'
           )
           | &#32;
+          TumblrShareButton(
+            @click.prevent.stop='showTumblrShare^=true'
+          )
+          | &#32;
           span.btn-see-reports(
             v-if='post.data.user_reports.length > 0'
             @click.prevent.stop='showReports^=true'
@@ -178,6 +182,12 @@
         :parent='post'
         @created-post='onCrossPostCreated'
         @close='showCrossPost = false'
+      )
+      TumblrShareForm(
+        v-if="showTumblrShare"
+        :parent='post'
+        @created-post='onTumblrShareCreated'
+        @close='showTumblrShare = false'
       )
       PostImage(
         v-if="showImage"
@@ -222,6 +232,8 @@ import SpamButton from '~/components/SpamButton';
 import SpoilerButton from '~/components/SpoilerButton';
 import SubredditLink from '~/components/SubredditLink';
 import TimeAgo from '~/components/TimeAgo';
+import TumblrShareButton from '~/components/TumblrShareButton';
+import TumblrShareForm from '~/components/TumblrShareForm';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
 import { makeComputeToggler } from '~/lib/toggle_open';
@@ -257,6 +269,8 @@ export default {
     SpoilerButton,
     SubredditLink,
     TimeAgo,
+    TumblrShareButton,
+    TumblrShareForm,
     UpVote,
     UserLink,
   },
@@ -290,6 +304,7 @@ export default {
     showReports: makeComputeToggler('reports'),
     showEdit: makeComputeToggler('edit'),
     showCrossPost: makeComputeToggler('cross'),
+    showTumblrShare: makeComputeToggler('tumblr'),
     showImage: makeComputeToggler('image'),
   },
   methods: {
@@ -306,6 +321,9 @@ export default {
       this.post.data.num_comments++;
     },
     onCrossPostCreated(newCrossPost) {
+      // @todo
+    },
+    onTumblrShareCreated(newTumblrShare) {
       // @todo
     },
   },
