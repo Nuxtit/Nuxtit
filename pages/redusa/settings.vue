@@ -9,6 +9,9 @@
       b-nav-item(
         to='/redusa/settings/masstagger'
       ) masstagger
+      b-nav-item(
+        to='/redusa/settings/tumblr'
+      ) tumblr
     hr
     nuxt-child
 </template>

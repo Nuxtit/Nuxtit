@@ -91,6 +91,12 @@ module.exports = {
       target: 'https://api.pushshift.io',
       ws: false,
     },
+    '/api-tumblr': {
+      pathRewrite: { '^/api-tumblr' : '' },
+      // target: 'https://api.tumblr.com/v2',
+      target: 'http://127.0.0.1:9000',
+      ws: false,
+    },
   },
 
   /*
