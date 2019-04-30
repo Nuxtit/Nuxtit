@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import CrossPostButton from '~/components/CrossPostButton';
 import ItemHtml from '~/components/ItemHtml';
 import ReportButton from '~/components/ReportButton';
 import ShareButton from '~/components/ShareButton';

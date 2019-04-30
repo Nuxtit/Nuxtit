@@ -81,3 +81,8 @@ dist
 .idea
 
 .env
+
+# netlify-lambda copies these when it shouldn't
+functions/.eslintrc.js
+functions/nuxt.config.js
+functions/prettier.config.js
