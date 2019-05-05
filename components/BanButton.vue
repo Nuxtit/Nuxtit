@@ -158,7 +158,6 @@ export default {
   },
   methods: {
     async prompt($event) {
-      console.log('prompt');
       if (this.showingBanModal) return;
       const { item } = this;
       const { subreddit, name } = this.item.data;
@@ -195,7 +194,6 @@ export default {
       }
     },
     async ban(payload) {
-      console.log('ban');
       const { isRedusaBanned } = this.item;
       const { author, subreddit } = this.item.data;
       const minWait = startMinWait();
