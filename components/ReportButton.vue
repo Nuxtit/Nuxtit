@@ -186,7 +186,6 @@ export default {
   },
   methods: {
     async reportModalSubmit() {
-      console.log('reportModalSubmit');
       const { reportState } = this;
       const { name } = this.item.data;
 
@@ -271,7 +270,7 @@ export default {
       const { rules, site_rules, site_rules_flow } = srRulesResponse.data;
       Object.assign(this.reportState, { rules, site_rules, site_rules_flow });
       // this.reportState.rules = rules;
-      console.log({ rules, site_rules, site_rules_flow });
+      // console.log({ rules, site_rules, site_rules_flow });
 
       this.showingReportModal = true;
     },
@@ -279,7 +278,6 @@ export default {
       this.reportState = init_report_state();
     },
     reportModalNext() {
-      console.log('reportModalNext');
       this.reportState.step++;
     },
   },
