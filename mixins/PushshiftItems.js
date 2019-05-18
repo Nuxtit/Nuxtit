@@ -6,6 +6,7 @@ import flatten from 'lodash/flatten';
 import map from 'lodash/map';
 import includes from 'lodash/includes';
 import isFunction from 'lodash/isFunction';
+import uniq from 'lodash/uniq';
 import { Kind } from '~/lib/enum';
 import { startMinWait } from '~/lib/sleep';
 import pushshift from '~/lib/pushshift';
@@ -215,12 +216,17 @@ async function pushshiftItemsToRedditItems({ reddit, input, route }) {
   /* eslint-disable */
 
   // this api call only acepts 100;
-  const chunks = chunk(input, 100);
+  const chunks = chunk(uniq([
+    // get fullnames whether these are posts or comments
+    ...input.map(entry => `${kind}_${entry.id}`),
+    // get links, if these are comments
+    ...input.map(item => item.link_id).filter(Boolean),
+  ]), 100);
   let responses = [];
   for (let i = 0; i < chunks.length; i++) {
     responses.push(await reddit.get('/api/info', {
       params: {
-        id:  chunks[i].map(entry => `${kind}_${entry.id}`).join(','),
+        id:  chunks[i].join(','),
         // url
       },
     }))
@@ -233,7 +239,11 @@ async function pushshiftItemsToRedditItems({ reddit, input, route }) {
     const redditItem = find(redditChildren, redditItem => {
       return redditItem.data.id === item.id;
     });
+    const redditLink = item.link_id ? find(redditChildren, redditItem => {
+      return item.link_id === Kind.Post+'_'+redditItem.data.id;
+    }) : null;
     if (redditItem) {
+      redditItem.postEntry = redditLink || void 0;
       redditItem.pushshiftEntry = item;
       return redditItem;
     }
@@ -242,6 +252,7 @@ async function pushshiftItemsToRedditItems({ reddit, input, route }) {
       data: {
         ...item,
       },
+      postEntry: redditLink || void 0,
       pushshiftMissing: true,
     };
   });
