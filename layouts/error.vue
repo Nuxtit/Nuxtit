@@ -9,6 +9,7 @@
     | {{ error.statusCode }}
     | {{ error.message }}
     | {{ (error.response && error.response.data) || (error.res && error.res.data) || (error.data) || '' }}
+    | {{ (error) }}
   br
   nuxt-link(to='/') Home page
 </template>
