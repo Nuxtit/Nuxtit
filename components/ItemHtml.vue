@@ -7,9 +7,11 @@ import Mark from 'mark.js';
 import get from 'lodash/get';
 import memoize from 'lodash/memoize';
 
-const highlightRegEx = /\b[-_a-z0-9]*\b/gim;
+const highlightRegEx = /[-_a-z0-9?*]*/gim;
 const getHighlightTerms = memoize(v => {
-  return ((v || '').match(highlightRegEx) || []).filter(v => !(v||'').startsWith('-'));
+  return ((v || '').match(highlightRegEx) || [])
+    .filter(v => v && v.trim())
+    .filter(v => !v.trim().startsWith('-'));
 });
 
 export default {
