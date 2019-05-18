@@ -3,7 +3,14 @@
 </template>
 
 <script>
+import Mark from 'mark.js';
 import get from 'lodash/get';
+import memoize from 'lodash/memoize';
+
+const highlightRegEx = /\b[a-z0-9][-_a-z0-9]*\b/gim;
+const getHighlightTerms = memoize(v => {
+  return (v || '').match(highlightRegEx) || [];
+});
 
 export default {
   name: 'ItemHtml',
@@ -24,6 +31,25 @@ export default {
         get(this.item, 'data.body_html') ||
         get(this.item, 'data.selftext_html') ||
         '';
+      if (html && (this.$route.query.q || this.$route.query.highlight)) {
+        const terms = getHighlightTerms(
+          (this.$route.query.q || '') +
+            ' ' +
+            (this.$route.query.highlight || ''),
+        );
+        if (terms && terms.length) {
+          const div = document.createElement('div');
+          div.innerHTML = html;
+          const m = new Mark(div);
+          m.mark(terms, {
+            // @link https://markjs.io/#api
+            accuracy: 'complementary',
+            acrossElements: true,
+            wildcards: 'enabled',
+          });
+          html = div.innerHTML;
+        }
+      }
       return html;
     },
   },
