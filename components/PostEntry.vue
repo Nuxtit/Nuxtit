@@ -190,7 +190,7 @@
         @close='showTumblrShare = false'
       )
       PostImage(
-        v-if="showImage"
+        v-if="showImage || showTumblrShare"
         :post='post'
         @close='showImage = false'
       )
