@@ -42,7 +42,7 @@
             type='button'
             @click.prevent.stop="removeSearch"
           )
-            i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if="removed")
+            i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if="removing")
             i.fa.fa-fw.fa-btn.fa-save(v-if="!removing")
             | &#32;
             | Remove
@@ -172,6 +172,7 @@ export default {
   data() {
     return {
       saving: false,
+      removing: false,
     };
   },
   computed: {
