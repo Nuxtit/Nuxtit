@@ -61,6 +61,14 @@ export default function({ path, query, shouldAttemptApi }) {
         after: route.query.after || void 0,
       };
 
+      if (kind === Kind.Post) {
+        params.title = route.query.title || void 0;
+        // params.url = route.query.url || void 0;
+        // params.domain = route.query.domain || void 0;
+      }
+      if (kind === Kind.Comment) {
+        params.link_id = route.query.link_id || void 0;
+      }
       if (kind === Kind.Post || kind === Kind.Comment) {
         params.subreddit = route.query.subreddit || void 0;
         params.author = route.query.author || void 0;
