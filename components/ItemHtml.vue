@@ -7,11 +7,20 @@ import Mark from 'mark.js';
 import get from 'lodash/get';
 import memoize from 'lodash/memoize';
 
-const highlightRegEx = /[-_a-z0-9?*]*/gim;
+const highlightRegEx = /'[\s-_a-z0-9?*]*'|"[\s-_a-z0-9?*]*"|[-_a-z0-9?*]*/gim;
 const getHighlightTerms = memoize(v => {
   return ((v || '').match(highlightRegEx) || [])
     .filter(v => v && v.trim())
-    .filter(v => !v.trim().startsWith('-'));
+    .filter(v => !v.trim().startsWith('-'))
+    .map(v => {
+      if (v.startsWith('"') && v.endsWith('"')) {
+        return v.slice(1, v.length - 1);
+      }
+      if (v.startsWith("'") && v.endsWith("'")) {
+        return v.slice(1, v.length - 1);
+      }
+      return v;
+    });
 });
 
 export default {
@@ -47,7 +56,7 @@ export default {
             // @link https://markjs.io/#api
             accuracy: 'complementary',
             acrossElements: true,
-            wildcards: 'enabled',
+            wildcards: 'withSpaces',
           });
           html = div.innerHTML;
         }
