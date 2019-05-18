@@ -10,7 +10,7 @@
 
         b-badge(
           variant='dark'
-          v-text='link.posts ? link.posts.length : "NA"'
+          v-text='link.comments ? link.comments.length : "NA"'
         )
         | &#32;
         a.small(
@@ -21,9 +21,14 @@
         )
       .card-body(v-if='!collapsedLinks[link.display_url]')
         PostEntry(
-          v-for='(post, index) in link.posts'
-          :post='post'
-          :key='post.data.id'
+          v-if="link.post"
+          :post='link.post'
+          :key='link.post.data.id'
+        )
+        CommentEntry(
+          v-for='(comment, index) in link.comments'
+          :comment='comment'
+          :key='comment.data.id'
           :show-thumbnail='index===0'
         )
 </template>
@@ -36,7 +41,7 @@ import PushshiftMissingEntry from '~/components/PushshiftMissingEntry';
 import SubredditEntry from '~/components/SubredditEntry';
 
 export default {
-  name: 'PostsGroupedByLinks',
+  name: 'CommentsGroupedByLinks',
   components: {
     CommentEntry,
     PostEntry,
@@ -59,16 +64,22 @@ export default {
       let items = this.items.data.children;
       items = items.filter(p => p.data.hidden !== true);
       items = items.filter(p => p.data.author !== '[deleted]');
-      return items.reduce((carry, post) => {
-        const url = post.data.url || post.data.permalink;
-        if (!carry[url]) {
-          carry[url] = {
+      return items.reduce((carry, comment) => {
+        const link_id = comment.data.link_id;
+        const url = comment.data.url || comment.data.permalink;
+        if (!carry[link_id]) {
+          carry[link_id] = {
+            link_id,
             url,
             display_url: urlToDisplayUrl(url),
-            posts: [],
+            comments: [],
+            post: null,
           };
         }
-        carry[url].posts.push(post);
+        if (!carry[link_id].post) {
+          carry[link_id].post = comment.postEntry || null;
+        }
+        carry[link_id].comments.push(comment);
         return carry;
       }, {});
     },
@@ -80,7 +91,7 @@ export default {
         forEach(links, l => {
           // autocollapse link section if all items have been interacted with
           this.collapsedLinks[l.display_url] =
-            l.posts.filter(p => {
+            l.comments.filter(p => {
               if (p.data.hidden === true) return false;
               if (p.data.saved === true) return false;
               if (p.data.likes === true) return false;
