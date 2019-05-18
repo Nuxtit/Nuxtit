@@ -5,6 +5,11 @@
   h1(v-else-if='error.statusCode === 401') Unauthenticated
   h1(v-else) An error occurred
   br
+  p
+    | {{ error.statusCode }}
+    | {{ error.message }}
+    | {{ (error.response && error.response.data) || (error.res && error.res.data) || (error.data) || '' }}
+  br
   nuxt-link(to='/') Home page
 </template>
 
