@@ -7,6 +7,9 @@
         to='/redusa/settings'
       ) general
       b-nav-item(
+        to='/redusa/settings/accounts'
+      ) accounts
+      b-nav-item(
         to='/redusa/settings/masstagger'
       ) masstagger
       b-nav-item(

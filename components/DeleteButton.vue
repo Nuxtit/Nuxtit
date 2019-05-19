@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import get from 'lodash/get';
 import { startMinWait } from '~/lib/sleep';
 
 // delete is the user action of permanently trashing their own item
@@ -47,10 +48,16 @@ export default {
         const minWait = startMinWait();
         try {
           this.busy = true;
-          const response = await this.$reddit.post('/api/del', {
-            // category: '???',
-            id: name, // fullname
-          });
+          const response = await this.$reddit.post(
+            '/api/del',
+            {
+              // category: '???',
+              id: name, // fullname
+            },
+            {
+              username: get(this.item, 'data.author'),
+            },
+          );
           // deleted is not really defined
           // so we'll use the helper to ensure
           // reactivity is detected

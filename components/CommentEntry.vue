@@ -207,6 +207,7 @@ import TimeAgo from '~/components/TimeAgo';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
 import { makeComputeToggler } from '~/lib/toggle_open';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'CommentEntry',
@@ -251,6 +252,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('auth', ['MeData', 'usernames']),
     isRemoved() {
       if (this.comment.data.removed) {
         return true;
@@ -286,10 +288,7 @@ export default {
     },
     isAuthor() {
       const { author } = this.comment.data;
-      return author && author === this.MeData.name;
-    },
-    MeData() {
-      return this.$store.state.auth.MeData || {};
+      return this.usernames.includes(author);
     },
     showSource: makeComputeToggler('source'),
     showReply: makeComputeToggler('reply'),

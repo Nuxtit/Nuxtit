@@ -138,6 +138,7 @@ import UserLink from '~/components/UserLink';
 import RedditItems from '~/mixins/RedditItems';
 import { isVirtualSubreddit, makeVirtualSubreddit } from '~/lib/subreddit';
 import { makeComputeToggler } from '~/lib/toggle_open';
+import { mapGetters } from 'vuex';
 
 export default {
   middleware: ['auth'],
@@ -159,9 +160,7 @@ export default {
     };
   },
   computed: {
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
+    ...mapGetters('auth', ['MeData']),
     showSource: makeComputeToggler('source'),
     subredditBannerStyles() {
       const subreddit = this.subreddit.data;

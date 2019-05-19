@@ -10,7 +10,8 @@
       | &#32;
       | as
       | &#32;
-      UserLink(:username='MeData.name')
+      SelectAuthUsername(v-if="!isEditing" v-model="selectedUsername")
+      UserLink(v-if="isEditing" :username='selectedUsername || MeData.name')
     .alert.alert-danger(v-if='errors')
       tt: pre {{ errors }}
     button.btn.btn-secondary(
@@ -38,13 +39,16 @@
 
 <script>
 import get from 'lodash/get';
+import SelectAuthUsername from '~/components/SelectAuthUsername';
 import UserLink from '~/components/UserLink';
 import { startMinWait } from '~/lib/sleep';
 import thingsToTree from '~/lib/thingsToTree';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'CommentForm',
   components: {
+    SelectAuthUsername,
     UserLink,
   },
   props: {
@@ -61,6 +65,7 @@ export default {
   },
   data() {
     return {
+      selectedUsername: null,
       body: '',
       editingComment: null,
       saving: false,
@@ -69,6 +74,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('auth', ['MeData']),
     isReplying() {
       if (this.isEditing) {
         return false;
@@ -88,14 +94,12 @@ export default {
       // @todo more validate
       return false;
     },
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
   },
   mounted() {
     this.editingComment = this.comment;
     if (this.comment) {
       this.body = this.comment.data.body;
+      this.selectedUsername = this.comment.data.author;
     }
   },
   methods: {
@@ -105,11 +109,17 @@ export default {
       try {
         this.saving = true;
         if (this.editingComment && this.editingComment.data.id) {
-          const response = await this.$reddit.post('/api/editusertext', {
-            thing_id: this.editingComment.data.name,
-            text: this.body,
-            return_rtjson: true,
-          });
+          const response = await this.$reddit.post(
+            '/api/editusertext',
+            {
+              thing_id: this.editingComment.data.name,
+              text: this.body,
+              return_rtjson: true,
+            },
+            {
+              username: this.editingComment.data.author,
+            },
+          );
 
           if (get(response, 'data.json.errors.length')) {
             this.errors = response.data.json.errors;
@@ -119,12 +129,18 @@ export default {
           }
         } else {
           const parent_id = this.parent.data.name;
-          const response = await this.$reddit.post('/api/comment', {
-            thing_id: this.parent.data.name,
-            text: this.body,
-            return_rtjson: true,
-            api_type: 'json',
-          });
+          const response = await this.$reddit.post(
+            '/api/comment',
+            {
+              thing_id: this.parent.data.name,
+              text: this.body,
+              return_rtjson: true,
+              api_type: 'json',
+            },
+            {
+              username: this.selectedUsername,
+            },
+          );
 
           if (get(response, 'data.json.errors.length')) {
             this.errors = response.data.json.errors;

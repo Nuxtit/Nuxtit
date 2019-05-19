@@ -68,9 +68,6 @@ export default {
         }
       },
     },
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
   },
 };
 </script>

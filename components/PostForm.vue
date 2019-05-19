@@ -62,7 +62,8 @@
       | &#32;
       | as
       | &#32;
-      UserLink(:username='MeData.name')
+      SelectAuthUsername(v-if="!isEditing" v-model="selectedUsername")
+      UserLink(v-if="isEditing" :username='selectedUsername || MeData.name')
     .alert.alert-danger(v-if='errors')
       tt: pre {{ errors }}
     button.btn.btn-secondary(
@@ -119,17 +120,19 @@
 <script>
 import get from 'lodash/get';
 import AddToQueueButton from '~/components/AddToQueueButton';
+import SelectAuthUsername from '~/components/SelectAuthUsername';
 import bFormInput from 'bootstrap-vue/es/components/form-input/form-input';
-
 import QueryParamSelftext from '~/mixins/QueryParamSelftext';
 import UserLink from '~/components/UserLink';
 import { startMinWait } from '~/lib/sleep';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'PostForm',
   components: {
     AddToQueueButton,
     bFormInput,
+    SelectAuthUsername,
     UserLink,
   },
   mixins: [QueryParamSelftext],
@@ -154,6 +157,7 @@ export default {
   ]),
   data() {
     return {
+      selectedUsername: null,
       kind: 'link',
       title: '',
       url: '',
@@ -175,6 +179,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('auth', ['MeData']),
     isCrossPosting() {
       if (this.isEditing) {
         return false;
@@ -197,9 +202,6 @@ export default {
       // @todo more validate
       return false;
     },
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
     originalContentTagEnabled() {
       // if (this.sr && this.subredditCache[this.sr]) {
       //   return this.subredditCache[this.sr].original_content_tag_enabled;
@@ -217,6 +219,7 @@ export default {
       this.nsfw = this.post.data.over_18;
       this.sendreplies = this.post.data.send_replies;
       this.spoiler = this.post.data.spoiler;
+      this.selectedUsername = this.post.data.author;
     } else if (this.isCrossPosting) {
       this.kind = 'link';
       this.title = this.parent.data.title;
@@ -240,12 +243,18 @@ export default {
           const kind = this.selftext ? 'self' : 'link';
 
           if (this.body !== this.editingPost.selftext) {
-            const response = await this.$reddit.post('/api/editusertext', {
-              thing_id: this.editingPost.data.name,
-              text: this.body,
-              return_rtjson: true,
-              api_type: 'json',
-            });
+            const response = await this.$reddit.post(
+              '/api/editusertext',
+              {
+                thing_id: this.editingPost.data.name,
+                text: this.body,
+                return_rtjson: true,
+                api_type: 'json',
+              },
+              {
+                username: this.editingPost.data.author,
+              },
+            );
 
             if (get(response, 'data.json.errors.length')) {
               this.errors = response.data.json.errors;
@@ -255,23 +264,29 @@ export default {
             }
           }
         } else {
-          const response = await this.$reddit.post('/api/submit', {
-            // thing_id: this.editingPost.data.name,
-            extension: 'json',
-            sr: this.sr,
-            title: this.title,
-            url: this.selftext ? void 0 : this.url,
-            text: this.selftext ? this.body : void 0,
-            return_rtjson: true,
-            api_type: 'json',
-            // flair_id: // a string no longer than 36 characters
-            // flair_text: //a string no longer than 64 characters
-            kind: this.kind, // one of (link, self, image, video, videogif)
-            nsfw: !!this.nsfw,
-            resubmit: !!this.resubmit,
-            spoiler: !!this.spoiler,
-            sendreplies: !!this.sendreplies,
-          });
+          const response = await this.$reddit.post(
+            '/api/submit',
+            {
+              // thing_id: this.editingPost.data.name,
+              extension: 'json',
+              sr: this.sr,
+              title: this.title,
+              url: this.selftext ? void 0 : this.url,
+              text: this.selftext ? this.body : void 0,
+              return_rtjson: true,
+              api_type: 'json',
+              // flair_id: // a string no longer than 36 characters
+              // flair_text: //a string no longer than 64 characters
+              kind: this.kind, // one of (link, self, image, video, videogif)
+              nsfw: !!this.nsfw,
+              resubmit: !!this.resubmit,
+              spoiler: !!this.spoiler,
+              sendreplies: !!this.sendreplies,
+            },
+            {
+              username: this.selectedUsername,
+            },
+          );
 
           if (get(response, 'data.json.errors.length')) {
             this.errors = response.data.json.errors;

@@ -149,6 +149,7 @@ import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
 import { makeComputeToggler } from '~/lib/toggle_open';
 import { Kind } from '~/lib/enum';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'MessageEntry',
@@ -191,6 +192,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('auth', ['MeData']),
     showVoting() {
       const { kind } = this.message;
       if (kind === Kind.Comment) return true;
@@ -237,9 +239,6 @@ export default {
     isAuthor() {
       const { author } = this.message.data;
       return author && author === this.MeData.name;
-    },
-    MeData() {
-      return this.$store.state.auth.MeData || {};
     },
     showSource: makeComputeToggler('source'),
     showReply: makeComputeToggler('reply'),

@@ -99,7 +99,7 @@ const reddit = axios.create({
 });
 
 reddit.interceptors.request.use(config => {
-  console.log(config.method, config.url);
+  // console.log(config.method, config.url);
   return config;
 });
 
@@ -179,7 +179,7 @@ reddit.interceptors.request.use(config => {
 
   // list for copying to automoderator yml
   // eslint-disable-next-line
-  console.log('[ ', Object.keys(stats.users).map(username => `'${username}'`).join(', '),' ]');
+  // console.log('[ ', Object.keys(stats.users).map(username => `'${username}'`).join(', '),' ]');
 })().catch(err => {
   console.error(err);
   process.exit(1);

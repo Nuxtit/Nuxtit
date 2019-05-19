@@ -41,6 +41,7 @@ import MasstaggerBadge from '~/components/MasstaggerBadge';
 import TimeAgo from '~/components/TimeAgo';
 import UserLink from '~/components/UserLink';
 import { makeComputeToggler } from '~/lib/toggle_open';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'BannedUserEntry',
@@ -66,9 +67,6 @@ export default {
     };
   },
   computed: {
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
     showSource: makeComputeToggler('source'),
   },
 };

@@ -47,9 +47,6 @@ export default {
     },
   },
   computed: {
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
     username() {
       return this.name || this.item.data.author;
     },

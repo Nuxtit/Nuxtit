@@ -43,7 +43,9 @@ export default function(ctx) {
   Vue.prototype.$reddit = ctx.reddit;
 
   ctx.reddit.interceptors.request.use(async config => {
-    const accessToken = await getAccessToken(ctx);
+    const accessToken = await getAccessToken(ctx, {
+      username: config.username || ctx.store.getters['auth/username'],
+    });
     if (!accessToken) {
       console.error(ctx.store.state, { accessToken, config });
       throw new AccessTokenRequiredError();
@@ -170,19 +172,29 @@ export function getOAuthLoginHref() {
   );
 }
 
-async function isAccessTokenExpired(ctx) {
-  const expiresAt = get(ctx.store.state, 'auth.OAuthData.expires_at', 0);
+async function isAccessTokenExpired(ctx, { username }) {
+  // console.assert(username);
+  const expiresAt = username
+    ? get(ctx.store.state, `auth.Accounts.${username}.OAuthData.expires_at`, 0)
+    : get(ctx.store.state, `auth.tmpOAuthData.expires_at`, 0);
   const isExpired = expiresAt >= Date.now() + 500;
   // console.log('isAccessTokenExpired', { isExpired, expiresAt });
   return expiresAt >= Date.now() + 500;
 }
 
-async function getAccessToken(ctx) {
+async function getAccessToken(ctx, { username }) {
+  // console.assert(username);
   // console.log('getAccessToken');
-  if (isAccessTokenExpired(ctx)) {
-    await ctx.store.dispatch('auth/fetchRefreshedAccessToken');
+  if (isAccessTokenExpired(ctx, { username })) {
+    await ctx.store.dispatch('auth/fetchRefreshedAccessToken', { username });
   }
-  return get(ctx.store.state, 'auth.OAuthData.access_token');
+  if (!username && get(ctx.store.state, 'auth.tmpOAuthData')) {
+    return ctx.store.state.auth.tmpOAuthData.access_token;
+  }
+  return get(
+    ctx.store.state,
+    `auth.Accounts.${username}.OAuthData.access_token`,
+  );
 }
 
 function now() {

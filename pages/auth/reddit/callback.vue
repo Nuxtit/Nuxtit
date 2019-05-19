@@ -7,16 +7,17 @@
 
 <script>
 export default {
-  middleware: ['guest'],
+  // middleware: ['guest'],
   computed: {
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
+    //
   },
   async mounted() {
     const { state, code, error } = this.$route.query;
+    await this.$store.dispatch('auth/setCurrent', null);
     await this.$store.dispatch('auth/fetchAccessToken', { state, code, error });
-    await this.$store.dispatch('auth/fetchMe');
+    const MeData = await this.$store.dispatch('auth/fetchMe');
+    await this.$store.dispatch('auth/moveTmpOAuthData', MeData.name);
+    await this.$store.dispatch('auth/setCurrent', MeData.name);
     this.$router.push('/');
   },
 };

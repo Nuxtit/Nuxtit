@@ -71,7 +71,7 @@ export default {
       // const lastCreatedUtc = get(last(res.data.data), 'created_utc');
 
       // console.log({ batchSize, lastId, lastCreatedUtc });
-      console.log({ batchSize, limit, after });
+      // console.log({ batchSize, limit, after });
       // console.log(res.data.data[0]);
 
       reduce(res.data.data.children, reducer, aggregate);
