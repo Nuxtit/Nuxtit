@@ -126,6 +126,7 @@ import RedditItems from '~/mixins/RedditItems';
 import SubscribeButton from '~/components/SubscribeButton';
 import TimeAgo from '~/components/TimeAgo';
 import { makeComputeToggler } from '~/lib/toggle_open';
+import { mapGetters } from 'vuex';
 
 export default {
   middleware: ['auth'],
@@ -153,9 +154,7 @@ export default {
     };
   },
   computed: {
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
+    ...mapGetters('auth', ['MeData']),
     showSource: makeComputeToggler('source'),
     subredditBannerStyles() {
       const { subreddit } = this.user.data;

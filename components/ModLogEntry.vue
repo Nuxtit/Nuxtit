@@ -94,9 +94,6 @@ export default {
     };
   },
   computed: {
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
     showSource: makeComputeToggler('source'),
   },
 };

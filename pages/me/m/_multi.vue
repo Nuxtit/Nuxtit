@@ -58,7 +58,7 @@ export default {
     const { multi } = route.params;
     const multis = await reddit.get(`/api/multi/mine`);
     //eslint-disable-next-line
-    console.log(multis.data, multi, find(multis.data, m => m.data.name === multi));
+    // console.log(multis.data, multi, find(multis.data, m => m.data.name === multi));
     return {
       multi: find(multis.data, m => m.data.name === multi),
     };

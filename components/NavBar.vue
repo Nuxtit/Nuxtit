@@ -83,6 +83,7 @@ import bNavForm from 'bootstrap-vue/es/components/nav/nav-form';
 import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import bNavItemDropdown from 'bootstrap-vue/es/components/nav/nav-item-dropdown';
 import SearchInput from '~/components/SearchInput';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'NavBar',
@@ -98,6 +99,7 @@ export default {
     SearchInput,
   },
   computed: {
+    ...mapGetters('auth', ['MeData']),
     censorUsernames: {
       get() {
         return this.$store.getters['settings/censorUsernames'];
@@ -105,9 +107,6 @@ export default {
       set(value) {
         return this.$store.dispatch('settings/censorUsernames', value);
       },
-    },
-    MeData() {
-      return this.$store.state.auth.MeData || {};
     },
     historyCount() {
       return this.$store.getters['history/count'];

@@ -25,8 +25,10 @@ export const actions = {
 
     ls.addSyncVuexListener({
       syncMap: {
-        OAuthData: 'auth/OAuthData',
-        MeData: 'auth/MeData',
+        // OAuthData: 'auth/OAuthData',
+        // MeData: 'auth/MeData',
+        Current: 'auth/Current',
+        Accounts: 'auth/Accounts',
         SrCache: 'subreddits/SrCache',
         History: 'history/History',
         ApiLog: 'apilog/ApiLog',

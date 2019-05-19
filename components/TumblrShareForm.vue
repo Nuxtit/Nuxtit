@@ -324,9 +324,6 @@ export default {
     blogNames() {
       return map(this.blogs, blog => blog.name);
     },
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
     createBlogPost() {
       if (this.dirty.kind === 'text') {
         return this.createTextPost;
@@ -402,17 +399,6 @@ export default {
           options: this.dirty,
         });
         this.tumblrPosts.push({
-          kind: 'TumblrPost',
-          data: {
-            ...response.data,
-            blogName,
-            permalink: `https://${blogName}.tumblr.com/post/${
-              response.data.id
-            }`,
-            route: `/tumblr/${blogName}/post/${response.data.id}`,
-          },
-        });
-        console.log({
           kind: 'TumblrPost',
           data: {
             ...response.data,

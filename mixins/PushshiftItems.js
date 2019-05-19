@@ -40,7 +40,7 @@ export default function({ path, query, shouldAttemptApi }) {
   }
   if (!isFunction(path)) {
     path = ({ route }) => {
-      console.log('path.kind', parseKind(route.query.kind));
+      // console.log('path.kind', parseKind(route.query.kind));
       const resource = {
         [Kind.Comment]: 'comment',
         [Kind.Post]: 'submission',
@@ -242,7 +242,7 @@ async function pushshiftItemsToRedditItems({ reddit, input, route }) {
   const redditChildren = flatten(
     responses.map(response => get(response, 'data.data.children')),
   );
-  console.log({ redditChildren });
+  // console.log({ redditChildren });
   const children = map(input, (item) => {
     const redditItem = find(redditChildren, redditItem => {
       return redditItem.data.id === item.id;

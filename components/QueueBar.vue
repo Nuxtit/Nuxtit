@@ -51,9 +51,6 @@ export default {
     SearchInput,
   },
   computed: {
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
     firstEntry() {
       return this.$store.getters['queue/first'];
     },
