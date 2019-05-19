@@ -32,7 +32,6 @@ export default {
   },
   methods: {
     async fetchPosts() {
-      console.log('fetchPosts');
       try {
         this.fetching = true;
         const response = await this.$store.dispatch('tumblr/fetchBlogPosts', {

@@ -40,12 +40,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   middleware: ['auth'],
   computed: {
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
+    ...mapGetters('auth', ['MeData']),
   },
 };
 </script>

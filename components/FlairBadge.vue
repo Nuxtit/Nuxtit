@@ -35,9 +35,6 @@ export default {
     };
   },
   computed: {
-    MeData() {
-      return this.$store.state.auth.MeData || {};
-    },
     canEditFlair() {
       const { type, item } = this;
       if (get(item.data, 'user_can_flair_in_sr')) {

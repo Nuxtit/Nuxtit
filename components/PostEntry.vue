@@ -237,6 +237,7 @@ import TumblrShareForm from '~/components/TumblrShareForm';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
 import { makeComputeToggler } from '~/lib/toggle_open';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'PostEntry',
@@ -292,12 +293,10 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('auth', ['MeData', 'usernames']),
     isAuthor() {
       const { author } = this.post.data;
-      return author && author === this.MeData.name;
-    },
-    MeData() {
-      return this.$store.state.auth.MeData || {};
+      return this.usernames.includes(author);
     },
     showSource: makeComputeToggler('source'),
     showReply: makeComputeToggler('reply'),

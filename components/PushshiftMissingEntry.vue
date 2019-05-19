@@ -218,6 +218,7 @@ import TimeAgo from '~/components/TimeAgo';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
 import { makeComputeToggler } from '~/lib/toggle_open';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'PushshiftMissingEntry',
@@ -264,12 +265,10 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('auth', ['MeData', 'usernames']),
     isAuthor() {
-      const { author } = this.item.data;
-      return author && author === this.MeData.name;
-    },
-    MeData() {
-      return this.$store.state.auth.MeData || {};
+      const { author } = this.comment.data;
+      return this.usernames.includes(author);
     },
     showSource: makeComputeToggler('source'),
     showReply: makeComputeToggler('reply'),

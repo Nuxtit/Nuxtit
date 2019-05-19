@@ -96,7 +96,7 @@ export default {
         };
         // console.log(data);
       } else if (kind === Kind.Message) {
-        console.log(data);
+        // console.log(data);
         return {
           name: data.name,
           title: data.subject,
