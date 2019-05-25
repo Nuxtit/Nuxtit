@@ -20,17 +20,29 @@
           v-text="link.display_url"
         )
       .card-body(v-if='!collapsedLinks[link.display_url]')
+        PushshiftMissingEntry(
+          v-if="link.post && link.post.pushshiftMissing"
+          :item='link.post'
+          :key='link.post.id'
+        )
         PostEntry(
-          v-if="link.post"
+          v-else-if="link.post && link.post.data"
           :post='link.post'
           :key='link.post.data.id'
         )
-        CommentEntry(
+        template(
           v-for='(comment, index) in link.comments'
-          :comment='comment'
-          :key='comment.data.id'
-          :show-thumbnail='index===0'
         )
+          PushshiftMissingEntry(
+            v-if="comment.pushshiftMissing"
+            :item='comment'
+            :key='comment.data.id'
+          )
+          CommentEntry(
+            v-else-if="comment && comment.data && comment.data.id"
+            :comment='comment'
+            :key='comment.data.id'
+          )
 </template>
 
 <script>
