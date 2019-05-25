@@ -151,7 +151,7 @@
           )
           | &#32;
           span.btn-see-reports(
-            v-if='post.data.user_reports.length > 0'
+            v-if='post.data.user_reports && post.data.user_reports.length > 0'
             @click.prevent.stop='showReports^=true'
           )
             i.fa.fa-fw.fa-btn.fa-bullhorn

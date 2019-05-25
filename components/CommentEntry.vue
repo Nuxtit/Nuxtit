@@ -132,7 +132,7 @@
         @click.prevent.stop='showCrossPost^=true'
       )
       span.btn-see-reports(
-        v-if='comment.data.user_reports.length > 0'
+        v-if='comment.data.user_reports && comment.data.user_reports.length > 0'
         @click.prevent.stop='showReports^=true'
       )
         i.fa.fa-fw.fa-btn.fa-code
