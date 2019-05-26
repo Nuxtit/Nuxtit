@@ -20,9 +20,14 @@ exports.handler = function(event, context, callback) {
     data,
     response,
   ) {
-    console.log({ err, data, response });
+    // console.log({ err, data, response });
     if (err) {
-      return callback(err);
+      if (response && response.statusCode) {
+        callback(null, response);
+        return;
+      }
+      callback(err);
+      return;
     }
     callback(null, {
       statusCode: 200,
