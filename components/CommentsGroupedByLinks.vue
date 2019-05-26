@@ -47,6 +47,7 @@
 
 <script>
 import forEach from 'lodash/forEach';
+import get from 'lodash/get';
 import CommentEntry from '~/components/CommentEntry';
 import PostEntry from '~/components/PostEntry';
 import PushshiftMissingEntry from '~/components/PushshiftMissingEntry';
@@ -103,6 +104,7 @@ export default {
         forEach(links, l => {
           // autocollapse link section if all items have been interacted with
           this.collapsedLinks[l.display_url] =
+            get(l, 'post.data.hidden') === true ||
             l.comments.filter(p => {
               if (p.data.hidden === true) return false;
               if (p.data.saved === true) return false;
