@@ -20,16 +20,18 @@ exports.handler = function(event, context, callback) {
     data,
     response,
   ) {
-    console.log({ err, data, response });
+    // console.log({ err, data, response });
     if (err) {
-      callback(null, {
-        statusCode: 400,
-        body: JSON.stringify({ data, response, err }),
-      });
+      if (response && response.statusCode) {
+        callback(null, response);
+        return;
+      }
+      callback(err);
+      return;
     }
     callback(null, {
       statusCode: 200,
-      body: JSON.stringify({ data, response, err }),
+      body: JSON.stringify(data),
     });
   });
 };

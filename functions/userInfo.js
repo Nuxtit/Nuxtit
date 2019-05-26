@@ -15,9 +15,15 @@ exports.handler = function(event, context, callback) {
     token_secret: body.token_secret,
   });
 
-  tumblr.userInfo(function(err, data) {
+  tumblr.userInfo(function(err, data, response) {
+    // console.log({ err, data, response });
     if (err) {
-      return callback(err);
+      if (response && response.statusCode) {
+        callback(null, response);
+        return;
+      }
+      callback(err);
+      return;
     }
     callback(null, {
       statusCode: 200,

@@ -16,9 +16,14 @@ exports.handler = function(event, context, callback) {
   });
 
   tumblr.deletePost(body.blogName, body.options, function(err, data, response) {
-    console.log({ err, data, response });
+    // console.log({ err, data, response });
     if (err) {
-      return callback(err);
+      if (response && response.statusCode) {
+        callback(null, response);
+        return;
+      }
+      callback(err);
+      return;
     }
     callback(null, {
       statusCode: 200,
