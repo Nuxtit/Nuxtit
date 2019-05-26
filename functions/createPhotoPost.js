@@ -22,7 +22,10 @@ exports.handler = function(event, context, callback) {
   ) {
     console.log({ err, data, response });
     if (err) {
-      return callback(err);
+      callback(null, {
+        statusCode: 400,
+        body: JSON.stringify({ data, response, err }),
+      });
     }
     callback(null, {
       statusCode: 200,
