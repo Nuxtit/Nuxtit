@@ -120,7 +120,7 @@
         | &#32;
         BanButton(:item='comment')
         | &#32;
-        ApproveButton(:item='comment' v-if='comment.data.removed')
+        ApproveButton(:item='comment')
         | &#32;
       DeleteButton(:item='comment' v-if='isAuthor')
       | &#32;
