@@ -84,11 +84,46 @@
         | Pushshift
       b-nav-item(
         v-if="subreddit.data.user_is_moderator"
+        :to='`/r/${$route.params.subreddit}/about/moderators`'
+      )
+        i.fa.fa-fw.fa-btn.fa-shield
+        | &#32;
+        | Moderators
+      b-nav-item(
+        v-if="subreddit.data.user_is_moderator"
+        :to='`/r/${$route.params.subreddit}/about/contributors`'
+      )
+        i.fa.fa-fw.fa-btn.fa-check
+        | &#32;
+        | Approved Users
+      b-nav-item(
+        v-if="subreddit.data.user_is_moderator"
+        :to='`/r/${$route.params.subreddit}/about/wikicontributors`'
+      )
+        i.fa.fa-fw.fa-btn.fa-book
+        | &#32;
+        | WikiContributors Users
+      b-nav-item(
+        v-if="subreddit.data.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/banned`'
       )
         i.fa.fa-fw.fa-btn.fa-ban
         | &#32;
         | Banned Users
+      b-nav-item(
+        v-if="subreddit.data.user_is_moderator"
+        :to='`/r/${$route.params.subreddit}/about/muted`'
+      )
+        i.fa.fa-fw.fa-btn.fa-ban
+        | &#32;
+        | Muted Users
+      b-nav-item(
+        v-if="subreddit.data.user_is_moderator"
+        :to='`/r/${$route.params.subreddit}/about/wikibanned`'
+      )
+        i.fa.fa-fw.fa-btn.fa-ban
+        | &#32;
+        | WikiBanned Users
       b-nav-item(
         v-if="subreddit.data.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/log`'
