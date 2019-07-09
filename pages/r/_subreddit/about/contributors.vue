@@ -1,6 +1,7 @@
 <template lang="pug">
   div
     h2 Approved Users
+    AddContributorForm
     RedditPagination(
       :collection='items'
       :fetching='fetching'
@@ -13,6 +14,7 @@
     )
 </template>
 <script>
+import AddContributorForm from '~/components/AddContributorForm.vue';
 import ApprovedUserList from '~/components/ApprovedUserList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
@@ -21,6 +23,7 @@ export default {
   middleware: ['auth'],
   defaultSort: 'new',
   components: {
+    AddContributorForm,
     ApprovedUserList,
     RedditPagination,
   },
@@ -44,4 +47,3 @@ export default {
   },
 };
 </script>
-
