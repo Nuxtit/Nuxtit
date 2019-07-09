@@ -1,6 +1,7 @@
 <template lang="pug">
   div
     h2 WikiContributor Users
+    AddWikiContributorForm
     RedditPagination(
       :collection='items'
       :fetching='fetching'
@@ -13,6 +14,7 @@
     )
 </template>
 <script>
+import AddWikiContributorForm from '~/components/AddWikiContributorForm.vue';
 import WikiContributorUserList from '~/components/WikiContributorUserList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
@@ -21,6 +23,7 @@ export default {
   middleware: ['auth'],
   defaultSort: 'new',
   components: {
+    AddWikiContributorForm,
     WikiContributorUserList,
     RedditPagination,
   },

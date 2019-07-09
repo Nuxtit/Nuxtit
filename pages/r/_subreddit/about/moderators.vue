@@ -1,6 +1,7 @@
 <template lang="pug">
   div
     h2 Moderators
+    AddModeratorForm
     RedditPagination(
       :collection='items'
       :fetching='fetching'
@@ -13,6 +14,7 @@
     )
 </template>
 <script>
+import AddModeratorForm from '~/components/AddModeratorForm.vue';
 import ModeratorUserList from '~/components/ModeratorUserList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
@@ -21,6 +23,7 @@ export default {
   middleware: ['auth'],
   defaultSort: 'new',
   components: {
+    AddModeratorForm,
     ModeratorUserList,
     RedditPagination,
   },
