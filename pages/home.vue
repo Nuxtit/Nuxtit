@@ -20,6 +20,7 @@
         nuxt-link.button--grey(to='/r/popular') /r/popular
         nuxt-link.button--grey(to='/r/all') /r/all
         nuxt-link.button--grey(to='/r/friends') /r/friends
+        nuxt-link.button--grey(to='/r/mod') /r/mod
         nuxt-link.button--grey(to='/random') /random
         nuxt-link.button--grey(to='/subreddits') /subreddits
           //- dont know what /users is for, so come back to it whenever
