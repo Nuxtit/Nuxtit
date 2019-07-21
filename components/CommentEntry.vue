@@ -30,7 +30,7 @@
       b-badge(v-if='comment.data.spam', variant='danger') [spam]
       | &#32;
       SubredditLink(
-        v-if='!$route.params.subreddit && comment.data.subreddit'
+        v-if='showSubreddit'
         :subreddit='comment.data.subreddit'
       )
       | &#32;
@@ -206,6 +206,7 @@ import SubredditLink from '~/components/SubredditLink';
 import TimeAgo from '~/components/TimeAgo';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
+import { isVirtualSubreddit } from '~/lib/subreddit';
 import { makeComputeToggler } from '~/lib/toggle_open';
 import { mapGetters } from 'vuex';
 
@@ -289,6 +290,11 @@ export default {
     isAuthor() {
       const { author } = this.comment.data;
       return this.usernames.includes(author);
+    },
+    showSubreddit() {
+      if (!this.comment.data.subreddit) return false;
+      if (!this.$route.params.subreddit) return true;
+      return isVirtualSubreddit(this.$route.params.subreddit);
     },
     showSource: makeComputeToggler('source'),
     showReply: makeComputeToggler('reply'),
