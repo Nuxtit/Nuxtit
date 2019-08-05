@@ -16,7 +16,7 @@
           )
           a(
             v-if="!post.data.is_self"
-            :href='post.data.url'
+            :href='postUrl'
             target='_blank'
             ref='nofollow'
             v-text='post.data.title'
@@ -239,6 +239,9 @@ import UserLink from '~/components/UserLink';
 import { makeComputeToggler } from '~/lib/toggle_open';
 import { mapGetters } from 'vuex';
 
+const linkRegEx = /https{0,1}:\/\/(i\.|www\.|old\.){0,1}reddit\.com\//gim;
+const newLink = '/';
+
 export default {
   name: 'PostEntry',
   components: {
@@ -297,6 +300,11 @@ export default {
     isAuthor() {
       const { author } = this.post.data;
       return this.usernames.includes(author);
+    },
+    postUrl() {
+      let url = this.post.data.url;
+      url = url.replace(linkRegEx, newLink);
+      return url;
     },
     showSource: makeComputeToggler('source'),
     showReply: makeComputeToggler('reply'),
