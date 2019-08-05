@@ -1,5 +1,5 @@
 <template lang="pug">
-  .item-html(v-html='html')
+  .item-html(v-html='html' @click="onClick")
 </template>
 
 <script>
@@ -23,6 +23,9 @@ const getHighlightTerms = memoize(v => {
     });
 });
 
+const linkRegEx = /<a href="https{0,1}:\/\/(i\.|www\.|old\.){0,1}reddit\.com\//gim;
+const newLink = '<a href="/';
+
 export default {
   name: 'ItemHtml',
   props: {
@@ -42,6 +45,7 @@ export default {
         get(this.item, 'data.body_html') ||
         get(this.item, 'data.selftext_html') ||
         '';
+      html = html.replace(linkRegEx, newLink);
       if (html && (this.$route.query.q || this.$route.query.highlight)) {
         const terms = getHighlightTerms(
           (this.$route.query.q || '') +
@@ -64,6 +68,25 @@ export default {
         }
       }
       return html;
+    },
+  },
+  methods: {
+    onClick($event) {
+      console.log($event);
+      $event.preventDefault();
+      // left click
+      const { target, which } = $event;
+      if (which === 1 && target && target.tagName === 'A' && target.href) {
+        const href = target.getAttribute('href');
+        if (href && href[0] === '/' && href[1] !== '/') {
+          const resolve = this.$router.resolve(href);
+          if (resolve && resolve.resolved) {
+            this.$router.push(resolve.resolved);
+            return false;
+          }
+        }
+      }
+      return true;
     },
   },
 };
