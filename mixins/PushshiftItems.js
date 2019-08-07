@@ -73,6 +73,22 @@ export default function({ path, query, shouldAttemptApi }) {
         params.subreddit = route.query.subreddit || void 0;
         params.author = route.query.author || void 0;
       }
+      console.log({
+        'route.query.subredditnegated': route.query.subredditnegated,
+        'route.query.subreddit': route.query.subreddit,
+      });
+      if (params.subreddit && route.query.subredditnegated) {
+        params.subreddit = params.subreddit
+          .split(',')
+          .map(name => `!${name}`)
+          .join(',');
+      }
+      if (params.author && route.query.authornegated) {
+        params.author = params.author
+          .split(',')
+          .map(name => `!${name}`)
+          .join(',');
+      }
       return params;
     };
   }
