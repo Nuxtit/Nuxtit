@@ -22,6 +22,14 @@
           b-form-checkbox(
             v-model="subredditnegated"
           ) exclude
+    .row
+      .col
+        div(v-for="qr in quickRemovesFiltered")
+          .btn.btn-sm.btn-success(@click.prevent.stop="subsList = [...subsList, qr.name]")
+            i.fa.fa-fw.fa-plus
+            | Add&nbsp;
+            tt {{ qr.name }}
+            | &nbsp;({{ qr.count }})
   div(v-else)
     i.fa.fa-fw.fa-plus(@click.prevent.stop="expanded = true")
     | {{ subredditnegated ? 'Excluding' : 'Including' }}
@@ -33,10 +41,20 @@
 <script>
 import QueryParamSubredditCsv from '~/mixins/QueryParamSubredditCsv';
 import QueryParamSubredditNegated from '~/mixins/QueryParamSubredditNegated';
+import includes from 'lodash/includes';
+import sortBy from 'lodash/sortBy';
 
 export default {
   name: 'SelectQuerySubredditCsv',
   mixins: [QueryParamSubredditCsv, QueryParamSubredditNegated],
+  props: {
+    quickRemoves: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
   data() {
     return {
       expanded: false,
@@ -55,6 +73,14 @@ export default {
         newValue = (newValue || []).map(cleanupSubName);
         this.subreddit = newValue.filter(Boolean).join(',');
       },
+    },
+    quickRemovesFiltered() {
+      return sortBy(
+        Object.values(this.quickRemoves).filter(
+          qr => !includes(this.subsList, qr.name),
+        ),
+        'name',
+      );
     },
   },
 };
