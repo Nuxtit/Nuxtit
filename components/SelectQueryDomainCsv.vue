@@ -22,6 +22,14 @@
           b-form-checkbox(
             v-model="domainnegated"
           ) exclude
+    .row
+      .col
+        div(v-for="qr in quickRemovesFiltered")
+          .btn.btn-sm.btn-success(@click.prevent.stop="subsList = [...subsList, qr.name]")
+            i.fa.fa-fw.fa-plus
+            | Add&nbsp;
+            tt {{ qr.name }}
+            | &nbsp;({{ qr.count }})
   div(v-else)
     i.fa.fa-fw.fa-plus(@click.prevent.stop="expanded = true")
     | {{ domainnegated ? 'Excluding' : 'Including' }}
@@ -33,10 +41,20 @@
 <script>
 import QueryParamDomainCsv from '~/mixins/QueryParamDomainCsv';
 import QueryParamDomainNegated from '~/mixins/QueryParamDomainNegated';
+import includes from 'lodash/includes';
+import sortBy from 'lodash/sortBy';
 
 export default {
   name: 'SelectQueryDomainCsv',
   mixins: [QueryParamDomainCsv, QueryParamDomainNegated],
+  props: {
+    quickRemoves: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
   data() {
     return {
       expanded: false,
@@ -55,6 +73,14 @@ export default {
         newValue = (newValue || []).map(cleanupSubName);
         this.domain = newValue.filter(Boolean).join(',');
       },
+    },
+    quickRemovesFiltered() {
+      return sortBy(
+        Object.values(this.quickRemoves).filter(
+          qr => !includes(this.subsList, qr.name),
+        ),
+        'name',
+      );
     },
   },
 };
