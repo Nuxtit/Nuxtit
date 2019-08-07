@@ -14,13 +14,13 @@
           SelectQueryCommentGroupBy()
       .row
         .col
-          SelectQuerySubredditCsv()
+          SelectQuerySubredditCsv(:quick-removes="pluckquickremoves('subreddit')")
       .row
         .col
-          SelectQueryAuthorCsv()
+          SelectQueryAuthorCsv(:quick-removes="pluckquickremoves('author')")
       .row(v-if="$route.query.kind === 'post'")
         .col
-          SelectQueryDomainCsv()
+          SelectQueryDomainCsv(:quick-removes="pluckquickremoves('domain')")
       .row
         .col
           SelectQueryText(path="after" placeholder="after: 1{s,m,h,d}")
@@ -154,6 +154,7 @@ import SelectQueryAuthorCsv from '~/components/SelectQueryAuthorCsv';
 import SelectQueryText from '~/components/SelectQueryText';
 import SelectQuerySubredditCsv from '~/components/SelectQuerySubredditCsv';
 import get from 'lodash/get';
+import reduce from 'lodash/reduce';
 import { startMinWait } from '~/lib/sleep';
 import { mapGetters } from 'vuex';
 
@@ -235,6 +236,25 @@ export default {
     // console.log('searchpage');
   },
   methods: {
+    pluckquickremoves(path) {
+      return reduce(
+        get(this.items, 'data.children'),
+        (carry, item) => {
+          const name = item.pushshiftEntry[path];
+          if (name) {
+            if (!carry[name]) {
+              carry[name] = {
+                name,
+                count: 0,
+              };
+            }
+            carry[name].count++;
+          }
+          return carry;
+        },
+        {},
+      );
+    },
     async saveSearch() {
       if (this.name) {
         const minWait = startMinWait();
