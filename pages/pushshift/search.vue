@@ -240,7 +240,7 @@ export default {
       return reduce(
         get(this.items, 'data.children'),
         (carry, item) => {
-          const name = item.pushshiftEntry[path];
+          const name = get(item, `pushshiftEntry.${path}`);
           if (name) {
             if (!carry[name]) {
               carry[name] = {
