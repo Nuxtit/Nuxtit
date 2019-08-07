@@ -34,6 +34,13 @@ function emptyCollection() {
   };
 }
 
+function negateList(csv) {
+  return csv
+    .split(',')
+    .map(name => `!${name}`)
+    .join(',');
+}
+
 export default function({ path, query, shouldAttemptApi }) {
   if (!isFunction(shouldAttemptApi)) {
     shouldAttemptApi = returnTrue;
@@ -64,7 +71,7 @@ export default function({ path, query, shouldAttemptApi }) {
       if (kind === Kind.Post) {
         params.title = route.query.title || void 0;
         // params.url = route.query.url || void 0;
-        // params.domain = route.query.domain || void 0;
+        params.domain = route.query.domain || void 0;
       }
       if (kind === Kind.Comment) {
         params.link_id = route.query.link_id || void 0;
@@ -73,21 +80,14 @@ export default function({ path, query, shouldAttemptApi }) {
         params.subreddit = route.query.subreddit || void 0;
         params.author = route.query.author || void 0;
       }
-      console.log({
-        'route.query.subredditnegated': route.query.subredditnegated,
-        'route.query.subreddit': route.query.subreddit,
-      });
       if (params.subreddit && route.query.subredditnegated) {
-        params.subreddit = params.subreddit
-          .split(',')
-          .map(name => `!${name}`)
-          .join(',');
+        params.subreddit = negateList(params.subreddit);
       }
       if (params.author && route.query.authornegated) {
-        params.author = params.author
-          .split(',')
-          .map(name => `!${name}`)
-          .join(',');
+        params.author = negateList(params.author);
+      }
+      if (params.domain && route.query.domainnegated) {
+        params.domain = negateList(params.domain);
       }
       return params;
     };
