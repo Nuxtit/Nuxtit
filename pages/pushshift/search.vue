@@ -18,6 +18,9 @@
       .row
         .col
           SelectQueryAuthorCsv()
+      .row(v-if="$route.query.kind === 'post'")
+        .col
+          SelectQueryDomainCsv()
       .row
         .col
           SelectQueryText(path="after" placeholder="after: 1{s,m,h,d}")
@@ -143,6 +146,7 @@ import PostsGroupedByLinks from '~/components/PostsGroupedByLinks';
 import PushshiftItems from '~/mixins/PushshiftItems';
 import SearchInput from '~/components/SearchInput';
 import SelectQueryCommentGroupBy from '~/components/SelectQueryCommentGroupBy';
+import SelectQueryDomainCsv from '~/components/SelectQueryDomainCsv';
 import SelectQueryPostGroupBy from '~/components/SelectQueryPostGroupBy';
 import SelectQueryKind from '~/components/SelectQueryKind';
 import SelectQuerySize from '~/components/SelectQuerySize';
@@ -165,6 +169,7 @@ export default {
     CommentsGroupedByLinks,
     PostsGroupedByLinks,
     SelectQueryCommentGroupBy,
+    SelectQueryDomainCsv,
     SelectQueryPostGroupBy,
     SelectQueryKind,
     SelectQuerySize,
