@@ -302,7 +302,7 @@ export default {
       return this.usernames.includes(author);
     },
     postUrl() {
-      let url = this.post.data.url;
+      let url = this.post.data.url || '';
       url = url.replace(linkRegEx, newLink);
       return url;
     },
