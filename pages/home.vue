@@ -26,6 +26,7 @@
           //- dont know what /users is for, so come back to it whenever
           //- nuxt-link.button--grey(to='/users') /users
         nuxt-link.button--green(v-if='MeData.name', :to='`/user/${MeData.name}`') /u/{{ MeData.name }}
+        nuxt-link.button--green(v-if='MeData.name', :to='`/user/${MeData.name}/saved`') Saved
       .links
         a.button--green(
           href='https://github.com/Redusa/Redusa'
