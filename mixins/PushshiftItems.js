@@ -75,6 +75,7 @@ export default function({ path, query, shouldAttemptApi }) {
       }
       if (kind === Kind.Comment) {
         params.link_id = route.query.link_id || void 0;
+        params.parent_id = route.query.parent_id || void 0;
       }
       if (kind === Kind.Post || kind === Kind.Comment) {
         params.subreddit = route.query.subreddit || void 0;
