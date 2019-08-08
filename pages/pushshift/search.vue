@@ -41,6 +41,7 @@
             i.fa.fa-fw.fa-btn.fa-save(v-if="!saving")
             | &#32;
             | Save
+        .col
           b-button.my-2.my-sm-0(
             :disabled="removeDisabled"
             size='sm'
@@ -51,6 +52,7 @@
             i.fa.fa-fw.fa-btn.fa-save(v-if="!removing")
             | &#32;
             | Remove
+      .row
         .col
           b-form-input(
             name="name",
