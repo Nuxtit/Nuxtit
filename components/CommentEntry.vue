@@ -10,6 +10,8 @@
       b-badge(v-if='comment.data.is_submitter')
         | [OP]
       | &#32;
+      b-badge(v-if='comment.data.locked') [locked]
+      | &#32;
       FlairBadge(:item='comment' type='author')
       | &#32;
       MasstaggerBadge(:item='comment' type='author')
@@ -124,6 +126,8 @@
         | &#32;
         AddContributorButton(:item='comment')
         | &#32;
+        LockButton(:item='comment')
+        | &#32;
       DeleteButton(:item='comment' v-if='isAuthor')
       | &#32;
       //- GiveGoldButton(:item='comment' v-if='!isAuthor')
@@ -196,6 +200,7 @@ import FlairBadge from '~/components/FlairBadge';
 import GildedBadge from '~/components/GildedBadge';
 import HideButton from '~/components/HideButton';
 import ItemHtml from '~/components/ItemHtml';
+import LockButton from '~/components/LockButton';
 import MasstaggerBadge from '~/components/MasstaggerBadge';
 import PostForm from '~/components/PostForm';
 import RemovedBadge from '~/components/RemovedBadge';
@@ -229,6 +234,7 @@ export default {
     GildedBadge,
     HideButton,
     ItemHtml,
+    LockButton,
     MasstaggerBadge,
     PostForm,
     RemovedBadge,
