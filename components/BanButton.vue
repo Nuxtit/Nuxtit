@@ -26,6 +26,7 @@
         | &#32;
         b-badge(v-if="existingBan.note")
           | note: {{ existingBan.note }}
+      nuxt-link(:to="`/r/${item.data.subreddit}/about/banned`") Contributors Page
       template(v-if="!existingBan")
         .form-group
           label who to ban:

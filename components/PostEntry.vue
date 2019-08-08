@@ -115,6 +115,8 @@
             | &#32;
             ApproveButton(:item='post')
             | &#32;
+            AddContributorButton(:item='post')
+            | &#32;
             LockButton(:item='post')
             | &#32;
           template(v-if='isAuthor || post.data.can_mod_post')
@@ -207,6 +209,7 @@
 import AddToQueueButton from '~/components/AddToQueueButton';
 import ApproveButton from '~/components/ApproveButton';
 import ApprovedBadge from '~/components/ApprovedBadge';
+import AddContributorButton from '~/components/AddContributorButton';
 import BanButton from '~/components/BanButton';
 import CommentEntry from '~/components/CommentEntry';
 import CommentForm from '~/components/CommentForm';
@@ -248,6 +251,7 @@ export default {
     AddToQueueButton,
     ApproveButton,
     ApprovedBadge,
+    AddContributorButton,
     BanButton,
     CommentEntry,
     CommentForm,
