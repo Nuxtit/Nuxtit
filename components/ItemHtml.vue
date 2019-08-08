@@ -23,7 +23,7 @@ const getHighlightTerms = memoize(v => {
     });
 });
 
-const linkRegEx = /<a href="https{0,1}:\/\/(i\.|www\.|old\.){0,1}reddit\.com\//gim;
+const linkRegEx = /<a href="https{0,1}:\/\/(i\.|www\.|np\.|old\.){0,1}reddit\.com\//gim;
 const newLink = '<a href="/';
 
 export default {
