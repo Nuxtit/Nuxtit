@@ -239,7 +239,7 @@ import UserLink from '~/components/UserLink';
 import { makeComputeToggler } from '~/lib/toggle_open';
 import { mapGetters } from 'vuex';
 
-const linkRegEx = /https{0,1}:\/\/(i\.|www\.|old\.){0,1}reddit\.com\//gim;
+const linkRegEx = /https{0,1}:\/\/(i\.|www\.|np\.|old\.){0,1}reddit\.com\//gim;
 const newLink = '/';
 
 export default {
