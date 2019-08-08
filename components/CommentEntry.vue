@@ -122,6 +122,8 @@
         | &#32;
         ApproveButton(:item='comment')
         | &#32;
+        AddContributorButton(:item='comment')
+        | &#32;
       DeleteButton(:item='comment' v-if='isAuthor')
       | &#32;
       //- GiveGoldButton(:item='comment' v-if='!isAuthor')
@@ -184,6 +186,7 @@ import get from 'lodash/get';
 import ApproveButton from '~/components/ApproveButton';
 import ApprovedBadge from '~/components/ApprovedBadge';
 import AddToQueueButton from '~/components/AddToQueueButton';
+import AddContributorButton from '~/components/AddContributorButton';
 import BanButton from '~/components/BanButton';
 import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
@@ -216,6 +219,7 @@ export default {
     ApproveButton,
     ApprovedBadge,
     AddToQueueButton,
+    AddContributorButton,
     BanButton,
     CommentForm,
     CrossPostButton,
