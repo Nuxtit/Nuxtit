@@ -52,7 +52,7 @@
 <script>
 import get from 'lodash/get';
 import FlairBadge from '~/components/FlairBadge';
-import MasstaggerBadge from '~/components/MasstaggerBadge';
+import UsertagBadge from '~/components/UsertagBadge';
 import TimeAgo from '~/components/TimeAgo';
 import UserLink from '~/components/UserLink';
 import { makeComputeToggler } from '~/lib/toggle_open';
@@ -61,7 +61,7 @@ export default {
   name: 'ModLogEntry',
   components: {
     FlairBadge,
-    MasstaggerBadge,
+    UsertagBadge,
     TimeAgo,
     UserLink,
   },

@@ -13,7 +13,7 @@
       | &#32;from&#32;
       UserLink(:username='message.data.author')
       | &#32;
-      MasstaggerBadge(:item='message' type='author')
+      UsertagBadge(:item='message' type='author')
       | &#32;via&#32;
       SubredditLink(
         v-if='message.data.subreddit'
@@ -135,7 +135,7 @@ import FlairBadge from '~/components/FlairBadge';
 import HideButton from '~/components/HideButton';
 import ItemHtml from '~/components/ItemHtml';
 import MarkUnreadButton from '~/components/MarkUnreadButton';
-import MasstaggerBadge from '~/components/MasstaggerBadge';
+import UsertagBadge from '~/components/UsertagBadge';
 import MessageTree from '~/components/MessageTree';
 import PostForm from '~/components/PostForm';
 import RemoveButton from '~/components/RemoveButton';
@@ -164,7 +164,7 @@ export default {
     HideButton,
     ItemHtml,
     MarkUnreadButton,
-    MasstaggerBadge,
+    UsertagBadge,
     MessageTree,
     PostForm,
     RemoveButton,
