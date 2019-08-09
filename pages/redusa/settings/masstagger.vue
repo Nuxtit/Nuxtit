@@ -51,7 +51,7 @@
 <script>
 import bNav from 'bootstrap-vue/es/components/nav/nav';
 import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { BindSettings } from '~/lib/settings';
 
 export default {
@@ -63,6 +63,9 @@ export default {
   computed: {
     ...mapGetters('masstagger', ['cachedCount', 'isAvailable']),
     ...BindSettings(['mtEnable', 'mtMin', 'mtTagMe']),
+  },
+  methods: {
+    ...mapActions('masstagger', ['flush']),
   },
 };
 </script>

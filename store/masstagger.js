@@ -34,6 +34,10 @@ export const mutations = {
       ...newValues,
     };
   },
+  flush(state) {
+    // console.log('masstagger.mutations.flush');
+    state.cache = {};
+  },
 };
 
 export const actions = {
@@ -77,6 +81,14 @@ export const actions = {
         users,
         mtMin,
       },
+    });
+  },
+  async flush({ commit, rootGetters, rootState, state }, mixedTree) {
+    commit('flush');
+
+    // console.log({ users });
+    this.app.context.sharedWorker.port.postMessage({
+      flush: {},
     });
   },
 };
