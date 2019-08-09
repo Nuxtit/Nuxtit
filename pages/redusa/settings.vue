@@ -13,6 +13,9 @@
         to='/redusa/settings/masstagger'
       ) masstagger
       b-nav-item(
+        to='/redusa/settings/tags'
+      ) tags
+      b-nav-item(
         to='/redusa/settings/tumblr'
       ) tumblr
     hr

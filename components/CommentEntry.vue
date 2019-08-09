@@ -14,7 +14,7 @@
       | &#32;
       FlairBadge(:item='comment' type='author')
       | &#32;
-      MasstaggerBadge(:item='comment' type='author')
+      UsertagBadge(:item='comment' type='author')
       | &#32;
       GildedBadge(:item='comment')
       | &#32;
@@ -201,7 +201,7 @@ import GildedBadge from '~/components/GildedBadge';
 import HideButton from '~/components/HideButton';
 import ItemHtml from '~/components/ItemHtml';
 import LockButton from '~/components/LockButton';
-import MasstaggerBadge from '~/components/MasstaggerBadge';
+import UsertagBadge from '~/components/UsertagBadge';
 import PostForm from '~/components/PostForm';
 import RemovedBadge from '~/components/RemovedBadge';
 import RemoveButton from '~/components/RemoveButton';
@@ -235,7 +235,7 @@ export default {
     HideButton,
     ItemHtml,
     LockButton,
-    MasstaggerBadge,
+    UsertagBadge,
     PostForm,
     RemovedBadge,
     RemoveButton,
