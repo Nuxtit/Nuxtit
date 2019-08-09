@@ -28,7 +28,7 @@ import BotBadge from '~/components/BotBadge';
 import { isBot } from '~/lib/bots';
 
 export default {
-  name: 'MasstaggerBadge',
+  name: 'UsertagBadge',
   components: {
     BotBadge,
   },

@@ -72,7 +72,7 @@
           | &#32;
           FlairBadge(:item='post' type='author')
           | &#32;
-          MasstaggerBadge(:item='post' type='author')
+          UsertagBadge(:item='post' type='author')
           | &#32;
           GildedBadge(:item='post')
           | &#32;
@@ -220,7 +220,7 @@ import FlairBadge from '~/components/FlairBadge';
 import GildedBadge from '~/components/GildedBadge';
 import HideButton from '~/components/HideButton';
 import LockButton from '~/components/LockButton';
-import MasstaggerBadge from '~/components/MasstaggerBadge';
+import UsertagBadge from '~/components/UsertagBadge';
 import NsfwButton from '~/components/NsfwButton';
 import PostForm from '~/components/PostForm';
 import PostImage from '~/components/PostImage';
@@ -262,7 +262,7 @@ export default {
     GildedBadge,
     HideButton,
     LockButton,
-    MasstaggerBadge,
+    UsertagBadge,
     NsfwButton,
     PostForm,
     PostImage,

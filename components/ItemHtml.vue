@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     onClick($event) {
-      console.log($event);
+      // console.log($event);
       $event.preventDefault();
       // left click
       const { target, which } = $event;
