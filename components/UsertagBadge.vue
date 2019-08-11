@@ -1,42 +1,79 @@
 <template lang="pug">
-  BotBadge(v-if='isBot')
-  b-badge(
-    v-else-if='tag === true'
-    variant='secondary'
-  )
-    small
-      i.fa.fa-fw.fa-spinner.fa-spin
-      | &#32;loading tags
-  b-badge(
-    v-else-if='tag'
-    variant='danger'
-  )
-    small
-      i.fa.fa-fw.fa-tag
-      | &nbsp;{{ tag }}
-  b-badge.no-flair(v-else-if='showNone')
-    | (no tags)
-  span.no-flair(v-else v-show="false")
+  span(@click.prevent.stop="prompt")
+    BotBadge(v-if='isBot')
+    b-badge(
+      v-else-if='tag === true'
+      variant='secondary'
+    )
+      small
+        i.fa.fa-fw.fa-spinner.fa-spin
+        | &#32;loading tags
+    b-badge(
+      v-else-if='tag'
+      variant='danger'
+    )
+      small
+        i.fa.fa-fw.fa-tag
+        | &nbsp;{{ tag }}
+    a(
+      v-else-if='masstaggerSubs'
+      :href='`https://masstagger.com/user/${username.toUpperCase()}`'
+      target='_blank'
+    )
+      b-badge.badge-mt(
+        v-text='masstaggerSubs'
+        variant='danger'
+      )
+    b-badge.no-flair(v-else-if='showNone')
+      | (no tags)
+    span.no-flair(v-else v-show="false")
+    b-modal(
+      v-model="showingUsertagModal"
+      title="Usertag User"
+      size="md"
+      no-close-on-backdrop
+      scrollable
+      lazy
+      @click.stop.prevent
+    )
+      nuxt-link(:to="`/redusa/settings/usertags`") Usertags Page
+      .form-group
+        label who to Usertag:
+        b-form-input(
+          v-model="add_username"
+          :disabled="true"
+        )
+      .form-group
+        label Tag:
+        b-form-input(
+          v-model="add_tag"
+        )
+      a(
+        :href='`https://masstagger.com/user/${username.toUpperCase()}`'
+        target='_blank'
+      ) See <tt>{{username}}</tt> on masstagger
+      br(v-if="masstaggerSubs")
+      .alert.alert-danger(v-if="masstaggerSubs" v-text="masstaggerSubs")
+      .w-100(slot="modal-footer")
+        .btn-group.float-right
+          b-button(
+            size="sm"
+            variant="primary"
+            @click="showingUsertagModal=false"
+          ) DONE
 </template>
 
 <script>
 import BotBadge from '~/components/BotBadge';
+import TimeAgo from '~/components/TimeAgo';
 import usertags from '~/lib/usertags';
 import { isBot } from '~/lib/bots';
 
-// a(
-//   v-else-if='masstaggerSubs'
-//   :href='`https://masstagger.com/user/${username.toUpperCase()}`'
-//   target='_blank'
-// )
-//   b-badge.badge-mt(
-//     v-text='masstaggerSubs'
-//     variant='danger'
-//   )
 export default {
   name: 'UsertagBadge',
   components: {
     BotBadge,
+    TimeAgo,
   },
   props: {
     item: {
@@ -55,6 +92,9 @@ export default {
   data() {
     return {
       tag: true,
+      showingUsertagModal: false,
+      add_username: '',
+      add_tag: '',
     };
   },
   computed: {
@@ -63,6 +103,11 @@ export default {
     },
     isBot() {
       return isBot(this.username);
+    },
+    masstaggerSubs() {
+      const value = this.$store.getters['masstagger/find'](this.username);
+      if (value !== true) return value;
+      return '';
     },
   },
   watch: {
@@ -74,6 +119,14 @@ export default {
           this.tag = (await usertags.get(newValue).catch(get_blank_str)) || '';
         }
       },
+    },
+  },
+  methods: {
+    async prompt($event) {
+      if (this.showingUsertagModal) return;
+      this.showingUsertagModal = true;
+      this.add_username = this.username;
+      this.add_tag = '';
     },
   },
 };
