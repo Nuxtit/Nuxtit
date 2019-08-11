@@ -65,7 +65,7 @@
               size="sm"
               variant="primary"
               @click="contributor"
-            ) BAN
+            ) ADD
             //- b-button(
             //-   v-if="success"
             //-   v-disabled="busy"
