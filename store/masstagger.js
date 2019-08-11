@@ -48,7 +48,6 @@ export const actions = {
     const username = rootGetters['auth/username'];
 
     if (!mtEnable) return;
-    if (!this.app.context.sharedWorker) return;
 
     const users = {};
 
@@ -62,7 +61,7 @@ export const actions = {
     delete users['[REMOVED]'];
 
     if (!mtTagMe && username) {
-      delete users[username];
+      delete users[username.toUpperCase()];
     }
 
     for (let key in users) {
@@ -75,21 +74,38 @@ export const actions = {
     // record pending...
     commit('merge', users);
 
-    // console.log({ users });
-    this.app.context.sharedWorker.port.postMessage({
-      fetchTags: {
-        users,
-        mtMin,
+    const userNamesList = Object.keys(users);
+    if (userNamesList.length === 0) {
+      // console.log('userNamesList.length === 0', userNamesList.length, userNamesList);
+      return;
+    }
+
+    const response = await masstagger.post(
+      '/users/subs',
+      {
+        users: JSON.stringify(userNamesList),
       },
-    });
+      {
+        params: {
+          min: mtMin,
+        },
+      },
+    );
+    // console.log('fetched /users/subs');
+    const data = {};
+    if (response.data.users) {
+      for (let i = response.data.users.length - 1, user; i >= 0; i--) {
+        user = response.data.users[i];
+        data[user.username] = get(user.subreddits, 'length')
+          ? 'posts in: ' + user.subreddits.map(sr => '/r/' + sr).join(', ')
+          : '';
+      }
+    }
+
+    commit('merge', data);
   },
   async flush({ commit, rootGetters, rootState, state }, mixedTree) {
     commit('flush');
-
-    // console.log({ users });
-    this.app.context.sharedWorker.port.postMessage({
-      flush: {},
-    });
   },
 };
 
@@ -103,9 +119,6 @@ export const getters = {
   },
   cachedCount(state) {
     return Object.keys(state.cache).length;
-  },
-  isAvailable(state) {
-    return 'SharedWorker' in window;
   },
 };
 
