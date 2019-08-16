@@ -269,8 +269,10 @@ async function pushshiftItemsToRedditItems({ reddit, input, route }) {
     }) : null;
     if (redditItem) {
       redditItem.postEntry = redditLink || void 0;
-      redditItem.pushshiftEntry = item;
-      return redditItem;
+      return {
+        pushshiftEntry: item,
+        ...redditItem,
+      };
     }
     return {
       kind,
