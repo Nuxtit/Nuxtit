@@ -31,16 +31,15 @@ For detailed explanation on how things work, checkout [Nuxt.js docs](https://nux
 
 ## Features
 
-Browse Reddit! We're working to add the majority of basic features to reduce the amount of times you need to leave the app. There is a lot of work left to to do! Most places will have a link allowing you to quickly goto reddit while we still have a lot of work to do.
+Browse Reddit! We're working to add the majority of basic features to reduce the amount of times you need to leave the app. There is a lot of work left to to do! Most places will have a link allowing you to quickly goto reddit while we still have a lot of work to do. (Update!) We have so many things implemented (voting, commenting, crossposting, mod stuff, etc.) that you should open an issue if you want something specific. 
 ![Browse Reddit](https://i.imgur.com/gY6CJwN.png)
 
 Use settings menu to quickly censor usernames for screenshots. Note that you can tell which two posts were posted by the same user because of the color. Now you don't have to figure out how photoshop works on your phone just to censor usernames (do not get yourself in trouble for doxxing/brigading!). We'll leave the censor usernames feature on for our screenshots.
 ![Censor Usernames](https://i.imgur.com/EU6M0Ij.png)
 
-Visit a user profile and click "Karma Table" to see a karma table of their most recent 100 activities. You can also see a table for the next 100. One day you'll be able to see more than 100, although 100 is the maximum for that reddit API call ATM.
-![Karma Table](https://i.imgur.com/0ZbybFj.png)
+Sign into multiple accounts. 
 
-You can search things.
+You can search things via reddit search or via pushshift.
 ![Search](https://i.imgur.com/nxsOM4Y.png)
 
 Tap the thumbnail to see image enlarged under the post.
