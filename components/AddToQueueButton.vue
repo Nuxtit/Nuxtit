@@ -7,7 +7,7 @@
     :title='tooltip'
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-times(v-else-if='queued')
+    i.fa.fa-fw.fa-btn.fa-cancel(v-else-if='queued')
     i.fa.fa-fw.fa-btn.fa-plus(v-else)
     span(v-if='busy && queued') unqueuing
     span(v-else-if='busy && !queued') queueing

@@ -31,8 +31,8 @@ b-navbar(toggleable='md', type='dark')
         b-dropdown-item(
           @click='censorUsernames^=true'
         )
-          i.fa.fa-btn.fa-check-square-o(v-if='censorUsernames')
-          i.fa.fa-btn.fa-square-o(v-else)
+          i.fa.fa-btn.fa-check(v-if='censorUsernames')
+          i.fa.fa-btn.fa-check-empty(v-else)
           | &#32;
           | Censor Usernames
         b-dropdown-divider
@@ -61,9 +61,9 @@ b-navbar(toggleable='md', type='dark')
         v-if="MeData.has_mail"
         variant='danger'
       )
-        i.fa.fa-btn.fa-envelope
+        i.fa.fa-btn.fa-mail
         | {{ inbox_count }}
-      i.fa.fa-btn.fa-envelope-o(v-else)
+      i.fa.fa-btn.fa-mail-alt(v-else)
 
     b-nav-item(right href='https://mod.reddit.com/' title="Mail" v-if="MeData.has_mod_mail")
       b-badge.text-secondary(

@@ -28,8 +28,8 @@ export default {
       return {
         'fa fa-fw fa-btn': true,
         'text-danger': this.item.data.likes === false,
-        'fa-arrow-down': !this.voting,
-        'fa-spinner fa-spinning': this.voting,
+        'fa-down-big': !this.voting,
+        'fa-spinner fa-spin': this.voting,
       };
     },
   },

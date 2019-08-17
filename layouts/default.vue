@@ -6,7 +6,7 @@
     div.last-br
     BackToTop
       button.btn.btn-info.btn-to-top(type="button")
-        i.fa.fa-chevron-up
+        i.fa.fa-up-open
 </template>
 
 <script>

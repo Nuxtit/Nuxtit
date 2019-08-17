@@ -93,7 +93,7 @@
           //- nuxt-link(
           //-   :to='item.data.permalink'
           //- )
-          //-   i.fa.fa-fw.fa-btn.fa-comments
+          //-   i.fa.fa-fw.fa-btn.fa-chat
           //-   span comments ({{ item.data.num_comments }})
           //- | &#32;
           //- a(
@@ -129,7 +129,7 @@
           //-   span.btn-edit-toggle(
           //-     @click.prevent.stop='showEdit^=true'
           //-   )
-          //-     i.fa.fa-fw.fa-btn.fa-pencil-square-o
+          //-     i.fa.fa-fw.fa-btn.fa-edit
           //-     span edit
           //- template(v-if='!isAuthor')
           //-   //- GiveGoldButton(:item='item')
@@ -151,7 +151,7 @@
           //-   v-if='item.data.user_reports.length > 0'
           //-   @click.prevent.stop='showReports^=true'
           //- )
-          //-   i.fa.fa-fw.fa-btn.fa-bullhorn
+          //-   i.fa.fa-fw.fa-btn.fa-megaphone
           //-   | &#32;
           //-   span reports ({{ item.data.user_reports.length }})
           //- | &#32;

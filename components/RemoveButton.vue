@@ -5,7 +5,7 @@
     @click.stop.prevent="remove"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-times(v-else)
+    i.fa.fa-fw.fa-btn.fa-cancel(v-else)
     span(v-if='busy && isRemoved') unremoving
     span(v-else-if='busy && !isRemoved') removing
     span(v-else-if='isRemoved') removed

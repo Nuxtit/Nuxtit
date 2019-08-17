@@ -4,7 +4,7 @@
     :class='classes'
     @click.stop.prevent="prompt"
   )
-    i.fa.fa-fw.fa-btn.fa-bullhorn
+    i.fa.fa-fw.fa-btn.fa-megaphone
     | &#32;report
     b-modal(
       v-model="showingReportModal"

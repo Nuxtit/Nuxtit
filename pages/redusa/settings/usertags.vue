@@ -38,7 +38,7 @@
               td: button.btn.btn-xs.btn-danger(
                 @click.prevent.stop="del(username)"
               )
-                i.fa.fa-fw.fa-times
+                i.fa.fa-fw.fa-cancel
 </template>
 
 <script>

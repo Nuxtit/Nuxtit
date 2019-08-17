@@ -71,7 +71,7 @@
       @click.prevent.stop='save'
     )
       i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='saving')
-      i.fa.fa-fw.fa-btn.fa-floppy-o(v-else)
+      i.fa.fa-fw.fa-btn.fa-floppy(v-else)
       span(v-if='editingPost && editingPost.data.id && saving') Updating
       span(v-else-if='editingPost && editingPost.data.id && editingPost.data.body === body') Update
       span(v-else-if='editingPost && editingPost.data.id') Update
@@ -80,7 +80,7 @@
     button.btn.btn-info.btn-cancel(
       @click.prevent.stop='$emit("close")'
     )
-      i.fa.fa-fw.fa-btn.fa-times
+      i.fa.fa-fw.fa-btn.fa-cancel
       span(v-if='!editingPost || !editingPost.data.id || body !== editingPost.data.body')
         | Cancel
         span.small(
