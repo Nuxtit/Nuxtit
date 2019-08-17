@@ -2,7 +2,7 @@
   div(v-if="expanded")
     i.fa.fa-fw.fa-minus(@click.prevent.stop="expanded = false")
     div(v-for="name in subsList")
-      i.fa.fa-fw.fa-remove(@click.prevent.stop="subsList = subsList.filter(n => n !== name)")
+      i.fa.fa-fw.fa-times(@click.prevent.stop="subsList = subsList.filter(n => n !== name)")
       | &nbsp;
       span.badge.badge-secondary(v-text="name")
     .row

@@ -38,7 +38,7 @@
             @click.prevent.stop="saveSearch"
           )
             i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if="saving")
-            i.fa.fa-fw.fa-btn.fa-save(v-if="!saving")
+            i.fa.fa-fw.fa-btn.fa-floppy-o(v-if="!saving")
             | &#32;
             | Save
         .col
@@ -49,7 +49,7 @@
             @click.prevent.stop="removeSearch"
           )
             i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if="removing")
-            i.fa.fa-fw.fa-btn.fa-save(v-if="!removing")
+            i.fa.fa-fw.fa-btn.fa-floppy-o(v-if="!removing")
             | &#32;
             | Remove
       .row
