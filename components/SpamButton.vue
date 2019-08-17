@@ -5,7 +5,7 @@
     @click.stop.prevent="remove"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-remove(v-else)
+    i.fa.fa-fw.fa-btn.fa-times(v-else)
     span(v-if='busy && item.data.spam') unmarking spam
     span(v-else-if='busy && !item.data.spam') marking spam
     span(v-else-if='item.data.spam') marked spam

@@ -110,7 +110,7 @@
         v-if='isAuthor'
         @click.prevent.stop='showEdit^=true'
       )
-        i.fa.fa-fw.fa-btn.fa-edit
+        i.fa.fa-fw.fa-btn.fa-pencil-square-o
         span edit
       | &#32;
       //- HideButton(:item='comment')

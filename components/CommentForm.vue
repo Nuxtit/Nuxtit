@@ -19,7 +19,7 @@
       @click.prevent.stop='save'
     )
       i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='saving')
-      i.fa.fa-fw.fa-btn.fa-save(v-else)
+      i.fa.fa-fw.fa-btn.fa-floppy-o(v-else)
       span(v-if='editingComment && editingComment.data.id && saving') Updating
       span(v-else-if='editingComment && editingComment.data.id && editingComment.data.body === body') Update
       span(v-else-if='editingComment && editingComment.data.id') Update

@@ -45,7 +45,7 @@
           @click.prevent.stop="updatePost"
         )
           i.fa.fa-fw.fa-spinner.fa-spin(v-if="updating")
-          i.fa.fa-fw.fa-save(v-else)
+          i.fa.fa-fw.fa-floppy-o(v-else)
           | Update
         button.btn.btn-danger.mb-2(
           v-disabled="deleting || post.deleted"
