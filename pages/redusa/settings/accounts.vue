@@ -26,10 +26,10 @@
           td
             template(v-if="isCurrentUser(username)")
               i.fa.fa-fw.fa-star
-              i.fa.fa-fw.fa-sign-out(@click.prevent.stop="setCurrent(null)")
+              i.fa.fa-fw.fa-logout(@click.prevent.stop="setCurrent(null)")
             template(v-else)
-              i.fa.fa-fw.fa-sign-in(@click.prevent.stop="setCurrent(username)")
-              i.fa.fa-fw.fa-times(@click.prevent.stop="logout(username)")
+              i.fa.fa-fw.fa-login(@click.prevent.stop="setCurrent(username)")
+              i.fa.fa-fw.fa-cancel(@click.prevent.stop="logout(username)")
           td: img(:src="md.icon_img" width="64" height="64")
           td
             nuxt-link(:to="`/user/${username}`") {{ username }}
@@ -55,7 +55,7 @@
               v-disabled="fetching[username]"
               @click.prevent.stop="refetchMe(username)"
             )
-              i.fa.fa-fw.fa-refresh
+              i.fa.fa-fw.fa-arrows-cw
 </template>
 
 <script>

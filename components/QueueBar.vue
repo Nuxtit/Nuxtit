@@ -9,7 +9,7 @@
     v-if='moreThanOne && isPageQueued && !isLast'
     @click.prevent.stop='requeueAndNext'
   )
-    i.fa.fa-fw.fa-refresh
+    i.fa.fa-fw.fa-arrows-cw
   .btn.btn-secondary(
     v-if='isPageQueued'
     @click.prevent.stop='popAndStay'
@@ -20,7 +20,7 @@
     :href='nextEntry.route'
     @click.prevent.stop='popNext'
   )
-    i.fa.fa-fw.fa-step-forward
+    i.fa.fa-fw.fa-to-end
     small {{ (nextEntry.text || '').slice(0, 64) }}
 </template>
 

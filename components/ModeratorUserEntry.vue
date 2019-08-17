@@ -22,7 +22,7 @@
       nuxt-link(
         :to='`/user/${user.name}`'
       )
-        i.fa.fa-fw.fa-btn.fa-external-link
+        i.fa.fa-fw.fa-btn.fa-link-ext
         span permalink
       | &#32;
       span.btn-see-source(

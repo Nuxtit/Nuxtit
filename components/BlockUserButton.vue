@@ -5,8 +5,8 @@
     @click.stop.prevent="hide"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-plus-circle(v-else-if='item.data.is_user_blocked')
-    i.fa.fa-fw.fa-btn.fa-minus-circle(v-else)
+    i.fa.fa-fw.fa-btn.fa-plus-circled(v-else-if='item.data.is_user_blocked')
+    i.fa.fa-fw.fa-btn.fa-minus-circled(v-else)
     span(v-if='busy && item.data.is_user_blocked') unblocking
     span(v-else-if='busy && !item.data.is_user_blocked') blocking
     span(v-else-if='item.data.is_user_blocked') blocked

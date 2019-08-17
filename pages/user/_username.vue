@@ -60,35 +60,35 @@
       b-nav-item(
         :to='`/user/${$route.params.username}/comments`'
       )
-        i.fa.fa-fw.fa-btn.fa-comments
+        i.fa.fa-fw.fa-btn.fa-chat
         | &#32;
         | Comments
       b-nav-item(
         v-if='showUpvotedTab'
         :to='`/user/${$route.params.username}/upvoted`'
       )
-        i.fa.fa-fw.fa-btn.fa-arrow-up
+        i.fa.fa-fw.fa-btn.fa-up-big
         | &#32;
         | Upvoted
       b-nav-item(
         v-if='showDownvotedTab'
         :to='`/user/${$route.params.username}/downvoted`'
       )
-        i.fa.fa-fw.fa-btn.fa-arrow-down
+        i.fa.fa-fw.fa-btn.fa-down-big
         | &#32;
         | Downvoted
       b-nav-item(
         v-if='showSavedTab'
         :to='`/user/${$route.params.username}/saved`'
       )
-        i.fa.fa-fw.fa-btn.fa-floppy-o
+        i.fa.fa-fw.fa-btn.fa-floppy
         | &#32;
         | Saved
       b-nav-item(
         v-if='showHiddenTab'
         :to='`/user/${$route.params.username}/hidden`'
       )
-        i.fa.fa-fw.fa-btn.fa-minus-circle
+        i.fa.fa-fw.fa-btn.fa-minus-circled
         | &#32;
         | Hidden
       b-nav-item(

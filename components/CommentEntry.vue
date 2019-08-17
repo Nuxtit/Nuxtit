@@ -85,7 +85,7 @@
       nuxt-link(
         :to='comment.data.permalink'
       )
-        i.fa.fa-fw.fa-btn.fa-external-link
+        i.fa.fa-fw.fa-btn.fa-link-ext
         span permalink
       | &#32;
       SaveButton(:item='comment')
@@ -110,7 +110,7 @@
         v-if='isAuthor'
         @click.prevent.stop='showEdit^=true'
       )
-        i.fa.fa-fw.fa-btn.fa-pencil-square-o
+        i.fa.fa-fw.fa-btn.fa-edit
         span edit
       | &#32;
       //- HideButton(:item='comment')

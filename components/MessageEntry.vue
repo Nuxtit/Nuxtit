@@ -55,7 +55,7 @@
       nuxt-link(
         :to='message.data.context'
       )
-        i.fa.fa-fw.fa-btn.fa-external-link
+        i.fa.fa-fw.fa-btn.fa-link-ext
         span permalink
       | &#32;
       ShareButton(:item='message')

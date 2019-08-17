@@ -2,38 +2,50 @@ const fs = require('fs');
 const shell_exec = require('shell_exec').shell_exec;
 const pick = require('lodash/pick');
 
-// use faIconmap to know how to simplify aliases
-const faIconmap = JSON.parse(fs.readFileSync(__dirname+'/fa_icon_map.json'));
-
 const fullconfig = JSON.parse(fs.readFileSync(__dirname+'/fullconfig.json'));
 
 const scanfilesat = './components ./pages ./plugins ./layouts ./mixins ./lib';
 
+const notGlyphs = [
+  'fa-btn',
+  'fa-fw',
+  'fa-spin',
+];
+
 const scannedIconList = shell_exec(
   'egrep -R "fa-[a-z-]{1,}" '+scanfilesat+' --only-matching --no-filename | sort | uniq'
-).split('\n').filter(Boolean).sort();
+).split('\n')
+  .filter(Boolean)
+  .filter(glyphName => !notGlyphs.includes(glyphName))
+  .sort();
+
+// console.log(scannedIconList)
+// process.exit();
 
 const glyphs = scannedIconList.map((glyphName) => {
   const data = { glyphName };
-  data.exists = !!(faIconmap[glyphName]);
-  data.alias = (faIconmap[glyphName] && faIconmap[glyphName] !== glyphName) || false;
   return data;
 });
 
-const aliases = glyphs.filter(data => data.alias);
+glyphs.forEach((data) => {
+  const { glyphName } = data;
 
-if (aliases.length > 0) {
-	const aliasNames = aliases.map(data => data.glyphName);
-	console.error(aliasNames);
-	console.error(pick(faIconmap, aliasNames));
-	console.error('this script does not support aliases, you need to rename them');
-	process.exit(1);
-}
+  const fcGlyphs = fullconfig.glyphs.filter(item => {
+    if (item.src !== 'fontawesome') return false;
+    if (glyphName === 'fa-'+item.css) return true;
+    return false;
+  })
+  if (fcGlyphs.length !== 1) {
+    console.log(fcGlyphs);
+    console.log('expected 1 glyph result, ', fcGlyphs.length, ' found for ', glyphName, ', is probably an alias, check http://fontello.com/');
+    process.exit(1);
+  }
+});
+
 
 fullconfig.glyphs = fullconfig.glyphs.filter(item => {
   if (item.src !== 'fontawesome') return false;
   if (scannedIconList.includes('fa-'+item.css)) return true;
-  if (scannedIconList.map(v => faIconmap[v]).includes('fa-'+item.css)) return true;
   return false;
 })
 

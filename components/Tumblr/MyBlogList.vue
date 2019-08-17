@@ -3,7 +3,7 @@
     tbody
       tr
         th 
-          i.fa.fa-fw.fa-external-link
+          i.fa.fa-fw.fa-link-ext
         th 
           | Blog
         th
@@ -23,7 +23,7 @@
           a(
             :href="blog.url"
           )
-            i.fa.fa-fw.fa-external-link
+            i.fa.fa-fw.fa-link-ext
         td 
           nuxt-link(
             :to="`/tumblr/${blog.name}`"
