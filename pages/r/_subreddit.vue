@@ -67,13 +67,13 @@
       b-nav-item(
         :to='`/r/${$route.params.subreddit}/submit`'
       )
-        i.fa.fa-fw.fa-btn.fa-pencil-square-o
+        i.fa.fa-fw.fa-btn.fa-edit
         | &#32;
         | {{ subreddit.data.submit_text_label || "Submit a new link" }}
       b-nav-item(
         :to='`/r/${$route.params.subreddit}/submit?selftext=true`'
       )
-        i.fa.fa-fw.fa-btn.fa-pencil-square-o
+        i.fa.fa-fw.fa-btn.fa-edit
         | &#32;
         | {{ subreddit.data.submit_link_label || "Submit a new text post" }}
       b-nav-item(
@@ -107,28 +107,28 @@
         v-if="subreddit.data.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/banned`'
       )
-        i.fa.fa-fw.fa-btn.fa-ban
+        i.fa.fa-fw.fa-btn.fa-block
         | &#32;
         | Banned Users
       b-nav-item(
         v-if="subreddit.data.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/muted`'
       )
-        i.fa.fa-fw.fa-btn.fa-ban
+        i.fa.fa-fw.fa-btn.fa-block
         | &#32;
         | Muted Users
       b-nav-item(
         v-if="subreddit.data.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/wikibanned`'
       )
-        i.fa.fa-fw.fa-btn.fa-ban
+        i.fa.fa-fw.fa-btn.fa-block
         | &#32;
         | WikiBanned Users
       b-nav-item(
         v-if="subreddit.data.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/log`'
       )
-        i.fa.fa-fw.fa-btn.fa-ban
+        i.fa.fa-fw.fa-btn.fa-th-list
         | &#32;
         | Mod Log
     .row.clearfix

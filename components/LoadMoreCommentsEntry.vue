@@ -8,7 +8,7 @@ CommentTree.comment-tree-loaded(
     @click.prevent.stop='loadMore'
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='fetching')
-    i.fa.fa-fw.fa-btn.fa-comments(v-else)
+    i.fa.fa-fw.fa-btn.fa-chat(v-else)
     | load more comments ({{ item.data.count }} replies)
 </template>
 

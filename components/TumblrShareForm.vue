@@ -47,13 +47,13 @@
         @click.prevent.stop='saveTumblrPost'
       )
         i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='saving')
-        i.fa.fa-fw.fa-btn.fa-floppy-o(v-else)
+        i.fa.fa-fw.fa-btn.fa-floppy(v-else)
         span(v-if='saving') Saving
         span(v-else) Save
       button.btn.btn-info.btn-cancel(
         @click.prevent.stop='$emit("close")'
       )
-        i.fa.fa-fw.fa-btn.fa-times
+        i.fa.fa-fw.fa-btn.fa-cancel
         | Cancel
       .crossposts(v-if='tumblrPosts.length')
         | Cross Posts:

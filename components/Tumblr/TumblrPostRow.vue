@@ -13,7 +13,7 @@
         target="_blank"
         :href="post.post_url"
       )
-        i.fa.fa-fw.fa-external-link
+        i.fa.fa-fw.fa-link-ext
       | &#32;
       span
         | {{ post.blog_name }}
@@ -45,7 +45,7 @@
           @click.prevent.stop="updatePost"
         )
           i.fa.fa-fw.fa-spinner.fa-spin(v-if="updating")
-          i.fa.fa-fw.fa-floppy-o(v-else)
+          i.fa.fa-fw.fa-floppy(v-else)
           | Update
         button.btn.btn-danger.mb-2(
           v-disabled="deleting || post.deleted"

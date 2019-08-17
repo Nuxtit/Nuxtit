@@ -5,8 +5,8 @@
     @click.stop.prevent="hide"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-plus-circle(v-else-if='isUnread')
-    i.fa.fa-fw.fa-btn.fa-minus-circle(v-else)
+    i.fa.fa-fw.fa-btn.fa-plus-circled(v-else-if='isUnread')
+    i.fa.fa-fw.fa-btn.fa-minus-circled(v-else)
     span(v-if='busy && isUnread') unmarking read
     span(v-else-if='busy && !isUnread') marking unread
     span(v-else-if='isUnread') mark read

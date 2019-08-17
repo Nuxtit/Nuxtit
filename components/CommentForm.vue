@@ -19,7 +19,7 @@
       @click.prevent.stop='save'
     )
       i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='saving')
-      i.fa.fa-fw.fa-btn.fa-floppy-o(v-else)
+      i.fa.fa-fw.fa-btn.fa-floppy(v-else)
       span(v-if='editingComment && editingComment.data.id && saving') Updating
       span(v-else-if='editingComment && editingComment.data.id && editingComment.data.body === body') Update
       span(v-else-if='editingComment && editingComment.data.id') Update
@@ -28,7 +28,7 @@
     button.btn.btn-info.btn-cancel(
       @click.prevent.stop='$emit("close")'
     )
-      i.fa.fa-fw.fa-btn.fa-times
+      i.fa.fa-fw.fa-btn.fa-cancel
       span(v-if='!editingComment || !editingComment.data.id || body !== editingComment.data.body')
         | Cancel
         span.small(

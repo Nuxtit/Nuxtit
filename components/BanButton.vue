@@ -5,7 +5,7 @@
     @click.stop.prevent="prompt"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-ban(v-else)
+    i.fa.fa-fw.fa-btn.fa-block(v-else)
     span(v-if='busy && isBanned') unbanning
     span(v-else-if='busy && !isBanned') banning
     span(v-else-if='isBanned') banned

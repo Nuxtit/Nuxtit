@@ -14,7 +14,7 @@
         v-if='list.length > 1'
         @click.prevent.stop='$store.dispatch("queue/shuffle")'
       )
-        i.fa.fa-fw.fa-random
+        i.fa.fa-fw.fa-shuffle
         | Shuffle
     hr
     h6 queue

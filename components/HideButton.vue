@@ -5,8 +5,8 @@
     @click.stop.prevent="hide"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-plus-circle(v-else-if='item.data.hidden')
-    i.fa.fa-fw.fa-btn.fa-minus-circle(v-else)
+    i.fa.fa-fw.fa-btn.fa-plus-circled(v-else-if='item.data.hidden')
+    i.fa.fa-fw.fa-btn.fa-minus-circled(v-else)
     span(v-if='busy && item.data.hidden') unhiding
     span(v-else-if='busy && !item.data.hidden') hiding
     span(v-else-if='item.data.hidden') hidden

@@ -5,7 +5,7 @@
     span(v-else-if="!imageSrc && post.data.thumbnail === 'default'" title="default")
       i.fa.fa-fw.fa-5x.fa-question-circle-o
     span(v-else-if="post.data.thumbnail === 'self'" title="self")
-      i.fa.fa-fw.fa-5x.fa-file-text
+      i.fa.fa-fw.fa-5x.fa-doc-text
     span(v-else-if="post.data.thumbnail === 'spoiler'" title="spoiler")
       i.fa.fa-fw.fa-5x.fa-question-circle-o
     span.cursor-pointer(

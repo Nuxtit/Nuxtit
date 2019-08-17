@@ -5,7 +5,7 @@
     @click.stop.prevent="nsfw"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-exclamation-triangle(v-else)
+    i.fa.fa-fw.fa-btn.fa-attention(v-else)
     span(v-if='busy && item.data.over_18') unmarking nsfw
     span(v-else-if='busy && !item.data.over_18') marking nsfw
     span(v-else-if='item.data.over_18') unmark nsfw
