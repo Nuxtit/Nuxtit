@@ -36,3 +36,8 @@ input.form-control.disabled,
 .custom-checkbox {
     cursor: not-allowed;
 }
+.fa-btn {
+  /*margin: -2px;*/
+  /* increase clickable area */
+  padding: 4px;
+}
