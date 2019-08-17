@@ -130,7 +130,7 @@
             span.btn-edit-toggle(
               @click.prevent.stop='showEdit^=true'
             )
-              i.fa.fa-fw.fa-btn.fa-edit
+              i.fa.fa-fw.fa-btn.fa-pencil-square-o
               span edit
           template(v-if='!isAuthor')
             //- GiveGoldButton(:item='post')

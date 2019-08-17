@@ -81,7 +81,7 @@
         v-if='showSavedTab'
         :to='`/user/${$route.params.username}/saved`'
       )
-        i.fa.fa-fw.fa-btn.fa-save
+        i.fa.fa-fw.fa-btn.fa-floppy-o
         | &#32;
         | Saved
       b-nav-item(

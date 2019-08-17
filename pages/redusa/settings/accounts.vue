@@ -29,7 +29,7 @@
               i.fa.fa-fw.fa-sign-out(@click.prevent.stop="setCurrent(null)")
             template(v-else)
               i.fa.fa-fw.fa-sign-in(@click.prevent.stop="setCurrent(username)")
-              i.fa.fa-fw.fa-remove(@click.prevent.stop="logout(username)")
+              i.fa.fa-fw.fa-times(@click.prevent.stop="logout(username)")
           td: img(:src="md.icon_img" width="64" height="64")
           td
             nuxt-link(:to="`/user/${username}`") {{ username }}
