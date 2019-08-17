@@ -61,4 +61,8 @@ console.log(shell_exec('mkdir -p '+font));
 console.log(shell_exec('npx fontello-cli install --config ./fontello.json --css '+css+' --font '+font));
 console.log('static/fa updated!');
 
+console.log(shell_exec('cat ./static/css/bootstrap-darkly.min.css ./static/fa/css/animation.css ./static/fa/css/fontello.css ./static/css/more_dark.css > ./static/css/one.css'))
+
+console.log(shell_exec('mv ./static/fa/font ./static/font'));
+console.log(shell_exec('rm -rf ./static/fa'));
 process.exit(0);
