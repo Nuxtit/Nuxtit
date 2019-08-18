@@ -1,0 +1,23 @@
+.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.fa-btn {
+  /* increase clickable area */
+  padding: 4px;
+}
+.fa-fw {
+  width: 1.28571429em;
+  text-align: center;
+}
+/* i thought these were in bs4 lol */
+.pull-right {
+  float: right;
+}
+.pull-left {
+  float: left;
+}

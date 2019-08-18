@@ -63,7 +63,7 @@ b-navbar(toggleable='md', type='dark')
       )
         i.fa.fa-btn.fa-mail
         | {{ inbox_count }}
-      i.fa.fa-btn.fa-mail-alt(v-else)
+      i.fa.fa-btn.fa-mail(v-else)
 
     b-nav-item(right href='https://mod.reddit.com/' title="Mail" v-if="MeData.has_mod_mail")
       b-badge.text-secondary(

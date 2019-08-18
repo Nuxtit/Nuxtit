@@ -205,7 +205,31 @@
 .fa-share:before { content: '\f1e0'; } /* '' */
 .fa-trash:before { content: '\f1f8'; } /* '' */
 .fa-user-secret:before { content: '\f21b'; } /* '' */
-.fa-question-circle-o:before { content: '\f29c'; } /* '' *//*!
+.fa-question-circle-o:before { content: '\f29c'; } /* '' */
+.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.fa-btn {
+  /* increase clickable area */
+  padding: 4px;
+}
+.fa-fw {
+  width: 1.28571429em;
+  text-align: center;
+}
+/* i thought these were in bs4 lol */
+.pull-right {
+  float: right;
+}
+.pull-left {
+  float: left;
+}
+/*!
  * More Dark
  * more css rules on top of bootstrap darkly
 */
@@ -242,9 +266,4 @@ input.form-control.disabled,
 }
 .custom-checkbox {
     cursor: not-allowed;
-}
-.fa-btn {
-  /*margin: -2px;*/
-  /* increase clickable area */
-  padding: 4px;
 }
