@@ -61,6 +61,15 @@ console.log(shell_exec('mkdir -p '+font));
 console.log(shell_exec('npx fontello-cli install --config ./fontello.json --css '+css+' --font '+font));
 console.log('static/fa updated!');
 
+fs.writeFileSync('./static/fa/css/fontello.css', fs.readFileSync('./static/fa/css/fontello.css').toString()
+  .replace(/\bfont\/fontello\.eot\?[0-9]{7,11}/g, 'font/fontello.eot')
+  .replace(/\bfont\/fontello\.eot\?[0-9]{7,11}/g, 'font/fontello.eot')
+  .replace(/\bfont\/fontello\.woff2\?[0-9]{7,11}/g, 'font/fontello.woff2')
+  .replace(/\bfont\/fontello\.woff\?[0-9]{7,11}/g, 'font/fontello.woff')
+  .replace(/\bfont\/fontello\.ttf\?[0-9]{7,11}/g, 'font/fontello.ttf')
+  .replace(/\bfont\/fontello\.svg\?[0-9]{7,11}/g, 'font/fontello.svg')
+);
+
 console.log(shell_exec('cat '+[
   './static/css/bootstrap-darkly.min.css',
   './static/fa/css/animation.css',
@@ -69,6 +78,6 @@ console.log(shell_exec('cat '+[
   './static/css/more_dark.css',
 ].join(' ')+' > ./static/css/one.css'))
 
-console.log(shell_exec('mv ./static/fa/font ./static/font'));
+console.log(shell_exec('mv ./static/fa/font/* ./static/font'));
 console.log(shell_exec('rm -rf ./static/fa'));
 process.exit(0);
