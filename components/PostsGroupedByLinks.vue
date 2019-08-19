@@ -35,6 +35,9 @@ import PostEntry from '~/components/PostEntry';
 import PushshiftMissingEntry from '~/components/PushshiftMissingEntry';
 import SubredditEntry from '~/components/SubredditEntry';
 
+// const notHidden = p => p.data.hidden !== true;
+const notAuthorDeleted = p => p.data.author !== '[deleted]';
+
 export default {
   name: 'PostsGroupedByLinks',
   components: {
@@ -57,8 +60,8 @@ export default {
   computed: {
     links() {
       let items = this.items.data.children;
-      items = items.filter(p => p.data.hidden !== true);
-      items = items.filter(p => p.data.author !== '[deleted]');
+      // items = items.filter(notHidden);
+      items = items.filter(notAuthorDeleted);
       return items.reduce((carry, post) => {
         const url = post.data.url || post.data.permalink;
         if (!carry[url]) {
@@ -83,8 +86,7 @@ export default {
             l.posts.filter(p => {
               if (p.data.hidden === true) return false;
               if (p.data.saved === true) return false;
-              if (p.data.likes === true) return false;
-              if (p.data.likes === false) return false;
+              if (p.data.likes !== null) return false;
               return true;
             }).length === 0;
         });
