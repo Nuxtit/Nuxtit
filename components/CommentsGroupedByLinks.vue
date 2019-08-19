@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import CommentEntry from '~/components/CommentEntry';
@@ -118,10 +119,11 @@ export default {
   },
   methods: {
     toggleLinkCollapse(link) {
-      this.collapsedLinks = {
-        ...this.collapsedLinks,
-        [link.display_url]: !this.collapsedLinks[link.display_url],
-      };
+      Vue.set(
+        this.collapsedLinks,
+        link.display_url,
+        !this.collapsedLinks[link.display_url],
+      );
     },
   },
 };
