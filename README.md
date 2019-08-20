@@ -1,6 +1,6 @@
 # Redusa
 
-[![Build Status](https://travis-ci.com/Redusa/Redusa.svg?branch=master)](https://travis-ci.com/Redusa/Redusa)
+[![Build Status](https://travis-ci.com/Redusa/Redusa.svg?branch=master)](https://travis-ci.com/Redusa/Redusa) [![Greenkeeper badge](https://badges.greenkeeper.io/Redusa/Redusa.svg)](https://greenkeeper.io/)
 
 > Webapp Reddit Client written in Vue/Nuxt
 
