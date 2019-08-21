@@ -127,6 +127,11 @@ export default function({ path, query, shouldAttemptApi }) {
       },
     },
     async asyncData({ reddit, route, store }) {
+      // the user must now manually press the search button to start a query
+      // I don't like it querying an unfiltered search
+      // before I've selected my saved search
+      return emptyCollection();
+      /*
       // console.log('asyncData');
       if (shouldAttemptApi({ route })) {
         const items = (await pushshift
@@ -154,6 +159,7 @@ export default function({ path, query, shouldAttemptApi }) {
       } else {
         return emptyCollection();
       }
+      */
     },
     methods: {
       async fetchItems() {
