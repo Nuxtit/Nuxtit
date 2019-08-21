@@ -12,6 +12,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint-fix": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
     "lambda": "netlify-lambda serve .",
+    "lighthouse": "CHROME_PATH=/usr/bin/chromium-browser npx lighthouse-badges --urls https://redusa.netlify.com -o badges",
     "precommit": "npm run lint"
   },
   "dependencies": {
@@ -50,6 +51,7 @@
     "eslint-loader": "^2.0.0",
     "eslint-plugin-prettier": "3.1.0",
     "eslint-plugin-vue": "^5.2.3",
+    "lighthouse-badges": "^1.0.20",
     "nodemon": "^1.11.0",
     "prettier": "1.18.2"
   }
