@@ -153,5 +153,4 @@ export default {
 const searchRegEx = /\bsearch\b/;
 </script>
 
-<style lang="sass">
-</style>
+<style lang="sass"></style>
