@@ -28,6 +28,7 @@ export default {
       if (isNumber(upvote_ratio)) {
         return `${upvote_ratio * 100}%`;
       }
+      return null;
     },
   },
 };
