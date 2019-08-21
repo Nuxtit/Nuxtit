@@ -60,6 +60,7 @@ export default {
       if (index >= 0) {
         return index + 1;
       }
+      return null;
     },
     classes() {
       return {
@@ -107,6 +108,7 @@ export default {
       } else {
         // console.log('kind', kind);
       }
+      return null;
     },
     tooltip() {
       return JSON.stringify(this.payload, null, 2);
