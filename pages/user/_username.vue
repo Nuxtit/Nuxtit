@@ -141,12 +141,6 @@ export default {
       open: null,
     };
   },
-  async asyncData({ reddit, route }) {
-    const { username } = route.params;
-    return {
-      user: (await reddit.get(`/user/${username}/about`)).data,
-    };
-  },
   computed: {
     ...mapGetters('auth', ['MeData']),
     showSource: makeComputeToggler('source'),
@@ -177,6 +171,12 @@ export default {
     showGildedTab() {
       return this.isAuthor;
     },
+  },
+  async asyncData({ reddit, route }) {
+    const { username } = route.params;
+    return {
+      user: (await reddit.get(`/user/${username}/about`)).data,
+    };
   },
 };
 </script>
