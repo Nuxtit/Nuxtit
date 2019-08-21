@@ -334,6 +334,7 @@ export default {
       } else if (this.dirty.kind === 'link') {
         return this.createLinkPost;
       }
+      return null;
     },
   },
   watch: {
