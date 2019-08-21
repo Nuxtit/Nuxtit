@@ -1,6 +1,12 @@
 # Redusa
 
-[![Build Status](https://travis-ci.com/Redusa/Redusa.svg?branch=master)](https://travis-ci.com/Redusa/Redusa) [![Greenkeeper badge](https://badges.greenkeeper.io/Redusa/Redusa.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.com/Redusa/Redusa.svg?branch=master)](https://travis-ci.com/Redusa/Redusa)
+[![Greenkeeper badge](https://badges.greenkeeper.io/Redusa/Redusa.svg)](https://greenkeeper.io/)
+[![Lighthouse Accessibility](badges/lighthouse_accessibility.svg)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fredusa.netlify.com%2F)
+[![Lighthouse Best Practices](badges/lighthouse_best-practices.svg)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fredusa.netlify.com%2F)
+[![Lighthouse Performance](badges/lighthouse_performance.svg)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fredusa.netlify.com%2F)
+[![Lighthouse PWA](badges/lighthouse_pwa.svg)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fredusa.netlify.com%2F)
+[![Lighthouse SEO](badges/lighthouse_seo.svg)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fredusa.netlify.com%2F)
 
 > Webapp Reddit Client written in Vue/Nuxt
 
