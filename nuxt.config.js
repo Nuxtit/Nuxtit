@@ -1,4 +1,4 @@
-require('dotenv').load();
+require('dotenv').config();
 const pkg = require('./package');
 
 /* eslint-disable */
