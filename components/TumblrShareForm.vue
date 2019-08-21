@@ -403,9 +403,7 @@ export default {
           data: {
             ...response.data,
             blogName,
-            permalink: `https://${blogName}.tumblr.com/post/${
-              response.data.id
-            }`,
+            permalink: `https://${blogName}.tumblr.com/post/${response.data.id}`,
             route: `/tumblr/${blogName}/post/${response.data.id}`,
           },
         });
@@ -420,5 +418,4 @@ export default {
 };
 </script>
 
-<style lang="sass">
-</style>
+<style lang="sass"></style>

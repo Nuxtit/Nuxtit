@@ -95,5 +95,4 @@ function cleanupSubName(name, negated) {
 }
 </script>
 
-<style>
-</style>
+<style></style>

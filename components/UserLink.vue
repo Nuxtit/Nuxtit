@@ -49,5 +49,4 @@ function intToRGB(i) {
 }
 </script>
 
-<style lang="sass">
-</style>
+<style lang="sass"></style>
