@@ -39,6 +39,4 @@ export default {
 };
 </script>
 
-<style lang="sass">
-
-</style>
+<style lang="sass"></style>
