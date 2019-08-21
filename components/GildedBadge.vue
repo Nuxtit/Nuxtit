@@ -38,6 +38,7 @@ export default {
         }
         return text;
       }
+      return null;
     },
   },
 };
