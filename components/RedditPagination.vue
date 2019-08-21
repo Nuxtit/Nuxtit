@@ -84,6 +84,7 @@ export default {
       if ($route.query.before) {
         return $route.query.before;
       }
+      return null;
     },
     before() {
       const { collection, $route, firstId, count } = this;
@@ -98,6 +99,7 @@ export default {
       if ($route.query.after) {
         return $route.query.after;
       }
+      return null;
     },
   },
 };
