@@ -19,6 +19,9 @@ This app is in EARLY ALPHA, expect bugs and missing features.
 ## Build Setup
 
 ``` bash
+# copy .env and set desired settings
+$ cp .env.example .env
+
 # install dependencies
 $ yarn install
 
