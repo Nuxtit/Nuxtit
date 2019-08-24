@@ -1,6 +1,7 @@
 <template lang="pug">
-  span(@click.prevent.stop="prompt")
-    BotBadge(v-if='isBot')
+  span(@click.prevent.stop="prompt" v-show='!username')
+    span(v-if='!username')
+    BotBadge(v-else-if='isBot')
     b-badge(
       v-else-if='tag === true'
       variant='secondary'
@@ -17,7 +18,7 @@
         | &nbsp;{{ tag }}
     a(
       v-else-if='masstaggerSubs'
-      :href='`https://masstagger.com/user/${username.toUpperCase()}`'
+      :href='`https://masstagger.com/user/${username_uc}`'
       target='_blank'
     )
       b-badge.badge-mt(
@@ -49,7 +50,7 @@
           v-model="add_tag"
         )
       a(
-        :href='`https://masstagger.com/user/${username.toUpperCase()}`'
+        :href='`https://masstagger.com/user/${username_uc}`'
         target='_blank'
       ) See <tt>{{username}}</tt> on masstagger
       br(v-if="masstaggerSubs")
@@ -101,12 +102,17 @@ export default {
     username() {
       return this.name || this.item.data.author;
     },
+    username_uc() {
+      return (this.username || '').toUpperCase();
+    },
     isBot() {
-      return isBot(this.username);
+      return this.username && isBot(this.username);
     },
     masstaggerSubs() {
-      const value = this.$store.getters['masstagger/find'](this.username);
-      if (value !== true) return value;
+      if (this.username) {
+        const value = this.$store.getters['masstagger/find'](this.username);
+        if (value !== true) return value;
+      }
       return '';
     },
   },
