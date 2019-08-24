@@ -80,24 +80,27 @@ export const actions = {
       return;
     }
 
-    const response = await masstagger.post(
-      '/users/subs',
-      {
-        users: JSON.stringify(userNamesList),
-      },
-      {
-        params: {
-          min: mtMin,
+    const response = await masstagger
+      .post(
+        '/users/subs',
+        {
+          users: JSON.stringify(userNamesList),
         },
-      },
-    );
+        {
+          params: {
+            min: mtMin,
+          },
+        },
+      )
+      .catch(err => null);
     // console.log('fetched /users/subs');
     const data = {};
-    if (response.data.users) {
-      for (let i = response.data.users.length - 1, user; i >= 0; i--) {
-        user = response.data.users[i];
+    const mtusers = get(response, 'data.users');
+    if (isArray(mtusers)) {
+      for (let i = mtusers.length - 1, user; i >= 0; i--) {
+        user = mtusers[i];
         data[user.username] = get(user.subreddits, 'length')
-          ? 'posts in: ' + user.subreddits.map(sr => '/r/' + sr).join(', ')
+          ? 'posts in: ' + user.subreddits.map(prepend_r).join(', ')
           : '';
       }
     }
@@ -139,4 +142,8 @@ function crawlTree(mt, addUser) {
   crawlTree(mt.data, addUser);
   crawlTree(mt.children, addUser);
   crawlTree(mt.things, addUser);
+}
+
+function prepend_r(sr) {
+  return '/r/' + sr;
 }
