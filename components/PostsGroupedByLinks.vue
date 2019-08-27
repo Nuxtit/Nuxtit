@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import get from 'lodash/get';
 import forEach from 'lodash/forEach';
 import CommentEntry from '~/components/CommentEntry';
 import PostEntry from '~/components/PostEntry';
@@ -59,7 +60,7 @@ export default {
   },
   computed: {
     links() {
-      let items = this.items.data.children;
+      let items = get(this, 'items.data.children') || [];
       // items = items.filter(notHidden);
       items = items.filter(notAuthorDeleted);
       return items.reduce((carry, post) => {
