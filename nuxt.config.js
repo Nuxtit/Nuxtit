@@ -148,8 +148,9 @@ module.exports = {
     public_key: process.env.SENTRY_DSN,
     config: {
       // Additional config
-      release: '0.0.0',
+      release: `${process.env.BRANCH||'NULL_BRANCH'}-${process.env.COMMIT_REF||'NULL_COMMIT_REF}`,
     },
+    publishRelease: true,
   },
 
   router: {
