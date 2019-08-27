@@ -60,7 +60,7 @@ export const actions = {
     delete users['[DELETED]'];
     delete users['[REMOVED]'];
 
-    if (!mtTagMe && username) {
+    if (!mtTagMe && isString(username)) {
       delete users[username.toUpperCase()];
     }
 
