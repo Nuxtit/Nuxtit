@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import filter from 'lodash/filter';
+import isString from 'lodash/isString';
 import * as ls from '~/lib/ls';
 import now from '~/lib/now';
 
@@ -18,17 +19,20 @@ export const mutations = {
 export const actions = {
   add({ state, commit }, input) {
     const response = input.response || input;
+    const config = get(response, 'config') || {};
     // console.log('apiLog.actions.add().response', response);
-    const entry = response.config.apiLog;
-    const { baseURL } = response.config;
+    const entry = get(config, 'apiLog') || {};
+    const { baseURL } = config;
     entry.end = now();
     entry.ms = (entry.end - entry.start) * 1000;
     entry.status = response.status;
-    entry.path = response.config.url.replace(baseURL, '/');
+    if (isString(config.url)) {
+      entry.path = config.url.replace(baseURL, '/');
+    }
     entry.fullPath = response.request.responseURL.replace(baseURL, '/');
-    entry.data = response.config.data;
-    entry.params = response.config.params;
-    entry.method = response.config.method;
+    entry.data = config.data;
+    entry.params = config.params;
+    entry.method = config.method;
     if (entry.status !== 200) {
       entry.result = response.data;
     }
