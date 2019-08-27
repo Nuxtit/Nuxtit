@@ -1,13 +1,14 @@
 <template lang="pug">
   .messages-list
     MessageEntry(
-      v-for='message in messages.data.children'
+      v-for='message in dataChildren'
       :message='message'
       :key='message.data.id'
     )
 </template>
 
 <script>
+import get from 'lodash/get';
 import MessageEntry from '~/components/MessageEntry';
 
 export default {
@@ -19,6 +20,11 @@ export default {
     messages: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    dataChildren() {
+      return get(this, 'messages.data.children') || [];
     },
   },
 };
