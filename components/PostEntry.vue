@@ -192,7 +192,7 @@
         @close='showTumblrShare = false'
       )
       PostImage(
-        v-if="showImage || showTumblrShare"
+        v-if="showImage || showTumblrShare || showCrossPost"
         :post='post'
         @close='showImage = false'
       )
