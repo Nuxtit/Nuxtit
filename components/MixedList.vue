@@ -1,8 +1,8 @@
 <template lang="pug">
   .mixed-list
     template(
-      v-if='items && items.data && items.data.children'
-      v-for='item in items.data.children'
+      v-if='itemsChildren'
+      v-for='item in itemsChildren'
     )
       PushshiftMissingEntry(
         v-if="item.pushshiftMissing"
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import get from 'lodash/get';
 import CommentEntry from '~/components/CommentEntry';
 import PostEntry from '~/components/PostEntry';
 import PushshiftMissingEntry from '~/components/PushshiftMissingEntry';
@@ -50,6 +51,11 @@ export default {
     items: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    itemsChildren() {
+      return get(this.items, 'data.children') || [];
     },
   },
 };
