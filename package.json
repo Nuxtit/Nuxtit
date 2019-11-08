@@ -37,7 +37,7 @@
     "nuxt": "^2.0.0",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
-    "qs": "^6.5.2",
+    "qs": "^6.9.1",
     "sass-loader": "^7.1.0",
     "shared-worker-loader": "^0.2.0",
     "shell_exec": "^1.0.3",
