@@ -47,7 +47,7 @@
   "devDependencies": {
     "argv": "^0.0.2",
     "babel-eslint": "^10.0.2",
-    "eslint-config-prettier": "^6.1.0",
+    "eslint-config-prettier": "^6.6.0",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-prettier": "3.1.0",
     "eslint-plugin-vue": "^5.2.3",
