@@ -52,7 +52,7 @@
     "eslint-plugin-prettier": "3.1.0",
     "eslint-plugin-vue": "^5.2.3",
     "lighthouse-badges": "^1.0.20",
-    "nodemon": "^1.11.0",
+    "nodemon": "^2.0.1",
     "prettier": "1.18.2"
   }
 }
