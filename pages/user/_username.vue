@@ -12,7 +12,7 @@
       br
       br
       br
-    h2(style='')
+    h2(@click.prevent.stop="navigator.clipboard.writeText(user.data.name)")
       | /u/{{user.data.name}}
       .pull-right
     p
