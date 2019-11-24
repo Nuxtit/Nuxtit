@@ -69,9 +69,6 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
-    ['@nuxtjs/google-analytics', {
-      id: 'UA-97423-2'
-    }],
     '@nuxtjs/sentry',
     // Doc: https://github.com/nuxt-community/axios-module#usage
     // '@nuxtjs/axios',
