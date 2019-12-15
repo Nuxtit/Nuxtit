@@ -49,7 +49,7 @@
     "babel-eslint": "^10.0.2",
     "eslint-config-prettier": "^6.1.0",
     "eslint-loader": "^2.0.0",
-    "eslint-plugin-prettier": "3.1.0",
+    "eslint-plugin-prettier": "3.1.2",
     "eslint-plugin-vue": "^5.2.3",
     "lighthouse-badges": "^1.0.20",
     "nodemon": "^1.11.0",
