@@ -34,7 +34,7 @@
     "mark.js": "^8.11.1",
     "netlify-lambda": "^1.4.5",
     "node-sass": "^4.10.0",
-    "nuxt": "^2.0.0",
+    "nuxt": "2.10.2",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
     "qs": "^6.5.2",
