@@ -2,9 +2,9 @@
 b-navbar(toggleable='md', type='dark')
   b-navbar-toggle(target='nav_collapse')
   b-navbar-brand(href='/')
-    img(src='/favicon-32x32.png' alt='Redusa')
+    img(src='/favicon-32x32.png' alt='Nuxtit')
     | &#32;
-    | Redusa
+    | Nuxtit
   b-collapse#nav_collapse(is-nav)
     b-navbar-nav
       b-nav-item(to='/home') Home
@@ -27,7 +27,7 @@ b-navbar(toggleable='md', type='dark')
           em {{ MeData.name }}
         b-dropdown-item(:to='`/user/${MeData.name}`') Profile
         b-dropdown-divider
-        b-dropdown-item(to='/redusa/settings') Settings
+        b-dropdown-item(to='/nuxtit/settings') Settings
         b-dropdown-item(
           @click='censorUsernames^=true'
         )
@@ -36,14 +36,14 @@ b-navbar(toggleable='md', type='dark')
           | &#32;
           | Censor Usernames
         b-dropdown-divider
-        b-dropdown-item(to='/redusa/history')
+        b-dropdown-item(to='/nuxtit/history')
           | History
           |
           b-badge(
             v-if='historyCount'
             v-text='historyCount'
           )
-        b-dropdown-item(to='/redusa/apilog')
+        b-dropdown-item(to='/nuxtit/apilog')
           | API Log
           |
           b-badge(

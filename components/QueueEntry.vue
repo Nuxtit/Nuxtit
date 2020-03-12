@@ -3,7 +3,7 @@
   .card
     .card-header
       nuxt-link(
-        :to='item.route || "/redusa/queue?error=1"'
+        :to='item.route || "/nuxtit/queue?error=1"'
         v-text='item.text'
       )
       .pull-right

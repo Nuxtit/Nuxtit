@@ -2,7 +2,7 @@
   section.container.home
     div
       h1.title
-        | Redusa
+        | Nuxtit
       h2.subtitle
         | Nuxt Reddit Client
       p This app is in EARLY ALPHA, expect bugs and missing features.
@@ -29,13 +29,13 @@
         nuxt-link.button--green(v-if='MeData.name', :to='`/user/${MeData.name}/saved`') Saved
       .links
         a.button--green(
-          href='https://github.com/Redusa/Redusa'
+          href='https://github.com/Nuxtit/Nuxtit'
           target='_blank'
         )
           i.fa.fa-fw.fa-btn.fa-github
           | Watch us on Github!
         nuxt-link.button--green(
-          to='/r/Redusa'
+          to='/r/Nuxtit'
         )
           i.fa.fa-fw.fa-btn.fa-reddit
           | Visit Our Subreddit

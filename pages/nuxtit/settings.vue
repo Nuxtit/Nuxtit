@@ -4,19 +4,19 @@
     b-nav(tabs)
       b-nav-item(
         exact
-        to='/redusa/settings'
+        to='/nuxtit/settings'
       ) general
       b-nav-item(
-        to='/redusa/settings/accounts'
+        to='/nuxtit/settings/accounts'
       ) accounts
       b-nav-item(
-        to='/redusa/settings/masstagger'
+        to='/nuxtit/settings/masstagger'
       ) masstagger
       b-nav-item(
-        to='/redusa/settings/usertags'
+        to='/nuxtit/settings/usertags'
       ) tags
       b-nav-item(
-        to='/redusa/settings/tumblr'
+        to='/nuxtit/settings/tumblr'
       ) tumblr
     hr
     nuxt-child

@@ -140,7 +140,7 @@
           | When a subreddit does not exist,
           | the reddit website redirects the user to a subreddit
           | search page. Reddit did not configure their CORS setup
-          | to allow the redirect. As a result, Redusa (this webapp)
+          | to allow the redirect. As a result, Nuxtit (this webapp)
           | only recieves an undetailed "Network Error". Reddit
           | needs to update their OAuth endpoints to return a JSON
           | 404 or update their CORS.

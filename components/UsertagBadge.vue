@@ -37,7 +37,7 @@
       lazy
       @click.stop.prevent
     )
-      nuxt-link(:to="`/redusa/settings/usertags`") Usertags Page
+      nuxt-link(:to="`/nuxtit/settings/usertags`") Usertags Page
       .form-group
         label who to Usertag:
         b-form-input(

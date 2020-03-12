@@ -2,9 +2,9 @@
   section.container.index
     div
       h1.title
-        img(src='/android-chrome-192x192.png' alt='Redusa')
+        img(src='/android-chrome-192x192.png' alt='Nuxtit')
         | &#32;
-        | Redusa
+        | Nuxtit
       h2.subtitle
         | Nuxt Reddit Client
       p This app is in EARLY ALPHA, expect bugs and missing features.
@@ -12,13 +12,13 @@
       .links
         nuxt-link.button--green(to='/login') Login
         a.button--green(
-          href='https://github.com/Redusa/Redusa'
+          href='https://github.com/Nuxtit/Nuxtit'
           target='_blank'
         )
           i.fa.fa-fw.fa-btn.fa-github
           | Watch us on Github!
         a.button--green(
-          href='https://www.reddit.com/r/Redusa'
+          href='https://www.reddit.com/r/Nuxtit'
           target='_blank'
         )
           i.fa.fa-fw.fa-btn.fa-reddit
