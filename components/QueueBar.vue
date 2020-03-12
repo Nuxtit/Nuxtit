@@ -1,7 +1,7 @@
 <template lang="pug">
 .btn-group(v-show='queueCount')
   nuxt-link.btn.btn-secondary(
-    to='/redusa/queue'
+    to='/nuxtit/queue'
   )
     i.fa.fa-fw.fa-database
     | ({{ queueCount }})

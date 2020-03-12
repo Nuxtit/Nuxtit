@@ -10,7 +10,7 @@ import { Kind } from '~/lib/enum';
 const masstagger = axios.create({
   baseURL: '/masstagger',
   headers: {
-    'App-Name': 'Redusa-Nuxt-Reddit-Client',
+    'App-Name': 'Nuxtit-Nuxt-Reddit-Client',
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
   },
   responseType: 'json',

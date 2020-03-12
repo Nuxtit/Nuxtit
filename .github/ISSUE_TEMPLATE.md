@@ -1,9 +1,9 @@
 <!--
-Are you reporting a security issue?      Visit https://www.reddit.com/message/compose?to=/r/Redusa
+Are you reporting a security issue?      Visit https://www.reddit.com/message/compose?to=/r/Nuxtit
 
-Subreddit: Visit https://www.reddit.com/r/Redusa
+Subreddit: Visit https://www.reddit.com/r/Nuxtit
 
-Github https://www.github.com/Redusa/Redusa/issues
+Github https://www.github.com/Nuxtit/Nuxtit/issues
 -->
 
 - My browser (copy from https://www.whatismybrowser.com):
@@ -13,7 +13,7 @@ Github https://www.github.com/Redusa/Redusa/issues
 
 
 
-*Are there any related posts in https://github.com/Redusa/Redusa/issues or /r/Redusa?*
+*Are there any related posts in https://github.com/Nuxtit/Nuxtit/issues or /r/Nuxtit?*
 
 
 

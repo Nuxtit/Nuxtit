@@ -2,7 +2,7 @@
   .comments-list
     CommentEntry(
       v-for='comment in comments.data.children'
-      v-show='!comment.redusaHide'
+      v-show='!comment.nuxtitHide'
       :comment='comment'
       :key='comment.data.id'
     )

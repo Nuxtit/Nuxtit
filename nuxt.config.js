@@ -14,13 +14,13 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'Redusa',
+    title: 'Nuxtit',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description },
-      { name: 'apple-mobile-web-app-title', content: 'Redusa' },
-      { name: 'application-name', content: 'Redusa' },
+      { name: 'apple-mobile-web-app-title', content: 'Nuxtit' },
+      { name: 'application-name', content: 'Nuxtit' },
       { name: 'msapplication-TileColor', content: '#2b5797' },
       { name: 'theme-color', content: '#444444' },
     ],

@@ -76,8 +76,8 @@ export default {
     //   mod: "le_mod_user"
     //   mod_id36: "wjh1g"
     //   sr_id36: "ro83j"
-    //   subreddit: "Redusa"
-    //   subreddit_name_prefixed: "r/Redusa"
+    //   subreddit: "Nuxtit"
+    //   subreddit_name_prefixed: "r/Nuxtit"
     //   target_author: "le_banned_user"
     //   target_body: null
     //   target_fullname: "t2_mu233"

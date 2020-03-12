@@ -106,7 +106,7 @@ export default function({ path, query, shouldAttemptApi }) {
         }
         for (let i = this.items.data.children.length - 1, item; i >= 0; i--) {
           item = this.items.data.children[i];
-          this.$set(item, 'redusaHide', !isMatch(item));
+          this.$set(item, 'nuxtitHide', !isMatch(item));
         }
 
         function isMatch({ kind, data }) {
