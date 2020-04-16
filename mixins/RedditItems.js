@@ -50,12 +50,12 @@ export default function({ path, query, shouldAttemptApi }) {
     },
     async asyncData({ reddit, route, store }) {
       // console.log('asyncData');
-      if (shouldAttemptApi({ route })) {
+      if (shouldAttemptApi({ route, store })) {
         const items = (await reddit
-          .get(path({ route }), {
+          .get(path({ route, store }), {
             params: {
               ...defaultParams,
-              ...query({ route }),
+              ...query({ route, store }),
             },
           })
           .catch(err => {
@@ -78,14 +78,14 @@ export default function({ path, query, shouldAttemptApi }) {
         // console.log(this.$options.name, 'fetchItems');
         const route = this.$route;
         const store = this.$store;
-        if (shouldAttemptApi({ route })) {
+        if (shouldAttemptApi({ route, store })) {
           const minWait = startMinWait();
           try {
             this.fetching = true;
-            const items = (await this.$reddit.get(path({ route }), {
+            const items = (await this.$reddit.get(path({ route, store }), {
               params: {
                 ...defaultParams,
-                ...query({ route }),
+                ...query({ route, store }),
               },
             })).data;
 
