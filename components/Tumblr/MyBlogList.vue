@@ -7,7 +7,11 @@
         th 
           | Blog
         th
+          small Messages
+        th
           small Followers
+        th
+          small Drafts
         th
           small Queue
         th
@@ -27,8 +31,15 @@
         td 
           nuxt-link(
             :to="`/tumblr/${blog.name}`"
-          ) {{ blog.name }}
+          )
+            | {{ blog.name }}
+            br
+            small.text-muted
+              | updated:
+              DateTime(:value="blog.updated")
+        td {{ blog.messages }}
         td {{ blog.followers }}
+        td {{ blog.drafts }}
         td {{ blog.queue }}
         td {{ blog.posts }}
         td
@@ -39,9 +50,13 @@
 import get from 'lodash/get';
 import { BindSettings } from '~/lib/settings';
 import { mapActions, mapGetters } from 'vuex';
+import DateTime from '~/components/DateTime';
 
 export default {
   name: 'MyBlogList',
+  components: {
+    DateTime,
+  },
   computed: {
     ...BindSettings(['tumblrSelectedBlog', 'tumblrDefaultTags']),
     ...mapGetters('tumblr', ['blogs']),

@@ -3,8 +3,8 @@ const TumblrFactory = require('tumblr.js');
 exports.handler = function(event, context, callback) {
   if (event.httpMethod !== 'POST') return callback(null, { statusCode: 405 });
   // your server-side functionality
-  console.log('blogPosts:yay');
-  console.log(event.body);
+  // console.log('blogQueue:yay');
+  // console.log(event.body);
 
   const body = JSON.parse(event.body);
 

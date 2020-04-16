@@ -12,7 +12,8 @@
       br
       br
       br
-    h3 /r/{{subreddit.data.display_name}}
+    h3(@click.prevent.stop="navigator.clipboard.writeText(subreddit.data.display_name)")
+      | /r/{{subreddit.data.display_name}}
     h4 {{subreddit.data.title}}
     p {{subreddit.data.subscribers}} subscribers
     p
@@ -131,6 +132,14 @@
         i.fa.fa-fw.fa-btn.fa-th-list
         | &#32;
         | Mod Log
+      b-nav-item(
+        v-if="subreddit.data.user_is_moderator"
+        rel="nofollow" target="_blank"
+        :href='`https://old.reddit.com/r/${$route.params.subreddit}/about/config/automoderator`'
+      )
+        i.fa.fa-fw.fa-btn.fa-external-link
+        | &#32;
+        | Automod Config
     .row.clearfix
       .col.order-md-1
         p.alert.alert-danger(v-if='subreddit.networkError')

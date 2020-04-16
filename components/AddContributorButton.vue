@@ -66,13 +66,6 @@
               variant="primary"
               @click="contributor"
             ) ADD
-            //- b-button(
-            //-   v-if="success"
-            //-   v-disabled="busy"
-            //-   size="sm"
-            //-   variant="primary"
-            //-   @click="contributor"
-            //- ) UNBAN
 </template>
 
 <script>

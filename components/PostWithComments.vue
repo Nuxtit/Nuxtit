@@ -1,7 +1,7 @@
 <template lang="pug">
   .post-comments-page
     PostEntry(:post='post')
-    .post-body.container
+    .post-body.container(v-if='post.data.is_self')
       .card.card-block.bg-faded
         ItemHtml(:item='post')
     p.alert.alert-danger(v-if='subreddit.data.user_is_banned')

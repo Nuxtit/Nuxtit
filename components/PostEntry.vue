@@ -115,10 +115,10 @@
             | &#32;
             ApproveButton(:item='post')
             | &#32;
-            AddContributorButton(:item='post')
-            | &#32;
             LockButton(:item='post')
             | &#32;
+          AddContributorButton(:item='post')
+          | &#32;
           template(v-if='isAuthor || post.data.can_mod_post')
             NsfwButton(:item='post')
             | &#32;
@@ -201,6 +201,8 @@
           tt: small(v-text="post.data.user_reports")
         .alert.alert-info(v-if="post.data.user_reports_dismissed && post.data.user_reports_dismissed.length > 0")
           tt: small(v-text="post.data.user_reports_dismissed")
+        .alert.alert-info(v-if="post.data.mod_reports && post.data.mod_reports.length > 0")
+          tt: small(v-text="post.data.mod_reports")
       pre(v-if='showSource')
         tt: small(v-text="post")
 </template>

@@ -83,6 +83,12 @@ module.exports = {
   ],
 
   proxy: {
+    '/api-imgur': {
+      pathRewrite: { '^/api-imgur' : '' },
+      target: 'https://api.imgur.com/',
+      ws: false,
+      changeOrigin: true,
+    },
     '/masstagger': {
       pathRewrite: { '^/masstagger' : '' },
       target: 'https://masstagger.com',
@@ -137,6 +143,7 @@ module.exports = {
   },
 
   env: {
+    imgurClientId: process.env.IMGUR_CLIENT_ID,
     redditClientId: process.env.REDDIT_CLIENT_ID,
     // if there is a secret key, then we're not in production
     // if there is not a secret key, we need the correct OAuth stuff

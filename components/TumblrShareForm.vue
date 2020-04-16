@@ -13,7 +13,13 @@
         v-if="!field.kinds || field.kinds.includes(dirty.kind)"
         :key="key"
       )
-        label.col-6(v-text="key")
+        label.col-6
+          | {{ field.name || key }}
+          button.btn.btn-danger.btn-xs.pull-right.small(
+            @click.prevent.stop='dirty[field.name] = field.clearButton.newValue'
+          )
+            i.fa.fa-fw.fa-cancel
+            | clear
         b-select.col-6(
           v-if="field.type === 'select'"
           v-model="dirty[key]"

@@ -124,10 +124,10 @@
         | &#32;
         ApproveButton(:item='comment')
         | &#32;
-        AddContributorButton(:item='comment')
-        | &#32;
         LockButton(:item='comment')
         | &#32;
+      AddContributorButton(:item='comment')
+      | &#32;
       DeleteButton(:item='comment' v-if='isAuthor')
       | &#32;
       //- GiveGoldButton(:item='comment' v-if='!isAuthor')
@@ -145,6 +145,12 @@
         span reports ({{ comment.data.user_reports.length }})
       span.btn-see-reports(
         v-if='comment.data.user_reports_dismissed && comment.data.user_reports_dismissed.length > 0'
+        @click.prevent.stop='showReports^=true'
+      )
+        i.fa.fa-fw.fa-btn.fa-code
+        span reports (dismissed) ({{ comment.data.user_reports_dismissed.length }})
+      span.btn-see-reports(
+        v-if='comment.data.mod_reports && comment.data.mod_reports.length > 0'
         @click.prevent.stop='showReports^=true'
       )
         i.fa.fa-fw.fa-btn.fa-code
@@ -177,6 +183,8 @@
         tt: small(v-text="comment.data.user_reports")
       .alert.alert-info(v-if="comment.data.user_reports_dismissed && comment.data.user_reports_dismissed.length > 0")
         tt: small(v-text="comment.data.user_reports_dismissed")
+      .alert.alert-info(v-if="comment.data.mod_reports && comment.data.mod_reports.length > 0")
+        tt: small(v-text="comment.data.mod_reports")
     pre(v-if="showSource && !collapsed")
       tt: small(v-text="comment")
   CommentTree(
