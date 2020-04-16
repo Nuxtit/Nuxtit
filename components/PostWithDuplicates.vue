@@ -7,9 +7,16 @@
       )
         | comments
       nuxt-link.btn.btn-primary.pull-right(
-        :to='`/pushshift/search?kind=t3&url=${post.data.url}`'
+        :to='`/pushshift/search?kind=posts&url=${post.data.url}`'
       )
+        i.fa.fa-search.fa-fw
         | pushshift: other threads
+      nuxt-link.btn.btn-primary.pull-right(
+        v-if='youtubeId'
+        :to='`/pushshift/search?kind=posts&url=${youtubeId}`'
+      )
+        i.fa.fa-search.fa-fw
+        | pushshift: threads by youtubeId
     .post-duplicates
       h2 Duplicate Links:
       PostEntry(
@@ -20,6 +27,7 @@
 </template>
 
 <script>
+import getYoutubeId from 'get-youtube-id';
 import ItemHtml from '~/components/ItemHtml';
 import PostEntry from '~/components/PostEntry.vue';
 
@@ -41,6 +49,12 @@ export default {
     duplicates: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    youtubeId() {
+      const url = this.post && this.post.data && this.post.data.url;
+      return (url && getYoutubeId(url)) || null;
     },
   },
 };

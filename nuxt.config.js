@@ -105,6 +105,11 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    analyze: {
+      analyzerMode: 'static',
+      openAnalyzer: false,
+      reportFilename: '../webpack_bundle_analyzer.html',
+    },
 
     splitChunks: {
       layouts: false,

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import tumblr from '~/lib/tumblr';
+import tumblr from '~/lib/tumblr/client';
 import TumblrPostRow from '~/components/Tumblr/TumblrPostRow';
 
 export default {

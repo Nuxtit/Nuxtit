@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 import * as ls from '~/lib/ls';
-import tumblr from '~/lib/tumblr';
+import tumblr from '~/lib/tumblr/client';
 
 const USERINFO = 'tumblrUserInfo';
 
