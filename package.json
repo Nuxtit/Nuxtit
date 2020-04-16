@@ -11,6 +11,7 @@
     "generate": "nuxt generate && netlify-lambda build ./functions/",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint-fix": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
+    "netlify:build": "nuxt build",
     "lambda": "netlify-lambda serve .",
     "lighthouse": "CHROME_PATH=/usr/bin/chromium-browser npx lighthouse-badges --urls https://nuxtit.netlify.com -o badges",
     "precommit": "npm run lint"
@@ -30,6 +31,7 @@
     "dotenv": "^8.1.0",
     "eslint": "5.16.0",
     "fontello-cli": "^0.4.0",
+    "get-youtube-id": "^1.0.1",
     "idb-keyval": "^3.2.0",
     "mark.js": "^8.11.1",
     "netlify-lambda": "^1.4.5",
@@ -41,6 +43,7 @@
     "sass-loader": "^7.1.0",
     "shared-worker-loader": "^0.2.0",
     "shell_exec": "^1.0.3",
+    "snoowrap": "^1.21.0",
     "tumblr.js": "^2.0.0",
     "vue-backtotop": "^1.4.12"
   },

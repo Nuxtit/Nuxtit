@@ -62,25 +62,10 @@ export default function({ path, query, shouldAttemptApi }) {
       // const sort_type = route.query.sort_type || 'new';
 
       const params = {
-        q: route.query.q || void 0,
-        size: route.query.size || void 0,
-        before: route.query.before || void 0,
-        after: route.query.after || void 0,
+        ...route.query,
+        kind,
       };
 
-      if (kind === Kind.Post) {
-        params.title = route.query.title || void 0;
-        // params.url = route.query.url || void 0;
-        params.domain = route.query.domain || void 0;
-      }
-      if (kind === Kind.Comment) {
-        params.link_id = route.query.link_id || void 0;
-        params.parent_id = route.query.parent_id || void 0;
-      }
-      if (kind === Kind.Post || kind === Kind.Comment) {
-        params.subreddit = route.query.subreddit || void 0;
-        params.author = route.query.author || void 0;
-      }
       if (params.subreddit && route.query.subredditnegated) {
         params.subreddit = negateList(params.subreddit);
       }

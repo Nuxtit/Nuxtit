@@ -26,9 +26,26 @@
           SelectQueryText(path="after" placeholder="after: 1{s,m,h,d}")
         .col
           SelectQueryText(path="before" placeholder="before: 1{s,m,h,d}")
+      .row(v-if='$route.query.kind === "post" || $page.query.parent_id')
+        .col
+          SelectQueryText(path="parent_id" placeholder="parent_id")
+      .row(v-if='$route.query.kind === "comment" || $page.query.link_id')
+        .col
+          SelectQueryText(path="link_id" placeholder="link_id")
       .row
         .col
           SelectQueryText(path="q" placeholder="query")
+      .row(v-if="$route.query.kind === 'post' || $route.query.url")
+        .col
+          SelectQueryText(path="q" placeholder="query")
+            div.alert.alert-dander(v-if="$route.query.kind !== 'post' && $route.query.url")
+              tt url
+              | &#32;has no effect when searching for kinds other than post
+      .row
+        .col
+          SelectQueryIsVideo
+        .col
+          SelectQueryIsSelf
       .row
         .col
           b-button.my-2.my-sm-0(
@@ -151,6 +168,8 @@ import SelectQueryCommentGroupBy from '~/components/SelectQueryCommentGroupBy';
 import SelectQueryDomainCsv from '~/components/SelectQueryDomainCsv';
 import SelectQueryPostGroupBy from '~/components/SelectQueryPostGroupBy';
 import SelectQueryKind from '~/components/SelectQueryKind';
+import SelectQueryIsVideo from '~/components/SelectQueryIsVideo';
+import SelectQueryIsSelf from '~/components/SelectQueryIsSelf';
 import SelectQuerySize from '~/components/SelectQuerySize';
 import SelectQueryAuthorCsv from '~/components/SelectQueryAuthorCsv';
 import SelectQueryText from '~/components/SelectQueryText';
@@ -175,6 +194,8 @@ export default {
     SelectQueryDomainCsv,
     SelectQueryPostGroupBy,
     SelectQueryKind,
+    SelectQueryIsVideo,
+    SelectQueryIsSelf,
     SelectQuerySize,
     SelectQueryText,
     SelectQueryAuthorCsv,

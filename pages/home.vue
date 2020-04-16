@@ -23,6 +23,7 @@
         nuxt-link.button--grey(to='/r/mod/new') /r/mod
         nuxt-link.button--grey(to='/random') /random
         nuxt-link.button--grey(to='/subreddits') /subreddits
+        nuxt-link.button--grey(to='/chat') /chat
           //- dont know what /users is for, so come back to it whenever
           //- nuxt-link.button--grey(to='/users') /users
         nuxt-link.button--green(v-if='MeData.name', :to='`/user/${MeData.name}`') /u/{{ MeData.name }}
