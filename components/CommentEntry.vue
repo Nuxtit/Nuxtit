@@ -1,6 +1,6 @@
 <template lang="pug">
 .comment-entry
-  .card(:class='{"bg-info": (comment.data.id && comment.data.id === $route.params.comment_id)}')
+  .card(:class='{"border-info": (comment.data.id && comment.data.id === $route.params.comment_id)}')
     .card-header.text-muted
       b-badge(v-if='comment.data.stickied')
         | [stickied]
