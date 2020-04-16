@@ -1,11 +1,18 @@
 <template lang="pug">
   .container
-    .pull-right
-      button.btn.btn-success(
+    .btn-group.pull-right
+      a.btn.btn-success(
+        :href="getOAuthLoginHref"
+        rel="nofollow"
         @click.prevent.stop="addNewAccount"
       )
         i.fa.fa-fw.fa-plus
         | Add
+      button.btn.btn-success(
+        @click.prevent.stop="refetchAll"
+      )
+        i.fa.fa-fw.fa-plus
+        | All
     br
     table.table
       thead
@@ -51,7 +58,7 @@
             small createdAt:&#32;
             TimeAgo(:value="md.created_utc")
           td
-            button.btn.primary.btn-sm(
+            button.btn.btn-primary.btn-sm(
               v-disabled="fetching[username]"
               @click.prevent.stop="refetchMe(username)"
             )
@@ -82,6 +89,7 @@ export default {
     ...mapGetters('auth', ['list', 'username']),
   },
   methods: {
+    getOAuthLoginHref,
     ...mapActions('auth', ['fetchMe', 'setCurrent', 'logout']),
     isCurrentUser(username) {
       return this.username === username;
@@ -97,6 +105,12 @@ export default {
     async addNewAccount() {
       await this.setCurrent(null);
       window.location = getOAuthLoginHref();
+    },
+    async refetchAll() {
+      for (let username in this.list) {
+        await this.refetchMe(username);
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
     },
   },
 };

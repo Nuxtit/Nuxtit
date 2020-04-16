@@ -8,6 +8,13 @@
       i.fa.fa-fw.fa-btn.fa-5x.fa-doc-text
     span(v-else-if="!imageSrc && post.data.thumbnail === 'spoiler'" title="spoiler")
       i.fa.fa-fw.fa-btn.fa-5x.fa-question-circle-o
+    span(v-else-if="imgurAlbumId && albumData === null")
+      Loading
+    span(v-else-if="imgurAlbumId && albumData !== false")
+      ImgurAlbum(album='albumData.data')
+    span(v-else-if="imgurAlbumId && albumData === false && post.data.media_embed && post.data.media_embed.content")
+      tt imgurAlbumId && post.media_embed.content
+      div(v-html='post.data.media_embed.content')
     b-img(
       v-else-if="imageSrc"
       :src="imageSrc"
@@ -18,6 +25,12 @@
 </template>
 
 <script>
+import includes from 'lodash/includes';
+import Loading from '~/components/Loading';
+import ImgurAlbum from '~/components/ImgurAlbum';
+import fetchImgurAlbum from '~/lib/imgur/fetchImgurAlbum';
+import getPostImageSrc from '~/lib/getPostImageSrc';
+import getImgurAlbumId from '~/lib/imgur/getImgurAlbumId';
 import get from 'lodash/get';
 import bImg from 'bootstrap-vue/es/components/image/img';
 
@@ -32,6 +45,11 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      albumData: null,
+    };
+  },
   srcPaths: [
     // @todo should we attempt to embed videos?
     // 'preview.images.0.variants.mp4.source.url',
@@ -40,28 +58,40 @@ export default {
     'preview.images.0.resolutions.0.url', // @toodo how to get $last instead of zero?
   ],
   computed: {
+    imgurAlbumId() {
+      return getImgurAlbumId(this.post);
+    },
     imageSrc() {
-      let src;
-      let path;
-      for (let i = 0, len = this.$options.srcPaths.length; i < len; i++) {
-        path = this.$options.srcPaths[i];
-        src = get(this.post.data, path);
-        if (src && src.startsWith('https://')) {
-          return src;
-        }
-      }
-      for (let i = 0, len = this.$options.srcPaths.length; i < len; i++) {
-        path = 'crosspost_parent_list.0.' + this.$options.srcPaths[i];
-        src = get(this.post.data, path);
-        if (src && src.startsWith('https://')) {
-          return src;
-        }
-      }
-      src = this.post.data.url;
-      if (src && src.startsWith('https://')) {
-        return src;
+      return getPostImageSrc(this.post);
+    },
+    isImgurVideo() {
+      return (
+        includes(this.imageSrc, '//i.imgur.com/') && imageSrc.endsWith('.gifv')
+      );
+    },
+    imgurMp4Src() {
+      if (this.isImgurVideo) {
+        return this.imageSrc.replace('gifv', 'mp4');
       }
       return null;
+    },
+    isPostHintVideo() {
+      return includes(this.post.data.post_hint, 'video');
+    },
+  },
+  watch: {
+    async imgurAlbumId(newValue) {
+      if (newValue) {
+        fetchImgurAlbum(newValue).then(
+          newAlbumData => (albumData = newAlbumData),
+          err => {
+            if (newValue === this.imgurAlbumId) {
+              albumData = false;
+              this.$sentry.captureError(err);
+            }
+          },
+        );
+      }
     },
   },
 };

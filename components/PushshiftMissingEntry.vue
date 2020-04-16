@@ -1,6 +1,12 @@
 <template lang="pug">
 .pushshift-missing-entry
-  .row PushshiftMissing {{ item.data.id }}
+  .row
+    .col
+      UserLink(v-if='item.data.author' :username='item.data.author')
+      | PushshiftMissing {{ item.data.id }}
+  .row
+    .col
+      ItemHtml(:item="item")
   .row
     //- .col-thumbnail
     //-   PostThumbnail(

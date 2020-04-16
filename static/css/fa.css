@@ -32,6 +32,10 @@
 .fa-5x {
   font-size: 5em;
 }
+.fa-rotate-180 {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
 /* i thought these were in bs4 lol */
 .pull-right {
   float: right;

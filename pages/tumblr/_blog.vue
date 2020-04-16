@@ -4,19 +4,28 @@
       b-nav-item(
         to='/tumblr'
       ) all blogs
-      b-nav-item(
-        exact
-        :to='`/tumblr/${blog.name}`'
-      ) {{ blog.name }}
-      b-nav-item(
-        exact
-        :to='`/tumblr/${blog.name}/posts`'
-      ) Posts ({{ blog.posts }})
-      b-nav-item(
-        exact
-        :to='`/tumblr/${blog.name}/queue`'
-      ) Queue ({{ blog.queue }})
-    nuxt-child(:blog="blog")
+      template(v-if='blog')
+        b-nav-item(
+          exact
+          :to='`/tumblr/${blog.name}`'
+        ) Profile ({{ blog.name }})
+        b-nav-item(
+          exact
+          :to='`/tumblr/${blog.name}/dashboard`'
+        ) Dashboard
+        b-nav-item(
+          exact
+          :to='`/tumblr/${blog.name}/posts`'
+        ) Posts ({{ blog.posts }})
+        b-nav-item(
+          exact
+          :to='`/tumblr/${blog.name}/queue`'
+        ) Queue ({{ blog.queue }})
+        b-nav-item(
+          exact
+          :to='`/tumblr/${blog.name}/drafts`'
+        ) Draft ({{ blog.drafts }})
+    nuxt-child(v-if="blog" :blog="blog")
 </template>
 
 <script>

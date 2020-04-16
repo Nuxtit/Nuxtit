@@ -34,6 +34,20 @@ export const actions = {
       options,
     });
   },
+  async fetchBlogSubmissions({ rootState }, { blogName, options }) {
+    return tumblr.post('/blogSubmissions', {
+      ...apikeys(rootState),
+      blogName,
+      options,
+    });
+  },
+  async fetchUserDashboard({ rootState }, { blogName, options }) {
+    return tumblr.post('/userDashboard', {
+      ...apikeys(rootState),
+      blogName,
+      options,
+    });
+  },
   async updateBlogPost({ rootState }, { blogName, options }) {
     return tumblr.post('/editPost', {
       ...apikeys(rootState),
