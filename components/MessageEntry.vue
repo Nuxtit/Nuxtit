@@ -10,9 +10,9 @@
         :to='message.data.context'
         v-text='message.data.link_title'
       )
-      | &#32;from&#32;
-      UserLink(v-if='message.data.author' :username='message.data.author')
-      span.badge.badge-secondary.small(v-else) no username
+      template(v-if='message.data.author')
+        | &#32;from&#32;
+        UserLink(:username='message.data.author')
       | &#32;
       UsertagBadge(:item='message' type='author')
       | &#32;via&#32;
