@@ -6,6 +6,10 @@
         :to='`/r/${$route.params.subreddit}/comments/${$route.params.post_id}/${$route.params.post_title}`'
       )
         | comments
+      nuxt-link.btn.btn-primary.pull-right(
+        :to='`/pushshift/search?kind=t3&url=${post.data.url}`'
+      )
+        | pushshift: other threads
     .post-duplicates
       h2 Duplicate Links:
       PostEntry(
@@ -16,19 +20,15 @@
 </template>
 
 <script>
-import CommentCollection from '~/mixins/CommentCollection';
-import CommentTree from '~/components/CommentTree.vue';
 import ItemHtml from '~/components/ItemHtml';
 import PostEntry from '~/components/PostEntry.vue';
 
 export default {
   name: 'PostWithDuplicates',
   components: {
-    CommentTree,
     ItemHtml,
     PostEntry,
   },
-  mixins: [CommentCollection],
   props: {
     subreddit: {
       type: Object,
