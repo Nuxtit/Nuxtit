@@ -317,6 +317,9 @@ export default {
     if (get(this.comment, 'data.user_reports.length') > 0) {
       this.showOptions = true;
     }
+    if (get(this.comment, 'data.saved')) {
+      this.showOptions = true;
+    }
   },
   methods: {
     toggleCollapsed($event) {
