@@ -11,7 +11,8 @@
         v-text='message.data.link_title'
       )
       | &#32;from&#32;
-      UserLink(:username='message.data.author')
+      UserLink(v-if='message.data.author' :username='message.data.author')
+      span.badge.badge-secondary.small(v-else) no username
       | &#32;
       UsertagBadge(:item='message' type='author')
       | &#32;via&#32;
@@ -21,8 +22,9 @@
       )
       | &#32;sent&#32;
       TimeAgo(:value='message.data.created_utc')
-      | &#32;to&#32;
-      UserLink(:username='message.data.dest')
+      template(v-if='message.data.dest')
+        | &#32;to&#32;
+        UserLink(:username='message.data.dest')
       .score.pull-right
         i.fa.fa-fw.fa-btn.btn-collapse(
           :class='collapsed ? "fa-plus" : "fa-minus"'
