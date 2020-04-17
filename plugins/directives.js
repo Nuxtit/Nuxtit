@@ -40,11 +40,14 @@ import Score from '~/components/Score';
 import TimeAgo from '~/components/TimeAgo';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
+import ShowSource from '~/components/ShowSource';
 
 import CommentCollection from '~/mixins/CommentCollection';
 import RedditItems from '~/mixins/RedditItems';
 import QueryParamCount from '~/mixins/QueryParamCount';
 import QueryParamLimit from '~/mixins/QueryParamLimit';
+
+Vue.component('ShowSource', ShowSource);
 
 Vue.component('b-collapse', bCollapse);
 Vue.component('b-form-checkbox', bFormCheckbox);
