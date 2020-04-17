@@ -70,7 +70,10 @@ div
             i.fa.fa-fw.fa-trash(v-else)
             | Delete
       tt: code {{ { tags: post.tags, caption: post.caption } }}
+      ShowSource(:value="{ tags: post.tags, caption: post.caption }")
       ShowSource(:value="post")
+      ShowSource(:value="{ states: fields.states || null }")
+      ShowSource(:value="{ dirty }")
 </template>
 
 <script>
