@@ -37,7 +37,9 @@ export default {
         this.fetching = true;
         const response = await this.$store.dispatch('tumblr/fetchBlogQueue', {
           blogName: this.blog.name,
-          options: {},
+          options: {
+            ...this.$route.query,
+          },
         });
         this.posts = response.data.posts;
         // this.updateBlog(response.data.blog); // @todo

@@ -1,10 +1,9 @@
 <template lang="pug">
   .container
-    h2 dashboard
+    h2 post {{ $route.params.post_id }}
     Loading(v-if="fetching")
-    template(v-else v-for="post in posts")
-      TumblrPostForm(v-if="post.id === editingId" :post="post" :key="post.id")
-      TumblrPostRow(v-else :post="post" :key="post.id")
+    TumblrPostRow(v-else-if="posts && posts[0]" :post="posts[0]")
+    .alert.alert-danger(v-else) 404 Not Found
 </template>
 
 <script>
@@ -35,10 +34,10 @@ export default {
     async fetchPosts() {
       try {
         this.fetching = true;
-        const response = await this.$store.dispatch('tumblr/fetchDashboard', {
+        const response = await this.$store.dispatch('tumblr/fetchBlogPosts', {
           blogName: this.blog.name,
           options: {
-            ...this.$route.query,
+            id: this.$route.params.post_id,
           },
         });
         this.posts = response.data.posts;
