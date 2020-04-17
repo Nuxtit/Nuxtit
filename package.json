@@ -11,7 +11,7 @@
     "generate": "nuxt generate && netlify-lambda build ./functions/",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint-fix": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
-    "netlify:build": "nuxt build",
+    "netlify:build": "nuxt build && netlify-lambda build ./functions/",
     "lambda": "netlify-lambda serve .",
     "lighthouse": "CHROME_PATH=/usr/bin/chromium-browser npx lighthouse-badges --urls https://nuxtit.netlify.com -o badges",
     "precommit": "npm run lint"
