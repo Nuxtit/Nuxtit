@@ -5,7 +5,7 @@
         | {{ blog.name }}
     .row
       .col
-        pre: code: tt {{ {blog} }}
+        ShowSource(:value="{blog}")
 </template>
 
 <script>
@@ -19,5 +19,3 @@ export default {
   },
 };
 </script>
-
-<style lang="sass"></style>

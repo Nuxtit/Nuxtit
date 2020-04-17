@@ -5,50 +5,20 @@
     template(v-else v-for="post in posts")
       TumblrPostForm(v-if="post.id === editingId" :post="post" :key="post.id")
       TumblrPostRow(v-else :post="post" :key="post.id")
+      TumblePagination(v-if="posts.length > 0" items="posts")
 </template>
 
 <script>
 import TumblrPostRow from '~/components/Tumblr/TumblrPostRow';
+import TumblrPagination from '~/components/Tumblr/TumblrPagination';
+import TumblrItems from '~/mixins/TumblrItems';
 
 export default {
   middleware: ['auth'],
+  mixins: [TumblrItems('userDashboard')],
   components: {
     TumblrPostRow,
-  },
-  props: {
-    blog: {
-      type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      editingId: null,
-      fetching: false,
-      posts: [],
-    };
-  },
-  mounted() {
-    this.fetchPosts();
-  },
-  methods: {
-    async fetchPosts() {
-      try {
-        this.fetching = true;
-        const response = await this.$store.dispatch('tumblr/fetchDashboard', {
-          blogName: this.blog.name,
-          options: {
-            ...this.$route.query,
-          },
-        });
-        this.posts = response.data.posts;
-        // this.updateBlog(response.data.blog); // @todo
-      } finally {
-        this.fetching = false;
-      }
-    },
+    TumblePagination,
   },
 };
 </script>
-
-<style lang="sass"></style>
