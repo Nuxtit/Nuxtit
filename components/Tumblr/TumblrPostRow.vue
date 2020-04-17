@@ -72,7 +72,7 @@ div
       tt: code {{ { tags: post.tags, caption: post.caption } }}
       ShowSource(:value="{ tags: post.tags, caption: post.caption }")
       ShowSource(:value="post")
-      ShowSource(:value="{ states: fields.states || null }")
+      ShowSource(:value="{ states: $options.fields.states || null }")
       ShowSource(:value="{ dirty }")
 </template>
 
