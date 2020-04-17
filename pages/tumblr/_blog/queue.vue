@@ -1,6 +1,8 @@
 <template lang="pug">
   .container
-    template(v-for="post in posts")
+    h2 queue
+    Loading(v-if="fetching")
+    template(v-else v-for="post in posts")
       TumblrPostForm(v-if="post.id === editingId" :post="post" :key="post.id")
       TumblrPostRow(v-else :post="post" :key="post.id")
 </template>

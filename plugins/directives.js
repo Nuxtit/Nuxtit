@@ -24,6 +24,7 @@ import CommentList from '~/components/CommentList';
 import CommentTree from '~/components/CommentTree';
 import DownVote from '~/components/DownVote';
 import ItemHtml from '~/components/ItemHtml';
+import Loading from '~/components/Loading';
 import MessageEntry from '~/components/MessageEntry';
 import MessageTree from '~/components/MessageTree';
 import MixedList from '~/components/MixedList';
@@ -48,6 +49,7 @@ import QueryParamCount from '~/mixins/QueryParamCount';
 import QueryParamLimit from '~/mixins/QueryParamLimit';
 
 Vue.component('ShowSource', ShowSource);
+Vue.component('Loading', Loading);
 
 Vue.component('b-collapse', bCollapse);
 Vue.component('b-form-checkbox', bFormCheckbox);
