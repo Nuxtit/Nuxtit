@@ -1,7 +1,7 @@
 <template lang="pug">
 b-navbar(toggleable='md', type='dark')
   b-navbar-toggle(target='nav_collapse')
-  b-navbar-brand(href='/')
+  b-navbar-brand(to='/')
     img(src='/favicon-32x32.png' alt='Nuxtit')
     | &#32;
     | Nuxtit
