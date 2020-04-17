@@ -43,7 +43,7 @@ export default {
       try {
         this.busy = true;
         const response = await this.$reddit.post(
-          `/api/${saved ? 'save' : 'unsave'}`,
+          `/api/${saved ? 'unsave' : 'save'}`,
           {
             // category: '???',
             id: name, // fullname
