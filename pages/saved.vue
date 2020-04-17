@@ -28,7 +28,7 @@ export default {
   mixins: [
     RedditItems({
       path({ route, store }) {
-        return `/user/${store.auth.MeData.name}/saved`;
+        return `/user/${store.getters['auth/MeData'].name}/saved`;
       },
       query({ route }) {
         return {
