@@ -20,6 +20,14 @@ export const actions = {
 
     commit(USERINFO, response.data);
   },
+  async apiCall({ rootState }, { blogName, options, apiCall }) {
+    return tumblr.post('/tumblr', {
+      ...apikeys(rootState),
+      apiCall,
+      blogName,
+      options,
+    });
+  },
   async fetchBlogPosts({ rootState }, { blogName, options }) {
     return tumblr.post('/blogPosts', {
       ...apikeys(rootState),

@@ -26,18 +26,8 @@ export default {
   components: {
     MyBlogList,
   },
-  data() {
-    return {
-      selected_blog: null,
-    };
-  },
-  computed: {
-    //
-  },
   methods: {
     ...mapActions('tumblr', ['fetchUserInfo']),
   },
 };
 </script>
-
-<style lang="sass"></style>
