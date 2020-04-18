@@ -5,7 +5,7 @@
     template(v-else v-for="post in posts")
       TumblrPostForm(v-if="post.id === editingId" :post="post" :key="post.id")
       TumblrPostRow(v-else :post="post" :key="post.id")
-      TumblrPagination(v-if="posts.length > 0" items="posts")
+    TumblrPagination(v-if="posts.length > 0" :items="posts")
 </template>
 
 <script>

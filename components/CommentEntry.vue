@@ -338,12 +338,10 @@ export default {
 
 <style lang="sass">
 .comment-entry
+  font-size: 1rem;
   .card
     .card-header, .card-footer, .card-body
       padding: 0.20rem;
-    .card-header, .card-footer
-      span, a
-        font-size: 0.85rem;
   .btn-collapse, .btn-reply-toggle, .btn-edit-toggle, .btn-see-source
     cursor: pointer;
   .options-icons

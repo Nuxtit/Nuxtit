@@ -1,7 +1,9 @@
 <template lang="pug">
 .btn-group
-  .btn.btn-primary(v-disabled="!(offset > 0)" :to="prevPath")
-  .btn.btn-primary(v-disabled="items.length !== perPage" :to="nextPath")
+  nuxt-link.btn.btn-primary(v-disabled="!(offset > 0)" :to="prevPath") 
+    | Prev
+  nuxt-link.btn.btn-primary(v-disabled="items.length !== perPage" :to="nextPath")
+    | Next
 </template>
 
 <script>
@@ -18,7 +20,7 @@ export default {
       return parseInt(this.$route.query.offset) || 0;
     },
     perPage() {
-      return Math.max(1, Math.min(20, parseInt(this.$route.query.limit) || 5));
+      return Math.max(1, Math.min(20, parseInt(this.$route.query.limit) || 20));
     },
     prevPath() {
       return this.$mergeRouteQuery({
@@ -27,7 +29,7 @@ export default {
     },
     nextPath() {
       return this.$mergeRouteQuery({
-        offset: Math.max(0, this.offset - this.perPage),
+        offset: Math.max(0, this.offset + this.perPage),
       });
     },
   },

@@ -16,6 +16,18 @@ export default function(apiCall) {
     mounted() {
       this.fetchItems();
     },
+    computed: {
+      tumblrQuery() {
+        return {
+          name: this.$route.name,
+          params: this.$route.params,
+          query: this.$route.query,
+        };
+      },
+      tumblrQueryJson() {
+        return JSON.stringify(this.tumblrQuery);
+      },
+    },
     methods: {
       async fetchItems() {
         try {
@@ -27,9 +39,21 @@ export default function(apiCall) {
               ...this.$route.query,
             },
           });
-          this.posts = response.data.posts;
+          if (response && response.data && response.data.posts) {
+            this.posts = response.data.posts;
+          } else {
+            this.posts = [];
+          }
         } finally {
           this.fetching = false;
+        }
+      },
+    },
+    watch: {
+      async tumblrQueryJson(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          await this.fetchItems();
+          window.scrollTo(0, 0);
         }
       },
     },

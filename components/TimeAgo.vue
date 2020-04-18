@@ -1,10 +1,12 @@
 <template lang="pug">
-  span(v-text='`${timeago} ago`' :title='title')
+  span(v-text='timeago' :title='title')
 </template>
 
 <script>
 import isNumber from 'lodash/isNumber';
 const distanceInWordsToNow = require('date-fns/distance_in_words_to_now');
+
+const distanceInWordsToNowOptions = { addSuffix: true };
 
 export default {
   name: 'TimeAgo',
@@ -26,7 +28,7 @@ export default {
       return new Date(value);
     },
     timeago() {
-      return distanceInWordsToNow(this.dateValue);
+      return distanceInWordsToNow(this.dateValue, distanceInWordsToNowOptions);
     },
     title() {
       const d = new Date(this.dateValue);

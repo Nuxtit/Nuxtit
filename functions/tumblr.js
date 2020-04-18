@@ -33,6 +33,9 @@ const apiArgs = {
   options(tumblr, body, callback) {
     tumblr[body.apiCall](body.blogName, forwardResponse(callback));
   },
+  idReblogKey(tumblr, body, callback) {
+    tumblr[body.apiCall](body.id, body.reblogKey, forwardResponse(callback));
+  },
   none(tumblr, callback) {
     tumblr[body.apiCall](forwardResponse(callback));
   },
@@ -50,6 +53,9 @@ Object.assign(apiCalls, {
   createTextPost: { fn: apiArgs.blogNameOptions },
   createVideoPost: { fn: apiArgs.blogNameOptions },
   deletePost: { fn: apiArgs.blogNameOptions },
+  reblogPost: { fn: apiArgs.blogNameOptions },
+  likePost: { fn: apiArgs.idReblogKey },
+  unlikePost: { fn: apiArgs.idReblogKey },
   editPost: { fn: apiArgs.blogNameOptions },
 });
 
@@ -68,5 +74,5 @@ function forwardResponse(callback) {
       statusCode: 200,
       body: JSON.stringify(data),
     });
-  }
+  };
 }

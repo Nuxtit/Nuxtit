@@ -16,7 +16,7 @@
         label.col-6
           | {{ field.name || key }}
           button.btn.btn-danger.btn-xs.pull-right.small(
-            @click.prevent.stop='dirty[field.name] = field.clearButton.newValue'
+            @click.prevent.stop='dirty[key] = field.clearButton.newValue'
           )
             i.fa.fa-fw.fa-cancel
             | clear
@@ -32,6 +32,17 @@
           :name="key"
           :rows="3"
         )
+        template(v-else-if="field.type === 'publish_on'")
+          b-form-input.col-6(
+            v-show='dirty.state === "queue"'
+            v-model="dirty[key]"
+            :name="key"
+          )
+          VueCtkDateTimePicker(
+            v-if='dirty.state === "queue"'
+            v-model="dirty[key]"
+            :dark='true'
+          )
         b-form-input.col-6(
           v-else
           v-model="dirty[key]"
@@ -93,12 +104,13 @@ import map from 'lodash/map';
 import AddToQueueButton from '~/components/AddToQueueButton';
 import bFormInput from 'bootstrap-vue/es/components/form-input/form-input';
 import bFormTextarea from 'bootstrap-vue/es/components/form-textarea/form-textarea';
-
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import QueryParamSelftext from '~/mixins/QueryParamSelftext';
 import UserLink from '~/components/UserLink';
 import { mapActions, mapGetters } from 'vuex';
 import { startMinWait } from '~/lib/sleep';
 import fields from '~/lib/tumblr/fields';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 
 export default {
   name: 'TumblrShareForm',
@@ -107,6 +119,7 @@ export default {
     bFormInput,
     bFormTextarea,
     UserLink,
+    VueCtkDateTimePicker,
   },
   mixins: [QueryParamSelftext],
   props: {
@@ -224,7 +237,7 @@ export default {
             ...response.data,
             blogName,
             permalink: `https://${blogName}.tumblr.com/post/${response.data.id}`,
-            route: `/tumblr/${blogName}/post/${response.data.id}`,
+            route: `/tumblr/${blogName}/posts?id=${response.data.id}`,
           },
         });
       } catch (err) {
@@ -237,5 +250,3 @@ export default {
   },
 };
 </script>
-
-<style lang="sass"></style>
