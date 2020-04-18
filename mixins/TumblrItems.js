@@ -14,7 +14,7 @@ export default function(apiCall) {
       };
     },
     mounted() {
-      this.fetchPosts();
+      this.fetchItems();
     },
     methods: {
       async fetchItems() {
