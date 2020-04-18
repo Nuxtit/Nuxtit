@@ -18,7 +18,7 @@ export default {
   mixins: [TumblrItems('blogPosts')],
   components: {
     TumblrPostRow,
-    TumblePagination,
+    TumblrPagination,
   },
 };
 </script>
