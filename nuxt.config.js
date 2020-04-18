@@ -100,9 +100,10 @@ module.exports = {
       ws: false,
     },
     '/.netlify/functions': {
-      pathRewrite: { '^/.netlify/functions/' : '' },
+      // pathRewrite: { '^/.netlify/functions/' : '' },
+      target: 'https://nuxtit.netlify.app',
       // target: 'https://api.tumblr.com/v2',
-      target: 'http://127.0.0.1:9000',
+      // target: 'http://127.0.0.1:9000',
       ws: false,
     },
   },

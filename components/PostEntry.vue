@@ -152,13 +152,7 @@
             @click.prevent.stop='showTumblrShare^=true'
           )
           | &#32;
-          span.btn-see-reports(
-            v-if='post.data.user_reports && post.data.user_reports.length > 0'
-            @click.prevent.stop='showReports^=true'
-          )
-            i.fa.fa-fw.fa-btn.fa-megaphone
-            | &#32;
-            span reports ({{ post.data.user_reports.length }})
+          SeeReportsButton(:item="post" @click.prevent.stop='showReports^=true')
           | &#32;
           span.btn-see-source(
             @click.prevent.stop='showSource^=true'
@@ -196,13 +190,7 @@
         :post='post'
         @close='showImage = false'
       )
-      pre(v-if="showReports")
-        .alert.alert-danger(v-if="post.data.user_reports && post.data.user_reports.length > 0")
-          tt: small(v-text="post.data.user_reports")
-        .alert.alert-info(v-if="post.data.user_reports_dismissed && post.data.user_reports_dismissed.length > 0")
-          tt: small(v-text="post.data.user_reports_dismissed")
-        .alert.alert-info(v-if="post.data.mod_reports && post.data.mod_reports.length > 0")
-          tt: small(v-text="post.data.mod_reports")
+      ShowReports(v-if="showReports" :item="post")
       pre(v-if='showSource')
         tt: small(v-text="post")
 </template>
@@ -241,6 +229,8 @@ import TumblrShareButton from '~/components/TumblrShareButton';
 import TumblrShareForm from '~/components/TumblrShareForm';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
+import ShowReports from '~/components/ShowReports';
+import SeeReportsButton from '~/components/SeeReportsButton';
 import { makeComputeToggler } from '~/lib/toggle_open';
 import { mapGetters } from 'vuex';
 
@@ -283,6 +273,8 @@ export default {
     TumblrShareForm,
     UpVote,
     UserLink,
+    ShowReports,
+    SeeReportsButton,
   },
   props: {
     post: {
@@ -320,6 +312,14 @@ export default {
     showTumblrShare: makeComputeToggler('tumblr'),
     showImage: makeComputeToggler('image'),
   },
+  // mounted() {
+  //   if (this.reportsCount > 0) {
+  //     this.showOptions = true;
+  //   }
+  //   if (get(this.post, 'data.saved')) {
+  //     this.showOptions = true;
+  //   }
+  // },
   methods: {
     onPostUpdated(updatedPost) {
       // @todo
