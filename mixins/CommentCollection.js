@@ -13,3 +13,11 @@ export default {
     },
   },
 };
+
+/*
+import get from 'lodash/get';
+
+$: commentsCount = get(comments, 'data.children.length', 0);
+$: zeroComments = !(commentsCount > 0);
+$: hasComments = commentsCount > 0;
+*/

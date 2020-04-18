@@ -34,9 +34,10 @@
       .col
         .form-group.tumblr-fetch-blogs
           button.btn.btn-primary(
-            @click.stop.prevent='fetchUserInfo'
+            @click.stop.prevent='busyUntil(fetchUserInfo())'
           )
             | Fetch User Info
+            i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
         .alert.alert-warning
           | Your user info and blog list will only be updated when you click this button
       .col
@@ -55,6 +56,7 @@ import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import MyBlogList from '~/components/Tumblr/MyBlogList';
 import { mapActions, mapGetters } from 'vuex';
 import { BindSettings } from '~/lib/settings';
+import busyUntil from '~/mixins/busyUntil';
 
 export default {
   middleware: ['auth'],
@@ -63,6 +65,7 @@ export default {
     bNavItem,
     MyBlogList,
   },
+  mixins: [busyUntil],
   data() {
     return {
       selected_blog: null,

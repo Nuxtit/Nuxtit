@@ -54,7 +54,7 @@ Object.assign(apiCalls, {
 });
 
 function forwardResponse(callback) {
-  function forwardResponseInner(err, data, response) {
+  return function forwardResponseInner(err, data, response) {
     // console.log({ err, data, response });
     if (err) {
       if (response && response.statusCode) {

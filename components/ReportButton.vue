@@ -244,16 +244,9 @@ export default {
         site_reason: site_reason || void 0,
       });
       if (get(response.data, 'json.errors.length')) {
-        this.reportState.completeMsg =
-          'Thank you for your report! (but actually errors)';
         this.reportState.completeErr = response.data.json.errors;
       } else {
         this.reportState.completeMsg = 'Thank you for your report!';
-        this.reportState.completeErr = JSON.stringify(
-          [['errorssss!!!! (not rly)']],
-          null,
-          2,
-        );
       }
       this.item.reported = true;
     },

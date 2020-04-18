@@ -72,7 +72,7 @@
         DownVote(:item='comment')
         | &nbsp;
         | &nbsp;
-    .card-footer.text-muted.bg-light(v-if="!collapsed && showOptions")
+    .card-footer.text-muted.bg-light(v-if="!collapsed && open")
       AddToQueueButton(:item='comment')
       | &#32;
       a(
@@ -137,24 +137,7 @@
       CrossPostButton(
         @click.prevent.stop='showCrossPost^=true'
       )
-      span.btn-see-reports(
-        v-if='comment.data.user_reports && comment.data.user_reports.length > 0'
-        @click.prevent.stop='showReports^=true'
-      )
-        i.fa.fa-fw.fa-btn.fa-code
-        span reports ({{ comment.data.user_reports.length }})
-      span.btn-see-reports(
-        v-if='comment.data.user_reports_dismissed && comment.data.user_reports_dismissed.length > 0'
-        @click.prevent.stop='showReports^=true'
-      )
-        i.fa.fa-fw.fa-btn.fa-code
-        span reports (dismissed) ({{ comment.data.user_reports_dismissed.length }})
-      span.btn-see-reports(
-        v-if='comment.data.mod_reports && comment.data.mod_reports.length > 0'
-        @click.prevent.stop='showReports^=true'
-      )
-        i.fa.fa-fw.fa-btn.fa-code
-        span reports (dismissed) ({{ comment.data.user_reports_dismissed.length }})
+      SeeReportsButton(:item="comment" @click.prevent.stop='showReports^=true')
       span.btn-see-source(
         @click.prevent.stop='showSource^=true'
       )
@@ -178,13 +161,7 @@
       @created-post='onCrossPostCreated'
       @close='showCrossPost = false'
     )
-    pre(v-if="showReports && !collapsed")
-      .alert.alert-danger(v-if="comment.data.user_reports && comment.data.user_reports.length > 0")
-        tt: small(v-text="comment.data.user_reports")
-      .alert.alert-info(v-if="comment.data.user_reports_dismissed && comment.data.user_reports_dismissed.length > 0")
-        tt: small(v-text="comment.data.user_reports_dismissed")
-      .alert.alert-info(v-if="comment.data.mod_reports && comment.data.mod_reports.length > 0")
-        tt: small(v-text="comment.data.mod_reports")
+    ShowReports(v-if="showReports && !collapsed" :item="comment")
     pre(v-if="showSource && !collapsed")
       tt: small(v-text="comment")
   CommentTree(
@@ -222,6 +199,8 @@ import SubredditLink from '~/components/SubredditLink';
 import TimeAgo from '~/components/TimeAgo';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
+import ShowReports from '~/components/ShowReports';
+import SeeReportsButton from '~/components/SeeReportsButton';
 import { isVirtualSubreddit } from '~/lib/subreddit';
 import { makeComputeToggler } from '~/lib/toggle_open';
 import { mapGetters } from 'vuex';
@@ -256,6 +235,8 @@ export default {
     TimeAgo,
     UpVote,
     UserLink,
+    ShowReports,
+    SeeReportsButton,
   },
   props: {
     comment: {
@@ -322,7 +303,7 @@ export default {
     showOptions: makeComputeToggler('options'),
   },
   mounted() {
-    if (get(this.comment, 'data.user_reports.length') > 0) {
+    if (this.comment.data.num_reports > 0) {
       this.showOptions = true;
     }
     if (get(this.comment, 'data.saved')) {
