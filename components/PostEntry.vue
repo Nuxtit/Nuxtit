@@ -60,7 +60,7 @@
             | &#32;
             DownVote(:item='post')
       .row
-        .col.small
+        .col
           | submitted
           | &#32;
           TimeAgo(:value='post.data.created_utc')
@@ -84,7 +84,7 @@
             | [quarantine]
           | &#32;
       .row
-        .col.small
+        .col
           AddToQueueButton(:item='post')
           | &#32;
           nuxt-link(
@@ -347,6 +347,7 @@ export default {
 .post-entry + .post-entry
   border-top: 1px solid #444;
 .post-entry
+  font-size: 1rem;
   padding-right: 5px;
   padding-left: 5px;
   padding-top: 5px;

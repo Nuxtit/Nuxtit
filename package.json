@@ -45,7 +45,8 @@
     "shell_exec": "^1.0.3",
     "snoowrap": "^1.21.0",
     "tumblr.js": "^2.0.0",
-    "vue-backtotop": "^1.4.12"
+    "vue-backtotop": "^1.4.12",
+    "vue-ctk-date-time-picker": "^2.4.0"
   },
   "devDependencies": {
     "argv": "^0.0.2",

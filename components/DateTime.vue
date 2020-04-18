@@ -6,6 +6,8 @@
 import isNumber from 'lodash/isNumber';
 const distanceInWordsToNow = require('date-fns/distance_in_words_to_now');
 
+const distanceInWordsToNowOptions = { addSuffix: true };
+
 export default {
   name: 'DateTime',
   props: {
@@ -26,7 +28,7 @@ export default {
       return new Date(value);
     },
     title() {
-      return distanceInWordsToNow(this.dateValue) + ' ago';
+      return distanceInWordsToNow(this.dateValue, distanceInWordsToNowOptions);
     },
     text() {
       const d = new Date(this.dateValue);
