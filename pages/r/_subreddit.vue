@@ -135,7 +135,7 @@
       b-nav-item(
         v-if="subreddit.data.user_is_moderator"
         rel="nofollow" target="_blank"
-        :href='`https://old.reddit.com/r/${$route.params.subreddit}/about/config/automoderator`'
+        :href='`https://old.reddit.com/r/${$route.params.subreddit}/wiki/edit/config/automoderator`'
       )
         i.fa.fa-fw.fa-btn.fa-external-link
         | &#32;

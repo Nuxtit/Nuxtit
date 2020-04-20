@@ -2,7 +2,7 @@
   .container
     .btn-group.pull-right
       a.btn.btn-success(
-        :href="getOAuthLoginHref"
+        :href="getOAuthLoginHref()"
         rel="nofollow"
         @click.prevent.stop="addNewAccount"
       )

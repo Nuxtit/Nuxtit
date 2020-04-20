@@ -8,6 +8,14 @@
       i.fa.fa-fw.fa-btn.fa-5x.fa-doc-text
     span(v-else-if="!imageSrc && post.data.thumbnail === 'spoiler'" title="spoiler")
       i.fa.fa-fw.fa-btn.fa-5x.fa-question-circle-o
+    span(v-else-if="isImgurVideo")
+      video.img-fluid(preload="auto" autoplay="false" loop="loop" controls)
+        source(:src="imgurMp4Src" type="video/mp4")
+        source(:src="imgurSrc" type="video/gifv")
+    span(v-if="isPostHintVideo && post.secure_media_embed && post.secure_media_embed.content"
+      v-html="post.secure_media_embed.content")
+    span(v-if="post.post_hint === 'link' && post.secure_media && post.secure_media.type === 'twitter.com' && post.secure_media.oembed && post.secure_media.oembed.html"
+      v-html="post.secure_media.oembed.html")
     span(v-else-if="imgurAlbumId && albumData === null")
       Loading
     span(v-else-if="imgurAlbumId && albumData !== false")
