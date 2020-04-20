@@ -15,10 +15,10 @@ import TumblrItems from '~/mixins/TumblrItems';
 
 export default {
   middleware: ['auth'],
-  mixins: [TumblrItems('blogDrafts')],
   components: {
     TumblrPostRow,
     TumblrPagination,
   },
+  mixins: [TumblrItems('blogDrafts')],
 };
 </script>
