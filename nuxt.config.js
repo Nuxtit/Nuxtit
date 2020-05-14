@@ -32,9 +32,9 @@ module.exports = {
       // { rel: 'stylesheet', href: '/fa/css/animation.css', },
       // { rel: 'stylesheet', href: '/fa/css/fontello.css', },
       // { rel: 'stylesheet', href: '/css/more_dark.css', },
-      { rel: 'font', href: '/font/fontello.ttf', rel: 'preload', },
-      { rel: 'font', href: '/font/fontello.woff', rel: 'preload', },
-      { rel: 'font', href: '/font/fontello.woff2', rel: 'preload', },
+      { rel: 'font', href: '/font/fontello.ttf', rel: 'preload', as: 'font' },
+      { rel: 'font', href: '/font/fontello.woff', rel: 'preload', as: 'font' },
+      { rel: 'font', href: '/font/fontello.woff2', rel: 'preload', as: 'font' },
 
       { rel: 'apple-touch-iconicon', sizes: '180x180', href: '/apple-touch-icon.png' },
       { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
