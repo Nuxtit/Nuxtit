@@ -167,5 +167,6 @@ module.exports = {
 
   router: {
     middleware: ['redirects', 'history'],
+    prefetchLinks: false, // lots of error logs from this
   },
 };
