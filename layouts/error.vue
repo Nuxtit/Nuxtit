@@ -8,7 +8,8 @@
   p
     | {{ error.statusCode }}
     | {{ error.message }}
-    | {{ (error.response && error.response.data) || (error.res && error.res.data) || (error.data) || '' }}
+  p(v-if='errorData'): pre(v-text='errorData')
+  p
     | {{ (error) }}
   br
   nuxt-link(to='/') Home page
@@ -23,5 +24,22 @@ export default {
     },
   },
   // layout: 'blog' // you can set a custom layout for the error page
+  computed: {
+    errorData() {
+      let data =
+        (error.response && error.response.data) ||
+        (error.res && error.res.data) ||
+        error.data;
+      if (data) {
+        try {
+          data = JSON.stringify(data, null, 2);
+        } catch (err) {
+          //eslint-disable-next-line
+           console.error(err);
+        }
+      }
+      return data;
+    },
+  },
 };
 </script>
