@@ -26,6 +26,7 @@ export default {
   // layout: 'blog' // you can set a custom layout for the error page
   computed: {
     errorData() {
+      const { error } = this;
       let data =
         (error.response && error.response.data) ||
         (error.res && error.res.data) ||
