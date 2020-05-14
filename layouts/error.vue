@@ -9,10 +9,7 @@
     | {{ error.statusCode }}
     | {{ error.message }}
   p(v-if='errorData'): pre(v-text='errorData')
-  p
-    | {{ (error) }}
-  br
-  nuxt-link(to='/') Home page
+  p: pre {{ (error) }}
 </template>
 
 <script>
