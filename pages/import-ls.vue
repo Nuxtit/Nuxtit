@@ -48,7 +48,9 @@ export default {
       const reader = new FileReader();
       reader.onload = $fileReadEvent => {
         const binary = $fileReadEvent.target.result;
+        console.log({ binary });
         const plaintext = cryptico.decrypt(binary, this.rsakey);
+        console.log({ plaintext });
         const newLsItems = JSON.parse(plaintext);
         console.log({ currentLsItems: window.localStorage });
         console.log({ newLsItems });
