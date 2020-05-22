@@ -11,7 +11,7 @@
       button.btn.btn-success(
         @click.prevent.stop="refetchAll"
       )
-        i.fa.fa-fw.fa-plus
+        i.fa.fa-fw.fa-arrows-cw
         | All
     br
     table.table
