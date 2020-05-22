@@ -4,7 +4,7 @@
     input(v-model="passphrase")
     button.btn.btn.primary(@click.prevent.stop="exportToFile")
       | Export
-    .btn.btn-primary(@click.prevent.stop @change="importFromFile")
+    .btn.btn-primary(@click.stop @change="importFromFile")
       input(type="file" name="import")
 </template>
 
