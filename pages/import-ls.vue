@@ -41,7 +41,7 @@ export default {
       console.log({ result });
       download('backup.dat', result.cipher);
     },
-    importFromFile() {
+    importFromFile($event) {
       console.log($event);
       const input = $event.srcElement || $event.target;
       const file = input.files[0];
@@ -49,7 +49,7 @@ export default {
       reader.onload = $fileReadEvent => {
         const binary = $fileReadEvent.target.result;
         const plaintext = cryptico.decrypt(binary, this.rsakey);
-        const newLsItems = JSON.parse(binary);
+        const newLsItems = JSON.parse(plaintext);
         console.log({ currentLsItems: window.localStorage });
         console.log({ newLsItems });
         if (typeof newLsItems === 'object') {
