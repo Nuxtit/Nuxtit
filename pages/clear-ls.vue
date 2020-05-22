@@ -7,6 +7,7 @@
 import sleep from '~/lib/sleep';
 
 export default {
+  layout: 'empty',
   // middleware: ['auth'],
   async mounted() {
     window.localStorage.clear();
