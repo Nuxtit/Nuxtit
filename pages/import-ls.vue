@@ -3,7 +3,7 @@
     | use a custom passphrase for more security, but then you have to remember it!
     input(v-model="passphrase")
     button.btn.btn.primary(@click.prevent.stop="exportToFile")
-    | Export
+      | Export
     .btn.btn-primary(@click.prevent.stop @change="importFromFile")
       input(type="file" name="import")
 </template>
@@ -34,8 +34,11 @@ export default {
   },
   methods: {
     exportToFile() {
+      console.log(exportToFile);
       const plaintext = JSON.stringify(localStorage);
+      console.log({ plaintext });
       const result = cryptico.encrypt(plaintext, this.publickeystring);
+      console.log({ result });
       download('backup.dat', result);
     },
     importFromFile() {
@@ -60,6 +63,7 @@ export default {
 };
 
 function download(filename, text) {
+  console.log('download');
   const element = document.createElement('a');
   element.setAttribute(
     'href',
@@ -68,7 +72,32 @@ function download(filename, text) {
   element.setAttribute('download', filename);
   element.style.display = 'none';
   document.body.appendChild(element);
-  element.click();
+  click(element);
   document.body.removeChild(element);
+}
+
+function click(el) {
+  let evt;
+  if (document.createEvent) {
+    evt = document.createEvent('MouseEvents');
+    evt.initMouseEvent(
+      'click',
+      true,
+      true,
+      window,
+      0,
+      0,
+      0,
+      0,
+      0,
+      false,
+      false,
+      false,
+      false,
+      0,
+      null,
+    );
+  }
+  evt ? el.dispatchEvent(evt) : el.click && el.click();
 }
 </script>
