@@ -39,7 +39,7 @@ export default {
       console.log({ plaintext });
       const result = cryptico.encrypt(plaintext, this.publickeystring);
       console.log({ result });
-      download('backup.dat', result);
+      download('backup.dat', result.cipher);
     },
     importFromFile() {
       console.log($event);
