@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import sleep from '~/lib/sleep';
+import cryptico from 'cryptico';
 
 export default {
   data() {
@@ -34,8 +34,8 @@ export default {
   },
   methods: {
     exportToFile() {
-      console.log(exportToFile);
-      const plaintext = JSON.stringify(localStorage);
+      console.log('exportToFile');
+      const plaintext = JSON.stringify(window.localStorage);
       console.log({ plaintext });
       const result = cryptico.encrypt(plaintext, this.publickeystring);
       console.log({ result });
