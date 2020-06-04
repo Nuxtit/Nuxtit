@@ -12,7 +12,7 @@
       br
       br
       br
-    h2(@click.prevent.stop="navigator.clipboard.writeText(user.data.name)")
+    h2(@click.prevent.stop="$write_clipboard(user.data.name)")
       | /u/{{user.data.name}}
     p
       SubscribeButton(:item='user')
