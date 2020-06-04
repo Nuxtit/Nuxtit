@@ -29,7 +29,8 @@ export const actions = {
     if (isString(config.url)) {
       entry.path = config.url.replace(baseURL, '/');
     }
-    entry.fullPath = response.request.responseURL.replace(baseURL, '/');
+    const responseURL = get(response, 'request.responseURL') || '';
+    entry.fullPath = responseURL.replace(baseURL, '/');
     entry.data = config.data;
     entry.params = config.params;
     entry.method = config.method;
