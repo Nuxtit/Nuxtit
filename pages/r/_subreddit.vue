@@ -12,7 +12,7 @@
       br
       br
       br
-    h3(@click.prevent.stop="navigator.clipboard.writeText(subreddit.data.display_name)")
+    h3(@click.prevent.stop="$write_clipboard(subreddit.data.display_name)")
       | /r/{{subreddit.data.display_name}}
     h4 {{subreddit.data.title}}
     p {{subreddit.data.subscribers}} subscribers
