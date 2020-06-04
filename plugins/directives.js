@@ -99,3 +99,7 @@ Vue.prototype.$mergeRouteQuery = function(object) {
     },
   };
 };
+
+Vue.prototype.$write_clipboard = function(value) {
+  return navigator.clipboard.writeText(value)
+}
