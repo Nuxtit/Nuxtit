@@ -10,62 +10,60 @@
     span(v-else-if='busy && !isContributorned') contributorning
     span(v-else-if='isContributorned') contributorned
     span(v-else) contributor
-    b-modal(
-      v-model="showingContributorModal"
-      title="Contributor User"
-      size="md"
-      no-close-on-backdrop
-      scrollable
-      lazy
+    div(
+      v-if="showingContributorForm"
       @click.stop.prevent
     )
-      .alert.alert-warning(v-if="existingContributor")
-        | {{ name }} is already contributorned!
-        | &#32;
-        TimeAgo(:value="existingContributor.date")
-        | &#32;
-        b-badge(v-if="existingContributor.note")
-          | note: {{ existingContributor.note }}
-      nuxt-link(:to="`/r/${item.data.subreddit}/about/contributors`") Contributors Page
-      template(v-if="!existingContributor")
-        .form-group
-          label who to contributor:
-          b-form-input(
-            v-model="name"
-          )
-        .alert.alert-success(
-          v-if="success"
-          v-text="success"
+      h2 Contributor User
+      span It is safe to add a user who is already a contributor
+      nuxt-link(
+        v-if="add_subreddit"
+        :to="`/r/${add_subreddit}/about/contributors`"
+      ) Contributors Page
+      .form-group
+        label subreddit:
+        b-form-input(
+          v-model="add_subreddit"
         )
-        .alert.alert-danger(
-          v-if="error"
+      .form-group
+        label who to contributor:
+        b-form-input(
+          v-model="name"
         )
-          tt: pre(
-            v-text="error"
-          )
-        .w-100(slot="modal-footer")
-          .btn-group.float-right
-            b-button(
-              v-if="!success"
-              v-disabled="busy"
-              size="sm"
-              variant="primary"
-              @click="showingContributorModal=false"
-            ) CANCEL
-            b-button(
-              v-if="success"
-              v-disabled="busy"
-              size="sm"
-              variant="primary"
-              @click="showingContributorModal=false"
-            ) DONE
-            b-button(
-              v-if="!success"
-              v-disabled="busy"
-              size="sm"
-              variant="primary"
-              @click="contributor"
-            ) ADD
+      .alert.alert-success(
+        v-if="success"
+        v-text="success"
+      )
+      .alert.alert-danger(
+        v-if="error"
+      )
+        tt: pre(
+          v-text="error"
+        )
+      .w-100
+        .btn-group.float-right
+          b-button(
+            v-if="!success"
+            v-disabled="busy"
+            size="sm"
+            variant="primary"
+            @click="showingContributorForm=false"
+          ) CANCEL
+          b-button(
+            v-if="success"
+            v-disabled="busy"
+            size="sm"
+            variant="primary"
+            @click="showingContributorForm=false"
+          ) DONE
+          b-button(
+            v-if="!success"
+            v-disabled="busy"
+            size="sm"
+            variant="primary"
+            @click="contributor"
+          ) ADD
+      br
 </template>
 
 <script>
@@ -90,11 +88,16 @@ export default {
       busy: false,
       success: null,
       error: null,
-      showingContributorModal: false,
+      showingContributorForm: false,
       existingContributor: null,
 
       name: null,
-      duration: null,
+      add_subreddit:
+        this.item && this.item.data
+          ? this.item.data.can_mod_post
+            ? this.item.data.subreddit
+            : ''
+          : '',
     };
   },
   computed: {
@@ -112,46 +115,52 @@ export default {
   },
   methods: {
     async prompt($event) {
-      if (this.showingContributorModal) return;
-      const { item } = this;
-      const { subreddit, name } = this.item.data;
+      if (this.showingContributorForm) return;
+      const { item, add_subreddit } = this;
       const responses = {};
 
       try {
         this.busy = true;
-        this.showingContributorModal = true;
+        this.showingContributorForm = true;
 
         this.name = this.item.data.author;
 
-        // check if already contributorned
-        const contributornedListReponse = await this.$reddit.get(
-          `/r/${subreddit}/about/contributors`,
-          {
-            params: {
-              user: this.name,
+        this.existingContributor = false;
+        if (this.add_subreddit) {
+          // check if already contributorned
+          const contributornedListReponse = await this.$reddit.get(
+            `/r/${add_subreddit}/about/contributors`,
+            {
+              params: {
+                user: this.name,
+              },
             },
-          },
-        );
+          );
 
-        this.existingContributor =
-          contributornedListReponse.data.data.children[0];
+          this.existingContributor =
+            contributornedListReponse.data.data.children[0];
+        }
       } finally {
         this.busy = false;
       }
     },
     async contributor(payload) {
+      const { add_subreddit } = this;
       const { isRedusaContributorned } = this.item;
-      const { author, subreddit } = this.item.data;
+      const { author } = this.item.data;
       const minWait = startMinWait();
 
       try {
         this.busy = true;
-        const response = await this.$reddit.post(`/r/${subreddit}/api/friend`, {
-          // name: 'le contributorned username',
-          name: this.name,
-          api_type: 'json',
-          type: 'contributor',
-        });
+        const response = await this.$reddit.post(
+          `/r/${add_subreddit}/api/friend`,
+          {
+            // name: 'le contributorned username',
+            name: this.name,
+            api_type: 'json',
+            type: 'contributor',
+          },
+        );
         this.item.isRedusaContributorned = !isRedusaContributorned;
 
         this.success = 'Contributorned!';
