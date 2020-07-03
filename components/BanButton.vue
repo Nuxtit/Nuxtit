@@ -10,15 +10,11 @@
     span(v-else-if='busy && !isBanned') banning
     span(v-else-if='isBanned') banned
     span(v-else) ban
-    b-modal(
-      v-model="showingBanModal"
-      title="Ban User"
-      size="md"
-      no-close-on-backdrop
-      scrollable
-      lazy
+    div(
+      v-if="showingBanForm"
       @click.stop.prevent
     )
+      h2 Ban User
       .alert.alert-warning(v-if="existingBan")
         | {{ name }} is already banned!
         | &#32;
@@ -26,8 +22,13 @@
         | &#32;
         b-badge(v-if="existingBan.note")
           | note: {{ existingBan.note }}
-      nuxt-link(:to="`/r/${item.data.subreddit}/about/banned`") Contributors Page
+      nuxt-link(:to="`/r/${from_subreddit}/about/banned`") Contributors Page
       template(v-if="!existingBan")
+        .form-group
+          label subreddit:
+          b-form-input(
+            v-model="from_subreddit"
+          )
         .form-group
           label who to ban:
           b-form-input(
@@ -41,9 +42,9 @@
                 :value="rule"
                 v-text="rule.short_name || rule.violation_reason"
               )
-            optgroup(label="Site Rules" v-if="site_rules && site_rules.length")
+            optgroup(label="Site Rules" v-if="$options.site_rules && $options.site_rules.length")
               option(
-                v-for="(rule, index) in site_rules"
+                v-for="(rule, index) in $options.site_rules"
                 :value="rule"
                 v-text="rule"
               )
@@ -68,6 +69,9 @@
           b-form-textarea(
             v-model="ban_message"
           )
+        tt: pre(
+          v-text="'/r/'+from_subreddit+' '+JSON.stringify(jsonPayload, null, 2)"
+        )
         .alert.alert-success(
           v-if="success"
           v-text="success"
@@ -85,14 +89,14 @@
               v-disabled="busy"
               size="sm"
               variant="primary"
-              @click="showingBanModal=false"
+              @click="showingBanForm=false"
             ) CANCEL
             b-button(
               v-if="success"
               v-disabled="busy"
               size="sm"
               variant="primary"
-              @click="showingBanModal=false"
+              @click="showingBanForm=false"
             ) DONE
             b-button(
               v-if="!success"
@@ -113,6 +117,7 @@
 <script>
 import isString from 'lodash/isString';
 import { startMinWait } from '~/lib/sleep';
+import { site_rules } from '~/lib/rules';
 import TimeAgo from '~/components/TimeAgo';
 // ban is the moderator action of banning a user from subreddit participation
 
@@ -127,16 +132,22 @@ export default {
       required: true,
     },
   },
+  site_rules,
   data() {
     return {
       busy: false,
       success: null,
       error: null,
-      showingBanModal: false,
+      showingBanForm: false,
       rules: null,
-      site_rules: null,
       existingBan: null,
       selectedReason: null,
+      from_subreddit:
+        this.item && this.item.data
+          ? this.item.data.can_mod_post
+            ? this.item.data.subreddit
+            : ''
+          : '',
 
       name: null,
       duration: null,
@@ -156,80 +167,89 @@ export default {
         'text-success': this.isBanned,
       };
     },
+    jsonPayload() {
+      return {
+        // ban_context: 'fullname of a thing' // we'll assuem subreddit fullname for now
+        // ban_context: subreddit_id,
+        // ban_message: 'markdown to pm to le banned user'
+        ban_message: this.ban_message,
+        // ban_reason: 'up to 100 characters, usually straight from rule.violation_reason'
+        ban_reason: this.ban_reason,
+        // container: ???
+        // duration: an integer between 1 and 999,
+        duration: this.duration,
+        // name: 'le banned username',
+        name: this.name,
+        // note: 'private note for mod team',
+        note: this.note,
+        api_type: 'json',
+        type: 'banned',
+      };
+    },
+    ban_reason() {
+      if (this.selectedReason) {
+        if (this.selectedReason.violation_reason) {
+          return this.selectedReason.violation_reason;
+        }
+        if (isString(this.selectedReason)) {
+          return this.selectedReason;
+        }
+      }
+      return null;
+    },
   },
   methods: {
     async prompt($event) {
-      if (this.showingBanModal) return;
-      const { item } = this;
-      const { subreddit, name } = this.item.data;
+      if (this.showingBanForm) return;
+      const { item, from_subreddit } = this;
       const responses = {};
 
       try {
         this.busy = true;
-        this.showingBanModal = true;
+        this.showingBanForm = true;
 
         this.name = this.item.data.author;
 
-        // check if already banned
-        const bannedListReponse = await this.$reddit.get(
-          `/r/${subreddit}/about/banned`,
-          {
-            params: {
-              user: this.name,
+        this.existingBan = false;
+        if (from_subreddit) {
+          // check if already banned
+          const bannedListReponse = await this.$reddit.get(
+            `/r/${from_subreddit}/about/banned`,
+            {
+              params: {
+                user: this.name,
+              },
             },
-          },
-        );
+          );
 
-        this.existingBan = bannedListReponse.data.data.children[0];
+          this.existingBan = bannedListReponse.data.data.children[0];
+        }
 
-        const srRulesResponse = await this.$reddit.get(
-          `/r/${subreddit}/about/rules`,
-        );
+        if (from_subreddit) {
+          const srRulesResponse = await this.$reddit.get(
+            `/r/${from_subreddit}/about/rules`,
+          );
 
-        this.rules = srRulesResponse.data.rules;
-        this.site_rules = srRulesResponse.data.site_rules;
+          this.rules = srRulesResponse.data.rules;
+          // this.site_rules = srRulesResponse.data.site_rules;
 
-        this.selectedReason = this.rules[0] || this.site_rules[0];
+          this.selectedReason = this.rules[0] || this.$options.site_rules[0];
+        }
       } finally {
         this.busy = false;
       }
     },
     async ban(payload) {
-      const { isRedusaBanned } = this.item;
-      const { author, subreddit } = this.item.data;
+      const { isRedusaBanned, from_subreddit } = this.item;
+      const { author } = this.item.data;
       const minWait = startMinWait();
-
-      const ban_reason = (() => {
-        if (this.selectedReason) {
-          if (this.selectedReason.violation_reason) {
-            return this.selectedReason.violation_reason;
-          }
-          if (isString(this.selectedReason)) {
-            return this.selectedReason;
-          }
-        }
-        return null;
-      })();
 
       try {
         this.busy = true;
-        const response = await this.$reddit.post(`/r/${subreddit}/api/friend`, {
-          // ban_context: 'fullname of a thing' // we'll assuem subreddit fullname for now
-          // ban_context: subreddit_id,
-          // ban_message: 'markdown to pm to le banned user'
-          ban_message: this.ban_message,
-          // ban_reason: 'up to 100 characters, usually straight from rule.violation_reason'
-          ban_reason,
-          // container: ???
-          // duration: an integer between 1 and 999,
-          duration: this.duration,
-          // name: 'le banned username',
-          name: this.name,
-          // note: 'private note for mod team',
-          note: this.note,
-          api_type: 'json',
-          type: 'banned',
-        });
+        const response = await this.$reddit.post(
+          `/r/${from_subreddit}/api/friend`,
+          this.jsonPayload,
+        );
         this.item.isRedusaBanned = !isRedusaBanned;
 
         this.success = 'Banned!';

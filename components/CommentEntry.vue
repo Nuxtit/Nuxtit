@@ -120,12 +120,12 @@
         | &#32;
         RemoveButton(:item='comment')
         | &#32;
-        BanButton(:item='comment')
-        | &#32;
         ApproveButton(:item='comment')
         | &#32;
         LockButton(:item='comment')
         | &#32;
+      BanButton(:item='comment')
+      | &#32;
       AddContributorButton(:item='comment')
       | &#32;
       DeleteButton(:item='comment' v-if='isAuthor')
