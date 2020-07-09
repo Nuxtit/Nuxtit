@@ -26,7 +26,7 @@
       .col
         table.table.table-sm
           thead: tr
-            th domain
+            th subreddit
             th count
             th
           tbody
