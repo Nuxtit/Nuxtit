@@ -87,3 +87,5 @@ functions/.eslintrc.js
 functions/nuxt.config.js
 functions/prettier.config.js
 .netlify
+
+*.swp
