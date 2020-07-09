@@ -35,12 +35,6 @@
       .row
         .col
           SelectQueryText(path="q" placeholder="query")
-      .row(v-if="$route.query.kind === 'post' || $route.query.url")
-        .col
-          SelectQueryText(path="q" placeholder="query")
-            div.alert.alert-dander(v-if="$route.query.kind !== 'post' && $route.query.url")
-              tt url
-              | &#32;has no effect when searching for kinds other than post
       .row
         .col
           SelectQueryIsVideo
@@ -254,6 +248,12 @@ export default {
         }
       },
     },
+  },
+  beforeRouteEnter(to, from, next) {
+    if (!to.query.kind) {
+      to.query.kind = 'post';
+    }
+    next();
   },
   mounted() {
     // console.log('searchpage');
