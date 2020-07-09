@@ -31,20 +31,12 @@
             th
           tbody
             tr(v-for="qr in quickRemovesFiltered" :key="qr.name")
-              td(v-text="qr.name")
+              td: tt(v-text="qr.name")
               td(v-text="qr.count")
               td
-                .btn.btn-xs.btn-success(@click.prevent.stop="subsList = [...subsList, qr.name]")
+                .btn.btn-sm.btn-success(@click.prevent.stop="subsList = [...subsList, qr.name]")
                   i.fa.fa-fw.fa-plus
-                  | Add&nbsp;
-    .row
-      .col
-        div(v-for="qr in quickRemovesFiltered")
-          .btn.btn-sm.btn-success(@click.prevent.stop="subsList = [...subsList, qr.name]")
-            i.fa.fa-fw.fa-plus
-            | Add&nbsp;
-            tt {{ qr.name }}
-            | &nbsp;({{ qr.count }})
+                  | &nbsp;Add
   div(v-else)
     i.fa.fa-fw.fa-plus(@click.prevent.stop="expanded = true")
     | {{ domainnegated ? 'Excluding' : 'Including' }}

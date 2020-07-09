@@ -24,12 +24,20 @@
           ) exclude
     .row
       .col
-        div(v-for="qr in quickRemovesFiltered")
-          .btn.btn-sm.btn-success(@click.prevent.stop="subsList = [...subsList, qr.name]")
-            i.fa.fa-fw.fa-plus
-            | Add&nbsp;
-            tt {{ qr.name }}
-            | &nbsp;({{ qr.count }})
+        table.table.table-sm
+          thead: tr
+            th domain
+            th count
+            th
+          tbody
+            tr(v-for="qr in quickRemovesFiltered" :key="qr.name")
+              td
+                a(:to="`/r/${qr.name}`" v-text="qr.name")
+              td(v-text="qr.count")
+              td
+                .btn.btn-sm.btn-success(@click.prevent.stop="subsList = [...subsList, qr.name]")
+                  i.fa.fa-fw.fa-plus
+                  | &nbsp;Add
   div(v-else)
     i.fa.fa-fw.fa-plus(@click.prevent.stop="expanded = true")
     | {{ subredditnegated ? 'Excluding' : 'Including' }}
