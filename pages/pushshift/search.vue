@@ -260,7 +260,7 @@ export default {
   },
   methods: {
     pluckquickremoves(path) {
-      const unsorted = reduce(
+      return reduce(
         get(this.items, 'data.children'),
         (carry, item) => {
           const name = get(item, `pushshiftEntry.${path}`);
@@ -277,9 +277,6 @@ export default {
         },
         {},
       );
-      return Object.values(unsorted)
-        .sort(byCountDesc)
-        .reduce((c, v) => ((c[v.name] = v), c), {});
     },
     async saveSearch() {
       if (this.name) {
@@ -307,11 +304,4 @@ export default {
     },
   },
 };
-
-function byCountDesc(a, b) {
-  if (a.count === b.count) {
-    return a.name > b.name ? 1 : -1;
-  }
-  return a.count > b.count ? -1 : 1;
-}
 </script>
