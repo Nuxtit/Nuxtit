@@ -87,7 +87,7 @@ export default {
         Object.values(this.quickRemoves).filter(
           qr => !includes(this.subsList, qr.name),
         ),
-        [o => -o.count, 'name'],
+        ['name'],
       );
     },
   },
