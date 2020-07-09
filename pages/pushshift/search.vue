@@ -278,7 +278,6 @@ export default {
         {},
       );
       return Object.values(unsorted)
-        .map(k => unsorted[k])
         .sort(byCountDesc)
         .reduce((c, v) => ((c[v.name] = v), c), {});
     },
