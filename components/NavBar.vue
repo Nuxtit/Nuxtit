@@ -6,14 +6,14 @@ b-navbar(toggleable='md', type='dark')
     | &#32;
     | Nuxtit
   b-collapse#nav_collapse(is-nav)
-    b-navbar-nav
+    b-navbar-nav(v-if="MeData.name")
       b-nav-item(to='/home') Home
       b-nav-item(to='/multis/mine') MultiSubs
       b-nav-item(to='/subreddits') Subreddits
 
     // Right aligned nav items
     b-navbar-nav.ml-auto
-      .btn-group
+      .btn-group(v-if="MeData.name")
         nuxt-link.btn.btn-primary(to='/search')
           i.fa.fa-search.fa-btn
           | Search
@@ -55,7 +55,7 @@ b-navbar(toggleable='md', type='dark')
         b-dropdown-item(to='/logout') Signout
       b-nav-item(right v-else to='/login')
         | Signin
-  b-navbar-nav
+  b-navbar-nav(v-if="MeData.name")
     b-nav-item(right to='/message/inbox' title="Mail")
       b-badge.text-secondary(
         v-if="MeData.has_mail"
