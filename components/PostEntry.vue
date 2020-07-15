@@ -24,30 +24,20 @@
           | &#32;
           FlairBadge(:item='post' type='link')
           | &#32;
-          b-badge(v-if='post.data.is_video') [video]
-          | &#32;
-          b-badge(v-if='post.data.stickied') [stickied]
-          | &#32;
-          b-badge(v-if='post.data.pinned') [pinned]
-          | &#32;
-          b-badge(v-if='post.data.over_18') [nsfw]
-          | &#32;
-          b-badge(v-if='post.data.spoiler') [spoiler]
-          | &#32;
-          b-badge(v-if='post.data.locked') [locked]
-          | &#32;
-          b-badge(v-if='post.data.author_patreon_flair') [patreon]
-          | &#32;
-          b-badge(v-if='post.data.author_cakeday') [cakeday]
-          | &#32;
+          b-badge(v-if='post.data.is_video') [video]&#32;
+          b-badge(v-if='post.data.stickied') [stickied]&#32;
+          b-badge(v-if='post.data.pinned') [pinned]&#32;
+          b-badge(v-if='post.data.over_18') [nsfw]&#32;
+          b-badge(v-if='post.data.spoiler') [spoiler]&#32;
+          b-badge(v-if='post.data.locked') [locked]&#32;
+          b-badge(v-if='post.data.author_patreon_flair') [patreon]&#32;
+          b-badge(v-if='post.data.author_cakeday') [cakeday]&#32;
           ApprovedBadge(:item="post")
           | &#32;
           RemovedBadge(:item="post")
           | &#32;
-          b-badge(v-if='post.data.spam', variant='danger') [spam]
-          | &#32;
-          b-badge(v-if='post.data.num_crossposts') [crossposts: {{ post.data.num_crossposts }}]
-          | &#32;
+          b-badge(v-if='post.data.spam', variant='danger') [spam]&#32;
+          b-badge(v-if='post.data.num_crossposts > 0') [crossposts: {{ post.data.num_crossposts }}]&#32;
           small(v-if='post.data.domain'): tt
             nuxt-link(
               :to='post.data.is_self ? `/r/${post.data.domain}` : `/domain/${post.data.domain}`'
@@ -159,6 +149,23 @@
           )
             i.fa.fa-fw.fa-btn.fa-code
             span see source
+  .row(v-if='post.data.crosspost_parent_list && post.data.crosspost_parent_list.length > 0')
+    .col
+      div crosspost history: 
+      table.table.table-sm
+        thead
+          th score
+          th sub
+          th by
+          th title
+          th created
+        tbody
+          tr(v-for="p in post.data.crosspost_parent_list")
+            td(v-text="p.score")
+            td: SubredditLink(:subreddit='p.subreddit')
+            td: UserLink(:username='p.author')
+            td: nuxt-link(:to='p.permalink' v-text='p.title')
+            td: TimeAgo(:value='p.created_utc')
   .row(v-if='open')
     .col
       CommentForm(
