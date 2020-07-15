@@ -45,6 +45,14 @@ export default {
         get(this.item, 'data.body_html') ||
         get(this.item, 'data.selftext_html') ||
         '';
+      if (
+        get(this.item, 'data.body') === '[removed]' &&
+        get(this.item, 'pushshiftEntry.body')
+      ) {
+        html =
+          '<div class="alert alert-info">recovered via pushshift</div>' +
+          get(this.item, 'pushshiftEntry.body');
+      }
       html = html.replace(linkRegEx, newLink);
       if (html && (this.$route.query.q || this.$route.query.highlight)) {
         const terms = getHighlightTerms(

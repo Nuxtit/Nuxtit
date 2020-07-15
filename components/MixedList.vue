@@ -4,13 +4,8 @@
       v-if='itemsChildren'
       v-for='item in itemsChildren'
     )
-      PushshiftMissingEntry(
-        v-if="item.pushshiftMissing"
-        :item='item'
-        :key='item.data.id'
-      )
       CommentEntry(
-        v-else-if='item.kind === "t1"'
+        v-if='item.kind === "t1"'
         :comment='item'
         :key='item.data.id'
       )
@@ -22,6 +17,11 @@
       SubredditEntry(
         v-else-if='item.kind === "t5"'
         :subreddit='item'
+        :key='item.data.id'
+      )
+      PushshiftMissingEntry(
+        v-else-if="item.pushshiftMissing"
+        :item='item'
         :key='item.data.id'
       )
       div.alert.alert-danger(

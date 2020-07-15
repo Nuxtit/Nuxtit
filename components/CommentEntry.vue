@@ -10,18 +10,16 @@
       b-badge(v-if='comment.data.is_submitter')
         | [OP]
       | &#32;
-      b-badge(v-if='comment.data.locked') [locked]
-      | &#32;
+      b-badge(v-if='comment.data.body === "[removed]"') [removed]&#32;
+      b-badge(v-if='comment.data.locked') [locked] &#32;
       FlairBadge(:item='comment' type='author')
       | &#32;
       UsertagBadge(:item='comment' type='author')
       | &#32;
       GildedBadge(:item='comment')
       | &#32;
-      b-badge(v-if='comment.data.author_patreon_flair') [patreon]
-      | &#32;
-      b-badge(v-if='comment.data.author_cakeday') [cakeday]
-      | &#32;
+      b-badge(v-if='comment.data.author_patreon_flair') [patreon]&#32;
+      b-badge(v-if='comment.data.author_cakeday') [cakeday]&#32;
       TimeAgo(:value='comment.data.created_utc')
       template(v-if='comment.data.edited') *
       | &#32;

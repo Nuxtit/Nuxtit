@@ -3,6 +3,7 @@
   .row
     .col
       UserLink(v-if='item.data.author' :username='item.data.author')
+      | &#32;
       | PushshiftMissing {{ item.data.id }}
   .row
     .col
