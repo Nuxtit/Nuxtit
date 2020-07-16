@@ -1,22 +1,14 @@
 <template lang="pug">
   .post-image
-    span(v-if="!imageSrc && post.data.thumbnail === 'image'")
-      | image
-    span(v-else-if="!imageSrc && post.data.thumbnail === 'default'" title="default")
-      i.fa.fa-fw.fa-btn.fa-5x.fa-question-circle-o
-    span(v-else-if="!imageSrc && post.data.thumbnail === 'self'" title="self")
-      i.fa.fa-fw.fa-btn.fa-5x.fa-doc-text
-    span(v-else-if="!imageSrc && post.data.thumbnail === 'spoiler'" title="spoiler")
-      i.fa.fa-fw.fa-btn.fa-5x.fa-question-circle-o
+    video.img-fluid(v-if="isRedditVideo" preload="auto" autoplay="false" loop="loop" controls)
+      source(:src="post.data.secure_media.reddit_video.fallback_url" type="video/mp4")
+      source(:src="post.data.secure_media.reddit_video.hls_url" type="application/x-mpegURL")
     video.img-fluid(v-else-if="isImgurVideo" preload="auto" autoplay="false" loop="loop" controls)
       source(:src="imgurMp4Src" type="video/mp4")
       source(:src="imgurSrc" type="video/gifv")
-    video.img-fluid(v-else-if="isPostHintVideo && post.data.secure_media && post.data.secure_media.reddit_video" preload="auto" autoplay="false" loop="loop" controls)
-      source(:src="post.data.secure_media.reddit_video.fallback_url" type="video/mp4")
-      source(:src="post.data.secure_media.reddit_video.hls_url" type="application/x-mpegURL")
     span(v-else-if="isPostHintVideo && post.data.secure_media_embed && post.data.secure_media_embed.content"
       v-html="post.data.secure_media_embed.content")
-    span(v-else-if="post.data.post_hint === 'link' && post.data.secure_media && post.data.secure_media.type === 'twitter.com' && post.data.secure_media.oembed && post.data.secure_media.oembed.html"
+    span(v-else-if="isOembed"
       v-html="post.data.secure_media.oembed.html")
     span(v-else-if="imgurAlbumId && albumData === null")
       Loading
@@ -31,6 +23,14 @@
       :alt="post.data.title"
       fluid
     )
+    span(v-else-if="post.data.thumbnail === 'image'")
+      | image
+    span(v-else-if="post.data.thumbnail === 'default'" title="default")
+      i.fa.fa-fw.fa-btn.fa-5x.fa-question-circle-o
+    span(v-else-if="post.data.thumbnail === 'self'" title="self")
+      i.fa.fa-fw.fa-btn.fa-5x.fa-doc-text
+    span(v-else-if="post.data.thumbnail === 'spoiler'" title="spoiler")
+      i.fa.fa-fw.fa-btn.fa-5x.fa-question-circle-o
     span(v-else) NO_THUMB
 </template>
 
@@ -72,11 +72,50 @@ export default {
     },
     isImgurVideo() {
       const { imageSrc } = this;
-      return includes(imageSrc, '//i.imgur.com/') && imageSrc.endsWith('.gifv');
+      if (includes(imageSrc, '//i.imgur.com/') && imageSrc.endsWith('.gifv')) {
+        return true;
+      }
+      if (
+        includes(this.post.data.url, '//i.imgur.com/') &&
+        this.post.data.url.endsWith('.gifv')
+      ) {
+        return true;
+      }
+      return false;
+    },
+    isRedditVideo() {
+      return (
+        this.post.data.secure_media && this.post.data.secure_media.reddit_video
+      );
+    },
+    isOembed() {
+      if (
+        this.post.data.secure_media &&
+        this.post.data.secure_media.oembed &&
+        this.post.data.secure_media.oembed.html
+      ) {
+        if (
+          this.post.data.post_hint === 'link' &&
+          this.post.data.secure_media.type === 'twitter.com'
+        ) {
+          return true;
+        }
+        if (this.post.data.secure_media.type === 'gfycat.com') {
+          return true;
+        }
+      }
+      return false;
     },
     imgurMp4Src() {
-      if (this.isImgurVideo) {
+      const { imageSrc } = this;
+      if (includes(imageSrc, '//i.imgur.com/') && imageSrc.endsWith('.gifv')) {
         return this.imageSrc.replace('gifv', 'mp4');
+      }
+      if (
+        includes(this.post.data.url, '//i.imgur.com/') &&
+        this.post.data.url.endsWith('.gifv')
+      ) {
+        return this.post.data.url.replace('gifv', 'mp4');
       }
       return null;
     },

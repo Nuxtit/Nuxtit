@@ -1,5 +1,7 @@
 <template lang="pug">
-  .posts-thumbnail
+  .posts-thumbnail(
+    @click.prevent.default='$emit("expand")'
+  )
     span(v-if="!imageSrc && post.data.thumbnail === 'image'")
       | image
     span(v-else-if="!imageSrc && post.data.thumbnail === 'default'" title="default")
@@ -18,7 +20,6 @@
       :class='imageSrc === post.data.url ? "max-108-mh-144" : null'
       :src="imageSrc"
       :alt="post.data.title"
-      @click.prevent.default='$emit("expand")'
     )
     span(v-else) NO_THUMB
 </template>
