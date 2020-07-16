@@ -21,7 +21,7 @@
     span(v-else-if="imgurAlbumId && albumData === null")
       Loading
     span(v-else-if="imgurAlbumId && albumData !== false")
-      ImgurAlbum(album='albumData.data')
+      ImgurAlbum(:album="albumData")
     span(v-else-if="imgurAlbumId && albumData === false && post.data.media_embed && post.data.media_embed.content")
       tt imgurAlbumId && post.data.media_embed.content
       div(v-html='post.data.media_embed.content')
@@ -48,6 +48,7 @@ export default {
   name: 'PostImage',
   components: {
     bImg,
+    ImgurAlbum,
   },
   props: {
     post: {
@@ -62,7 +63,9 @@ export default {
   },
   computed: {
     imgurAlbumId() {
-      return getImgurAlbumId(this.post);
+      const imgurAlbumId = getImgurAlbumId(this.post);
+      // console.log('imgurAlbumId', imgurAlbumId);
+      return imgurAlbumId;
     },
     imageSrc() {
       return getPostImageSrc(this.post);
@@ -81,19 +84,24 @@ export default {
       return includes(this.post.data.post_hint, 'video');
     },
   },
-  async mounted() {
-    const { imgurAlbumId } = this;
-    if (imgurAlbumId) {
-      try {
-        const newAlbumData = await fetchImgurAlbum(imgurAlbumId);
-        this.albumData = newAlbumData;
-      } catch (err) {
-        if (imgurAlbumId === this.imgurAlbumId) {
-          this.albumData = false;
-          this.$sentry.captureError(err);
+  watch: {
+    imgurAlbumId: {
+      immediate: true,
+      handler(newValue, oldValue) {
+        if (newValue && newValue !== oldValue) {
+          fetchImgurAlbum(newValue).then(
+            res => {
+              this.albumData = res.data;
+              console.log('newAlbumData', res.data);
+            },
+            err => {
+              this.albumData = false;
+              this.$sentry.captureError(err);
+            },
+          );
         }
-      }
-    }
+      },
+    },
   },
 };
 </script>
