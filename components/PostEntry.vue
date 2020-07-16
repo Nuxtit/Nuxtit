@@ -32,6 +32,7 @@
           b-badge(v-if='post.data.locked') [locked]&#32;
           b-badge(v-if='post.data.author_patreon_flair') [patreon]&#32;
           b-badge(v-if='post.data.author_cakeday') [cakeday]&#32;
+          b-badge(v-if='post.data.send_replies') [send_replies:0]&#32;
           ApprovedBadge(:item="post")
           | &#32;
           RemovedBadge(:item="post")
@@ -128,7 +129,6 @@
             ReportButton(:item='post')
             | &#32;
           span.btn-reply-toggle(
-            vif="post.data.send_replies"
             @click.prevent.stop='showReply^=true'
           )
             i.fa.fa-fw.fa-btn.fa-reply
@@ -149,7 +149,7 @@
           )
             i.fa.fa-fw.fa-btn.fa-code
             span see source
-  .row(v-if='post.data.crosspost_parent_list && post.data.crosspost_parent_list.length > 0')
+  .row(v-if='post.data.crosspost_parent_list && post.data.crosspost_parent_list.length > 0 && showCrossPost')
     .col
       div crosspost history: 
       table.table.table-sm
@@ -166,7 +166,7 @@
             td: UserLink(:username='p.author')
             td: nuxt-link(:to='p.permalink' v-text='p.title')
             td: TimeAgo(:value='p.created_utc')
-  .row(v-if='open')
+  .row(v-if='open || showReply')
     .col
       CommentForm(
         v-if="showReply"
@@ -297,7 +297,7 @@ export default {
     return {
       // collapsed: false,
       open: null,
-      // reply: null,
+      showReply: false,
     };
   },
   computed: {
@@ -312,7 +312,6 @@ export default {
       return url;
     },
     showSource: makeComputeToggler('source'),
-    showReply: makeComputeToggler('reply'),
     showReports: makeComputeToggler('reports'),
     showEdit: makeComputeToggler('edit'),
     showCrossPost: makeComputeToggler('cross'),
