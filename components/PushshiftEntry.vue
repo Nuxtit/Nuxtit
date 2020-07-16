@@ -141,7 +141,7 @@
           //-   @click.prevent.stop='showReply^=true'
           //- )
           //-   i.fa.fa-fw.fa-btn.fa-reply
-          //-   span reply
+          //-   | &#32;reply
           //- | &#32;
           //- CrossPostButton(
           //-   @click.prevent.stop='showCrossPost^=true'
@@ -159,7 +159,7 @@
             @click.prevent.stop='showSource^=true'
           )
             i.fa.fa-fw.fa-btn.fa-code
-            span see source
+            | &#32;see source
   .row(v-if='open')
     .col
       //- CommentForm(

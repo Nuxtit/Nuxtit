@@ -24,7 +24,7 @@
       @click.prevent.stop='showSource^=true'
     )
       i.fa.fa-fw.fa-btn.fa-code
-      span see source
+      | &#32;see source
   .multi-row-source(v-if='open')
     pre(v-if='showSource')
       tt: small(v-text="multi.data")

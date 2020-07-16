@@ -3,7 +3,7 @@
     @click.prevent.stop='$emit("click", $event)'
   )
     i.fa.fa-fw.fa-btn.fa-cw
-    span crosspost
+    | &#32;x-post
 </template>
 
 <script>
