@@ -20,7 +20,7 @@
       | &#32;
       b-badge(v-if='comment.data.author_patreon_flair') [patreon]&#32;
       b-badge(v-if='comment.data.author_cakeday') [cakeday]&#32;
-      b-badge(v-if='comment.data.send_replies') [send_replies:0]&#32;
+      b-badge(v-if='comment.data.send_replies===false') [send_replies:0]&#32;
       TimeAgo(:value='comment.data.created_utc')
       template(v-if='comment.data.edited') *
       | &#32;
@@ -140,7 +140,7 @@
         @click.prevent.stop='showSource^=true'
       )
         i.fa.fa-fw.fa-btn.fa-code
-        span see source
+        | &#32;see source
     CommentForm(
       v-if="showReply && !collapsed"
       :parent='comment'

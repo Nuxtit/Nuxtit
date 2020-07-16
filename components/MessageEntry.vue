@@ -80,7 +80,7 @@
         @click.prevent.stop='showReply^=true'
       )
         i.fa.fa-fw.fa-btn.fa-reply
-        span reply
+        | &#32;reply
       | &#32;
       DeleteButton(:item='message' v-if='isAuthor')
       | &#32;
@@ -97,7 +97,7 @@
         @click.prevent.stop='showSource^=true'
       )
         i.fa.fa-fw.fa-btn.fa-code
-        span see source
+        | &#32;see source
     CommentForm(
       v-if="showReply && !collapsed"
       :parent='message'

@@ -33,7 +33,7 @@
           @click.prevent.stop='showSource^=true'
         )
           i.fa.fa-fw.fa-btn.fa-code
-          span see source
+          | &#32;see source
     .card-body(v-if='showPayload && item.method !== "get"')
       pre: tt {{ item.data }}
     .card-body(

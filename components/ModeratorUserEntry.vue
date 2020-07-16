@@ -29,7 +29,7 @@
         @click.prevent.stop='showSource^=true'
       )
         i.fa.fa-fw.fa-btn.fa-code
-        span see source
+        | &#32;see source
     pre(v-if="showSource")
       tt: small(v-text="user")
 </template>

@@ -26,7 +26,7 @@
         @click.prevent.stop='showSource^=true'
       )
         i.fa.fa-fw.fa-btn.fa-code
-        span see source
+        | &#32;see source
     p
       | Your flair on this sub looks like:
       | &#32;

@@ -32,7 +32,7 @@
           b-badge(v-if='post.data.locked') [locked]&#32;
           b-badge(v-if='post.data.author_patreon_flair') [patreon]&#32;
           b-badge(v-if='post.data.author_cakeday') [cakeday]&#32;
-          b-badge(v-if='post.data.send_replies') [send_replies:0]&#32;
+          b-badge(v-if='post.data.send_replies===false') [send_replies:0]&#32;
           ApprovedBadge(:item="post")
           | &#32;
           RemovedBadge(:item="post")
@@ -132,7 +132,7 @@
             @click.prevent.stop='showReply^=true'
           )
             i.fa.fa-fw.fa-btn.fa-reply
-            span reply
+            | &#32;reply
           | &#32;
           CrossPostButton(
             @click.prevent.stop='showCrossPost^=true'
@@ -148,7 +148,7 @@
             @click.prevent.stop='showSource^=true'
           )
             i.fa.fa-fw.fa-btn.fa-code
-            span see source
+            | &#32;see source
   .row(v-if='post.data.crosspost_parent_list && post.data.crosspost_parent_list.length > 0 && showCrossPost')
     .col
       div crosspost history: 

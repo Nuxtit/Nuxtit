@@ -1,5 +1,5 @@
 <template lang="pug">
-  .posts-thumbnail
+  .post-image
     span(v-if="!imageSrc && post.data.thumbnail === 'image'")
       | image
     span(v-else-if="!imageSrc && post.data.thumbnail === 'default'" title="default")
@@ -8,20 +8,22 @@
       i.fa.fa-fw.fa-btn.fa-5x.fa-doc-text
     span(v-else-if="!imageSrc && post.data.thumbnail === 'spoiler'" title="spoiler")
       i.fa.fa-fw.fa-btn.fa-5x.fa-question-circle-o
-    span(v-else-if="isImgurVideo")
-      video.img-fluid(preload="auto" autoplay="false" loop="loop" controls)
-        source(:src="imgurMp4Src" type="video/mp4")
-        source(:src="imgurSrc" type="video/gifv")
-    span(v-if="isPostHintVideo && post.secure_media_embed && post.secure_media_embed.content"
-      v-html="post.secure_media_embed.content")
-    span(v-if="post.post_hint === 'link' && post.secure_media && post.secure_media.type === 'twitter.com' && post.secure_media.oembed && post.secure_media.oembed.html"
-      v-html="post.secure_media.oembed.html")
+    video.img-fluid(v-else-if="isImgurVideo" preload="auto" autoplay="false" loop="loop" controls)
+      source(:src="imgurMp4Src" type="video/mp4")
+      source(:src="imgurSrc" type="video/gifv")
+    video.img-fluid(v-else-if="isPostHintVideo && post.data.secure_media && post.data.secure_media.reddit_video" preload="auto" autoplay="false" loop="loop" controls)
+      source(:src="post.data.secure_media.reddit_video.fallback_url" type="video/mp4")
+      source(:src="post.data.secure_media.reddit_video.hls_url" type="application/x-mpegURL")
+    span(v-else-if="isPostHintVideo && post.data.secure_media_embed && post.data.secure_media_embed.content"
+      v-html="post.data.secure_media_embed.content")
+    span(v-else-if="post.data.post_hint === 'link' && post.data.secure_media && post.data.secure_media.type === 'twitter.com' && post.data.secure_media.oembed && post.data.secure_media.oembed.html"
+      v-html="post.data.secure_media.oembed.html")
     span(v-else-if="imgurAlbumId && albumData === null")
       Loading
     span(v-else-if="imgurAlbumId && albumData !== false")
       ImgurAlbum(album='albumData.data')
     span(v-else-if="imgurAlbumId && albumData === false && post.data.media_embed && post.data.media_embed.content")
-      tt imgurAlbumId && post.media_embed.content
+      tt imgurAlbumId && post.data.media_embed.content
       div(v-html='post.data.media_embed.content')
     b-img(
       v-else-if="imageSrc"
@@ -58,13 +60,6 @@ export default {
       albumData: null,
     };
   },
-  srcPaths: [
-    // @todo should we attempt to embed videos?
-    // 'preview.images.0.variants.mp4.source.url',
-    'preview.images.0.variants.gif.source.url',
-    'preview.images.0.source.url',
-    'preview.images.0.resolutions.0.url', // @toodo how to get $last instead of zero?
-  ],
   computed: {
     imgurAlbumId() {
       return getImgurAlbumId(this.post);
@@ -73,9 +68,8 @@ export default {
       return getPostImageSrc(this.post);
     },
     isImgurVideo() {
-      return (
-        includes(this.imageSrc, '//i.imgur.com/') && imageSrc.endsWith('.gifv')
-      );
+      const { imageSrc } = this;
+      return includes(imageSrc, '//i.imgur.com/') && imageSrc.endsWith('.gifv');
     },
     imgurMp4Src() {
       if (this.isImgurVideo) {
@@ -87,20 +81,19 @@ export default {
       return includes(this.post.data.post_hint, 'video');
     },
   },
-  watch: {
-    async imgurAlbumId(newValue) {
-      if (newValue) {
-        fetchImgurAlbum(newValue).then(
-          newAlbumData => (albumData = newAlbumData),
-          err => {
-            if (newValue === this.imgurAlbumId) {
-              albumData = false;
-              this.$sentry.captureError(err);
-            }
-          },
-        );
+  async mounted() {
+    const { imgurAlbumId } = this;
+    if (imgurAlbumId) {
+      try {
+        const newAlbumData = await fetchImgurAlbum(imgurAlbumId);
+        this.albumData = newAlbumData;
+      } catch (err) {
+        if (imgurAlbumId === this.imgurAlbumId) {
+          this.albumData = false;
+          this.$sentry.captureError(err);
+        }
       }
-    },
+    }
   },
 };
 </script>

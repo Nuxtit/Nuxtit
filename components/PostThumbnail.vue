@@ -26,6 +26,7 @@
 <script>
 import get from 'lodash/get';
 import find from 'lodash/find';
+import getPostThumbnailSrc from '~/lib/getPostThumbnailSrc';
 
 export default {
   name: 'PostThumbnail',
@@ -35,41 +36,19 @@ export default {
       required: true,
     },
   },
-  srcPaths: [
-    // @todo is this a good idea?
-    // 'preview.images.0.variants.mp4.source.url',
-    'preview.images.0.variants.gif.source.url',
-    'preview.images.0.resolutions.0.url',
-    'preview.images.0.source.url',
-  ],
   computed: {
     imageSrc() {
-      let src = this.post.data.thumbnail;
-      let path;
-      if (src && src.startsWith('https://')) {
-        return src;
-      }
-      for (let i = 0, len = this.$options.srcPaths.length; i < len; i++) {
-        path = this.$options.srcPaths[i];
-        src = get(this.post.data, path);
-        if (src && src.startsWith('https://')) {
-          return src;
-        }
-      }
-      for (let i = 0, len = this.$options.srcPaths.length; i < len; i++) {
-        path = 'crosspost_parent_list.0.' + this.$options.srcPaths[i];
-        src = get(this.post.data, path);
-        if (src && src.startsWith('https://')) {
-          return src;
-        }
-      }
-      src = this.post.data.url;
-      if (src && src.startsWith('https://')) {
-        return src;
-      }
-      return null;
+      return getPostThumbnailSrc(this.post);
     },
   },
+  // watch: {
+  //   imageSrc: {
+  //     immediate: true,
+  //     handler(newValue) {
+  //       console.log('imageSrc', { newValue });
+  //     },
+  //   },
+  // },
 };
 </script>
 
