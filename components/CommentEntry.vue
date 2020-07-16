@@ -11,7 +11,7 @@
         | [OP]
       | &#32;
       b-badge(v-if='comment.data.body === "[removed]"') [removed]&#32;
-      b-badge(v-if='comment.data.locked') [locked] &#32;
+      b-badge(v-if='comment.data.locked') [locked]&#32;
       FlairBadge(:item='comment' type='author')
       | &#32;
       UsertagBadge(:item='comment' type='author')
@@ -20,6 +20,7 @@
       | &#32;
       b-badge(v-if='comment.data.author_patreon_flair') [patreon]&#32;
       b-badge(v-if='comment.data.author_cakeday') [cakeday]&#32;
+      b-badge(v-if='comment.data.send_replies') [send_replies:0]&#32;
       TimeAgo(:value='comment.data.created_utc')
       template(v-if='comment.data.edited') *
       | &#32;
@@ -48,7 +49,6 @@
       ItemHtml(:item='comment')
       .options-icons.pull-right
         span.btn-reply-toggle(
-          v-if='comment.data.send_replies'
           :class='showReply ? "text-info" : ""'
           @click.prevent.stop='showReply^=true'
         )
