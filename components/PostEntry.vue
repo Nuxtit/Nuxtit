@@ -138,10 +138,6 @@
             @click.prevent.stop='showCrossPost^=true'
           )
           | &#32;
-          TumblrShareButton(
-            @click.prevent.stop='showTumblrShare^=true'
-          )
-          | &#32;
           SeeReportsButton(:item="post" @click.prevent.stop='showReports^=true')
           | &#32;
           span.btn-see-source(
@@ -180,20 +176,14 @@
         @created-comment='onPostUpdated'
         @close='showEdit = false'
       )
-      PostForm(
+      CrossPostTabs(
         v-if="showCrossPost"
         :parent='post'
         @created-post='onCrossPostCreated'
         @close='showCrossPost = false'
       )
-      TumblrShareForm(
-        v-if="showTumblrShare"
-        :parent='post'
-        @created-post='onTumblrShareCreated'
-        @close='showTumblrShare = false'
-      )
       PostImage(
-        v-if="showImage || showTumblrShare || showCrossPost"
+        v-if="showImage || showCrossPost"
         :post='post'
         @close='showImage = false'
       )
@@ -211,6 +201,7 @@ import BanButton from '~/components/BanButton';
 import CommentEntry from '~/components/CommentEntry';
 import CommentForm from '~/components/CommentForm';
 import CrossPostButton from '~/components/CrossPostButton';
+import CrossPostTabs from '~/components/CrossPostTabs';
 import DeleteButton from '~/components/DeleteButton';
 import DownVote from '~/components/DownVote';
 import FlairBadge from '~/components/FlairBadge';
@@ -232,8 +223,6 @@ import SpamButton from '~/components/SpamButton';
 import SpoilerButton from '~/components/SpoilerButton';
 import SubredditLink from '~/components/SubredditLink';
 import TimeAgo from '~/components/TimeAgo';
-import TumblrShareButton from '~/components/TumblrShareButton';
-import TumblrShareForm from '~/components/TumblrShareForm';
 import UpVote from '~/components/UpVote';
 import UserLink from '~/components/UserLink';
 import ShowReports from '~/components/ShowReports';
@@ -255,6 +244,7 @@ export default {
     CommentEntry,
     CommentForm,
     CrossPostButton,
+    CrossPostTabs,
     DeleteButton,
     DownVote,
     FlairBadge,
@@ -276,8 +266,6 @@ export default {
     SpoilerButton,
     SubredditLink,
     TimeAgo,
-    TumblrShareButton,
-    TumblrShareForm,
     UpVote,
     UserLink,
     ShowReports,
@@ -315,7 +303,6 @@ export default {
     showReports: makeComputeToggler('reports'),
     showEdit: makeComputeToggler('edit'),
     showCrossPost: makeComputeToggler('cross'),
-    showTumblrShare: makeComputeToggler('tumblr'),
     showImage: makeComputeToggler('image'),
   },
   // mounted() {
