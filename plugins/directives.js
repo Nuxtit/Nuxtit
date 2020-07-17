@@ -17,6 +17,8 @@ import bBadge from 'bootstrap-vue/es/components/badge/badge';
 import bSelect from 'bootstrap-vue/es/components/form-select/form-select';
 import bModal from 'bootstrap-vue/es/components/modal/modal';
 import bFormTextarea from 'bootstrap-vue/es/components/form-textarea/form-textarea';
+import bTab from 'bootstrap-vue/es/components/tabs/tab';
+import bTabs from 'bootstrap-vue/es/components/tabs/tabs';
 
 import CommentEntry from '~/components/CommentEntry';
 import CommentForm from '~/components/CommentForm';
@@ -69,6 +71,8 @@ Vue.component('CommentTree', CommentTree);
 Vue.component('CommentEntry', CommentEntry);
 Vue.component('MessageTree', MessageTree);
 Vue.component('MessageEntry', MessageEntry);
+Vue.component('b-tabs', bTabs);
+Vue.component('b-tab', bTab);
 
 export default async ctx => {
   //
