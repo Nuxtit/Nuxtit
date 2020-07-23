@@ -13,12 +13,38 @@
         :disabled='isEditing'
         v-model="url"
       )
+      span.btn.btn-info.btn-sm(
+        v-if='url != parent.data.url'
+        @click="url = parent.data.url"
+      )
+        i.fa.fa-fw.fa-arrows-cw
     .form-group.post-url
       label Title
       b-form-input(
         :disabled='isEditing'
         v-model="title"
       )
+      .btn-group.pull-right
+        span.btn.btn-info.btn-sm(
+          v-if='isCrossPosting && !title.includes(parent.data.subreddit)'
+          @click="title = `${title.trim()} (xpost from /r/${parent.data.subreddit})`"
+        )
+          | (xpost from /u/{{ parent.data.subreddit }})
+        span.btn.btn-info.btn-sm(
+          v-if='isCrossPosting && !title.includes(parent.data.author)'
+          @click="title = `${title.trim()} (xpost from /u/${parent.data.author})`"
+        )
+          | (xpost from /u/{{ parent.data.author }})
+        span.btn.btn-info.btn-sm(
+          v-if='title != parent.data.title'
+          @click="title = parent.data.title"
+        )
+          i.fa.fa-fw.fa-arrows-cw
+        span.btn.btn-info.btn-sm(
+          v-if='title != ""'
+          @click="title = ''"
+        )
+          i.fa.fa-fw.fa-cancel
     .form-group.post-body(v-if='kind === "self"')
       label Text
       b-form-textarea(

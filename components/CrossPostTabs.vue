@@ -1,10 +1,10 @@
 <template lang="pug">
-  b-tabs(lazy  content-class="mt-3")
+  b-tabs(lazy content-class="mt-3")
     b-tab(title="CrossPost")
       .alert.alert-secondary.small
         | Note: You can submit a new post, but currently Nuxtit does not support reddit's crosspost parent feature, so it will lack the "crossposted from X" metadata.
       PostForm(
-        :parent='post'
+        :parent='parent'
         @created-post='onCrossPostCreated'
         @close="$emit('close')"
       )
@@ -12,7 +12,7 @@
       .alert.alert-secondary.small
         nuxt-link(to="/nuxtit/settings/tumblr") tumblr settings
       TumblrShareForm(
-        :parent='post'
+        :parent='parent'
         @created-post='onTumblrShareCreated'
         @close="$emit('close')"
       )
@@ -34,11 +34,6 @@ export default {
   props: {
     // only needed for crosspost
     parent: {
-      type: Object,
-      default: null,
-    },
-    // only needed for edit
-    post: {
       type: Object,
       default: null,
     },
