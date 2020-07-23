@@ -17,6 +17,8 @@
     span(v-else-if="imgurAlbumId && albumData === false && post.data.media_embed && post.data.media_embed.content")
       tt imgurAlbumId && post.data.media_embed.content
       div(v-html='post.data.media_embed.content')
+    span(v-else-if="redditGallery")
+      RedditGallery(:album="redditGallery")
     b-img(
       v-else-if="imageSrc"
       :src="imageSrc"
@@ -36,8 +38,10 @@
 
 <script>
 import includes from 'lodash/includes';
+import map from 'lodash/map';
 import Loading from '~/components/Loading';
 import ImgurAlbum from '~/components/ImgurAlbum';
+import RedditGallery from '~/components/RedditGallery';
 import fetchImgurAlbum from '~/lib/imgur/fetchImgurAlbum';
 import getPostImageSrc from '~/lib/getPostImageSrc';
 import getImgurAlbumId from '~/lib/imgur/getImgurAlbumId';
@@ -49,6 +53,7 @@ export default {
   components: {
     bImg,
     ImgurAlbum,
+    RedditGallery,
   },
   props: {
     post: {
@@ -86,6 +91,29 @@ export default {
     isRedditVideo() {
       return (
         this.post.data.secure_media && this.post.data.secure_media.reddit_video
+      );
+    },
+    redditGallery() {
+      const get_gallery = post => {
+        const media_metadata =
+          (post.data && post.data.media_metadata) || post.media_metadata;
+        if (!media_metadata && typeof media_metadata === 'object') return null;
+
+        for (let key in media_metadata) {
+          const e = media_metadata[key];
+          if (media_metadata[key] && media_metadata[key].status) {
+            return {
+              images: Object.values(media_metadata),
+            };
+          }
+          break;
+        }
+        return null;
+      };
+      return (
+        get_gallery(this.post) ||
+        map(this.post.data.crosspost_parent_list, get_gallery)[0] ||
+        null
       );
     },
     isOembed() {
