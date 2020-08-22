@@ -240,7 +240,8 @@ export default {
       }
     },
     async ban(payload) {
-      const { isRedusaBanned, from_subreddit } = this.item;
+      const { from_subreddit } = this;
+      const { isRedusaBanned } = this.item;
       const { author } = this.item.data;
       const minWait = startMinWait();
 
