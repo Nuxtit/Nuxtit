@@ -66,6 +66,12 @@
         | &#32;
         | Community Details
       b-nav-item(
+        :to='`/r/${$route.params.subreddit}/wiki`'
+      )
+        i.fa.fa-fw.fa-btn.fa-book
+        | &#32;
+        | Wiki
+      b-nav-item(
         :to='`/r/${$route.params.subreddit}/submit`'
       )
         i.fa.fa-fw.fa-btn.fa-edit
@@ -135,7 +141,7 @@
       b-nav-item(
         v-if="subreddit.data.user_is_moderator"
         rel="nofollow" target="_blank"
-        :href='`https://old.reddit.com/r/${$route.params.subreddit}/wiki/edit/config/automoderator`'
+        :to='`/r/${$route.params.subreddit}/wiki/config/automoderator`'
       )
         i.fa.fa-fw.fa-btn.fa-external-link
         | &#32;
