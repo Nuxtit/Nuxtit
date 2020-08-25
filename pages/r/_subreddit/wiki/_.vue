@@ -42,9 +42,6 @@ export default {
       page,
     };
   },
-  mounted() {
-    this.toggleEditing();
-  },
   methods: {
     toggleEditing() {
       if (this.form) {
@@ -58,6 +55,7 @@ export default {
     },
     async save() {
       if (!this.form) return;
+      const { subreddit } = this.$route.params;
       try {
         this.saving = true;
         await this.$reddit.post(`/r/${subreddit}/api/wiki/edit`, {
