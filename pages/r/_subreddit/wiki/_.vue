@@ -8,12 +8,12 @@
       br
       b-form-input(v-model="form.reason" placeholder="edit reason")
       br
-      button.btn.btn-success(@click.prevent.default="save" v-disabled="page.content_md === form.content_md")
+      button.btn.btn-success(@click.prevent.stop="save" v-disabled="page.content_md === form.content_md")
         i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='saving')
         i.fa.fa-fw.fa-btn.fa-floppy(v-else)
         template(v-if='saving') Saving
         template(v-else) Save
-      button.btn.btn-danger(@click.prevent.default="toggleEditing") cancel
+      button.btn.btn-danger(@click.prevent.stop="toggleEditing") cancel
     ItemHtml(v-else :value="page.content_html")
 </template>
 
