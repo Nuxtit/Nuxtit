@@ -14,14 +14,13 @@
         i.fa.fa-fw.fa-arrows-cw
         | All
     br
-    table.table
+    table.table.table-sm
       thead
         tr
           th
           th
           th username
-          th inbox_count
-          th karma
+          th
           th
           th
       tbody
@@ -32,25 +31,34 @@
         )
           td
             template(v-if="isCurrentUser(username)")
-              i.fa.fa-fw.fa-star
-              i.fa.fa-fw.fa-logout(@click.prevent.stop="setCurrent(null)")
+              button.btn.btn-default.btn-sm.disabled
+                i.fa.fa-fw.fa-star
             template(v-else)
-              i.fa.fa-fw.fa-login(@click.prevent.stop="setCurrent(username)")
-              i.fa.fa-fw.fa-cancel(@click.prevent.stop="logout(username)")
+              button.btn.btn-default.btn-sm(@click.prevent.stop="logout(username)")
+                i.fa.fa-fw.fa-cancel
           td: img(:src="md.icon_img" width="64" height="64")
           td
             nuxt-link(:to="`/user/${username}`") {{ username }}
             br
             small verified: {{ md.verified }}
           td.text-right
-            | {{ md.inbox_count }}
-            template(v-if="md.has_mod_mail")
-              br
-              small has_mod_mail: {{ md.has_mod_mail }}
-          td.text-right: small
-            | Link: {{ md.link_karma }}
-            br
-            | Comment: {{ md.comment_karma }}
+            table.table.table-sm.small: tbody
+              tr
+                th Link Karma
+                td {{ md.link_karma }}
+              tr
+                th Comment Karma
+                td {{ md.comment_karma }}
+              tr
+                th
+                  i.fa.fa-btn.fa-mail
+                  | inbox_count
+                td {{ md.inbox_count }}
+              tr(v-if="md.new_modmail_exists")
+                th
+                  i.fa.fa-btn.fa-mail
+                  nuxt-link(to="/mod/mail?state=default") new_modmail_exists
+                td {{ md.new_modmail_exists }}
           td
             small fetchedAt:&#32;
             TimeAgo(:value="md.fetchedAt")
@@ -63,6 +71,11 @@
               @click.prevent.stop="refetchMe(username)"
             )
               i.fa.fa-fw.fa-arrows-cw
+            template(v-if="!isCurrentUser(username)")
+              br
+              br
+              button.btn.btn-primary.btn-sm(@click.prevent.stop="setCurrent(username)")
+                i.fa.fa-fw.fa-login
 </template>
 
 <script>
