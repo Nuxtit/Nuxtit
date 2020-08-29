@@ -70,7 +70,7 @@
             v-model="ban_message"
           )
         tt: pre(
-          v-text="'/r/'+from_subreddit+' '+JSON.stringify(jsonPayload, null, 2)"
+          v-text="'/r/'+from_subreddit+'/api/friend '+JSON.stringify(jsonPayload, null, 2)"
         )
         .alert.alert-success(
           v-if="success"

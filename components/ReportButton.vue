@@ -6,89 +6,67 @@
   )
     i.fa.fa-fw.fa-btn.fa-megaphone
     | &#32;report
-    b-modal(
-      v-model="showingReportModal"
-      title="Report Content"
-      size="md"
-      no-close-on-backdrop
-      scrollable
-      lazy
-      @click.stop.prevent
-      @hidden="resetReportState"
+    div(
+      v-if="showingReportForm"
     )
-      .form-group(@click.stop v-if="reportState.step===0")
-        label Reporting Category?
+      h2 Report Content
+      .form-group.sub-rules(@click.stop)
         b-form-radio-group(
-          v-model="reportState.step0"
+          v-if="rulestable"
+          v-model="selectedReason"
         )
+          label Site Rules
           b-form-radio.w-100(
-            :value="-1"
-          ) It breaks r/{{ item.data.subreddit }}'s rules
-          //- b-form-radio.w-100(
-          //-   v-for="(rule, index) in reportState.site_rules"
-          //-   :value="index"
-          //-   :key="`${index}-${rule}`"
-          //- ) {{ rule }}
-      .form-group.sub-rules(@click.stop v-if="reportState.step===1 && reportState.step0 === -1")
-        label r/{{ item.data.subreddit }} Rules
-        p.text-muted(v-if="!(reportState.rules.length > 0)")
-          em r/{{ item.data.subreddit }} has not configured any rule metadata.
-        b-form-radio-group(
-          v-model="reportState.step1"
-        )
-          b-form-radio.w-100(
-            v-if="reportState.rules.length > 0"
-            v-for="(rule, index) in reportState.rules"
-            :value="index.short_name"
-            :key="`${index}-${rule.violation_reason}`"
+            v-for="(rule, index) in rulestable.filter(r => r.kind === 'Site')"
+            :value="rule"
+            :key="`${rule.kind}-${rule.short_name}`"
+            :title="JSON.stringify(rule, null, 2)"
           ) {{ rule.violation_reason }}
+          label r/{{ item.data.subreddit }} Rules
+          b-form-radio.w-100(
+            v-for="(rule, index) in rulestable.filter(r => r.kind !== 'Site')"
+            :value="rule"
+            :key="`${rule.kind}-${rule.short_name}`"
+            :title="JSON.stringify(rule, null, 2)"
+          )
+            | {{ rule.violation_reason || rule.short_reason }}
+            small.text-muted(v-if="rule.description") &nbsp;- {{ rule.description }}
           b-form-radio.w-100(
             value="other"
           ) Other:
           b-form-input(
-            v-model="reportState.other_reason",
-            v-disabled="reportState.step1 !== 'other'"
+            v-model="other_reason",
+            v-disabled="selectedReason !== 'other'"
             placeholder="max 100 characters"
           )
           p(
-            v-show="reportState.other_reason"
-            :class="(reportState.other_reason||'').length > 100 ? 'text-danger' : ''"
-          ) {{ (reportState.other_reason||'').length }}/100
-      //- .form-group( @todo finish implementing nested site rules
-      //-   @click.stop
-      //-   v-if="reportState.step===1 && reportState.step0 >= 0 && reportState.site_rules_flow[reportState.step0] && reportState.site_rules_flow[reportState.step0].nextStepHeader"
-      //- )
-      //-   label Group Radios nextStepHeader
-      //-   b-form-radio-group(
-      //-     v-model="reportState.step0"
-      //-   )
-      //-     b-form-radio.w-100(
-      //-       v-for="(rule, index) in reportState.rules"
-      //-       :value="index.short_name"
-      //-     ) {{ rule.violation_reason }}
-      //-     b-form-radio.w-100(
-      //-       value="other"
-      //-     ) Other (@todo form)
+            v-if="selectedReason !== 'other' && other_reason"
+            v-show="other_reason.length > 50"
+            :class="(other_reason||'').length > 100 ? 'text-danger' : ''"
+          ) {{ (other_reason||'').length }}/100
+      tt: pre(
+        v-text="'/api/report '+JSON.stringify(jsonPayload, null, 2)"
+      )
       .alert.alert-success(
-        v-if="reportState.completeMsg"
-        v-text="reportState.completeMsg"
+        v-if="completeMsg"
+        v-text="completeMsg"
       )
       .alert.alert-danger(
-        v-if="reportState.completeErr"
+        v-if="completeErr"
       )
         tt: pre(
-          v-text="reportState.completeErr"
+          v-text="completeErr"
         )
       .w-100(slot="modal-footer" @click.stop)
         .btn-group.float-right
           b-button(
-            v-if="!reportState.completeMsg"
+            v-if="!completeMsg"
             size="sm"
             variant="primary"
             @click="showingReportModal=false"
           ) CANCEL
           b-button(
-            v-if="reportState.completeMsg"
+            v-if="completeMsg"
             size="sm"
             variant="primary"
             @click="showingReportModal=false"
@@ -100,13 +78,6 @@
             variant="primary"
             @click="reportModalSubmit"
           ) SUBMIT
-          b-button(
-            v-if="showReportModalNext"
-            v-disabled="disableReportModalNext"
-            size="sm"
-            variant="primary"
-            @click="reportModalNext"
-          ) NEXT
         .report-form-content-policy
            p(@click.stop)
              | Read the <a target="_blank" href="https://www.reddit.com/help/contentpolicy">Reddit Content Policy</a>
@@ -116,6 +87,7 @@
 <script>
 import get from 'lodash/get';
 import { startMinWait } from '~/lib/sleep';
+import { site_rules } from '~/lib/rules';
 
 function init_report_state() {
   return {
@@ -138,13 +110,17 @@ export default {
       required: true,
     },
   },
+  site_rules,
   data() {
     return {
+      showingReportForm: false,
       busy: false,
       error: null,
-      showingReportModal: false,
-      reportState: init_report_state(),
-      additional_info: '',
+      rulestable: null,
+      selectedReason: null,
+      other_reason: null,
+      completeErr: null,
+      completeMsg: null,
     };
   },
   computed: {
@@ -154,118 +130,91 @@ export default {
       };
     },
     showReportModalSubmit() {
-      const { step, step0, site_rules_flow, completeMsg } = this.reportState;
-      if (completeMsg) return false;
-      if (step === 0) {
-        if (step0 >= 0 && site_rules_flow[step0]) {
-          return true;
-          // @todo finish implementing nested site-rules
-          // return !site_rules_flow[step0].nextStepHeader;
-        }
-        return false;
-      }
+      if (this.completeMsg) return false;
       return true;
     },
     showReportModalNext() {
-      const { step, step0, completeMsg } = this.reportState;
-      if (completeMsg) return false;
+      if (this.completeMsg) return false;
       if (this.showReportModalSubmit) return false;
       return true;
     },
     disableReportModalSubmit() {
-      const { step, step0 } = this.reportState;
-      if (step === 0 && step0 === null) return true;
       return false;
     },
-    disableReportModalNext() {
-      if (this.showReportModalSubmit) return true;
-      const { step, step0 } = this.reportState;
-      if (step === 0 && step0 === null) return true;
-      return false;
+    jsonPayload() {
+      const { name } = this.item.data;
+      if (this.selectedReason === 'other') {
+        return {
+          api_type: 'json',
+          thing_id: name,
+          other_reason: this.other_reason,
+        };
+      } else if (this.selectedReason) {
+        return {
+          api_type: 'json',
+          thing_id: name,
+          reason: this.selectedReason.violation_reason, // sub reason
+          site_reason:
+            this.selectedReason.kind === 'Site'
+              ? this.selectedReason.short_name
+              : void 0,
+        };
+      } else {
+        return {};
+      }
     },
   },
   methods: {
     async reportModalSubmit() {
-      const { reportState } = this;
+      this.completeErr = null;
+      this.completeMsg = null;
+
       const { name } = this.item.data;
-
-      const reason = (() => {
-        const { step, step0, step1, rules, site_rules_flow } = reportState;
-        // subreddit rules
-        if (step0 === -1) {
-          if (step1 === 'other') {
-            return 'other';
-          }
-          if (rules[step1] && rules[step1].violation_reason) {
-            return rules[step1].violation_reason;
-          }
-        }
-        // site rules
-        // @todo finish implementing nested subrules
-        if (step0 >= 0) {
-          if (site_rules_flow[step0] && site_rules_flow[step0].reasonText) {
-            return site_rules_flow[step0].reasonText;
-          }
-        }
-        return void 0;
-      })();
-      const site_reason = (() => {
-        const { step, step0, step1, rules, site_rules_flow } = reportState;
-        // site rules
-        // @todo finish implementing nested subrules
-        if (step0 >= 0) {
-          if (site_rules_flow[step0] && site_rules_flow[step0].reasonText) {
-            return site_rules_flow[step0].reasonText;
-          }
-        }
-        return void 0;
-      })();
-      const rule_reason = (() => {
-        const { step, step0, step1, rules, site_rules_flow } = reportState;
-        // subreddit rules
-        if (step0 === -1) {
-          if (step1 === 'other') {
-            return 'other';
-          }
-          if (rules[step1] && rules[step1].violation_reason) {
-            return rules[step1].violation_reason;
-          }
-        }
-        return void 0;
-      })();
-
-      const response = await this.$reddit.post('/api/report', {
-        api_type: 'json',
-        thing_id: name,
-        // modmail_conv_id: base36 modmail conversation id
-        other_reason: reportState.step1 ? reportState.other_reason : void 0,
-        reason: reason, // sub reason
-        // rule_reason: rule_reason || void 0,
-        site_reason: site_reason || void 0,
-      });
+      const response = await this.$reddit.post('/api/report', this.jsonPayload);
       if (get(response.data, 'json.errors.length')) {
-        this.reportState.completeErr = response.data.json.errors;
+        this.completeErr = response.data.json.errors;
       } else {
-        this.reportState.completeMsg = 'Thank you for your report!';
+        this.completeMsg = 'Thank you for your report!';
       }
       this.item.reported = true;
     },
     async prompt($event) {
-      if (this.showingReportModal) return;
+      if (this.showingReportForm) return;
       const { item } = this;
       const { subreddit, name } = this.item.data;
       const responses = {};
+
+      const options = {};
+      const rulestable = [];
+      let charindex = 0;
+      let selectedReason = null;
+      this.$options.site_rules.forEach(site_rule => {
+        const ruleReason = {
+          kind: 'Site',
+          violation_reason: site_rule,
+          short_name: site_rule,
+          //description: null,
+        };
+        rulestable.push(ruleReason);
+      });
 
       const srRulesResponse = await this.$reddit.get(
         `/r/${subreddit}/about/rules`,
       );
 
       const { rules, site_rules, site_rules_flow } = srRulesResponse.data;
-      Object.assign(this.reportState, { rules, site_rules, site_rules_flow });
-      // this.reportState.rules = rules;
-      // console.log({ rules, site_rules, site_rules_flow });
 
-      this.showingReportModal = true;
+      this.rulestable = [...rulestable];
+      /*ruleGroups.*/ rules.forEach(sub_rule => {
+        const ruleReason = {
+          ...sub_rule,
+        };
+        rulestable.push(ruleReason);
+      });
+      console.log({ rulestable });
+      this.rulestable = rulestable;
+
+      this.showingReportForm = true;
     },
     resetReportState() {
       this.reportState = init_report_state();
