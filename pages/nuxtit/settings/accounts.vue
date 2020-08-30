@@ -53,10 +53,12 @@
                 th
                   i.fa.fa-btn.fa-mail
                   | inbox_count
-                td {{ md.inbox_count }}
+                td(v-if="md.inbox_count > 0")
+                  nuxt-link(to="/message/inbox" @click="setCurrent(username); return true;") {{ md.inbox_count }}
+                td(v-else) 0
               tr(v-if="md.new_modmail_exists")
                 th
-                  i.fa.fa-btn.fa-mail
+                  i.fa.fa-btn.fa-shield
                   nuxt-link(to="/mod/mail?state=default") new_modmail_exists
                 td {{ md.new_modmail_exists }}
           td

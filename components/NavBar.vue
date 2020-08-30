@@ -65,7 +65,7 @@ b-navbar(toggleable='md', type='dark')
         | {{ inbox_count }}
       i.fa.fa-btn.fa-mail(v-else)
 
-    b-nav-item(right href='https://mod.reddit.com/' title="Mail" v-if="MeData.has_mod_mail")
+    b-nav-item(right to='/mod/mail?state=default' title="Mail" v-if="MeData.new_modmail_exists")
       b-badge.text-secondary(
         variant='success'
       )
