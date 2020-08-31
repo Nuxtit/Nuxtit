@@ -20,14 +20,20 @@
     p: small.text-monospace.text-muted(v-text="getIs(conversation)")
     | participant:&#32;
     template(v-if="conversation.participant")
-      UserLink(:username="conversation.participant.name" :class="userClasses(conversation.participant)")
+      UserLink(
+        v-if="conversation.participant.name"
+        :username="conversation.participant.name"
+        :class="userClasses(conversation.participant)"
+      )
+      tt(v-else) @todo unhandled participant scenario
       small.text-monospace.text-muted(v-text="getTrueIs(conversation.participant)")
     br
     | authors:&#32;
-    template(v-for="author in conversation.authors")
-      UserLink(:username="author.name" :class="userClasses(author)" :key="author.name")
-      small.text-monospace.text-muted(:key="author.name+'_is'" v-text="getTrueIs(author)")
+    template(v-for="(author, index) in conversation.authors")
+      UserLink(:username="author.name" :class="userClasses(author)" :key="author.name+index")
+      small.text-monospace.text-muted(:key="author.name+'_is'+index" v-text="getTrueIs(author)")
     blockquote.text-muted @todo show most recent message
+    blockquote.text-muted {{ {messages: Object.keys(messages).length} }}
 </template>
 
 <script>
@@ -48,6 +54,12 @@ export default {
     conversation: {
       type: Object,
       required: true,
+    },
+    messages: {
+      type: Object,
+      default() {
+        return {};
+      },
     },
   },
   computed: {},

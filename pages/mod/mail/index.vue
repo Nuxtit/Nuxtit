@@ -5,6 +5,7 @@
     Conversation(
       v-for="conversation in conversations"
       :conversation="conversation"
+      :messages="messagesFor(conversation)"
       :key="conversation.id")
 </template>
 
@@ -36,7 +37,19 @@ export default {
   },
   // computed: {
   // },
-  // methods: {
-  // },
+  methods: {
+    messagesFor(conversation) {
+      const message_id_list = conversation.objIds
+        .filter(o => o.key === 'messages')
+        .map(o => o.id);
+      const result = {};
+      for (const id in this.messages) {
+        if (message_id_list.includes(id)) {
+          result[id] = this.messages[id];
+        }
+      }
+      return result;
+    },
+  },
 };
 </script>
