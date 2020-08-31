@@ -50,12 +50,14 @@
                 th Comment Karma
                 td {{ md.comment_karma }}
               tr
-                th
+                th(v-if="md.inbox_count > 0")
+                  nuxt-link(to="/message/inbox")
+                    i.fa.fa-btn.fa-mail
+                    | inbox_count
+                th(v-else)
                   i.fa.fa-btn.fa-mail
                   | inbox_count
-                td(v-if="md.inbox_count > 0")
-                  nuxt-link(to="/message/inbox" @click="setCurrent(username); return true;") {{ md.inbox_count }}
-                td(v-else) 0
+                td {{ md.inbox_count }}
               tr(v-if="md.new_modmail_exists")
                 th
                   i.fa.fa-btn.fa-shield
