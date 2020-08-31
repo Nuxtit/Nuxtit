@@ -33,6 +33,7 @@
           b-badge(v-if='post.data.author_patreon_flair') [patreon]&#32;
           b-badge(v-if='post.data.author_cakeday') [cakeday]&#32;
           b-badge(v-if='post.data.send_replies===false') [send_replies:0]&#32;
+          b-badge(v-if='post.data.poll_data') [poll]&#32;
           ApprovedBadge(:item="post")
           | &#32;
           RemovedBadge(:item="post")
@@ -147,7 +148,7 @@
             | &#32;see source
   .row(v-if='post.data.crosspost_parent_list && post.data.crosspost_parent_list.length > 0 && showCrossPost')
     .col
-      div crosspost history: 
+      div crosspost history:
       table.table.table-sm
         thead
           th score

@@ -34,7 +34,7 @@
               button.btn.btn-default.btn-sm.disabled
                 i.fa.fa-fw.fa-star
             template(v-else)
-              button.btn.btn-default.btn-sm(@click.prevent.stop="logout(username)")
+              button.btn.btn-secondary.btn-sm.text-danger(@click.prevent.stop="logout(username)")
                 i.fa.fa-fw.fa-cancel
           td: img(:src="md.icon_img" width="64" height="64")
           td

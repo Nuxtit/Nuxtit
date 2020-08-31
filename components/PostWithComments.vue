@@ -4,6 +4,10 @@
     .post-body.container(v-if='post.data.is_self')
       .card.card-block.bg-faded
         ItemHtml(:item='post')
+    PostPoll(
+      v-if="post.data.poll_data"
+      :post='post'
+    )
     p.alert.alert-danger(v-if='subreddit.data.user_is_banned')
       | You are banned from this subreddit.
     p.alert.alert-danger(v-if='post.data.locked')
@@ -34,6 +38,7 @@ import CommentCollection from '~/mixins/CommentCollection';
 import CommentTree from '~/components/CommentTree.vue';
 import ItemHtml from '~/components/ItemHtml';
 import PostEntry from '~/components/PostEntry.vue';
+import PostPoll from '~/components/PostPoll';
 
 export default {
   name: 'PostWithComments',
@@ -41,6 +46,7 @@ export default {
     CommentTree,
     ItemHtml,
     PostEntry,
+    PostPoll,
   },
   mixins: [CommentCollection],
   props: {
