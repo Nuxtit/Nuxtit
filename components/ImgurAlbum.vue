@@ -8,7 +8,7 @@
       source(:src='image.hls' type='application/x-mpegURL')
     img.img-fluid(v-else-if='image' :src='image.link' alt='image.title')
     p(image.title v-text='image.title')
-    div(v-if='length > 1' style='position: sticky; bottom: 10px;')
+    .position-sticky(v-if='length > 1' style='bottom: 10px;')
       button.btn.btn-secondary(
         v-disabled='index === 0'
         @click.prevent.stop="first"

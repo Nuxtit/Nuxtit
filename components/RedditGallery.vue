@@ -13,7 +13,7 @@
     p.small(v-if="image && image.s && image.s.u")
       a(:href="image.s.u" target="_blank")
         | fullsize {{ image.s.x }}&times{{ image.s.y }}
-    div(v-if='length > 1' style='position: sticky; bottom: 10px;')
+    .position-sticky(v-if='length > 1' style='bottom: 10px;')
       button.btn.btn-secondary(
         v-disabled='index === 0'
         @click.prevent.stop="first"

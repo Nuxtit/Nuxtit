@@ -1,7 +1,7 @@
 <template lang="pug">
 .comment-entry
   .card(:class='{"border-info": (comment.data.id && comment.data.id === $route.params.comment_id)}')
-    .card-header.text-muted
+    .card-header.text-muted.position-sticky(style='top: 0; z-index: 1;')
       b-badge(v-if='comment.data.stickied')
         | [stickied]
       | &#32;
@@ -45,6 +45,7 @@
           :class='collapsed ? "fa-plus" : "fa-minus"'
           @click.prevent.stop='toggleCollapsed'
         )
+        | &nbsp;
     .card-body(v-if="!collapsed")
       ItemHtml(:item='comment')
       .options-icons.pull-right

@@ -6,7 +6,7 @@
       :alt='image.caption'
     )
     p(v-if='image.caption' v-text='image.caption')
-    div(v-if='length > 1' style='position: sticky; bottom: 10px;')
+    .position-sticky(v-if='length > 1' style='bottom: 10px;')
       button.btn.btn-secondary(
         v-disabled='index === 0'
         @click.prevent.stop="first"

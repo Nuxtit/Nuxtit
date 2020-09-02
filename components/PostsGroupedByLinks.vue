@@ -1,13 +1,12 @@
 <template lang="pug">
   .posts-grouped-by-links-list
-    .card(v-for='link in links')
-      .card-header
+    .card(v-for='link in links' style="max-height: 512px;")
+      .card-header.position-sticky(style="top: 0; z-index: 1;")
         .pull-right
           i.fa.fa-fw.fa-btn.btn-collapse(
             :class='collapsedLinks[link.display_url] ? "fa-plus" : "fa-minus"'
             @click.prevent.stop='toggleLinkCollapse(link)'
           )
-
         b-badge(
           variant='dark'
           v-text='link.posts ? link.posts.length : "NA"'
@@ -60,7 +59,7 @@ export default {
   },
   computed: {
     links() {
-      let items = get(this, 'items.data.children') || [];
+      let items = get(this.items, 'data.children') || [];
       // items = items.filter(notHidden);
       items = items.filter(notAuthorDeleted);
       return items.reduce((carry, post) => {

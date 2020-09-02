@@ -103,6 +103,12 @@
         i.fa.fa-fw.fa-btn.fa-list
         | &#32;
         | Pushshift
+      b-nav-item(
+        :to='`/user/${$route.params.username}/unique`'
+      )
+        i.fa.fa-fw.fa-btn.fa-list
+        | &#32;
+        | Unique
     nuxt-child(:user='user')
 </template>
 
