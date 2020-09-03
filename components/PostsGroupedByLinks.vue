@@ -1,6 +1,6 @@
 <template lang="pug">
   .posts-grouped-by-links-list
-    .card(v-for='link in links' style="max-height: 512px;")
+    .card(v-for='link in links')
       .card-header.position-sticky(style="top: 0; z-index: 1;")
         .pull-right
           i.fa.fa-fw.fa-btn.btn-collapse(
