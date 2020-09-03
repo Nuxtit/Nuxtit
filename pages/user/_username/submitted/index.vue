@@ -18,7 +18,6 @@ import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
 export default {
   middleware: ['auth'],
-  defaultSort: 'new',
   components: {
     PostList,
     RedditPagination,
@@ -30,8 +29,8 @@ export default {
       },
       query({ route }) {
         return {
+          sort: 'new',
           ...route.query,
-          sort: route.params.sort || 'new',
         };
       },
     }),
