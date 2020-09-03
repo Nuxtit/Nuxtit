@@ -16,7 +16,6 @@
 import PostList from '~/components/PostList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
-import ValidatePostSort from '~/mixins/ValidatePostSort';
 export default {
   middleware: ['auth'],
   defaultSort: 'new',
@@ -36,7 +35,6 @@ export default {
         };
       },
     }),
-    ValidatePostSort,
   ],
 };
 </script>
