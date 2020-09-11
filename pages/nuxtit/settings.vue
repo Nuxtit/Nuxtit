@@ -18,6 +18,9 @@
       b-nav-item(
         to='/nuxtit/settings/tumblr'
       ) tumblr
+      b-nav-item(
+        to='/nuxtit/settings/pipes'
+      ) pipes
     hr
     nuxt-child
 </template>

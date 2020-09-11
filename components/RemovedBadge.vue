@@ -6,12 +6,12 @@
     | removed
     template(v-if="item.data.removal_reason") : {{item.data.removal_reason}}
     | &#32;
-    template(v-if="item.data.banned_by")
+    template(v-if="item.data.banned_by && item.data.banned_by !== true")
       | [by
       | &#32;
       UserLink.text-white(:username='item.data.banned_by')
       | ]
-    template(v-if="item.data.mod_reason_by")
+    template(v-if="item.data.mod_reason_by && item.data.mod_reason_by !== true")
       | by
       | &#32;
       UserLink.text-white(:username='item.data.mod_reason_by')
