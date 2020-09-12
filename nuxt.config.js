@@ -150,7 +150,7 @@ module.exports = {
     // if there is not a secret key, we need the correct OAuth stuff
     // redditClientSecret: process.env.REDDIT_CLIENT_SECRET,
     redditRedirectUri: process.env.REDDIT_REDIRECT_URI ||
-      'http://127.0.0.1:10080/auth/reddit/callback',
+      'http://localhost:10080/auth/reddit/callback',
   },
 
   sentry: {

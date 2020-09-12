@@ -1,22 +1,40 @@
 <template lang="pug">
   div
     FeathersPagination(:collection="collection")
-    table.table.table-sm
-      tbody
-        tr(v-for="item in collection.data" :key="item.id")
-          td
-            MixedItem(:item="item.rItem")
-          td.small
-            | {{ item.pipe }}
-            br
-            template(v-if="item.removed") removed
-            button.btn.btn-sm(
-              v-else
-              @click.stop.prevent="remove(item)"
-              v-disabled="deleting[item.id]"
-            )
-              i.fa.fa-fw.fa-btn.fa-spin.fa-spinner(v-if="deleting[item.id]")
-              i.fa.fa-fw.fa-btn.fa-trash(v-else)
+    table.table: tbody: tr(v-for="item in collection.data" :key="item.id"): td
+      .row(v-if="linksMap[item.id]")
+        .col
+          PostEntry(:post="linksMap[item.id]")
+      .row(v-if="linksMap[item.id]")
+        .col(style="max-width: 50px")
+        .col
+          MixedItem(:item="item.rItem")
+        .col(style="max-width: 50px")
+          | {{ item.pipe }}
+          br
+          template(v-if="item.removed") removed
+          button.btn.btn-sm(
+            v-else
+            @click.stop.prevent="remove(item)"
+            v-disabled="deleting[item.id]"
+          )
+            i.fa.fa-fw.fa-btn.fa-spin.fa-spinner(v-if="deleting[item.id]")
+            i.fa.fa-fw.fa-btn.fa-trash(v-else)
+      .row(v-else :key="item.id")
+        .col
+          MixedItem(:item="item.rItem")
+        .col(style="max-width: 50px")
+          | {{ item.pipe }}
+          br
+          template(v-if="item.removed") removed
+          button.btn.btn-sm(
+            v-else
+            @click.stop.prevent="remove(item)"
+            v-disabled="deleting[item.id]"
+          )
+            i.fa.fa-fw.fa-btn.fa-spin.fa-spinner(v-if="deleting[item.id]")
+            i.fa.fa-fw.fa-btn.fa-trash(v-else)
+      br
     FeathersPagination(:collection="collection" v-if="collection.data.length > 2")
 </template>
 
@@ -29,6 +47,8 @@ import map from 'lodash/map';
 import uniq from 'lodash/uniq';
 import FeathersPagination from '~/components/FeathersPagination';
 import MixedItem from '~/components/MixedItem';
+import PostEntry from '~/components/PostEntry';
+import { Kind } from '~/lib/enum';
 
 export default {
   middleware: ['auth'],
@@ -36,6 +56,7 @@ export default {
   components: {
     FeathersPagination,
     MixedItem,
+    PostEntry,
   },
   // mixins: [busyUntil],
   props: {
@@ -72,6 +93,7 @@ export default {
     await appendRedditItems(reddit, collection.data);
     return {
       collection,
+      linksMap: await linksForCollection(reddit, collection.data),
     };
   },
   methods: {
@@ -119,4 +141,61 @@ async function appendRedditItems(reddit, input) {
   });
 }
 
+async function linksForCollection(reddit, input) {
+  /* eslint-disable */
+
+  const links = map(input, 'rItem').filter(item => {
+    return item && item.kind === Kind.Post
+  });
+  const comments = map(input, 'rItem').filter(item => {
+    return item && item.kind === Kind.Comment
+  });
+  const link_id_list = map(links, 'data.name');
+  const commentlink_id_list = map(comments, 'data.link_id');
+  // console.log({link_id_list})
+  // console.log({commentlink_id_list})
+  // console.log({fetchableCommentLinkIdList: commentlink_id_list.filter(link_id => {
+  //     return link_id && !link_id_list.includes(link_id);
+  //   })})
+
+  // this api call only acepts 100;
+  const chunks = chunk(uniq([
+    // get fullnames whether these are posts or comments
+    ...commentlink_id_list.filter(link_id => {
+      return link_id && !link_id_list.includes(link_id);
+    }),
+    // get links, if these are comments
+    // ...input.map(item => item.link_id).filter(Boolean),
+  ]), 100);
+  let responses = [];
+  for (let i = 0; i < chunks.length; i++) {
+    responses.push(await reddit.get('/api/info', {
+      params: {
+        id:  chunks[i].join(','),
+        // url
+      },
+    }))
+  }
+  const redditChildren = flatten(
+    responses.map(response => get(response, 'data.data.children')),
+  );
+  // console.log({ redditChildren });
+  redditChildren.forEach((item) => {
+    links.push(item);
+  });
+  // console.log({links});
+  const linksMap = input.reduce((carry, item) => {
+    if (item && item.rItem && item.rItem.kind === Kind.Comment) {
+      const link_id = item.rItem.data.link_id;
+      console.log(link_id);
+      const link = link_id ? find(links, l => l.data.name === link_id) : null;
+      if (link) {
+        carry[item.id] = link;
+      }
+    }
+    return carry;
+  }, {});
+  console.log({linksMap});
+  return linksMap;
+}
 </script>
