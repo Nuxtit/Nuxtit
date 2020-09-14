@@ -14,10 +14,15 @@
         v-model="url"
       )
       span.btn.btn-info.btn-sm(
-        v-if='url != parent.data.url'
+        v-if='parent && url != parent.data.url'
         @click="url = parent.data.url"
       )
         i.fa.fa-fw.fa-arrows-cw
+      span.btn.btn-info.btn-sm(
+        v-if='url'
+        @click="url = ''"
+      )
+        i.fa.fa-fw.fa-cancel
     .form-group.post-url
       label Title
       b-form-input(
@@ -36,7 +41,7 @@
         )
           | (xpost from /u/{{ parent.data.author }})
         span.btn.btn-info.btn-sm(
-          v-if='title != parent.data.title'
+          v-if='parent && title != parent.data.title'
           @click="title = parent.data.title"
         )
           i.fa.fa-fw.fa-arrows-cw
