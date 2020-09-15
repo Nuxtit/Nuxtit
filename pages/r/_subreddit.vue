@@ -22,6 +22,11 @@
         :item='subreddit'
       )
       | &#32;
+      a(:href="`https://old.reddit.com/r/${subreddit.data.display_name}`" target="_blank")
+        i.fa.fa-fw.fa-btn.fa-reddit
+        | &#32;
+        span.small see on reddit
+      | &#32;
       span.btn-see-source(
         @click.prevent.stop='showSource^=true'
       )

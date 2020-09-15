@@ -6,6 +6,7 @@
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-bookmark(v-else)
+    | &nbsp;
     span(v-if='busy && item.data.user_is_subscriber') unsubscribing
     span(v-else-if='busy && !item.data.user_is_subscriber') subscribing
     span(v-else-if='item.data.user_is_subscriber') subscribed

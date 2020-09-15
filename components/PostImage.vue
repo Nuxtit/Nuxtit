@@ -1,6 +1,7 @@
 <template lang="pug">
   .post-image
-    video.img-fluid(v-if="isRedditVideo" preload="auto" autoplay="false" loop="loop" controls)
+    ItemHtml(v-if="post.data.is_self" :item="post")
+    video.img-fluid(v-else-if="isRedditVideo" preload="auto" autoplay="false" loop="loop" controls)
       source(:src="post.data.secure_media.reddit_video.fallback_url" type="video/mp4")
       source(:src="post.data.secure_media.reddit_video.hls_url" type="application/x-mpegURL")
     video.img-fluid(v-else-if="isImgurVideo" preload="auto" autoplay="false" loop="loop" controls)
@@ -41,6 +42,7 @@ import includes from 'lodash/includes';
 import map from 'lodash/map';
 import Loading from '~/components/Loading';
 import ImgurAlbum from '~/components/ImgurAlbum';
+import ItemHtml from '~/components/ItemHtml';
 import RedditGallery from '~/components/RedditGallery';
 import fetchImgurAlbum from '~/lib/imgur/fetchImgurAlbum';
 import getPostImageSrc from '~/lib/getPostImageSrc';
@@ -53,6 +55,7 @@ export default {
   components: {
     bImg,
     ImgurAlbum,
+    ItemHtml,
     RedditGallery,
   },
   props: {
