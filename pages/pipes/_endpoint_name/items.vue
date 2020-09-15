@@ -1,5 +1,6 @@
 <template lang="pug">
   div
+    .pull-right {{ collection.data.length }} of {{ collection.total }}
     FeathersPagination(:collection="collection")
     table.table: tbody: tr(v-for="item in collection.data" :key="item.id"): td
       .row(v-if="linksMap[item.id]")
@@ -82,10 +83,17 @@ export default {
     const collection = await client.items.find({
       query: {
         $limit: 25,
-        $sort: {
-          saved_at: 1,
-          score: 1,
-        },
+        $sort: (() => {
+          if (route.query.pipe === 'mod') {
+            return {
+              score: 1,
+              saved_at: 1,
+            };
+          }
+          return {
+            saved_at: 1,
+          };
+        })(),
         ...route.query,
       },
     });
