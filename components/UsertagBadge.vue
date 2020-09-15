@@ -1,5 +1,5 @@
 <template lang="pug">
-  span(@click.prevent.stop="prompt" v-show='!username')
+  span(@click.prevent.stop="prompt" v-show='username')
     span(v-if='!username')
     BotBadge(v-else-if='isBot')
     b-badge(
