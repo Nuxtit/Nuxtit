@@ -1,18 +1,17 @@
 <template lang="pug">
 .history-entry
   .card
-    .card-header
-      tt {{ item.path }}<span class='text-muted'>?...</span>
+    .card-header.text-monospace {{ item.path }}<span class='text-muted'>?...</span>
     .card-body
       table: tbody: tr(
         v-for='se in item.subEntries'
         :key='se.timestamp'
       )
         td
-          nuxt-link(
+          nuxt-link.text-monospace(
             :to='se.fullPath'
           )
-            tt {{ se.fullPath }}
+            | {{ se.fullPath }}
         td
           TimeAgo(:value='se.timestamp')
     .card-footer.bg-light
@@ -21,8 +20,7 @@
       )
         i.fa.fa-fw.fa-btn.fa-code
         | &#32;see source
-    pre(v-if="showSource")
-      tt: small(v-text="item")
+    pre.small.text-monospace(v-if="showSource" v-text="item")
 </template>
 
 <script>

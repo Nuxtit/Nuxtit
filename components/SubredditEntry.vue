@@ -23,8 +23,7 @@
       i.fa.fa-fw.fa-btn.fa-code
       | &#32;see source
   .subreddit-row-source(v-if='open')
-    pre(v-if='showSource')
-      tt: small(v-text="subreddit")
+    pre.small.text-monospace(v-if='showSource' v-text="subreddit")
 </template>
 
 <script>

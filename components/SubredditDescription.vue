@@ -4,9 +4,9 @@
     hr
     h4 /r/{{subreddit.data.display_name}}
     ItemHtml(:value='subreddit.data.description_html')
-    //- pre: tt {{ {subreddit} }}
-    //- pre: tt {{ {sidebar} }}
-    //- pre: tt {{ {rules} }}
+    //- pre.text-monospace {{ {subreddit} }}
+    //- pre.text-monospace {{ {sidebar} }}
+    //- pre.text-monospace {{ {rules} }}
 </template>
 
 <script>

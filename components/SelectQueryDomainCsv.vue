@@ -31,7 +31,7 @@
             th
           tbody
             tr(v-for="qr in quickRemovesFiltered" :key="qr.name")
-              td: tt(v-text="qr.name")
+              td.text-monospace(v-text="qr.name")
               td(v-text="qr.count")
               td
                 .btn.btn-sm.btn-success(@click.prevent.stop="subsList = [...subsList, qr.name]")

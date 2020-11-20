@@ -44,7 +44,7 @@
             v-show="other_reason.length > 50"
             :class="(other_reason||'').length > 100 ? 'text-danger' : ''"
           ) {{ (other_reason||'').length }}/100
-      tt: pre(
+      pre.text-monospace(
         v-text="'/api/report '+JSON.stringify(jsonPayload, null, 2)"
       )
       .alert.alert-success(
@@ -54,7 +54,7 @@
       .alert.alert-danger(
         v-if="completeErr"
       )
-        tt: pre(
+        pre.text-monospace(
           v-text="completeErr"
         )
       .w-100(slot="modal-footer" @click.stop)

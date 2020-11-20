@@ -161,8 +161,7 @@
       @close='showCrossPost = false'
     )
     ShowReports(v-if="showReports && !collapsed" :item="comment")
-    pre(v-if="showSource && !collapsed")
-      tt: small(v-text="comment")
+    pre.small.text-monospace(v-if="showSource && !collapsed" v-text="comment")
   CommentTree(
     v-if='showReplies && !collapsed'
     :comments='comment.data.replies'

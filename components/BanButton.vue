@@ -69,7 +69,7 @@
           b-form-textarea(
             v-model="ban_message"
           )
-        tt: pre(
+        pre.text-monospace(
           v-text="'/r/'+from_subreddit+'/api/friend '+JSON.stringify(jsonPayload, null, 2)"
         )
         .alert.alert-success(
@@ -79,7 +79,7 @@
         .alert.alert-danger(
           v-if="error"
         )
-          tt: pre(
+          pre.text-monospace(
             v-text="error"
           )
         .w-100(slot="modal-footer")

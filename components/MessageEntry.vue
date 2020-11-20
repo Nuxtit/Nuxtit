@@ -117,8 +117,7 @@
     //-   @created-post='onCrossPostCreated'
     //-   @close='showCrossPost = false'
     //- )
-    pre(v-if="showSource && !collapsed")
-      tt: small(v-text="message")
+    pre.small.text-monospace(v-if="showSource && !collapsed" v-text="message")
   MessageTree(
     v-if='showReplies && !collapsed'
     :messages='message.data.replies'

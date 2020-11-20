@@ -1,5 +1,5 @@
 <template lang="pug">
-pre: tt: small {{ JSON.stringify(value, null, 2) }}
+pre.small.text-monospace {{ JSON.stringify(value, null, 2) }}
 </template>
 
 <script>

@@ -4,9 +4,9 @@
       v-model="username"
     )
     .alert.alert-danger(v-if='errors')
-      tt: pre {{ errors }}
+      pre.text-monospace {{ errors }}
     .alert.alert-success(v-if='success')
-      tt: pre {{ success }}
+      pre.text-monospace {{ success }}
     button.btn.btn-secondary(
       v-disabled='isSaveDisabled'
       @click.prevent.stop='save'

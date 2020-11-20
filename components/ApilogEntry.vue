@@ -35,15 +35,14 @@
           i.fa.fa-fw.fa-btn.fa-code
           | &#32;see source
     .card-body(v-if='showPayload && item.method !== "get"')
-      pre: tt {{ item.data }}
+      pre.text-monospace {{ item.data }}
     .card-body(
       v-if='showResult'
       :class='item.status >= 400 ? "bg-danger" : (item.status >= 300 ? "bg-warning" : "bg-success")'
     )
       .card-text
-        pre: tt {{ item.result }}
-    pre(v-if="showSource")
-      tt: small(v-text="item")
+        pre.text-monospace {{ item.result }}
+    pre.small.text-monospace(v-if="showSource" v-text="item")
 </template>
 
 <script>

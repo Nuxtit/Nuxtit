@@ -41,7 +41,7 @@
         .alert.alert-warning
           | Your user info and blog list will only be updated when you click this button
       .col
-        code: tt {{ { blogNames} }}
+        code.text-monospace {{ { blogNames} }}
     .row(v-if="blogs.length > 0")
       .col
         MyBlogList

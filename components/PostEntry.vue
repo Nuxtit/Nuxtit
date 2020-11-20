@@ -40,11 +40,7 @@
           | &#32;
           b-badge(v-if='post.data.spam', variant='danger') [spam]&#32;
           b-badge(v-if='post.data.num_crossposts > 0') [crossposts: {{ post.data.num_crossposts }}]&#32;
-          small(v-if='post.data.domain'): tt
-            nuxt-link(
-              :to='post.data.is_self ? `/r/${post.data.domain}` : `/domain/${post.data.domain}`'
-              v-text='`(${post.data.domain})`'
-            )
+          PostDomain(:post="post")
           .score.pull-right
             UpVote(:item='post')
             | &#32;
@@ -189,8 +185,7 @@
         @close='showImage = false'
       )
       ShowReports(v-if="showReports" :item="post")
-      pre(v-if='showSource')
-        tt: small(v-text="post")
+      pre.small.text-monospace(v-if='showSource' v-text="post")
 </template>
 
 <script>
@@ -211,6 +206,7 @@ import HideButton from '~/components/HideButton';
 import LockButton from '~/components/LockButton';
 import UsertagBadge from '~/components/UsertagBadge';
 import NsfwButton from '~/components/NsfwButton';
+import PostDomain from '~/components/PostDomain';
 import PostForm from '~/components/PostForm';
 import PostImage from '~/components/PostImage';
 import PostThumbnail from '~/components/PostThumbnail';
@@ -254,6 +250,7 @@ export default {
     LockButton,
     UsertagBadge,
     NsfwButton,
+    PostDomain,
     PostForm,
     PostImage,
     PostThumbnail,

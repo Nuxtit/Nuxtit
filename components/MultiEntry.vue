@@ -26,8 +26,7 @@
       i.fa.fa-fw.fa-btn.fa-code
       | &#32;see source
   .multi-row-source(v-if='open')
-    pre(v-if='showSource')
-      tt: small(v-text="multi.data")
+    pre.small.text-monospace(v-if='showSource' v-text="multi.data")
 </template>
 
 <script>

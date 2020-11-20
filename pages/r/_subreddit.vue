@@ -43,8 +43,7 @@
         show-none
       )
 
-    pre(v-if='showSource')
-      tt: small(v-text="subreddit.data")
+    pre.small.text-monospace(v-if='showSource' v-text="subreddit.data")
     b-nav(tabs)
       b-nav-item(
         :to='`/r/${$route.params.subreddit}`'

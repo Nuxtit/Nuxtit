@@ -58,11 +58,7 @@
       //-     | &#32;
       //-     b-badge(v-if='item.data.num_crossposts') [crossposts: {{ item.data.num_crossposts }}]
       //-     | &#32;
-      //-     small(v-if='item.data.domain'): tt
-      //-       nuxt-link(
-      //-         :to='item.data.is_self ? `/r/${item.data.domain}` : `/domain/${item.data.domain}`'
-      //-         v-text='`(${item.data.domain})`'
-      //-       )
+      //-     PostDomain(:post="post")
       //-     .score.pull-right
       //-       UpVote(:item='item')
       //-       | &#32;
@@ -192,8 +188,7 @@
       //-   :item='item'
       //-   @close='showImage = false'
       //- )
-      pre(v-if='showSource')
-        tt: small(v-text="item")
+      pre.small.text-monospace(v-if='showSource' v-text="item")
 </template>
 
 <script>

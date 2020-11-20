@@ -105,3 +105,5 @@
 Showing the sidebar.
 
 It's very common to have to explain and re-explain what's listed in the sidebar because "lol I can't read it I'm on mobile right now".
+
+curl 'https://oauth.reddit.com/api/set_subreddit_sticky?raw_json=1&gilding_detail=1' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:81.0) Gecko/20100101 Firefox/81.0' -H 'Accept: */*' -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Referer: https://new.reddit.com/' -H 'Content-Type: application/x-www-form-urlencoded' -H 'Origin: https://new.reddit.com' -H 'Connection: keep-alive' -H 'TE: Trailers' --data-raw 'id=t3_jnamlr&state=true&to_profile=false'

@@ -13,7 +13,7 @@
       SelectAuthUsername(v-if="!isEditing" v-model="selectedUsername")
       UserLink(v-if="isEditing" :username='selectedUsername || MeData.name')
     .alert.alert-danger(v-if='errors')
-      tt: pre {{ errors }}
+      pre.text-monospace {{ errors }}
     button.btn.btn-secondary(
       v-disabled='isSaveDisabled'
       @click.prevent.stop='save'

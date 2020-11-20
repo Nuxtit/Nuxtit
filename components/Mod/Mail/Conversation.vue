@@ -17,7 +17,7 @@
     | &#32;
     ArchiveButton(:item="conversation" v-if="false")
   .card-body
-    p: small.text-monospace.text-muted(v-text="getIs(conversation)")
+    p.small.text-monospace.text-muted(v-text="getIs(conversation)")
     | participant:&#32;
     template(v-if="conversation.participant")
       UserLink(

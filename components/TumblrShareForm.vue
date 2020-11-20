@@ -58,7 +58,7 @@
         )
       .alert.alert-danger(v-if="err")
         | {{ err ? err.message : 'err' }}
-        pre: code: tt {{ (err && err.response && err.response.data) || err }}
+        pre: code.text-monospace {{ (err && err.response && err.response.data) || err }}
       button.btn.btn-secondary(
         v-disabled='isSaveDisabled'
         @click.prevent.stop='saveTumblrPost'

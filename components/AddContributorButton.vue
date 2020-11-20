@@ -37,7 +37,7 @@
       .alert.alert-danger(
         v-if="error"
       )
-        tt: pre(
+        pre.text-monospace(
           v-text="error"
         )
       .w-100
