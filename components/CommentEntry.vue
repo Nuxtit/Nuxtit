@@ -35,6 +35,8 @@
         :subreddit='comment.data.subreddit'
       )
       | &#32;
+      Awards(:item="comment")
+      | &#32;
       nuxt-link(
         v-if='!$route.params.post_id && comment.data.link_title'
         :to='comment.data.permalink'
@@ -170,6 +172,7 @@
 
 <script>
 import get from 'lodash/get';
+import Awards from '~/components/Awards';
 import ApproveButton from '~/components/ApproveButton';
 import ApprovedBadge from '~/components/ApprovedBadge';
 import AddToQueueButton from '~/components/AddToQueueButton';
@@ -206,6 +209,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'CommentEntry',
   components: {
+    Awards,
     ApproveButton,
     ApprovedBadge,
     AddToQueueButton,
