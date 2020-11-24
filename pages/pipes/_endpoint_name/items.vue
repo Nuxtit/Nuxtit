@@ -10,8 +10,9 @@
         .col(style="max-width: 50px")
         .col
           MixedItem(:item="item.rItem")
-        .col(style="max-width: 50px")
-          | {{ item.pipe }}
+        .col.pipe-right-col
+          | pipe: {{ item.pipe }}
+          br
           br
           template(v-if="item.removed") removed
           button.btn.btn-sm(
@@ -21,11 +22,15 @@
           )
             i.fa.fa-fw.fa-btn.fa-spin.fa-spinner(v-if="deleting[item.id]")
             i.fa.fa-fw.fa-btn.fa-trash(v-else)
+          br
+          br
+          AddToQueueButton(:item="item.rItem")
       .row(v-else :key="item.id")
         .col
           MixedItem(:item="item.rItem")
-        .col(style="max-width: 50px")
-          | {{ item.pipe }}
+        .col.pipe-right-col
+          | pipe: {{ item.pipe }}
+          br
           br
           template(v-if="item.removed") removed
           button.btn.btn-sm(
@@ -35,6 +40,9 @@
           )
             i.fa.fa-fw.fa-btn.fa-spin.fa-spinner(v-if="deleting[item.id]")
             i.fa.fa-fw.fa-btn.fa-trash(v-else)
+          br
+          br
+          AddToQueueButton(:item="item.rItem")
       br
     FeathersPagination(:collection="collection" v-if="collection.data.length > 2")
 </template>
@@ -47,6 +55,7 @@ import flatten from 'lodash/flatten';
 import map from 'lodash/map';
 import uniq from 'lodash/uniq';
 import FeathersPagination from '~/components/FeathersPagination';
+import AddToQueueButton from '~/components/AddToQueueButton';
 import MixedItem from '~/components/MixedItem';
 import PostEntry from '~/components/PostEntry';
 import { Kind } from '~/lib/enum';
@@ -55,6 +64,7 @@ export default {
   middleware: ['auth'],
   watchQuery: true,
   components: {
+    AddToQueueButton,
     FeathersPagination,
     MixedItem,
     PostEntry,
@@ -207,3 +217,9 @@ async function linksForCollection(reddit, input) {
   return linksMap;
 }
 </script>
+
+<style lang="sass">
+.pipe-right-col
+  max-width: 10px
+  min-width: 100px
+</style>
