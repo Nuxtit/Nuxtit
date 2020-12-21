@@ -25,6 +25,8 @@
           br
           br
           AddToQueueButton(:item="item.rItem")
+          br
+          br
           nuxt-link(
             v-if="item.link_id || (item.name && item.name.startsWith('t3_'))"
             :to="$mergeRouteQuery({link_id: item.link_id || item.name})"
