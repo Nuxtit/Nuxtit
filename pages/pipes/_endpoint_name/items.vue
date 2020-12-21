@@ -25,6 +25,12 @@
           br
           br
           AddToQueueButton(:item="item.rItem")
+          nuxt-link(
+            v-if="item.link_id || (item.name && item.name.startsWith('t3_'))"
+            :to="$mergeRouteQuery({link_id: item.link_id || item.name})"
+          ) thread
+          br
+          br
       .row(v-else :key="item.id")
         .col
           MixedItem(:item="item.rItem")
@@ -213,7 +219,7 @@ async function linksForCollection(reddit, input) {
     }
     return carry;
   }, {});
-  console.log({linksMap});
+  // console.log({linksMap});
   return linksMap;
 }
 </script>
