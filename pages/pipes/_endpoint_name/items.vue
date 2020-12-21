@@ -28,8 +28,8 @@
           br
           br
           nuxt-link(
-            v-if="item.link_id || (item.name && item.name.startsWith('t3_'))"
-            :to="$mergeRouteQuery({link_id: item.link_id || item.name})"
+            v-if="item.link_id"
+            :to="$mergeRouteQuery({link_id: item.link_id})"
           ) thread
           br
           br
@@ -51,6 +51,12 @@
           br
           br
           AddToQueueButton(:item="item.rItem")
+          br
+          br
+          nuxt-link(
+            v-if="item.link_id"
+            :to="$mergeRouteQuery({link_id: item.link_id})"
+          ) thread
       br
     FeathersPagination(:collection="collection" v-if="collection.data.length > 2")
 </template>
