@@ -9,8 +9,8 @@
         :key="name"
       )
         td
-          a(
-            :href="`/pipes/${name}`"
+          nuxt-link(
+            :to="`/pipes/${name}`"
           )
             | {{ name }}
 </template>
