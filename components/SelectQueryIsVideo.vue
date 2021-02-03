@@ -9,13 +9,14 @@
 <script>
 import QueryParamIsVideo from '~/mixins/QueryParamIsVideo';
 
+// pushshift accepts y and n
 export default {
   name: 'SelectQueryIsVideo',
   mixins: [QueryParamIsVideo],
   selectOptions: Object.freeze([
     { value: null, text: 'Video+Non-Video Posts' },
-    { value: '1', text: 'Video Posts Only' },
-    { value: '0', text: 'Non-Video Posts Only' },
+    { value: 'y', text: 'Video Posts Only' },
+    { value: 'n', text: 'Non-Video Posts Only' },
   ]),
 };
 </script>

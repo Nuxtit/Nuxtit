@@ -18,7 +18,9 @@ export default {
 };
 
 function parse(value) {
-  if (value === '1') return '1';
-  if (value === '0') return '0';
+  if (value === '1') return 'y';
+  if (value === '0') return 'n';
+  if (value === 'y') return 'y';
+  if (value === 'n') return 'n';
   return null;
 }
