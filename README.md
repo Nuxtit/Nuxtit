@@ -49,11 +49,20 @@ Use settings menu to quickly censor usernames for screenshots. Note that you can
 Sign into multiple accounts.
 ![Sign into multiple accounts.](https://user-images.githubusercontent.com/33235178/106799093-d1d62a80-662c-11eb-9133-186b986c1455.png)
 
+Pushshift built-in (also has masstagger)
+![Pushshift Search](https://user-images.githubusercontent.com/33235178/106803608-62fbd000-6632-11eb-8540-93b17825cd74.png)
+
+Pushshift comments can optionally be grouped by link_id:
+![Pushshift Results](https://user-images.githubusercontent.com/33235178/106803919-b3732d80-6632-11eb-85ac-44a22d3e3ee8.png)
+
 You can search things via reddit search or via pushshift.
 ![Search](https://i.imgur.com/nxsOM4Y.png)
 
 Tap the thumbnail to see image enlarged under the post.
 ![Tap Thumbnail](https://i.imgur.com/1Z2L1YU.png)
+
+Support for galleries (sometimes even imgur)
+![Reddit Gallery](https://user-images.githubusercontent.com/33235178/106803969-c7b72a80-6632-11eb-96e2-b039ee9597ac.png)
 
 Add things to your "Queue" so you don't have to open 100+ tabs
 ![Queue1](https://i.imgur.com/y6ePOiC.png)
