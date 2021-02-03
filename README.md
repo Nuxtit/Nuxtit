@@ -47,6 +47,7 @@ Use settings menu to quickly censor usernames for screenshots. Note that you can
 ![Censor Usernames](https://i.imgur.com/EU6M0Ij.png)
 
 Sign into multiple accounts.
+![Sign into multiple accounts.](https://user-images.githubusercontent.com/33235178/106799093-d1d62a80-662c-11eb-9133-186b986c1455.png)
 
 You can search things via reddit search or via pushshift.
 ![Search](https://i.imgur.com/nxsOM4Y.png)
