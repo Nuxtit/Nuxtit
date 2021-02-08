@@ -5,7 +5,7 @@
       :key="award.id"
       :title="`${award.name} - ${award.coin_price} - ${award.description}`"
       :alt="`${award.name} - ${award.coin_price} - ${award.description}`"
-      :src="award.resized_icons[1].url"
+      :src="award.resized_static_icons[1].url"
     )
 </template>
 
@@ -18,5 +18,14 @@ export default {
       required: true,
     },
   },
+  // methods: {
+  //   preferred_icon(award) {
+  //     console.log(JSON.stringify(award, null, 2));
+  //     // the animated ones might not actually be resized.
+  //     // return award.resized_icons[1].url;
+  //     // static means non-animated
+  //     return award.resized_static_icons[1].url;
+  //   },
+  // },
 };
 </script>
