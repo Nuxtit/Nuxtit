@@ -36,15 +36,25 @@ export default {
   },
   methods: {
     exportToFile() {
-      this.log('exportToFile() start');
-      const plaintext = JSON.stringify(window.localStorage);
-      this.log({ plaintext });
-      const in_base64 = btoa(plaintext);
-      this.log({ in_base64 });
-      const result = cryptico.encrypt(in_base64, this.publickeystring);
-      this.log({ result });
-      this.download('backup.dat', result.cipher);
-      this.log('exportToFile() end');
+      try {
+        this.log('exportToFile() start');
+        this.log('building plaintext');
+        const plaintext = JSON.stringify(window.localStorage);
+        this.log({ plaintext });
+        this.log('plaintext to base64');
+        const in_base64 = btoa(plaintext);
+        this.log({ in_base64 });
+        this.log('encrypting base64');
+        const result = cryptico.encrypt(in_base64, this.publickeystring);
+        this.log({ result });
+        this.download('backup.dat', result.cipher);
+        this.log('exportToFile() end');
+      } catch (err) {
+        console.error(err);
+        this.log('error!');
+        this.log((err && err.message) || err);
+        this.log(new String(err));
+      }
     },
     async importFromFile($event) {
       this.log('importFromFile() start');
