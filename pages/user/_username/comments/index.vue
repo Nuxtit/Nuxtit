@@ -34,7 +34,7 @@ export default {
       query({ route }) {
         return {
           ...route.query,
-          sort: route.params.sort || 'new',
+          // sort: route.params.sort || 'new',
         };
       },
     }),
