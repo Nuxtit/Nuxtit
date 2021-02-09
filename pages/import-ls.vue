@@ -39,7 +39,11 @@ export default {
       try {
         this.log('exportToFile() start');
         this.log('building plaintext');
-        const plaintext = JSON.stringify(window.localStorage);
+        const data = { ...window.localStorage };
+        delete data.nrc_ApiLog;
+        delete data.nrc_History;
+        delete data.nrc_QueueDone;
+        const plaintext = JSON.stringify(data);
         this.log({ plaintext });
         this.log('plaintext to base64');
         // const in_base64 = btoa(plaintext);
