@@ -24,6 +24,7 @@ export const state = () => {
   ls.forget('MeData');
   ls.forget('OAuthData');
 
+  console.log(JSON.stringify({ initData }));
   return initData;
 };
 
@@ -35,6 +36,14 @@ export const mutations = {
 };
 
 export const actions = {
+  /**
+   * used for /import-ls
+   **/
+  async refreshFromLs({ commit }) {
+    const new_state = state();
+    commit('Current', new_state.Current);
+    commit('Accounts', new_state.Accounts);
+  },
   async setCurrent({ state, commit }, username) {
     commit('Current', username);
   },

@@ -34,18 +34,30 @@
       small.text-monospace.text-muted(:key="author.name+'_is'+index" v-text="getTrueIs(author)")
     blockquote.text-muted @todo show most recent message
     blockquote.text-muted {{ {messages: Object.keys(messages).length} }}
+    span.btn-see-source(
+      @click.prevent.stop='showSource^=true'
+    )
+      i.fa.fa-fw.fa-btn.fa-code
+      | &#32;see source
+  div.card-body(v-for="(message, id) in messages" :key="id")
+    ItemHtml(:value="message.body")
+  div.card-body
+    pre.small.text-monospace(v-if="showSource" v-text="JSON.stringify({conversation, messages}, null, 2)")
 </template>
 
 <script>
 import SubredditLink from '~/components/SubredditLink';
 import TimeAgo from '~/components/TimeAgo';
 import UserLink from '~/components/UserLink';
+import ItemHtml from '~/components/ItemHtml';
 import ArchiveButton from '~/components/Mod/Mail/ArchiveButton';
+import { makeComputeToggler } from '~/lib/toggle_open';
 
 export default {
   name: 'Conversation',
   components: {
     ArchiveButton,
+    ItemHtml,
     SubredditLink,
     TimeAgo,
     UserLink,
@@ -62,7 +74,14 @@ export default {
       },
     },
   },
-  computed: {},
+  data() {
+    return {
+      open: null,
+    };
+  },
+  computed: {
+    showSource: makeComputeToggler('source'),
+  },
   methods: {
     // {"isMod":false,"isAdmin":false,"name":"USERNAME","isOp":false,"isParticipant":true,"isHidden":true,"id":11011546,"isDeleted":false}
     userClasses(modMailUser) {

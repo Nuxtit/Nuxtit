@@ -6,6 +6,7 @@
       | Export
     .btn.btn-primary(@click.stop @change="importFromFile")
       input(type="file" name="import")
+    pre.text-monospace(v-text="messages")
 </template>
 
 <script>
@@ -16,6 +17,7 @@ export default {
     return {
       passphrase: 'nuxtit',
       bits: 1024,
+      messages: '',
     };
   },
   layout: 'empty',
@@ -34,49 +36,91 @@ export default {
   },
   methods: {
     exportToFile() {
-      console.log('exportToFile');
+      this.log('exportToFile() start');
       const plaintext = JSON.stringify(window.localStorage);
-      console.log({ plaintext });
-      const result = cryptico.encrypt(plaintext, this.publickeystring);
-      console.log({ result });
-      download('backup.dat', result.cipher);
+      this.log({ plaintext });
+      const in_base64 = btoa(plaintext);
+      this.log({ in_base64 });
+      const result = cryptico.encrypt(in_base64, this.publickeystring);
+      this.log({ result });
+      this.download('backup.dat', result.cipher);
+      this.log('exportToFile() end');
     },
-    importFromFile($event) {
-      console.log($event);
+    async importFromFile($event) {
+      this.log('importFromFile() start');
+      this.log($event);
       const input = $event.srcElement || $event.target;
       const file = input.files[0];
       const reader = new FileReader();
-      reader.onload = $fileReadEvent => {
-        const binary = $fileReadEvent.target.result;
-        console.log({ binary });
-        const result = cryptico.decrypt(binary, this.rsakey);
-        console.log({ result });
-        const newLsItems = JSON.parse(result.plaintext);
-        console.log({ currentLsItems: window.localStorage });
-        console.log({ newLsItems });
-        if (typeof newLsItems === 'object') {
-          Object.assign(window.localStorage, newLsItems);
+      reader.onload = async $fileReadEvent => {
+        try {
+          this.log('importFromFile().reader.onload');
+          const binary = $fileReadEvent.target.result;
+          // this.log({ binary });
+          this.log('decrypting binary');
+          const result = cryptico.decrypt(binary, this.rsakey);
+          const in_base64 = result.plaintext;
+          // this.log({ result });
+          this.log('parsing base64');
+          const plaintext = atob(in_base64);
+          this.log('parsing JSON');
+          const newLsItems = JSON.parse(plaintext);
+          this.log('writing to LS');
+          // console.log({ currentLsItems: window.localStorage });
+          // console.log({ newLsItems });
+          if (typeof newLsItems === 'object') {
+            Object.assign(window.localStorage, newLsItems);
+          } else {
+            this.log(
+              'Error: typeof newLsItems !== object, recieved: ' +
+                typeof newLsItems,
+            );
+          }
+          input.value = null;
+          console.log({
+            'auth/isAuthenticated': this.$store.getters['auth/isAuthenticated'],
+          });
+          await this.$nextTick();
+          await this.$store.dispatch('auth/refreshFromLs');
+          await this.$nextTick();
+          if (!this.$store.getters['auth/isAuthenticated']) {
+            const fun = this.$store.getters['auth/usernames'][0] || null;
+            this.log('importFromFile() setting first username: ' + fun);
+            await this.$store.dispatch('auth/setCurrent', fun);
+          }
+          this.log('importFromFile() end');
+          this.log('done!');
+        } catch (err) {
+          console.error(err);
+          this.log('error!');
+          this.log((err && err.message) || err);
+          this.log(new String(err));
         }
-        input.value = null;
       };
       reader.readAsText(file);
     },
+    download(filename, text) {
+      this.log('download() start');
+      const element = document.createElement('a');
+      element.setAttribute(
+        'href',
+        'data:text/plain;charset=utf-8,' + encodeURIComponent(text),
+      );
+      element.setAttribute('download', filename);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      click(element);
+      document.body.removeChild(element);
+      this.log('download() done');
+    },
+    log(value) {
+      if (typeof value != 'string') {
+        value = JSON.stringify(value);
+      }
+      this.messages += `\n${value}`;
+    },
   },
 };
-
-function download(filename, text) {
-  console.log('download');
-  const element = document.createElement('a');
-  element.setAttribute(
-    'href',
-    'data:text/plain;charset=utf-8,' + encodeURIComponent(text),
-  );
-  element.setAttribute('download', filename);
-  element.style.display = 'none';
-  document.body.appendChild(element);
-  click(element);
-  document.body.removeChild(element);
-}
 
 function click(el) {
   let evt;

@@ -144,7 +144,6 @@
         | Mod Log
       b-nav-item(
         v-if="subreddit.data.user_is_moderator"
-        rel="nofollow" target="_blank"
         :to='`/r/${$route.params.subreddit}/wiki/config/automoderator`'
       )
         i.fa.fa-fw.fa-btn.fa-external-link
