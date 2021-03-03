@@ -39,7 +39,7 @@
     "netlify-lambda": "^1.4.5",
     "node-sass": "^4.13.1",
     "nuxt": "^2.0.0",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "pug-plain-loader": "^1.0.0",
     "qs": "^6.5.2",
     "sass-loader": "^7.1.0",
