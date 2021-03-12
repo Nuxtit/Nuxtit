@@ -31,6 +31,11 @@
             v-if="item.link_id"
             :to="$mergeRouteQuery({link_id: item.link_id})"
           ) thread
+          | &#32;
+          nuxt-link(
+            v-if="item.subreddit"
+            :to="$mergeRouteQuery({subreddit: item.subreddit})"
+          ) subreddit
           br
           br
       .row(v-else :key="item.id")

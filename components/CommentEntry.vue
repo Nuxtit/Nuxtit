@@ -50,7 +50,8 @@
         | &nbsp;
     .card-body(v-if="!collapsed")
       ItemHtml(:item='comment')
-      .options-icons.pull-right
+    .card-footer.text-muted.bg-light.position-sticky(v-if="!collapsed" style='bottom: 0; z-index: 1;')
+      .options-icons.pull-right.bg-light
         span.btn-reply-toggle(
           :class='showReply ? "text-info" : ""'
           @click.prevent.stop='showReply^=true'
@@ -73,77 +74,77 @@
         DownVote(:item='comment')
         | &nbsp;
         | &nbsp;
-    .card-footer.text-muted.bg-light(v-if="!collapsed && open")
-      AddToQueueButton(:item='comment')
-      | &#32;
-      a(
-        :href='`https://www.reddit.com${comment.data.permalink}`'
-        target='_blank'
-      )
-        i.fa.fa-fw.fa-btn.fa-reddit
-        span see on reddit
-      | &#32;
-      nuxt-link(
-        :to='comment.data.permalink'
-      )
-        i.fa.fa-fw.fa-btn.fa-link-ext
-        span permalink
-      | &#32;
-      SaveButton(:item='comment')
-      | &#32;
-      ShareButton(:item='comment')
-      | &#32;
-      nuxt-link(
-        v-if='parentTo'
-        :to='parentTo'
-      )
-        i.fa.fa-fw.fa-btn.fa-level-up
-        span parent
-      | &#32;
-      nuxt-link(
-        v-if='linkTo'
-        :to='linkTo'
-      )
-        i.fa.fa-fw.fa-btn.fa-level-up
-        span full comments
-      | &#32;
-      span.btn-edit-toggle(
-        v-if='isAuthor'
-        @click.prevent.stop='showEdit^=true'
-      )
-        i.fa.fa-fw.fa-btn.fa-edit
-        span edit
-      | &#32;
-      //- HideButton(:item='comment')
-      //- | &#32;
-      template(v-if='comment.data.can_mod_post')
-        SpamButton(:item='comment')
+      template(v-if="open")
+        AddToQueueButton(:item='comment')
         | &#32;
-        RemoveButton(:item='comment')
+        a(
+          :href='`https://www.reddit.com${comment.data.permalink}`'
+          target='_blank'
+        )
+          i.fa.fa-fw.fa-btn.fa-reddit
+          span see on reddit
         | &#32;
-        ApproveButton(:item='comment')
+        nuxt-link(
+          :to='comment.data.permalink'
+        )
+          i.fa.fa-fw.fa-btn.fa-link-ext
+          span permalink
         | &#32;
-        LockButton(:item='comment')
+        SaveButton(:item='comment')
         | &#32;
-      BanButton(:item='comment')
-      | &#32;
-      AddContributorButton(:item='comment')
-      | &#32;
-      DeleteButton(:item='comment' v-if='isAuthor')
-      | &#32;
-      //- GiveGoldButton(:item='comment' v-if='!isAuthor')
-      //- | &#32;
-      ReportButton(:item='comment' v-if='!isAuthor')
-      | &#32;
-      CrossPostButton(
-        @click.prevent.stop='showCrossPost^=true'
-      )
-      SeeReportsButton(:item="comment" @click.prevent.stop='showReports^=true')
-      span.btn-see-source(
-        @click.prevent.stop='showSource^=true'
-      )
-        i.fa.fa-fw.fa-btn.fa-code
-        | &#32;see source
+        ShareButton(:item='comment')
+        | &#32;
+        nuxt-link(
+          v-if='parentTo'
+          :to='parentTo'
+        )
+          i.fa.fa-fw.fa-btn.fa-level-up
+          span parent
+        | &#32;
+        nuxt-link(
+          v-if='linkTo'
+          :to='linkTo'
+        )
+          i.fa.fa-fw.fa-btn.fa-level-up
+          span full comments
+        | &#32;
+        span.btn-edit-toggle(
+          v-if='isAuthor'
+          @click.prevent.stop='showEdit^=true'
+        )
+          i.fa.fa-fw.fa-btn.fa-edit
+          span edit
+        | &#32;
+        //- HideButton(:item='comment')
+        //- | &#32;
+        template(v-if='comment.data.can_mod_post')
+          SpamButton(:item='comment')
+          | &#32;
+          RemoveButton(:item='comment')
+          | &#32;
+          ApproveButton(:item='comment')
+          | &#32;
+          LockButton(:item='comment')
+          | &#32;
+        BanButton(:item='comment')
+        | &#32;
+        AddContributorButton(:item='comment')
+        | &#32;
+        DeleteButton(:item='comment' v-if='isAuthor')
+        | &#32;
+        //- GiveGoldButton(:item='comment' v-if='!isAuthor')
+        //- | &#32;
+        ReportButton(:item='comment' v-if='!isAuthor')
+        | &#32;
+        CrossPostButton(
+          @click.prevent.stop='showCrossPost^=true'
+        )
+        SeeReportsButton(:item="comment" @click.prevent.stop='showReports^=true')
+        span.btn-see-source(
+          @click.prevent.stop='showSource^=true'
+        )
+          i.fa.fa-fw.fa-btn.fa-code
+          | &#32;see source
     CommentForm(
       v-if="showReply && !collapsed"
       :parent='comment'
