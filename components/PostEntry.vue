@@ -39,7 +39,7 @@
           RemovedBadge(:item="post")
           | &#32;
           b-badge(v-if='post.data.spam', variant='danger') [spam]&#32;
-          b-badge(v-if='post.data.num_crossposts > 0') [crossposts: {{ post.data.num_crossposts }}]&#32;
+          PostCrossposts(:post="post")
           PostDomain(:post="post")
           .score.pull-right
             UpVote(:item='post')
@@ -206,6 +206,7 @@ import HideButton from '~/components/HideButton';
 import LockButton from '~/components/LockButton';
 import UsertagBadge from '~/components/UsertagBadge';
 import NsfwButton from '~/components/NsfwButton';
+import PostCrossposts from '~/components/PostCrossposts';
 import PostDomain from '~/components/PostDomain';
 import PostForm from '~/components/PostForm';
 import PostImage from '~/components/PostImage';
@@ -250,6 +251,7 @@ export default {
     LockButton,
     UsertagBadge,
     NsfwButton,
+    PostCrossposts,
     PostDomain,
     PostForm,
     PostImage,

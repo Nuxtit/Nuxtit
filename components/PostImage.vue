@@ -46,6 +46,7 @@ import ItemHtml from '~/components/ItemHtml';
 import RedditGallery from '~/components/RedditGallery';
 import fetchImgurAlbum from '~/lib/imgur/fetchImgurAlbum';
 import getPostImageSrc from '~/lib/getPostImageSrc';
+import getPostGallery from '~/lib/getPostGallery';
 import getImgurAlbumId from '~/lib/imgur/getImgurAlbumId';
 import get from 'lodash/get';
 import bImg from 'bootstrap-vue/es/components/image/img';
@@ -97,25 +98,9 @@ export default {
       );
     },
     redditGallery() {
-      const get_gallery = post => {
-        const media_metadata =
-          (post.data && post.data.media_metadata) || post.media_metadata;
-        if (!media_metadata && typeof media_metadata === 'object') return null;
-
-        for (let key in media_metadata) {
-          const e = media_metadata[key];
-          if (media_metadata[key] && media_metadata[key].status) {
-            return {
-              images: Object.values(media_metadata),
-            };
-          }
-          break;
-        }
-        return null;
-      };
       return (
-        get_gallery(this.post) ||
-        map(this.post.data.crosspost_parent_list, get_gallery)[0] ||
+        getPostGallery(this.post) ||
+        map(this.post.data.crosspost_parent_list, getPostGallery)[0] ||
         null
       );
     },

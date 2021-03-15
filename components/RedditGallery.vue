@@ -67,13 +67,15 @@ export default {
       return this.length > 0 ? this.length - 1 : null;
     },
     length() {
-      return (this.album && this.album.images && this.album.images.length) || 0;
+      return this.imageList.length || 0;
+    },
+    imageList() {
+      const list = (this.album && this.album.images) || [];
+
+      return list;
     },
     image() {
-      return (
-        (this.album && this.album.images && this.album.images[this.index]) ||
-        null
-      );
+      return this.imageList[this.index] || null;
     },
   },
   methods: {
