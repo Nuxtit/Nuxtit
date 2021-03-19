@@ -9,6 +9,14 @@
         :srcset='p.u'
       )
       img(:src='image.s.u')
+    picture.img-fluid(v-else-if='image.e === "AnimatedImage"')
+      source(
+        v-if="image.s.mp4"
+        type='video/mp4'
+        :srcset='image.s.mp4'
+        style="max-width:100%"
+      )
+      img(v-if="image.s.gif" :src='image.s.gif' style="max-width:100%")
     p(v-else) unsupported image: {{ {image} }}
     p.small(v-if="image && image.s && image.s.u")
       a(:href="image.s.u" target="_blank")

@@ -4,9 +4,9 @@
 
 <script>
 import isNumber from 'lodash/isNumber';
-const distanceInWordsToNow = require('date-fns/distance_in_words_to_now');
+const formatDistanceToNow = require('date-fns/formatDistanceToNow');
 
-const distanceInWordsToNowOptions = { addSuffix: true };
+const formatDistanceToNowOptions = { addSuffix: true };
 
 export default {
   name: 'TimeAgo',
@@ -28,7 +28,7 @@ export default {
       return new Date(value);
     },
     timeago() {
-      return distanceInWordsToNow(this.dateValue, distanceInWordsToNowOptions);
+      return formatDistanceToNow(this.dateValue, formatDistanceToNowOptions);
     },
     title() {
       const d = new Date(this.dateValue);

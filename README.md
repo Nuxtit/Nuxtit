@@ -10,11 +10,9 @@
 
 > Webapp Reddit Client written in Vue/Nuxt
 
-This app is in EARLY ALPHA, expect bugs and missing features.
+This app has been in alpha for 2+ years, expect minor bugs and missing "last mile" features.
 
 [https://nuxtit.netlify.com](https://nuxtit.netlify.com)
-
-[Find us on Reddit](https://old.reddit.com/r/Nuxtit/)
 
 ## Build Setup
 
