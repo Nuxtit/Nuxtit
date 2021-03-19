@@ -11,7 +11,25 @@
         .col
           MixedItem(:item="item.rItem")
         .col.pipe-right-col
-          | pipe: {{ item.pipe }}
+          template(v-if="editingItem === item.id")
+            input(
+              name="pipe"
+              v-model="newPipeValue"
+              style="max-width: 100%"
+              maxlength="24"
+              v-disabled="updating[item.id]"
+            )
+            button.btn.btn-sm(
+              v-disabled="updating[item.id]"
+              @click.prevent.stop="patchPipe(item, newPipeValue)"
+            )
+              i.fa.fa-fw.fa-btn.fa-spin.fa-spinner(v-if="updating[item.id]")
+              i.fa.fa-fw.fa-btn.fa-floppy(v-else)
+          template(v-else)
+            | pipe: {{item.pipe}}&#32;
+            button.btn.btn-sm(
+              @click.prevent.stop="newPipeValue = item.pipe; editingItem = item.id"
+            ): i.fa.fa-edit
           br
           br
           template(v-if="item.removed") removed
@@ -97,7 +115,10 @@ export default {
   },
   data() {
     return {
+      editingItem: null,
+      newPipeValue: null,
       deleting: {},
+      updating: {},
     };
   },
   computed: {
@@ -142,7 +163,21 @@ export default {
 
         this.$set(item, 'removed', true);
       } finally {
-        this.$set(this.deleting, item.id, false);
+        this.$set(this.deleting, item.id, null);
+      }
+    },
+    async patchPipe(item, newPipeValue) {
+      try {
+        this.$set(this.updating, item.id, true);
+
+        await this.client.items.patch(item.id, {
+          pipe: newPipeValue,
+        });
+
+        this.$set(item, 'pipe', newPipeValue);
+        this.editingItem = null;
+      } finally {
+        this.$set(this.updating, item.id, null);
       }
     },
   },
