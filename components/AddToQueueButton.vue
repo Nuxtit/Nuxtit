@@ -52,7 +52,7 @@ export default {
         if (value) {
           this.add(this.payload);
         } else {
-          this.remove(this.payload);
+          this.done(this.payload);
         }
       },
     },
@@ -116,8 +116,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions('queue', ['add', 'remove']),
+    ...mapActions('queue', ['add', 'done']),
     async addToQueue($event) {
+      console.log('addToQueue');
       this.busy = true;
       const minWait = startMinWait();
       this.queued = !this.queued;
