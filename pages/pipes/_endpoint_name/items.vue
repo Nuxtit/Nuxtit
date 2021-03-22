@@ -10,76 +10,11 @@
         .col(style="max-width: 50px")
         .col
           MixedItem(:item="item.rItem")
-        .col.pipe-right-col
-          template(v-if="editingItem === item.id")
-            input(
-              name="pipe"
-              v-model="newPipeValue"
-              style="max-width: 100%"
-              maxlength="24"
-              v-disabled="updating[item.id]"
-            )
-            button.btn.btn-sm(
-              v-disabled="updating[item.id]"
-              @click.prevent.stop="patchPipe(item, newPipeValue)"
-            )
-              i.fa.fa-fw.fa-btn.fa-spin.fa-spinner(v-if="updating[item.id]")
-              i.fa.fa-fw.fa-btn.fa-floppy(v-else)
-          template(v-else)
-            | pipe: {{item.pipe}}&#32;
-            button.btn.btn-sm(
-              @click.prevent.stop="newPipeValue = item.pipe; editingItem = item.id"
-            ): i.fa.fa-edit
-          br
-          br
-          template(v-if="item.removed") removed
-          button.btn.btn-sm(
-            v-else
-            @click.stop.prevent="remove(item)"
-            v-disabled="deleting[item.id]"
-          )
-            i.fa.fa-fw.fa-btn.fa-spin.fa-spinner(v-if="deleting[item.id]")
-            i.fa.fa-fw.fa-btn.fa-trash(v-else)
-          br
-          br
-          AddToQueueButton(:item="item.rItem")
-          br
-          br
-          nuxt-link(
-            v-if="item.link_id"
-            :to="$mergeRouteQuery({link_id: item.link_id})"
-          ) thread
-          | &#32;
-          nuxt-link(
-            v-if="item.subreddit"
-            :to="$mergeRouteQuery({subreddit: item.subreddit})"
-          ) subreddit
-          br
-          br
+        PipeItemMenu.col.pipe-right-col(:item="item")
       .row(v-else :key="item.id")
         .col
           MixedItem(:item="item.rItem")
-        .col.pipe-right-col
-          | pipe: {{ item.pipe }}
-          br
-          br
-          template(v-if="item.removed") removed
-          button.btn.btn-sm(
-            v-else
-            @click.stop.prevent="remove(item)"
-            v-disabled="deleting[item.id]"
-          )
-            i.fa.fa-fw.fa-btn.fa-spin.fa-spinner(v-if="deleting[item.id]")
-            i.fa.fa-fw.fa-btn.fa-trash(v-else)
-          br
-          br
-          AddToQueueButton(:item="item.rItem")
-          br
-          br
-          nuxt-link(
-            v-if="item.link_id"
-            :to="$mergeRouteQuery({link_id: item.link_id})"
-          ) thread
+        PipeItemMenu.col.pipe-right-col(:item="item")
       br
     FeathersPagination(:collection="collection" v-if="collection.data.length > 2")
 </template>
@@ -92,7 +27,7 @@ import flatten from 'lodash/flatten';
 import map from 'lodash/map';
 import uniq from 'lodash/uniq';
 import FeathersPagination from '~/components/FeathersPagination';
-import AddToQueueButton from '~/components/AddToQueueButton';
+import PipeItemMenu from '~/components/Pipes/ItemMenu';
 import MixedItem from '~/components/MixedItem';
 import PostEntry from '~/components/PostEntry';
 import { Kind } from '~/lib/enum';
@@ -101,10 +36,10 @@ export default {
   middleware: ['auth'],
   watchQuery: true,
   components: {
-    AddToQueueButton,
     FeathersPagination,
     MixedItem,
     PostEntry,
+    PipeItemMenu,
   },
   // mixins: [busyUntil],
   props: {
@@ -113,20 +48,12 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      editingItem: null,
-      newPipeValue: null,
-      deleting: {},
-      updating: {},
-    };
-  },
   computed: {
-    client() {
-      return this.$store.getters['pipes/client'](
-        this.$route.params.endpoint_name,
-      );
-    },
+    // client() {
+    //   return this.$store.getters['pipes/client'](
+    //     this.$route.params.endpoint_name,
+    //   );
+    // },
   },
   async asyncData({ route, store, reddit }) {
     const client = store.getters['pipes/client'](route.params.endpoint_name);
@@ -153,33 +80,6 @@ export default {
       collection,
       linksMap: await linksForCollection(reddit, collection.data),
     };
-  },
-  methods: {
-    async remove(item) {
-      try {
-        this.$set(this.deleting, item.id, true);
-
-        await this.client.items.remove(item.id);
-
-        this.$set(item, 'removed', true);
-      } finally {
-        this.$set(this.deleting, item.id, null);
-      }
-    },
-    async patchPipe(item, newPipeValue) {
-      try {
-        this.$set(this.updating, item.id, true);
-
-        await this.client.items.patch(item.id, {
-          pipe: newPipeValue,
-        });
-
-        this.$set(item, 'pipe', newPipeValue);
-        this.editingItem = null;
-      } finally {
-        this.$set(this.updating, item.id, null);
-      }
-    },
   },
 };
 
@@ -259,7 +159,7 @@ async function linksForCollection(reddit, input) {
   const linksMap = input.reduce((carry, item) => {
     if (item && item.rItem && item.rItem.kind === Kind.Comment) {
       const link_id = item.rItem.data.link_id;
-      console.log(link_id);
+      // console.log(link_id);
       const link = link_id ? find(links, l => l.data.name === link_id) : null;
       if (link) {
         carry[item.id] = link;

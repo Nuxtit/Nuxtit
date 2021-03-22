@@ -24,7 +24,7 @@ export const state = () => {
   ls.forget('MeData');
   ls.forget('OAuthData');
 
-  console.log(JSON.stringify({ initData }));
+  // console.log(JSON.stringify({ initData }));
   return initData;
 };
 
