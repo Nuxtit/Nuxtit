@@ -1,19 +1,47 @@
 <template lang="pug">
   div
-    .container.subreddit-banner(:style='subredditBannerStyles')
-      br
-      b-img.profile-icon-img(
-        v-if="user.data.icon_img"
-        :src="user.data.icon_img"
-        thumbnail
-        width="128"
-        height="128"
-      )
-      br
-      br
-      br
-    h2(@click.prevent.stop="$write_clipboard(user.data.name)")
-      | /u/{{user.data.name}}
+    .row
+      .col
+        .subreddit-banner(:style='subredditBannerStyles')
+        br
+        b-img.profile-icon-img(
+          v-if="user.data.icon_img"
+          :src="user.data.icon_img"
+          thumbnail
+          width="128"
+          height="128"
+        )
+        br
+        br
+        br
+        h2(@click.prevent.stop="$write_clipboard(user.data.name)")
+          | /u/{{user.data.name}}
+        p(v-if="user.data.subreddit && user.data.subreddit.public_description" v-text="user.data.subreddit.public_description")
+        p(v-if="user.data.subreddit && user.data.subreddit.description" v-text="user.data.subreddit.description")
+      .col
+        table.table.table-sm(style="width: unset; min-width:256px")
+          tbody
+            tr(v-if="user.data.is_employee")
+              th is_employee
+              td(class="text-right") {{user.data.is_employee}}
+            tr
+              th link_karma
+              td(class="text-right") {{user.data.link_karma}}
+            tr
+              th comment_karma
+              td(class="text-right") {{user.data.comment_karma}}
+            tr
+              th awardee_karma
+              td(class="text-right") {{user.data.awardee_karma}}
+            tr(v-if="user.data.subreddit")
+              th followers
+              td(class="text-right") {{user.data.subreddit.subscribers}}
+            tr
+              th accept_chats
+              td(class="text-right") {{user.data.accept_chats}}
+            tr
+              th accept_pms
+              td(class="text-right") {{user.data.accept_pms}}
     p
       SubscribeButton(:item='user')
       | &#32;
