@@ -30,6 +30,12 @@
       | &#32;
       b-badge(v-if='comment.data.spam', variant='danger') [spam]
       | &#32;
+      b-badge(v-if='comment.data.mod_reason_title')
+        | [mod_reason_title={{comment.data.mod_reason_title}}]
+      | &#32;
+      b-badge(v-if='comment.data.mod_note')
+        | [mod_note={{comment.data.mod_note}}]
+      | &#32;
       SubredditLink(
         v-if='showSubreddit'
         :subreddit='comment.data.subreddit'

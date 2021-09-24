@@ -71,6 +71,12 @@
           b-badge(v-if='post.data.quarantine')
             | [quarantine]
           | &#32;
+          b-badge(v-if='post.data.mod_reason_title')
+            | [mod_reason_title={{post.data.mod_reason_title}}]
+          | &#32;
+          b-badge(v-if='post.data.mod_note')
+            | [mod_note={{post.data.mod_note}}]
+          | &#32;
       .row
         .col
           AddToQueueButton(:item='post')
