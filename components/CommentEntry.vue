@@ -2,8 +2,7 @@
 .comment-entry
   .card(:class='{"border-info": (comment.data.id && comment.data.id === $route.params.comment_id)}')
     .card-header.text-muted.position-sticky(style='top: 0; z-index: 1;')
-      b-badge(v-if='comment.data.stickied')
-        | [stickied]
+      b-badge(v-if='comment.data.stickied') [stickied]
       | &#32;
       UserLink(:username='comment.data.author')
       | &#32;
@@ -20,6 +19,9 @@
       | &#32;
       b-badge(v-if='comment.data.author_patreon_flair') [patreon]&#32;
       b-badge(v-if='comment.data.author_cakeday') [cakeday]&#32;
+      b-badge(v-if='comment.data.author_premium') [author_premium={{comment.data.author_premium}}]&#32;
+      b-badge(v-if='comment.data.controversiality') [controversiality={{comment.data.controversiality}}]&#32;
+      b-badge(v-if='comment.data.collapsed_because_crowd_control') [collapsed_because_crowd_control={{comment.data.collapsed_because_crowd_control}}]&#32;
       b-badge(v-if='comment.data.send_replies===false') [send_replies:0]&#32;
       TimeAgo(:value='comment.data.created_utc')
       template(v-if='comment.data.edited') *
@@ -30,11 +32,17 @@
       | &#32;
       b-badge(v-if='comment.data.spam', variant='danger') [spam]
       | &#32;
-      b-badge(v-if='comment.data.mod_reason_title')
+      b-badge(v-if='comment.data.mod_reason_title', variant='danger')
         | [mod_reason_title={{comment.data.mod_reason_title}}]
       | &#32;
-      b-badge(v-if='comment.data.mod_note')
+      b-badge(v-if='comment.data.mod_note', variant='danger')
         | [mod_note={{comment.data.mod_note}}]
+      | &#32;
+      b-badge(v-if='comment.data.collapsed_reason', variant='warning')
+        | [collapsed_reason={{comment.data.collapsed_reason}}]
+      | &#32;
+      b-badge(v-if='comment.data.distinguished', variant='info')
+        | [distinguished={{comment.data.distinguished}}]
       | &#32;
       SubredditLink(
         v-if='showSubreddit'

@@ -16,7 +16,7 @@
       | &#32;
       UserLink.text-white(:username='item.data.mod_reason_by')
     | &#32;
-    template(v-if="item.data.ban_note")  [{{item.data.ban_note}}]
+    template(v-if="item.data.ban_note")  [ban_note={{item.data.ban_note}}]
     | &#32;
     TimeAgo.small(v-if="item.data.banned_at_utc" :value="item.data.banned_at_utc")
   span(v-else v-show="false")

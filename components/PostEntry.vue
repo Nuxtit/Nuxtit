@@ -30,8 +30,11 @@
           b-badge(v-if='post.data.over_18') [nsfw]&#32;
           b-badge(v-if='post.data.spoiler') [spoiler]&#32;
           b-badge(v-if='post.data.locked') [locked]&#32;
+          b-badge(v-if='post.data.contest_mode') [contest_mode]&#32;
           b-badge(v-if='post.data.author_patreon_flair') [patreon]&#32;
           b-badge(v-if='post.data.author_cakeday') [cakeday]&#32;
+          b-badge(v-if='post.data.author_premium') [author_premium={{post.data.author_premium}}]&#32;
+          b-badge(v-if='post.data.discussion_type') [discussion_type={{post.data.discussion_type}}]&#32;
           b-badge(v-if='post.data.send_replies===false') [send_replies:0]&#32;
           b-badge(v-if='post.data.poll_data') [poll]&#32;
           ApprovedBadge(:item="post")
@@ -71,11 +74,17 @@
           b-badge(v-if='post.data.quarantine')
             | [quarantine]
           | &#32;
-          b-badge(v-if='post.data.mod_reason_title')
+          b-badge(v-if='post.data.mod_reason_title', variant='danger')
             | [mod_reason_title={{post.data.mod_reason_title}}]
           | &#32;
-          b-badge(v-if='post.data.mod_note')
+          b-badge(v-if='post.data.mod_note', variant='danger')
             | [mod_note={{post.data.mod_note}}]
+          | &#32;
+          b-badge(v-if='post.data.collapsed_reason', variant='warning')
+            | [collapsed_reason={{post.data.collapsed_reason}}]
+          | &#32;
+          b-badge(v-if='post.data.distinguished', variant='info')
+            | [distinguished={{post.data.distinguished}}]
           | &#32;
       .row
         .col
