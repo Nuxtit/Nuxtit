@@ -36,3 +36,20 @@ input.form-control.disabled,
 .custom-checkbox {
     cursor: not-allowed;
 }
+/* does not work well on mobile */
+@media (min-width: 768px){
+/* comment header position-sticky */
+.r-chps {
+    position:-webkit-sticky !important;
+    position:sticky !important;
+    top: 0;
+    z-index: 1;
+}
+/* comment footer position-sticky */
+.r-cfps {
+    position:-webkit-sticky !important;
+    position:sticky !important;
+    bottom: 0;
+    z-index: 1;
+}
+}

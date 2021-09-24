@@ -1,7 +1,7 @@
 <template lang="pug">
 .comment-entry
   .card(:class='{"border-info": (comment.data.id && comment.data.id === $route.params.comment_id)}')
-    .card-header.text-muted.position-sticky(style='top: 0; z-index: 1;')
+    .card-header.text-muted.r-chps
       b-badge(v-if='comment.data.stickied') [stickied]
       | &#32;
       UserLink(:username='comment.data.author')
@@ -64,7 +64,7 @@
         | &nbsp;
     .card-body(v-if="!collapsed")
       ItemHtml(:item='comment')
-    .card-footer.text-muted.bg-light.position-sticky(v-if="!collapsed" style='bottom: 0; z-index: 1;')
+    .card-footer.text-muted.bg-light.r-cfps(v-if="!collapsed")
       .options-icons.pull-right.bg-light
         span.btn-reply-toggle(
           :class='showReply ? "text-info" : ""'

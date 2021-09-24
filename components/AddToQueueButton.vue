@@ -118,7 +118,6 @@ export default {
   methods: {
     ...mapActions('queue', ['add', 'done']),
     async addToQueue($event) {
-      console.log('addToQueue');
       this.busy = true;
       const minWait = startMinWait();
       this.queued = !this.queued;
