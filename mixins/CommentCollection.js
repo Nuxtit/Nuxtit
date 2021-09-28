@@ -3,12 +3,15 @@ import get from 'lodash/get';
 export default {
   computed: {
     commentsCount() {
-      return get(this.comments, 'data.children.length', 0);
+      console.log('commentsCount', get(this.comments, 'children.length', 0));
+      return get(this.comments, 'children.length', 0);
     },
     zeroComments() {
+      console.log('zeroComments', 'this.commentsCount', this.commentsCount);
       return !(this.commentsCount > 0);
     },
     hasComments() {
+      console.log('hasComments', 'this.commentsCount', this.commentsCount);
       return this.commentsCount > 0;
     },
   },

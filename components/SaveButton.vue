@@ -6,9 +6,9 @@
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-bookmark(v-else)
-    span(v-if='busy && item.data.saved') unsaving
-    span(v-else-if='busy && !item.data.saved') saving
-    span(v-else-if='item.data.saved') saved
+    span(v-if='busy && item.saved') unsaving
+    span(v-else-if='busy && !item.saved') saving
+    span(v-else-if='item.saved') saved
     span(v-else) save
 </template>
 
@@ -32,13 +32,13 @@ export default {
   computed: {
     classes() {
       return {
-        'text-success': this.item.data.saved === true,
+        'text-success': this.item.saved === true,
       };
     },
   },
   methods: {
     async save($event) {
-      const { saved, name } = this.item.data;
+      const { saved, name } = this.item;
       const minWait = startMinWait();
       try {
         this.busy = true;
@@ -49,7 +49,7 @@ export default {
             id: name, // fullname
           },
         );
-        this.item.data.saved = !saved;
+        this.item.saved = !saved;
       } catch (err) {
         console.error(err);
         this.error = err;

@@ -100,7 +100,7 @@ export default {
   },
   computed: {
     username() {
-      return this.name || this.item.data.author;
+      return this.name || this.item.author;
     },
     username_uc() {
       return (this.username || '').toUpperCase();

@@ -1,30 +1,30 @@
 <template lang="pug">
 .message-entry
-  .card(:class='{"border-info": message.data.new}')
+  .card(:class='{"border-info": message.new}')
     .card-header
-      b-badge(variant='info' v-if='message.data.new') new
+      b-badge(variant='info' v-if='message.new') new
       | &#32;
-      span(v-text='message.data.subject')
+      span(v-text='message.subject')
       | &#32;
       em: nuxt-link.text-muted(
-        :to='message.data.context'
-        v-text='message.data.link_title'
+        :to='message.context'
+        v-text='message.link_title'
       )
-      template(v-if='message.data.author')
+      template(v-if='message.author')
         | &#32;from&#32;
-        UserLink(:username='message.data.author')
+        UserLink(:username='message.author')
       | &#32;
       UsertagBadge(:item='message' type='author')
       | &#32;via&#32;
       SubredditLink(
-        v-if='message.data.subreddit'
-        :subreddit='message.data.subreddit'
+        v-if='message.subreddit'
+        :subreddit='message.subreddit'
       )
       | &#32;sent&#32;
-      TimeAgo(:value='message.data.created_utc')
-      template(v-if='message.data.dest')
+      TimeAgo(:value='message.created_utc')
+      template(v-if='message.dest')
         | &#32;to&#32;
-        UserLink(:username='message.data.dest')
+        UserLink(:username='message.dest')
       .score.pull-right
         i.fa.fa-fw.fa-btn.btn-collapse(
           :class='collapsed ? "fa-plus" : "fa-minus"'
@@ -45,17 +45,17 @@
     .card-body(v-if="!collapsed")
       ItemHtml(:item='message')
     .card-footer.text-muted.bg-light(v-if="!collapsed")
-      AddToQueueButton(:item='message' v-if='message.data.context')
+      AddToQueueButton(:item='message' v-if='message.context')
       | &#32;
       a(
-        :href='`https://www.reddit.com${message.data.context}`'
+        :href='`https://www.reddit.com${message.context}`'
         target='_blank'
       )
         i.fa.fa-fw.fa-btn.fa-reddit
         span see on reddit
       | &#32;
       nuxt-link(
-        :to='message.data.context'
+        :to='message.context'
       )
         i.fa.fa-fw.fa-btn.fa-link-ext
         span permalink
@@ -74,7 +74,7 @@
         :to='linkTo'
       )
         i.fa.fa-fw.fa-btn.fa-level-up
-        span full comments ({{ message.data.num_comments }})
+        span full comments ({{ message.num_comments }})
       | &#32;
       span.btn-reply-toggle(
         @click.prevent.stop='showReply^=true'
@@ -120,7 +120,7 @@
     pre.small.text-monospace(v-if="showSource && !collapsed" v-text="message")
   MessageTree(
     v-if='showReplies && !collapsed'
-    :messages='message.data.replies'
+    :messages='message.replies'
   )
 </template>
 
@@ -186,7 +186,7 @@ export default {
   },
   data() {
     return {
-      collapsed: get(this.message, 'data.collapsed'),
+      collapsed: get(this.message, 'collapsed'),
       open: null,
       // open: 'source',
       reply: null,
@@ -201,17 +201,17 @@ export default {
       return false;
     },
     showReplies() {
-      const { replies } = this.message.data;
-      return replies && replies.data.children && replies.data.children.length;
+      const { replies } = this.message;
+      return replies && replies.children && replies.children.length;
     },
     /**
      * compare to CommentEntry.computed.parentTO
      * the JSON here is missing link_id compare
      **/
     parentTo() {
-      const { context, link_id, id } = this.message.data;
-      const parent_id = this.message.data.parent_id
-        ? this.message.data.parent_id.replace('t1_', '')
+      const { context, link_id, id } = this.message;
+      const parent_id = this.message.parent_id
+        ? this.message.parent_id.replace('t1_', '')
         : null;
       if (parent_id && context) {
         const search = this.$router.resolve(context);
@@ -228,7 +228,7 @@ export default {
       return null;
     },
     linkTo() {
-      const { context, id } = this.message.data;
+      const { context, id } = this.message;
       if (context) {
         const linkPath = context.replace(`/${id}/`, '/');
         if (this.$route.path !== linkPath && context !== linkPath) {
@@ -238,7 +238,7 @@ export default {
       return null;
     },
     isAuthor() {
-      const { author } = this.message.data;
+      const { author } = this.message;
       return author && author === this.MeData.name;
     },
     showSource: makeComputeToggler('source'),
@@ -257,23 +257,19 @@ export default {
       // @todo
     },
     onCommentCreated(newComment) {
-      this.message.data.replies = this.message.data.replies || {
-        data: {
-          children: [],
-        },
+      this.message.replies = this.message.replies || {
+        children: [],
       };
 
-      this.message.data.replies.data.children.push(newComment);
+      this.message.replies.children.push(newComment);
     },
     onAppendReplies(replies) {
-      this.message.data.replies = this.message.data.replies || {
-        data: {
-          children: [],
-        },
+      this.message.replies = this.message.replies || {
+        children: [],
       };
 
-      this.message.data.replies.data.children = [
-        ...this.message.data.replies.data.children,
+      this.message.replies.children = [
+        ...this.message.replies.children,
         ...replies,
       ];
     },

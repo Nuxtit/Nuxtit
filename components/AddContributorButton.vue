@@ -93,9 +93,9 @@ export default {
 
       name: null,
       add_subreddit:
-        this.item && this.item.data
-          ? this.item.data.can_mod_post
-            ? this.item.data.subreddit
+        this.item && this.item
+          ? this.item.can_mod_post
+            ? this.item.subreddit
             : ''
           : '',
     };
@@ -123,7 +123,7 @@ export default {
         this.busy = true;
         this.showingContributorForm = true;
 
-        this.name = this.item.data.author;
+        this.name = this.item.author;
 
         this.existingContributor = false;
         if (this.add_subreddit) {
@@ -147,7 +147,7 @@ export default {
     async contributor(payload) {
       const { add_subreddit } = this;
       const { isRedusaContributorned } = this.item;
-      const { author } = this.item.data;
+      const { author } = this.item;
       const minWait = startMinWait();
 
       try {

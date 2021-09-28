@@ -31,7 +31,7 @@ export default {
 
     const duplicates = (await reddit.get(`/api/info`, {
       params: {
-        url: post.data.url,
+        url: post.url,
       },
     })).data;
 

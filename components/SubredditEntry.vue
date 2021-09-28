@@ -13,7 +13,7 @@
     | &#32;|&#32;
     | created
     | &#32;
-    TimeAgo(:value='subreddit.data.created_utc')
+    TimeAgo(:value='subreddit.created_utc')
     | &#32;
     ReportButton(:item='subreddit')
     | &#32;|&#32;

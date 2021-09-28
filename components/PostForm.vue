@@ -125,25 +125,25 @@
           tr(v-for='post in crossPosts')
             td
               nuxt-link(
-                :to='`/u/${post.data.author}`'
-                v-text='`/u/${post.data.author}`'
+                :to='`/u/${post.author}`'
+                v-text='`/u/${post.author}`'
               )
             td
               nuxt-link(
-                :to='`/r/${post.data.subreddit}`'
-                v-text='`/r/${post.data.subreddit}`'
+                :to='`/r/${post.subreddit}`'
+                v-text='`/r/${post.subreddit}`'
               )
             td
               AddToQueueButton(:item='post')
             td
               nuxt-link(
-                :to='post.data.permalink'
-                v-text='post.data.id'
+                :to='post.permalink'
+                v-text='post.id'
               )
             td
               a(
                 target='_blank'
-                :href='`https://www.reddit.com${post.data.permalink}`'
+                :href='`https://www.reddit.com${post.permalink}`'
               )
                 i.fa.fa-fw.fa-btn.fa-reddit
 </template>
@@ -243,14 +243,14 @@ export default {
   mounted() {
     this.editingPost = this.post;
     if (this.isEditing) {
-      this.title = this.post.data.title;
-      this.body = this.post.data.selftext;
-      this.kind = this.post.data.is_self ? 'self' : 'link';
-      this.sr = this.post.data.subreddit;
-      this.nsfw = this.post.data.over_18;
-      this.sendreplies = this.post.data.send_replies;
-      this.spoiler = this.post.data.spoiler;
-      this.selectedUsername = this.post.data.author;
+      this.title = this.post.title;
+      this.body = this.post.selftext;
+      this.kind = this.post.is_self ? 'self' : 'link';
+      this.sr = this.post.subreddit;
+      this.nsfw = this.post.over_18;
+      this.sendreplies = this.post.send_replies;
+      this.spoiler = this.post.spoiler;
+      this.selectedUsername = this.post.author;
     } else if (this.isCrossPosting) {
       this.kind = 'link';
       this.title = this.parent.data.title;

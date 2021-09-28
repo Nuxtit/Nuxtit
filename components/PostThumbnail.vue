@@ -2,24 +2,24 @@
   .posts-thumbnail(
     @click.prevent.default='$emit("expand")'
   )
-    span(v-if="!imageSrc && post.data.thumbnail === 'image'")
+    span(v-if="!imageSrc && post.thumbnail === 'image'")
       | image
-    span(v-else-if="!imageSrc && post.data.thumbnail === 'default'" title="default")
+    span(v-else-if="!imageSrc && post.thumbnail === 'default'" title="default")
       i.fa.fa-fw.fa-5x.fa-question-circle-o
-    span(v-else-if="post.data.thumbnail === 'self'" title="self")
+    span(v-else-if="post.thumbnail === 'self'" title="self")
       i.fa.fa-fw.fa-5x.fa-doc-text
-    span(v-else-if="post.data.thumbnail === 'spoiler'" title="spoiler")
+    span(v-else-if="post.thumbnail === 'spoiler'" title="spoiler")
       i.fa.fa-fw.fa-5x.fa-question-circle-o
     span.cursor-pointer(
-      v-else-if="post.data.thumbnail === 'nsfw'" title="nsfw"
+      v-else-if="post.thumbnail === 'nsfw'" title="nsfw"
       @click.prevent.default='$emit("expand")'
     )
       i.fa.fa-fw.fa-5x.fa-user-secret
     img.cursor-pointer(
       v-else-if="imageSrc"
-      :class='imageSrc === post.data.url ? "max-108-mh-144" : null'
+      :class='imageSrc === post.url ? "max-108-mh-144" : null'
       :src="imageSrc"
-      :alt="post.data.title"
+      :alt="post.title"
     )
     span(v-else) NO_THUMB
 </template>

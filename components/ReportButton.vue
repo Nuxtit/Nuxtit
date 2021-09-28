@@ -22,7 +22,7 @@
             :key="`${rule.kind}-${rule.short_name}`"
             :title="JSON.stringify(rule, null, 2)"
           ) {{ rule.violation_reason }}
-          label r/{{ item.data.subreddit }} Rules
+          label r/{{ item.subreddit }} Rules
           b-form-radio.w-100(
             v-for="(rule, index) in rulestable.filter(r => r.kind !== 'Site')"
             :value="rule"
@@ -81,7 +81,7 @@
         .report-form-content-policy
            p(@click.stop)
              | Read the <a target="_blank" href="https://www.reddit.com/help/contentpolicy">Reddit Content Policy</a>
-             | and <a target="_blank" :href="`/r/${item.data.subreddit}/about/rules`">r/{{ item.data.subreddit }}'s rules</a>.
+             | and <a target="_blank" :href="`/r/${item.subreddit}/about/rules`">r/{{ item.subreddit }}'s rules</a>.
 </template>
 
 <script>
@@ -126,7 +126,7 @@ export default {
   computed: {
     classes() {
       return {
-        'text-success': this.item.data.hidden === true,
+        'text-success': this.item.hidden === true,
       };
     },
     showReportModalSubmit() {
@@ -142,7 +142,7 @@ export default {
       return false;
     },
     jsonPayload() {
-      const { name } = this.item.data;
+      const { name } = this.item;
       if (this.selectedReason === 'other') {
         return {
           api_type: 'json',
@@ -169,7 +169,7 @@ export default {
       this.completeErr = null;
       this.completeMsg = null;
 
-      const { name } = this.item.data;
+      const { name } = this.item;
       const response = await this.$reddit.post('/api/report', this.jsonPayload);
       if (get(response.data, 'json.errors.length')) {
         this.completeErr = response.data.json.errors;
@@ -181,7 +181,7 @@ export default {
     async prompt($event) {
       if (this.showingReportForm) return;
       const { item } = this;
-      const { subreddit, name } = this.item.data;
+      const { subreddit, name } = this.item;
       const responses = {};
 
       const options = {};

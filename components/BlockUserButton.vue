@@ -5,11 +5,11 @@
     @click.stop.prevent="hide"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-plus-circled(v-else-if='item.data.is_user_blocked')
+    i.fa.fa-fw.fa-btn.fa-plus-circled(v-else-if='item.is_user_blocked')
     i.fa.fa-fw.fa-btn.fa-minus-circled(v-else)
-    span(v-if='busy && item.data.is_user_blocked') unblocking
-    span(v-else-if='busy && !item.data.is_user_blocked') blocking
-    span(v-else-if='item.data.is_user_blocked') blocked
+    span(v-if='busy && item.is_user_blocked') unblocking
+    span(v-else-if='busy && !item.is_user_blocked') blocking
+    span(v-else-if='item.is_user_blocked') blocked
     span(v-else) block
 </template>
 
@@ -36,13 +36,13 @@ export default {
     },
     classes() {
       return {
-        'text-muted': this.item.data.is_user_blocked === true,
+        'text-muted': this.item.is_user_blocked === true,
       };
     },
   },
   methods: {
     async hide($event) {
-      const { is_user_blocked, name } = this.item.data;
+      const { is_user_blocked, name } = this.item;
       const { username } = this;
       const minWait = startMinWait();
       try {
@@ -56,7 +56,7 @@ export default {
             name: username, // fullname
           },
         );
-        this.item.data.is_user_blocked = !is_user_blocked;
+        this.item.is_user_blocked = !is_user_blocked;
       } catch (err) {
         console.error(err);
         this.error = err;

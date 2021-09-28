@@ -47,7 +47,6 @@
 
 <script>
 import SubredditLink from '~/components/SubredditLink';
-import TimeAgo from '~/components/TimeAgo';
 import UserLink from '~/components/UserLink';
 import ItemHtml from '~/components/ItemHtml';
 import ArchiveButton from '~/components/Mod/Mail/ArchiveButton';
@@ -59,7 +58,6 @@ export default {
     ArchiveButton,
     ItemHtml,
     SubredditLink,
-    TimeAgo,
     UserLink,
   },
   props: {

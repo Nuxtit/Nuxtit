@@ -1,13 +1,13 @@
 <template lang="pug">
 .multi-entry
   .multi-row-1
-    MultiLink(:name='multi.data.name')
+    MultiLink(:name='multi.name')
     | &#32;
-    span(v-text='multi.data.title')
+    span(v-text='multi.title')
   .multi-row-2
-    ItemHtml(:value='multi.data.public_description_html')
+    ItemHtml(:value='multi.public_description_html')
   .multi-row-3
-    template(v-for='sr in multi.data.subreddits')
+    template(v-for='sr in multi.subreddits')
       | &#32;
       SubredditLink(
         :subreddit='sr.name'
@@ -16,7 +16,7 @@
   .multi-row-4.text-muted
     | created
     | &#32;
-    TimeAgo(:value='multi.data.created_utc')
+    TimeAgo(:value='multi.created_utc')
     | &#32;
     ReportButton(:item='multi')
     | &#32;|&#32;
@@ -26,7 +26,7 @@
       i.fa.fa-fw.fa-btn.fa-code
       | &#32;source
   .multi-row-source(v-if='open')
-    pre.small.text-monospace(v-if='showSource' v-text="multi.data")
+    pre.small.text-monospace(v-if='showSource' v-text="multi")
 </template>
 
 <script>

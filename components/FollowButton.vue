@@ -6,9 +6,9 @@
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-bookmark(v-else)
-    span(v-if='busy && item.data.subreddit.user_is_subscriber') unfollowing...
-    span(v-else-if='busy && !item.data.subreddit.user_is_subscriber') following...
-    span(v-else-if='item.data.subreddit.user_is_subscriber') following
+    span(v-if='busy && item.subreddit.user_is_subscriber') unfollowing...
+    span(v-else-if='busy && !item.subreddit.user_is_subscriber') following...
+    span(v-else-if='item.subreddit.user_is_subscriber') following
     span(v-else) follow
 </template>
 
@@ -32,15 +32,15 @@ export default {
   computed: {
     classes() {
       return {
-        'text-info': this.item.data.subreddit.user_is_subscriber === true,
-        'text-success': this.item.data.subreddit.user_is_subscriber === false,
+        'text-info': this.item.subreddit.user_is_subscriber === true,
+        'text-success': this.item.subreddit.user_is_subscriber === false,
       };
     },
   },
   methods: {
     async follow($event) {
-      const { name } = this.item.data;
-      const { user_is_subscriber } = this.item.data.subreddit;
+      const { name } = this.item;
+      const { user_is_subscriber } = this.item.subreddit;
       const minWait = startMinWait();
       try {
         this.busy = true;
@@ -49,7 +49,7 @@ export default {
           sr_name: `u_${name}`, // `u_${username}`
           api_type: 'json',
         });
-        this.item.data.subreddit.user_is_subscriber = !user_is_subscriber;
+        this.item.subreddit.user_is_subscriber = !user_is_subscriber;
       } catch (err) {
         console.error(err);
         this.error = err;

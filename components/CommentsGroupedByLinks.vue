@@ -26,9 +26,9 @@
           :key='link.post.id'
         )
         PostEntry(
-          v-else-if="link.post && link.post.data"
+          v-else-if="link.post && link.post"
           :post='link.post'
-          :key='link.post.data.id'
+          :key='link.post.id'
         )
         template(
           v-for='(comment, index) in link.comments'
@@ -36,12 +36,12 @@
           PushshiftMissingEntry(
             v-if="comment.pushshiftMissing"
             :item='comment'
-            :key='comment.data.id'
+            :key='comment.id'
           )
           CommentEntry(
-            v-else-if="comment && comment.data && comment.data.id"
+            v-else-if="comment && comment && comment.id"
             :comment='comment'
-            :key='comment.data.id'
+            :key='comment.id'
           )
 </template>
 
@@ -76,11 +76,11 @@ export default {
   computed: {
     links() {
       let items = get(this, 'items.data.children') || [];
-      items = items.filter(p => p.data.hidden !== true);
-      items = items.filter(p => p.data.author !== '[deleted]');
+      items = items.filter(p => p.hidden !== true);
+      items = items.filter(p => p.author !== '[deleted]');
       return items.reduce((carry, comment) => {
-        const link_id = comment.data.link_id;
-        const url = comment.data.url || comment.data.permalink;
+        const link_id = comment.link_id;
+        const url = comment.url || comment.permalink;
         if (!carry[link_id]) {
           carry[link_id] = {
             link_id,
@@ -105,12 +105,12 @@ export default {
         forEach(links, l => {
           // autocollapse link section if all items have been interacted with
           this.collapsedLinks[l.display_url] =
-            get(l, 'post.data.hidden') === true ||
+            get(l, 'post.hidden') === true ||
             l.comments.filter(p => {
-              if (p.data.hidden === true) return false;
-              if (p.data.saved === true) return false;
-              if (p.data.likes === true) return false;
-              if (p.data.likes === false) return false;
+              if (p.hidden === true) return false;
+              if (p.saved === true) return false;
+              if (p.likes === true) return false;
+              if (p.likes === false) return false;
               return true;
             }).length === 0;
         });

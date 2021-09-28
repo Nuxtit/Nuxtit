@@ -3,17 +3,17 @@
     | No comments.
   .comment-tree.has-comments(v-else)
     template(
-      v-for='comment in comments.data.children'
+      v-for='comment in comments.children'
     )
       CommentEntry(
         v-if='comment.kind === "t1"'
         :comment='comment'
-        :key='comment.data.id'
+        :key='comment.id'
       )
       LoadMoreCommentsEntry(
         v-else-if='comment.kind === "more"'
         :item='comment'
-        :key='comment.data.id'
+        :key='comment.id'
         @append-children='appendChildren'
         @remove-more='removeMore'
       )
@@ -39,6 +39,9 @@ export default {
       required: true,
     },
   },
+  mounted() {
+    console.log('mounted', this.comments);
+  },
   methods: {
     async collapseAll(value = true) {
       const { $children } = this;
@@ -52,16 +55,14 @@ export default {
       }
     },
     appendChildren(children) {
-      this.comments.data.children = this.comments.data.children.concat(
-        children,
-      );
+      this.comments.children = this.comments.children.concat(children);
     },
     removeMore(moreItem) {
-      this.comments.data.children = this.comments.data.children.filter(c => {
-        if (c && c.data) {
+      this.comments.children = this.comments.children.filter(c => {
+        if (c) {
           if (c.kind !== 'more') return true;
-          if (c.data.name !== moreItem.data.name) return true;
-          if (c.data.count !== moreItem.data.count) return true;
+          if (c.name !== moreItem.name) return true;
+          if (c.count !== moreItem.count) return true;
         }
         return false;
       });

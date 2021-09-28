@@ -98,8 +98,8 @@ export default {
   mounted() {
     this.editingComment = this.comment;
     if (this.comment) {
-      this.body = this.comment.data.body;
-      this.selectedUsername = this.comment.data.author;
+      this.body = this.comment.body;
+      this.selectedUsername = this.comment.author;
     }
   },
   methods: {

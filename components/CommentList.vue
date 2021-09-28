@@ -4,7 +4,7 @@
       v-for='comment in comments.data.children'
       v-show='!comment.nuxtitHide'
       :comment='comment'
-      :key='comment.data.id'
+      :key='comment.id'
     )
 </template>
 

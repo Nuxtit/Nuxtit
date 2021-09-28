@@ -3,16 +3,16 @@
     .card
       .card-header Poll Options:
       .card-body
-        ul: li(v-for="option in post.data.poll_data.options")
+        ul: li(v-for="option in post.poll_data.options")
           | {{option.text}}
         table.table.table-sm
           tbody
             tr
               th total_vote_count:
-              td {{ post.data.poll_data.total_vote_count }}
-            tr(v-if="post.data.poll_data.voting_end_timestamp")
+              td {{ post.poll_data.total_vote_count }}
+            tr(v-if="post.poll_data.voting_end_timestamp")
               th voting_end_timestamp:
-              td: DateTime(:value="post.data.poll_data.voting_end_timestamp / 1000")
+              td: DateTime(:value="post.poll_data.voting_end_timestamp / 1000")
 </template>
 
 <script>

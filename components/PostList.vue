@@ -3,7 +3,7 @@
     PostEntry(
       v-for='post in postsChildren'
       :post='post'
-      :key='post.data.id'
+      :key='post.id'
     )
 </template>
 

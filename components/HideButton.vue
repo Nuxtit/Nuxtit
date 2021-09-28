@@ -5,11 +5,11 @@
     @click.stop.prevent="hide"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-plus-circled(v-else-if='item.data.hidden')
+    i.fa.fa-fw.fa-btn.fa-plus-circled(v-else-if='item.hidden')
     i.fa.fa-fw.fa-btn.fa-minus-circled(v-else)
-    span(v-if='busy && item.data.hidden') unhiding
-    span(v-else-if='busy && !item.data.hidden') hiding
-    span(v-else-if='item.data.hidden') hidden
+    span(v-if='busy && item.hidden') unhiding
+    span(v-else-if='busy && !item.hidden') hiding
+    span(v-else-if='item.hidden') hidden
     span(v-else) hide
 </template>
 
@@ -33,13 +33,13 @@ export default {
   computed: {
     classes() {
       return {
-        'text-muted': this.item.data.hidden === true,
+        'text-muted': this.item.hidden === true,
       };
     },
   },
   methods: {
     async hide($event) {
-      const { hidden, name } = this.item.data;
+      const { hidden, name } = this.item;
       const minWait = startMinWait();
       try {
         this.busy = true;
@@ -50,7 +50,7 @@ export default {
             id: name, // fullname
           },
         );
-        this.item.data.hidden = !hidden;
+        this.item.hidden = !hidden;
       } catch (err) {
         console.error(err);
         this.error = err;

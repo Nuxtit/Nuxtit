@@ -1,7 +1,7 @@
 <template lang="pug">
-  span.btn-see-reports(v-show='item.data.num_reports > 0', @click.stop.prevent="$emit('click', $event)")
+  span.btn-see-reports(v-show='item.num_reports > 0', @click.stop.prevent="$emit('click', $event)")
     i.fa.fa-fw.fa-btn.fa-code
-    | see reports ({{ item.data.num_reports }})
+    | see reports ({{ item.num_reports }})
 </template>
 
 <script>

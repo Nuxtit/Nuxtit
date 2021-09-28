@@ -27,7 +27,7 @@ export default {
     classes() {
       return {
         'fa fa-fw fa-btn': true,
-        'text-success': this.item.data.likes === true,
+        'text-success': this.item.likes === true,
         'fa-up-big': !this.voting,
         'fa-spinner fa-spin': this.voting,
       };
@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     async vote($event) {
-      const { likes, name } = this.item.data;
+      const { likes, name } = this.item;
       const minWait = startMinWait();
       try {
         this.voting = true;
@@ -45,13 +45,13 @@ export default {
           rank: 7,
           // uh / X-Modhash header // not required with OAuth
         });
-        this.item.data.likes = likes === true ? null : true;
+        this.item.likes = likes === true ? null : true;
         if (likes === true) {
-          this.item.data.score--;
+          this.item.score--;
         } else if (likes === false) {
-          this.item.data.score += 2;
+          this.item.score += 2;
         } else {
-          this.item.data.score++;
+          this.item.score++;
         }
       } catch (err) {
         console.error(err);

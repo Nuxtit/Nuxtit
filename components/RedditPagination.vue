@@ -35,8 +35,8 @@ import SelectRedditSort from '~/components/SelectRedditSort';
 
 function get_name(item) {
   if (item) {
-    if (item.data && item.data.name) {
-      return item.data.name;
+    if (item && item.name) {
+      return item.name;
     }
     if (item.name) {
       return item.name;

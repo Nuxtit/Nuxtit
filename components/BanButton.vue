@@ -143,9 +143,9 @@ export default {
       existingBan: null,
       selectedReason: null,
       from_subreddit:
-        this.item && this.item.data
-          ? this.item.data.can_mod_post
-            ? this.item.data.subreddit
+        this.item && this.item
+          ? this.item.can_mod_post
+            ? this.item.subreddit
             : ''
           : '',
 
@@ -208,7 +208,7 @@ export default {
         this.busy = true;
         this.showingBanForm = true;
 
-        this.name = this.item.data.author;
+        this.name = this.item.author;
 
         this.existingBan = false;
         if (from_subreddit) {
@@ -242,7 +242,7 @@ export default {
     async ban(payload) {
       const { from_subreddit } = this;
       const { isRedusaBanned } = this.item;
-      const { author } = this.item.data;
+      const { author } = this.item;
       const minWait = startMinWait();
 
       try {

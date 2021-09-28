@@ -37,25 +37,25 @@ export default {
   computed: {
     canEditFlair() {
       const { type, item } = this;
-      if (get(item.data, 'user_can_flair_in_sr')) {
+      if (get(item, 'user_can_flair_in_sr')) {
         return true;
       }
-      if (type === 'user' && get(item.data, 'can_assign_user_flair')) {
+      if (type === 'user' && get(item, 'can_assign_user_flair')) {
         return true;
       }
-      if (type === 'link' && get(item.data, 'can_assign_link_flair')) {
+      if (type === 'link' && get(item, 'can_assign_link_flair')) {
         return true;
       }
       return false;
     },
     text() {
-      const flair = get(this.item.data, `${this.type}_flair_text`);
+      const flair = get(this.item, `${this.type}_flair_text`);
       if (flair) return flair;
       return flair;
     },
     cssclass() {
       const arr = [];
-      arr.push(get(this.item.data, `${this.type}_flair_css_class`));
+      arr.push(get(this.item, `${this.type}_flair_css_class`));
       if (this.canEditFlair) {
         arr.push('cursor-pointer');
       }
@@ -63,11 +63,8 @@ export default {
     },
     style() {
       const styles = {};
-      const textcolor = get(this.item.data, `${this.type}_flair_text_color`);
-      const bgcolor = get(
-        this.item.data,
-        `${this.type}_flair_background_color`,
-      );
+      const textcolor = get(this.item, `${this.type}_flair_text_color`);
+      const bgcolor = get(this.item, `${this.type}_flair_background_color`);
       if (textcolor) {
         styles.color = textcolor;
       }

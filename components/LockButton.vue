@@ -6,9 +6,9 @@
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-lock(v-else)
-    span(v-if='busy && item.data.locked') unlocking
-    span(v-else-if='busy && !item.data.locked') locking
-    span(v-else-if='item.data.locked') locked
+    span(v-if='busy && item.locked') unlocking
+    span(v-else-if='busy && !item.locked') locking
+    span(v-else-if='item.locked') locked
     span(v-else) lock
 </template>
 
@@ -34,13 +34,13 @@ export default {
   computed: {
     classes() {
       return {
-        'text-success': this.item.data.locked === true,
+        'text-success': this.item.locked === true,
       };
     },
   },
   methods: {
     async lock($event) {
-      const { locked, name } = this.item.data;
+      const { locked, name } = this.item;
       const minWait = startMinWait();
       try {
         this.busy = true;
@@ -51,7 +51,7 @@ export default {
             id: name, // fullname
           },
         );
-        this.item.data.locked = !locked;
+        this.item.locked = !locked;
       } catch (err) {
         console.error(err);
         this.error = err;

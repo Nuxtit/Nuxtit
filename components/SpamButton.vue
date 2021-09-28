@@ -1,14 +1,14 @@
 <template lang="pug">
   span.btn-remove(
-    v-disabled="busy || item.data.spam"
+    v-disabled="busy || item.spam"
     :class='classes'
     @click.stop.prevent="remove"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-cancel(v-else)
-    span(v-if='busy && item.data.spam') unmarking spam
-    span(v-else-if='busy && !item.data.spam') marking spam
-    span(v-else-if='item.data.spam') marked spam
+    span(v-if='busy && item.spam') unmarking spam
+    span(v-else-if='busy && !item.spam') marking spam
+    span(v-else-if='item.spam') marked spam
     span(v-else) spam
 </template>
 
@@ -34,13 +34,13 @@ export default {
   computed: {
     classes() {
       return {
-        'text-danger': this.item.data.spam === true,
+        'text-danger': this.item.spam === true,
       };
     },
   },
   methods: {
     async remove($event) {
-      const { spam, name } = this.item.data;
+      const { spam, name } = this.item;
       const minWait = startMinWait();
       try {
         this.busy = true;
@@ -49,18 +49,18 @@ export default {
           // category: '???',
           id: name, // fullname
         });
-        this.item.data.spam = true;
-        if (this.item.data.approved) {
-          this.item.data.approved = false;
+        this.item.spam = true;
+        if (this.item.approved) {
+          this.item.approved = false;
         }
-        if (this.item.data.removed) {
-          this.item.data.removed = false;
+        if (this.item.removed) {
+          this.item.removed = false;
         }
-        if (this.item.data.approved_by) {
-          this.item.data.approved_by = null;
+        if (this.item.approved_by) {
+          this.item.approved_by = null;
         }
-        if (this.item.data.approved_at_utc) {
-          this.item.data.approved_at_utc = null;
+        if (this.item.approved_at_utc) {
+          this.item.approved_at_utc = null;
         }
       } catch (err) {
         console.error(err);
