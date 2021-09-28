@@ -158,7 +158,7 @@
           @click.prevent.stop='showSource^=true'
         )
           i.fa.fa-fw.fa-btn.fa-code
-          | &#32;see source
+          | &#32;source
     CommentForm(
       v-if="showReply && !collapsed"
       :parent='comment'

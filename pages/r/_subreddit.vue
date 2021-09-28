@@ -31,7 +31,7 @@
         @click.prevent.stop='showSource^=true'
       )
         i.fa.fa-fw.fa-btn.fa-code
-        | &#32;see source
+        | &#32;source
     p
       | Your flair on this sub looks like:
       | &#32;

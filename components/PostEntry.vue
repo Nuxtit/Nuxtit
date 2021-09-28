@@ -156,7 +156,7 @@
             @click.prevent.stop='showSource^=true'
           )
             i.fa.fa-fw.fa-btn.fa-code
-            | &#32;see source
+            | &#32;source
   .row(v-if='post.data.crosspost_parent_list && post.data.crosspost_parent_list.length > 0 && showCrossPost')
     .col
       div crosspost history:

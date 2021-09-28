@@ -38,7 +38,7 @@
       @click.prevent.stop='showSource^=true'
     )
       i.fa.fa-fw.fa-btn.fa-code
-      | &#32;see source
+      | &#32;source
   div.card-body(v-for="(message, id) in messages" :key="id")
     ItemHtml(:value="message.body")
   div.card-body

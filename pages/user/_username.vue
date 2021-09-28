@@ -62,7 +62,7 @@
         @click.prevent.stop='showSource^=true'
       )
         i.fa.fa-fw.fa-btn.fa-code
-        | &#32;see source
+        | &#32;source
     pre.small.text-monospace(v-if="showSource" v-text="user.data")
     b-nav(tabs)
       b-nav-item(
