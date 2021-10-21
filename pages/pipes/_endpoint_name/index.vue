@@ -4,26 +4,36 @@
       tbody
         tr
           th Pipe
-          th items
+          th Subreddits
         tr(v-for="pipe in collection.data" :key="pipe.id")
-          td {{ pipe.id }}
           td
             nuxt-link(
               :to="`/pipes/${$route.params.endpoint_name}/items/?pipe=${pipe.id}`"
-              v-text="pipe.count"
-            )
+            ) {{ pipe.id }} ({{ pipe.count }})
+          td
+            div(@click="toggleShowSub(pipe)") subs: {{ pipe.subs.length }}
+            table.table.table-sm(v-if="showSub === pipe.id")
+              tbody
+                tr(v-for="sub in pipe.subs" :key="sub.subreddit")
+                  td
+                    nuxt-link(
+                      :to="`/pipes/${$route.params.endpoint_name}/items/?pipe=${pipe.id}&subreddit=${sub.subreddit}`"
+                    ) {{ sub.subreddit }} ({{ sub.count }})
+                    | &nbsp;
+                    nuxt-link(
+                      v-if="allCountsBySub[sub.subreddit] > sub.count"
+                      :to="`/pipes/${$route.params.endpoint_name}/items/?subreddit=${sub.subreddit}`"
+                    ) (all pipes: {{allCountsBySub[sub.subreddit]}})
         tr
-          td all
           td
             nuxt-link(
               :to="`/pipes/${$route.params.endpoint_name}/items/`"
-              v-text="collection.data.reduce((c,p) => c+parseInt(p.count),0) || 0"
-            )
+            ) all ({{ allCount }})
+          td subs: {{ allSubsCount }}
 </template>
 
 <script>
 export default {
-  middleware: ['auth'],
   // components: {
   // },
   // mixins: [busyUntil],
@@ -33,13 +43,36 @@ export default {
       required: true,
     },
   },
-  // computed: {
-  //   client() {
-  //     return this.$store.getters['pipes/client'](
-  //       this.$route.params.endpoint_name,
-  //     );
-  //   },
-  // },
+  data() {
+    return {
+      showSub: 'mod',
+    };
+  },
+  middleware: ['auth'],
+  computed: {
+    allCount() {
+      // eslint-disable-next-line
+      return this.collection.data.reduce((c,p) => c+parseInt(p.count),0) || 0;
+    },
+    allCountsBySub() {
+      // eslint-disable-next-line
+      const subs = {};
+      this.collection.data.forEach(p => {
+        p.subs.forEach(s => {
+          if (subs[s.subreddit] > 0) {
+            subs[s.subreddit] += s.count;
+          } else {
+            subs[s.subreddit] = s.count;
+          }
+        });
+      });
+      return subs;
+    },
+    allSubsCount() {
+      // eslint-disable-next-line
+      return Object.keys(this.allCountsBySub).length;
+    },
+  },
   async asyncData({ route, store }) {
     const client = store.getters['pipes/client'](route.params.endpoint_name);
     return {
@@ -50,6 +83,15 @@ export default {
         },
       }),
     };
+  },
+  methods: {
+    toggleShowSub(pipe) {
+      if (this.showSub === pipe.id) {
+        this.showSub = null;
+      } else {
+        this.showSub = pipe.id;
+      }
+    },
   },
 };
 </script>
