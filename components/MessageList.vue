@@ -3,7 +3,7 @@
     MessageEntry(
       v-for='message in dataChildren'
       :message='message'
-      :key='message.data.id'
+      :key='message.id'
     )
 </template>
 
@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     dataChildren() {
-      return get(this, 'messages.data.children') || [];
+      return get(this, 'messages.children') || [];
     },
   },
 };

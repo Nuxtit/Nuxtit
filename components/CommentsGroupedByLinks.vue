@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     links() {
-      let items = get(this, 'items.data.children') || [];
+      let items = get(this, 'items.children') || [];
       items = items.filter(p => p.hidden !== true);
       items = items.filter(p => p.author !== '[deleted]');
       return items.reduce((carry, comment) => {

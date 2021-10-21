@@ -3,8 +3,8 @@
     .container.subreddit-banner(:style='subredditBannerStyles')
       br
       //- b-img.profile-icon-img(
-      //-   v-if="subreddit.data.icon_img"
-      //-   :src="subreddit.data.icon_img"
+      //-   v-if="subreddit.icon_img"
+      //-   :src="subreddit.icon_img"
       //-   thumbnail
       //-   width="128"
       //-   height="128"
@@ -12,17 +12,17 @@
       br
       br
       br
-    h3(@click.prevent.stop="$write_clipboard(subreddit.data.display_name)")
-      | /r/{{subreddit.data.display_name}}
-    h4 {{subreddit.data.title}}
-    p {{subreddit.data.subscribers}} subscribers
+    h3(@click.prevent.stop="$write_clipboard(subreddit.display_name)")
+      | /r/{{subreddit.display_name}}
+    h4 {{subreddit.title}}
+    p {{subreddit.subscribers}} subscribers
     p
       SubscribeButton(
-        v-if='subreddit.data.name'
+        v-if='subreddit.name'
         :item='subreddit'
       )
       | &#32;
-      a(:href="`https://old.reddit.com/r/${subreddit.data.display_name}`" target="_blank")
+      a(:href="`https://old.reddit.com/r/${subreddit.display_name}`" target="_blank")
         i.fa.fa-fw.fa-btn.fa-reddit
         | &#32;
         span.small see on reddit
@@ -43,7 +43,7 @@
         show-none
       )
 
-    pre.small.text-monospace(v-if='showSource' v-text="subreddit.data")
+    pre.small.text-monospace(v-if='showSource' v-text="subreddit")
     b-nav(tabs)
       b-nav-item(
         :to='`/r/${$route.params.subreddit}`'
@@ -80,13 +80,13 @@
       )
         i.fa.fa-fw.fa-btn.fa-edit
         | &#32;
-        | {{ subreddit.data.submit_text_label || "Submit a new link" }}
+        | {{ subreddit.submit_text_label || "Submit a new link" }}
       b-nav-item(
         :to='`/r/${$route.params.subreddit}/submit?selftext=true`'
       )
         i.fa.fa-fw.fa-btn.fa-edit
         | &#32;
-        | {{ subreddit.data.submit_link_label || "Submit a new text post" }}
+        | {{ subreddit.submit_link_label || "Submit a new text post" }}
       b-nav-item(
         :to='{ path: "/pushshift/search/", query: { kind: "comment", subreddit: $route.params.subreddit } }'
       )
@@ -94,56 +94,56 @@
         | &#32;
         | Pushshift
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/moderators`'
       )
         i.fa.fa-fw.fa-btn.fa-shield
         | &#32;
         | Moderators
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/contributors`'
       )
         i.fa.fa-fw.fa-btn.fa-check
         | &#32;
         | Approved Users
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/wikicontributors`'
       )
         i.fa.fa-fw.fa-btn.fa-book
         | &#32;
         | WikiContributors Users
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/banned`'
       )
         i.fa.fa-fw.fa-btn.fa-block
         | &#32;
         | Banned Users
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/muted`'
       )
         i.fa.fa-fw.fa-btn.fa-block
         | &#32;
         | Muted Users
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/wikibanned`'
       )
         i.fa.fa-fw.fa-btn.fa-block
         | &#32;
         | WikiBanned Users
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/log`'
       )
         i.fa.fa-fw.fa-btn.fa-th-list
         | &#32;
         | Mod Log
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/wiki/config/automoderator`'
       )
         i.fa.fa-fw.fa-btn.fa-external-link
@@ -192,6 +192,7 @@ import RedditItems from '~/mixins/RedditItems';
 import { isVirtualSubreddit, makeVirtualSubreddit } from '~/lib/subreddit';
 import { makeComputeToggler } from '~/lib/toggle_open';
 import { mapGetters } from 'vuex';
+import undata from '~/lib/undata';
 
 export default {
   middleware: ['auth'],
@@ -216,7 +217,7 @@ export default {
     ...mapGetters('auth', ['MeData']),
     showSource: makeComputeToggler('source'),
     subredditBannerStyles() {
-      const subreddit = this.subreddit.data;
+      const subreddit = this.subreddit;
       const banner_img = subreddit ? subreddit.banner_img : null;
       return {
         'background-image': banner_img
@@ -239,33 +240,32 @@ export default {
         sidebar: null,
       };
     }
-    return {
-      subreddit: (await reddit
-        .get(`/r/${subreddit}/about`, {
-          params: {
-            api_type: 'json',
-          },
-        })
-        .catch(err => {
-          // attempting to handle 404 subreddit DNE
-          if (err.message === 'Network Error') {
-            return {
-              data: {
-                ...makeVirtualSubreddit(subreddit),
-                networkError: true,
-              },
-            };
-            // console.error(err);
-            // console.error(err.response); // undefined
-            // console.error(err.config); // valid, but useless
-            // console.error(err.request); // undefined
-            // console.error(err.code); // undefined
-            // console.error(err.message); // 'Network Error'
-            // console.error(err.prototype); // undefined
-          }
+    const subredditData = (await reddit
+      .get(`/r/${subreddit}/about`, {
+        params: {
+          api_type: 'json',
+        },
+      })
+      .catch(err => {
+        // attempting to handle 404 subreddit DNE
+        if (err.message === 'Network Error') {
+          return {
+            ...makeVirtualSubreddit(subreddit),
+            networkError: true,
+          };
+          // console.error(err);
+          // console.error(err.response); // undefined
+          // console.error(err.config); // valid, but useless
+          // console.error(err.request); // undefined
+          // console.error(err.code); // undefined
+          // console.error(err.message); // 'Network Error'
+          // console.error(err.prototype); // undefined
+        }
 
-          throw err;
-        })).data,
+        throw err;
+      })).data;
+    return {
+      subreddit: undata(subredditData),
       // rules: (await reddit.get(`/r/${subreddit}/about/rules`)).data,
       // docs are wrong, DNE
       // sidebar: (await reddit.get(`/r/${subreddit}/sidebar`)).data,

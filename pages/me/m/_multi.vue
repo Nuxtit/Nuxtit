@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    h3 /r/{{multi.data.display_name}}
+    h3 /r/{{multi.display_name}}
     b-nav(tabs)
       b-nav-item(
         :to='`/me/m/${$route.params.multi}`'
@@ -15,7 +15,7 @@
         | &#32;
         | Comments
       b-nav-item(
-        :to='{ path: "/pushshift/search/", query: { kind: "comment", subreddit: multi.data.subreddits.map(s=>s.name).join(",") } }'
+        :to='{ path: "/pushshift/search/", query: { kind: "comment", subreddit: multi.subreddits.map(s=>s.name).join(",") } }'
       )
         i.fa.fa-fw.fa-btn.fa-list
         | &#32;
@@ -36,6 +36,7 @@ import RedditItems from '~/mixins/RedditItems';
 import { makeVirtualSubreddit } from '~/lib/subreddit';
 import { makeComputeToggler } from '~/lib/toggle_open';
 import find from 'lodash/find';
+import undata from '~/lib/undata';
 
 export default {
   middleware: ['auth'],
@@ -60,7 +61,7 @@ export default {
     //eslint-disable-next-line
     // console.log(multis.data, multi, find(multis.data, m => m.data.name === multi));
     return {
-      multi: find(multis.data, m => m.data.name === multi),
+      multi: undata(find(multis.data, m => m.data.name === multi)),
     };
   },
 };

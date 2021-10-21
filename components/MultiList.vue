@@ -1,9 +1,9 @@
 <template lang="pug">
   .multis-list
     MultiEntry(
-      v-for='multi in multis.data.children'
+      v-for='multi in multis.children'
       :multi='multi'
-      :key='multi.data.name'
+      :key='multi.name'
     )
 </template>
 

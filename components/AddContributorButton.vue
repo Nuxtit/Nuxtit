@@ -6,6 +6,7 @@
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-plus(v-else)
+    .alert.alert-info(v-if='existingContributor') already a contributor
     span(v-if='busy && isContributorned') uncontributorning
     span(v-else-if='busy && !isContributorned') contributorning
     span(v-else-if='isContributorned') contributorned

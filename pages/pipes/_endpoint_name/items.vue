@@ -31,6 +31,7 @@ import PipeItemMenu from '~/components/Pipes/ItemMenu';
 import MixedItem from '~/components/MixedItem';
 import PostEntry from '~/components/PostEntry';
 import { Kind } from '~/lib/enum';
+import undata from '~/lib/undata';
 
 export default {
   middleware: ['auth'],
@@ -102,13 +103,13 @@ async function appendRedditItems(reddit, input) {
       },
     }))
   }
-  const redditChildren = flatten(
+  const redditChildren = map(flatten(
     responses.map(response => get(response, 'data.data.children')),
-  );
+  ), undata);
   // console.log({ redditChildren });
   input.forEach((item) => {
     item.rItem = find(redditChildren, redditItem => {
-      return redditItem.data.name === item.id;
+      return redditItem.name === item.id;
     });
   });
 }
@@ -122,8 +123,8 @@ async function linksForCollection(reddit, input) {
   const comments = map(input, 'rItem').filter(item => {
     return item && item.kind === Kind.Comment
   });
-  const link_id_list = map(links, 'data.name');
-  const commentlink_id_list = map(comments, 'data.link_id');
+  const link_id_list = map(links, 'name');
+  const commentlink_id_list = map(comments, 'link_id');
   // console.log({link_id_list})
   // console.log({commentlink_id_list})
   // console.log({fetchableCommentLinkIdList: commentlink_id_list.filter(link_id => {
@@ -148,9 +149,9 @@ async function linksForCollection(reddit, input) {
       },
     }))
   }
-  const redditChildren = flatten(
+  const redditChildren = map(flatten(
     responses.map(response => get(response, 'data.data.children')),
-  );
+  ), undata);
   // console.log({ redditChildren });
   redditChildren.forEach((item) => {
     links.push(item);
@@ -158,9 +159,9 @@ async function linksForCollection(reddit, input) {
   // console.log({links});
   const linksMap = input.reduce((carry, item) => {
     if (item && item.rItem && item.rItem.kind === Kind.Comment) {
-      const link_id = item.rItem.data.link_id;
+      const link_id = item.rItem.link_id;
       // console.log(link_id);
-      const link = link_id ? find(links, l => l.data.name === link_id) : null;
+      const link = link_id ? find(links, l => l.name === link_id) : null;
       if (link) {
         carry[item.id] = link;
       }

@@ -3,7 +3,7 @@
     br
     .container
       .alert.alert-primary
-        ItemHtml(:value='subreddit.data.submit_text_html')
+        ItemHtml(:value='subreddit.submit_text_html')
     br
     .container
       PostForm(

@@ -4,7 +4,7 @@
       :collection='items'
       :fetching='fetching'
     )
-    PostList(:posts='items')
+    MixedList(:items='items')
     RedditPagination(
       v-if='showBottomPagination'
       :collection='items'
@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import PostList from '~/components/PostList.vue';
+import MixedList from '~/components/MixedList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
 export default {
   middleware: ['auth'],
   defaultSort: 'new',
   components: {
-    PostList,
+    MixedList,
     RedditPagination,
   },
   mixins: [

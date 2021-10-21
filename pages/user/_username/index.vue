@@ -1,5 +1,5 @@
 <script>
-import Sort from './overview/_sort.vue';
+import Sort from './overview/index.vue';
 export default {
   middleware: ['auth'],
   extends: Sort,

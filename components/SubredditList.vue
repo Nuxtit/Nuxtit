@@ -1,9 +1,9 @@
 <template lang="pug">
   .subreddits-list
     SubredditEntry(
-      v-for='subreddit in subreddits.data.children'
+      v-for='subreddit in subreddits.children'
       :subreddit='subreddit'
-      :key='subreddit.data.id'
+      :key='subreddit.id'
     )
 </template>
 

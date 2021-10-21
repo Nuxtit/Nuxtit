@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     postsChildren() {
-      return get(this, 'posts.data.children') || [];
+      return get(this, 'posts.children') || [];
     },
   },
 };

@@ -145,7 +145,7 @@ export default {
           fetchImgurAlbum(newValue).then(
             res => {
               this.albumData = res.data;
-              console.log('newAlbumData', res.data);
+              // console.log('newAlbumData', res.data);
             },
             err => {
               this.albumData = false;

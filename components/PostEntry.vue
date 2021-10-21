@@ -324,7 +324,7 @@ export default {
   //   if (this.reportsCount > 0) {
   //     this.showOptions = true;
   //   }
-  //   if (get(this.post, 'data.saved')) {
+  //   if (get(this.post, 'saved')) {
   //     this.showOptions = true;
   //   }
   // },
@@ -334,9 +334,7 @@ export default {
     },
     onCommentCreated(newComment) {
       // this.comment.replies = this.comment.replies || {
-      //   data: {
-      //     children: [],
-      //   },
+      //   children: [],
       // };
       // this.comment.replies.children.push(newComment);
       this.post.num_comments++;

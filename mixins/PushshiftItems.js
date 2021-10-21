@@ -13,6 +13,7 @@ import pushshift from '~/lib/pushshift';
 import QueryParamLimit, { defaultLimit } from '~/mixins/QueryParamLimit';
 import QueryParamKind, { parseKind } from '~/mixins/QueryParamKind';
 import Vue from 'vue';
+import undata from '~/lib/undata';
 
 const defaultParams = Object.freeze({
   size: 25,
@@ -90,7 +91,7 @@ export default function({ path, query, shouldAttemptApi }) {
     },
     computed: {
       showBottomPagination() {
-        return get(this.items, 'data.children.length', 0) > 1;
+        return get(this.items, 'children.length', 0) > 1;
       },
       redditQuery() {
         return query({
@@ -101,12 +102,12 @@ export default function({ path, query, shouldAttemptApi }) {
         return JSON.stringify(this.redditQuery) + this.kind;
       },
       zeroResults() {
-        return !(get(this.items, 'data.children.length', 0) > 0);
+        return !(get(this.items, 'children.length', 0) > 0);
       },
       lastCreatedAt() {
         const lastCreatedAt = get(
-          last(get(this.items, 'data.children')),
-          'data.created_utc',
+          last(get(this.items, 'children')),
+          'created_utc',
         );
         return lastCreatedAt || null;
       },
@@ -179,17 +180,17 @@ export default function({ path, query, shouldAttemptApi }) {
         const { text } = this.filterOptions;
         const lc_text = (text || '').toLowerCase();
 
-        if (!get(this.items, 'data.children.length')) {
+        if (!get(this.items, 'children.length')) {
           return;
         }
-        for (let i = this.items.data.children.length - 1, item; i >= 0; i--) {
-          item = this.items.data.children[i];
+        for (let i = this.items.children.length - 1, item; i >= 0; i--) {
+          item = this.items.children[i];
           this.$set(item, 'nuxtitHide', !isMatch(item));
         }
 
-        function isMatch({ kind, data }) {
+        function isMatch({ kind, body }) {
           if (lc_text) {
-            const lc_body = (data.body || '').toLowerCase();
+            const lc_body = (body || '').toLowerCase();
             if (includes(lc_body, lc_text)) {
               return true;
             }
@@ -247,16 +248,16 @@ async function pushshiftItemsToRedditItems({ reddit, input, route }) {
       },
     }))
   }
-  const redditChildren = flatten(
+  const redditChildren = map(flatten(
     responses.map(response => get(response, 'data.data.children')),
-  );
+  ), undata);
   // console.log({ redditChildren });
   const children = map(input, (item) => {
     const redditItem = find(redditChildren, redditItem => {
-      return redditItem.data.id === item.id;
+      return redditItem.id === item.id;
     });
     const redditLink = item.link_id ? find(redditChildren, redditItem => {
-      return item.link_id === Kind.Post+'_'+redditItem.data.id;
+      return item.link_id === Kind.Post+'_'+redditItem.id;
     }) : null;
     if (redditItem) {
       redditItem.postEntry = redditLink || void 0;
@@ -265,18 +266,19 @@ async function pushshiftItemsToRedditItems({ reddit, input, route }) {
         ...redditItem,
       };
     }
-    return {
-      kind,
-      data: {
-        ...item,
-      },
-      postEntry: redditLink || void 0,
-      pushshiftMissing: true,
-    };
+    item.kind = item.kind || kind;
+    item.postEntry = redditLink || void 0;
+    item.pushshiftMissing = true;
+    return item;
+    // return {
+    //   kind,
+    //   ...item,
+    //   postEntry: redditLink || void 0,
+    //   pushshiftMissing: true,
+    // };
   });
   return {
-    data: {
-      children,
-    },
+    kind: 'Listing',
+    children,
   };
 }

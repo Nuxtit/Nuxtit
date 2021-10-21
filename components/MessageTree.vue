@@ -3,12 +3,12 @@
     | No messages.
   .comment-tree.has-messages(v-else)
     template(
-      v-for='message in messages.data.children'
+      v-for='message in messages.children'
     )
       MessageEntry(
         v-if='message.kind'
         :message='message'
-        :key='message.data.id'
+        :key='message.id'
       )
       .text-danger(v-else)
         | unknown entry type {{ message.kind }}
@@ -43,16 +43,14 @@ export default {
       }
     },
     appendChildren(children) {
-      this.messages.data.children = this.messages.data.children.concat(
-        children,
-      );
+      this.messages.children = this.messages.children.concat(children);
     },
     removeMore(moreItem) {
-      this.messages.data.children = this.messages.data.children.filter(c => {
-        if (c && c.data) {
+      this.messages.children = this.messages.children.filter(c => {
+        if (c) {
           if (c.kind !== 'more') return true;
-          if (c.data.name !== moreItem.data.name) return true;
-          if (c.data.count !== moreItem.data.count) return true;
+          if (c.name !== moreItem.name) return true;
+          if (c.count !== moreItem.count) return true;
         }
         return false;
       });

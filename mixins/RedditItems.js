@@ -2,6 +2,7 @@ import get from 'lodash/get';
 import includes from 'lodash/includes';
 import isFunction from 'lodash/isFunction';
 import { startMinWait } from '~/lib/sleep';
+import undata from '~/lib/undata';
 import QueryParamLimit, { defaultLimit } from '~/mixins/QueryParamLimit';
 
 const defaultParams = Object.freeze({
@@ -14,9 +15,7 @@ function returnTrue() {
 
 function emptyCollection() {
   return {
-    data: {
-      children: [],
-    },
+    children: [],
   };
 }
 
@@ -60,14 +59,14 @@ export default function({ path, query, shouldAttemptApi }) {
           })
           .catch(err => {
             if (err.message === 'Network Error') {
-              return { data: emptyCollection() };
+              return emptyCollection();
             }
             throw err;
           })).data;
 
         // console.log('asyncData');
         return {
-          items,
+          items: undata(items),
         };
       } else {
         return emptyCollection();
@@ -89,7 +88,8 @@ export default function({ path, query, shouldAttemptApi }) {
               },
             })).data;
 
-            this.items = items;
+            console.log('RedditItems', { items });
+            this.items = undata(items);
             this.setItemsFilteredProperty();
           } finally {
             await minWait;

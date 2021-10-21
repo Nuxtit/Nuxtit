@@ -55,7 +55,7 @@ export default {
               id: name, // fullname
             },
             {
-              username: get(this.item, 'data.author'),
+              username: get(this.item, 'author'),
             },
           );
           // deleted is not really defined

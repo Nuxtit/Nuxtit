@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     itemsChildren() {
-      return get(this.items, 'data.children') || [];
+      return get(this.items, 'children') || [];
     },
   },
 };

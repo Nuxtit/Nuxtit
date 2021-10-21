@@ -14,8 +14,8 @@
         v-model="url"
       )
       span.btn.btn-info.btn-sm(
-        v-if='parent && url != parent.data.url'
-        @click="url = parent.data.url"
+        v-if='parent && url != parent.url'
+        @click="url = parent.url"
       )
         i.fa.fa-fw.fa-arrows-cw
       span.btn.btn-info.btn-sm(
@@ -31,18 +31,18 @@
       )
       .btn-group.pull-right
         span.btn.btn-info.btn-sm(
-          v-if='isCrossPosting && !title.includes(parent.data.subreddit)'
-          @click="title = `${title.trim()} (xpost from /r/${parent.data.subreddit})`"
+          v-if='isCrossPosting && !title.includes(parent.subreddit)'
+          @click="title = `${title.trim()} (xpost from /r/${parent.subreddit})`"
         )
-          | (xpost from /u/{{ parent.data.subreddit }})
+          | (xpost from /u/{{ parent.subreddit }})
         span.btn.btn-info.btn-sm(
-          v-if='isCrossPosting && !title.includes(parent.data.author)'
-          @click="title = `${title.trim()} (xpost from /u/${parent.data.author})`"
+          v-if='isCrossPosting && !title.includes(parent.author)'
+          @click="title = `${title.trim()} (xpost from /u/${parent.author})`"
         )
-          | (xpost from /u/{{ parent.data.author }})
+          | (xpost from /u/{{ parent.author }})
         span.btn.btn-info.btn-sm(
-          v-if='parent && title != parent.data.title'
-          @click="title = parent.data.title"
+          v-if='parent && title != parent.title'
+          @click="title = parent.title"
         )
           i.fa.fa-fw.fa-arrows-cw
         span.btn.btn-info.btn-sm(
@@ -60,7 +60,7 @@
       label
         | subreddit
         span(v-if='isCrossPosting')
-          | x-post from /r/{{ parent.data.subreddit }}
+          | x-post from /r/{{ parent.subreddit }}
       b-form-input(
         :disabled='isEditing'
         v-model="sr"
@@ -103,19 +103,19 @@
     )
       i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='saving')
       i.fa.fa-fw.fa-btn.fa-floppy(v-else)
-      span(v-if='editingPost && editingPost.data.id && saving') Updating
-      span(v-else-if='editingPost && editingPost.data.id && editingPost.data.body === body') Update
-      span(v-else-if='editingPost && editingPost.data.id') Update
+      span(v-if='editingPost && editingPost.id && saving') Updating
+      span(v-else-if='editingPost && editingPost.id && editingPost.body === body') Update
+      span(v-else-if='editingPost && editingPost.id') Update
       span(v-else-if='saving') Saving
       span(v-else) Save
     button.btn.btn-info.btn-cancel(
       @click.prevent.stop='$emit("close")'
     )
       i.fa.fa-fw.fa-btn.fa-cancel
-      span(v-if='!editingPost || !editingPost.data.id || body !== editingPost.data.body')
+      span(v-if='!editingPost || !editingPost.id || body !== editingPost.body')
         | Cancel
         span.small(
-          v-if='(body && !editingPost) || (editingPost && body !== editingPost.data.body)'
+          v-if='(body && !editingPost) || (editingPost && body !== editingPost.body)'
         )  (unsaved changes!)
       span(v-else) Done
     .crossposts(v-if='crossPosts.length')
@@ -157,6 +157,7 @@ import QueryParamSelftext from '~/mixins/QueryParamSelftext';
 import UserLink from '~/components/UserLink';
 import { startMinWait } from '~/lib/sleep';
 import { mapGetters } from 'vuex';
+import undata from '~/lib/undata';
 
 export default {
   name: 'PostForm',
@@ -253,14 +254,14 @@ export default {
       this.selectedUsername = this.post.author;
     } else if (this.isCrossPosting) {
       this.kind = 'link';
-      this.title = this.parent.data.title;
-      this.url = this.parent.data.url;
-      // this.video_poster_url = this.parent.data.video_poster_url;
-      this.body = this.parent.data.selftext;
-      // this.nsfw = this.parent.data.nsfw;
-      // this.resubmit = this.parent.data.resubmit;
-      // this.sendreplies = this.parent.data.sendreplies;
-      // this.spoiler = this.parent.data.spoiler;
+      this.title = this.parent.title;
+      this.url = this.parent.url;
+      // this.video_poster_url = this.parent.video_poster_url;
+      this.body = this.parent.selftext;
+      // this.nsfw = this.parent.nsfw;
+      // this.resubmit = this.parent.resubmit;
+      // this.sendreplies = this.parent.sendreplies;
+      // this.spoiler = this.parent.spoiler;
     }
   },
   methods: {
@@ -269,7 +270,7 @@ export default {
       try {
         this.saving = true;
         this.errors = null;
-        if (this.editingPost && this.editingPost.data.id) {
+        if (this.editingPost && this.editingPost.id) {
           // @todo
           const kind = this.selftext ? 'self' : 'link';
 
@@ -277,20 +278,20 @@ export default {
             const response = await this.$reddit.post(
               '/api/editusertext',
               {
-                thing_id: this.editingPost.data.name,
+                thing_id: this.editingPost.name,
                 text: this.body,
                 return_rtjson: true,
                 api_type: 'json',
               },
               {
-                username: this.editingPost.data.author,
+                username: this.editingPost.author,
               },
             );
 
             if (get(response, 'data.json.errors.length')) {
               this.errors = response.data.json.errors;
             } else {
-              Object.assign(this.editingPost.data, response.data);
+              Object.assign(this.editingPost, undata(response.data));
               this.$emit('updated-post', this.editingPost);
             }
           }
@@ -298,7 +299,7 @@ export default {
           const response = await this.$reddit.post(
             '/api/submit',
             {
-              // thing_id: this.editingPost.data.name,
+              // thing_id: this.editingPost.name,
               extension: 'json',
               sr: this.sr,
               title: this.title,
@@ -324,14 +325,11 @@ export default {
           } else {
             const xpost_name = response.data.json.data.name;
             const response2 = await this.$reddit.get(`/by_id/${xpost_name}`);
-            const xpost = get(response2.data, 'data.children.0');
+            const xpost = undata(get(response2.data, 'data.children.0'));
             if (xpost) {
-              this.crossPosts.push(get(response2.data, 'data.children.0'));
+              this.crossPosts.push(xpost);
             }
-            // this.editingPost = {
-            //   kind: 't1',
-            //   data: response.data,
-            // };
+            // this.editingPost = undata(response.data);
             // this.$emit('created-post', this.editingPost);
           }
         }

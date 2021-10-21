@@ -20,9 +20,9 @@
     .post-duplicates
       h2 Duplicate Links:
       PostEntry(
-        v-for='d in duplicates.data.children'
+        v-for='d in duplicates.children'
         :post='d'
-        :key='d.data.id'
+        :key='d.id'
       )
 </template>
 

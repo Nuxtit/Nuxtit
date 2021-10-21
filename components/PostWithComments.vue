@@ -8,7 +8,7 @@
       v-if="post.poll_data"
       :post='post'
     )
-    p.alert.alert-danger(v-if='subreddit.data.user_is_banned')
+    p.alert.alert-danger(v-if='subreddit.user_is_banned')
       | You are banned from this subreddit.
     p.alert.alert-danger(v-if='post.locked')
       | Comments are locked.

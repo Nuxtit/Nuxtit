@@ -320,7 +320,6 @@ export default {
     showOptions: makeComputeToggler('options'),
   },
   mounted() {
-    console.log(this.$options.name, 'mounted', this.comment);
     if (this.comment.num_reports > 0) {
       this.showOptions = true;
     }

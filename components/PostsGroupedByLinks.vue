@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     links() {
-      let items = get(this.items, 'data.children') || [];
+      let items = get(this.items, 'children') || [];
       // items = items.filter(notHidden);
       items = items.filter(notAuthorDeleted);
       return items.reduce((carry, post) => {
