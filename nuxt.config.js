@@ -168,5 +168,12 @@ module.exports = {
   router: {
     middleware: ['redirects', 'history'],
     prefetchLinks: false, // lots of error logs from this
+    parseQuery(q) {
+      return require('qs').parse(q)
+    },
+    stringifyQuery(q) {
+      const r = require('qs').stringify(q)
+      return r ? '?' + r : ''
+    },
   },
 };

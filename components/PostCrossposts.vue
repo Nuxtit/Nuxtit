@@ -16,7 +16,7 @@ export default {
   computed: {
     crosspostedFrom() {
       const { post } = this;
-      const list = post && post && post.crosspost_parent_list;
+      const list = post && post.crosspost_parent_list;
       const list_len = list && list.length;
       if (!(list_len > 0)) return null;
       const parent = list[0];

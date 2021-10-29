@@ -1,6 +1,16 @@
 <template lang="pug">
   div
-    .pull-right {{ collection.data.length }} of {{ collection.total }}
+    .pull-right
+      nuxt-link.btn.btn-secondary(
+        v-for="option in $options.sorts"
+        v-if="sortnt(option)"
+        :to="$mergeRouteQuery(option.mrq)"
+      )
+        | {{ option.text }}
+        i.fa.fa-sort-number-up(v-if="option.sortNumberUp")
+        i.fa.fa-sort-number-down(v-if="option.sortNumberDown")
+      | &#32;{{ collection.data.length }} of {{ collection.total }}
+    .btn-group
     FeathersPagination(:collection="collection")
     table.table: tbody: tr(v-for="item in collection.data" :key="item.id"): td
       .row(v-if="linksMap[item.id]")
@@ -9,11 +19,11 @@
       .row(v-if="linksMap[item.id]")
         .col(style="max-width: 50px")
         .col
-          MixedItem(:item="item.rItem")
+          MixedItem(v-if="item.rItem" :item="item.rItem")
         PipeItemMenu.col.pipe-right-col(:item="item")
       .row(v-else :key="item.id")
         .col
-          MixedItem(:item="item.rItem")
+          MixedItem(v-if="item.rItem" :item="item.rItem")
         PipeItemMenu.col.pipe-right-col(:item="item")
       br
     FeathersPagination(:collection="collection" v-if="collection.data.length > 2")
@@ -33,6 +43,9 @@ import PostEntry from '~/components/PostEntry';
 import { Kind } from '~/lib/enum';
 import undata from '~/lib/undata';
 
+const ASC = '1';
+const DESC = '-1';
+
 export default {
   middleware: ['auth'],
   watchQuery: true,
@@ -43,6 +56,14 @@ export default {
     PipeItemMenu,
   },
   // mixins: [busyUntil],
+  sorts: Object.freeze([
+    { text: 'newest', mrq: { $sort: { saved_at: DESC } } },
+    { text: 'oldest', mrq: { $sort: { saved_at: ASC } } },
+    { text: 'score (asc)', mrq: { $sort: { score: ASC } }, sortNumberUp: 1 },
+    { text: 'score (desc)', mrq: { $sort: { score: DESC } }, sortNumberDown: 1 },
+    { text: 'link_id (asc)', mrq: { $sort: { link_id: ASC } }, sortNameUp: 1 },
+    { text: 'link_id (desc)', mrq: { $sort: { link_id: DESC } }, sortNameDown: 1 },
+  ]),
   props: {
     endpoint: {
       type: Object,
@@ -77,10 +98,32 @@ export default {
     });
 
     await appendRedditItems(reddit, collection.data);
+
+    // console.log({ collection });
     return {
       collection,
       linksMap: await linksForCollection(reddit, collection.data),
     };
+  },
+  methods: {
+    sortnt(option) {
+      const oldSort = this.$route.query.$sort;
+      const newSort = option.mrq.$sort;
+      console.log(JSON.stringify({ newSort, oldSort }));
+      if (newSort && oldSort) {
+        for (var k in newSort) {
+          console.log(
+            `newSort[${k}] !== oldSort[${k}]`,
+            newSort[k] !== oldSort[k],
+          );
+          if (newSort[k] !== oldSort[k]) {
+            return true;
+          }
+        }
+        return false;
+      }
+      return true;
+    },
   },
 };
 
@@ -106,7 +149,6 @@ async function appendRedditItems(reddit, input) {
   const redditChildren = map(flatten(
     responses.map(response => get(response, 'data.data.children')),
   ), undata);
-  // console.log({ redditChildren });
   input.forEach((item) => {
     item.rItem = find(redditChildren, redditItem => {
       return redditItem.name === item.id;
