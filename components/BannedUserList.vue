@@ -1,7 +1,7 @@
 <template lang="pug">
   .banned-users-list
     BannedUserEntry(
-      v-for='user in users.data.children'
+      v-for='user in users.children'
       :user='user'
       :key='user.name'
     )

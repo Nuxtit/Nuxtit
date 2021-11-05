@@ -4,13 +4,15 @@
     template(v-if="loading")
       | batch: {{ loading }}&#32;
       i.fa.fa-spinner.fa-spin
-    PostsGroupedByLinks(v-if="items" :items='{ "data.children": items}')
+    PostsGroupedByLinks(v-if="items" :items='collection')
     div.alert.alert-danger(v-if="errorMsg" v-text="errorMsg")
 </template>
 
 <script>
 import get from 'lodash/get';
+import map from 'lodash/map';
 import PostsGroupedByLinks from '~/components/PostsGroupedByLinks.vue';
+import undata from '~/lib/undata';
 
 export default {
   middleware: ['auth'],
@@ -23,6 +25,11 @@ export default {
       errorMsg: null,
       loading: 0,
     };
+  },
+  computed: {
+    collection () {
+      return { children: this.items };
+    },
   },
   async mounted() {
     const { username } = this.$route.params;
@@ -60,6 +67,7 @@ export default {
         }
         after = get(res, 'data.data.after') || null;
         batch = get(res, 'data.data.children') || [];
+        batch = map(batch, undata);
         this.items = [...this.items, ...batch];
       } while (after && batch && batch.length < limit);
     } finally {

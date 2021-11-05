@@ -10,6 +10,8 @@
     )
     p.alert.alert-danger(v-if='subreddit.user_is_banned')
       | You are banned from this subreddit.
+    p.alert.alert-danger(v-if='subreddit.user_is_muted')
+      | You are muted from this subreddit.
     p.alert.alert-danger(v-if='post.locked')
       | Comments are locked.
     p

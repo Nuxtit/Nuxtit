@@ -18,6 +18,7 @@
     | &#32;
     TimeAgo(:value='multi.created_utc')
     | &#32;
+    | &#32;|&#32;{{multi.visibility}}&#32;|&#32;
     ReportButton(:item='multi')
     | &#32;|&#32;
     span.btn-see-source(

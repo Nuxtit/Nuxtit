@@ -5,6 +5,7 @@
         v-for="option in $options.sorts"
         v-if="sortnt(option)"
         :to="$mergeRouteQuery(option.mrq)"
+        :key="option.text"
       )
         | {{ option.text }}
         i.fa.fa-sort-number-up(v-if="option.sortNumberUp")
@@ -109,7 +110,7 @@ export default {
     sortnt(option) {
       const oldSort = this.$route.query.$sort;
       const newSort = option.mrq.$sort;
-      console.log(JSON.stringify({ newSort, oldSort }));
+      // console.log(JSON.stringify({ newSort, oldSort }));
       if (newSort && oldSort) {
         for (var k in newSort) {
           console.log(

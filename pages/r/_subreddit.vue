@@ -1,24 +1,69 @@
 <template lang="pug">
   div
-    .container.subreddit-banner(:style='subredditBannerStyles')
-      br
-      //- b-img.profile-icon-img(
-      //-   v-if="subreddit.icon_img"
-      //-   :src="subreddit.icon_img"
-      //-   thumbnail
-      //-   width="128"
-      //-   height="128"
-      //- )
-      br
-      br
-      br
-    h3(@click.prevent.stop="$write_clipboard(subreddit.display_name)")
-      | /r/{{subreddit.display_name}}
-    h4 {{subreddit.title}}
-    p {{subreddit.subscribers}} subscribers
-    p
+    .row
+      .col
+        .container.subreddit-banner(:style='subredditBannerStyles')
+          br
+          b-img.profile-icon-img(
+            v-if="subreddit.icon_img"
+            :src="subreddit.icon_img"
+            thumbnail
+            width="128"
+            height="128"
+          )
+          br
+          br
+          br
+        h3(@click.prevent.stop="$write_clipboard(subreddit.display_name)")
+          | /r/{{subreddit.display_name}}
+        h4 {{subreddit.title}}
+      .col
+        table.table.table-sm(style="width: unset; min-width:256px" v-if="!subreddit.is_virtual")
+          tbody
+            tr
+              th restrict_posting
+              td(class="text-right") {{subreddit.restrict_posting}}
+            tr(v-if="subreddit.user_is_muted")
+              th user_is_muted
+              td(class="text-right") {{subreddit.user_is_muted}}
+            tr
+              th active_user_count
+              td(class="text-right") {{subreddit.active_user_count}}
+            tr
+              th accounts_active
+              td(class="text-right") {{subreddit.accounts_active}}
+            tr
+              th subscribers
+              td(class="text-right") {{subreddit.subscribers}}
+            tr(v-if="subreddit.quarantine")
+              th quarantine
+              td(class="text-right") {{subreddit.quarantine}}
+            tr(v-if="subreddit.hide_ads")
+              th hide_ads
+              td(class="text-right") {{subreddit.hide_ads}}
+            tr(v-if="subreddit.emojis_enabled")
+              th emojis_enabled
+              td(class="text-right") {{subreddit.emojis_enabled}}
+            tr(v-if="subreddit.advertiser_category")
+              th advertiser_category
+              td(class="text-right") {{subreddit.advertiser_category}}
+            tr
+              th should_archive_posts
+              td(class="text-right") {{subreddit.should_archive_posts}}
+            tr
+              th is_crosspostable_subreddit
+              td(class="text-right") {{subreddit.is_crosspostable_subreddit}}
+            tr
+              th subreddit_type
+              td(class="text-right") {{subreddit.subreddit_type}}
+            tr(v-if="subreddit.over18")
+              th over18
+              td(class="text-right") {{subreddit.over18}}
+            tr
+              th lang
+              td(class="text-right") {{subreddit.lang}}
+    p(v-if='subreddit.name')
       SubscribeButton(
-        v-if='subreddit.name'
         :item='subreddit'
       )
       | &#32;
@@ -27,12 +72,14 @@
         | &#32;
         span.small see on reddit
       | &#32;
+      TimeAgo(:value='subreddit.created_utc')
+      | &#32;
       span.btn-see-source(
         @click.prevent.stop='showSource^=true'
       )
         i.fa.fa-fw.fa-btn.fa-code
         | &#32;source
-    p
+    p(v-if='subreddit.name')
       | Your flair on this sub looks like:
       | &#32;
       UserLink(:username='MeData.name')
@@ -42,7 +89,6 @@
         type='user'
         show-none
       )
-
     pre.small.text-monospace(v-if='showSource' v-text="subreddit")
     b-nav(tabs)
       b-nav-item(
@@ -184,6 +230,7 @@ import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import CommunityDetails from '~/components/CommunityDetails';
 import ValidatePostSort from '~/mixins/ValidatePostSort';
 import FlairBadge from '~/components/FlairBadge';
+import TimeAgo from '~/components/TimeAgo';
 import PostList from '~/components/PostList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import SubscribeButton from '~/components/SubscribeButton.vue';
@@ -203,6 +250,7 @@ export default {
     bNavItem,
     CommunityDetails,
     FlairBadge,
+    TimeAgo,
     PostList,
     RedditPagination,
     SubscribeButton,

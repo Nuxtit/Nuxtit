@@ -1,8 +1,7 @@
 <template lang="pug">
   div
     .row
-      .col
-        .subreddit-banner(:style='subredditBannerStyles')
+      .col.subreddit-banner(:style='subredditBannerStyles')
         br
         b-img.profile-icon-img(
           v-if="user.icon_img"
@@ -42,6 +41,9 @@
             tr
               th accept_pms
               td(class="text-right") {{user.accept_pms}}
+            tr(v-if="user.gold_expiration")
+              th gold_expiration
+              td(class="text-right") {{user.gold_expiration}}
     p
       SubscribeButton(:item='user')
       | &#32;

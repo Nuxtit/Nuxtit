@@ -26,7 +26,7 @@ export default {
   mixins: [
     RedditItems({
       path({ route }) {
-        return '/message/unread';
+        return '/message/sent';
       },
       query({ route }) {
         return {

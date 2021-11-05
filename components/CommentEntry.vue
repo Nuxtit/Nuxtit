@@ -339,9 +339,7 @@ export default {
     },
     onCommentCreated(newComment) {
       this.comment.replies = this.comment.replies || {
-        data: {
-          children: [],
-        },
+        children: [],
       };
 
       this.comment.replies.children.push(newComment);
