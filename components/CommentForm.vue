@@ -20,19 +20,19 @@
     )
       i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='saving')
       i.fa.fa-fw.fa-btn.fa-floppy(v-else)
-      span(v-if='editingComment && editingComment.data.id && saving') Updating
-      span(v-else-if='editingComment && editingComment.data.id && editingComment.data.body === body') Update
-      span(v-else-if='editingComment && editingComment.data.id') Update
+      span(v-if='editingComment && editingComment.id && saving') Updating
+      span(v-else-if='editingComment && editingComment.id && editingComment.body === body') Update
+      span(v-else-if='editingComment && editingComment.id') Update
       span(v-else-if='saving') Saving
       span(v-else) Save
     button.btn.btn-info.btn-cancel(
       @click.prevent.stop='$emit("close")'
     )
       i.fa.fa-fw.fa-btn.fa-cancel
-      span(v-if='!editingComment || !editingComment.data.id || body !== editingComment.data.body')
+      span(v-if='!editingComment || !editingComment.id || body !== editingComment.body')
         | Cancel
         span.small(
-          v-if='(body && !editingComment) || (editingComment && body !== editingComment.data.body)'
+          v-if='(body && !editingComment) || (editingComment && body !== editingComment.body)'
         )  (unsaved changes!)
       span(v-else) Done
 </template>
@@ -44,6 +44,7 @@ import UserLink from '~/components/UserLink';
 import { startMinWait } from '~/lib/sleep';
 import thingsToTree from '~/lib/thingsToTree';
 import { mapGetters } from 'vuex';
+import undata from '~/lib/undata';
 
 export default {
   name: 'CommentForm',
@@ -98,8 +99,8 @@ export default {
   mounted() {
     this.editingComment = this.comment;
     if (this.comment) {
-      this.body = this.comment.data.body;
-      this.selectedUsername = this.comment.data.author;
+      this.body = this.comment.body;
+      this.selectedUsername = this.comment.author;
     }
   },
   methods: {
@@ -108,31 +109,31 @@ export default {
       this.errors = null;
       try {
         this.saving = true;
-        if (this.editingComment && this.editingComment.data.id) {
+        if (this.editingComment && this.editingComment.id) {
           const response = await this.$reddit.post(
             '/api/editusertext',
             {
-              thing_id: this.editingComment.data.name,
+              thing_id: this.editingComment.name,
               text: this.body,
               return_rtjson: true,
             },
             {
-              username: this.editingComment.data.author,
+              username: this.editingComment.author,
             },
           );
 
           if (get(response, 'data.json.errors.length')) {
             this.errors = response.data.json.errors;
           } else {
-            Object.assign(this.editingComment.data, response.data);
+            Object.assign(this.editingComment, undata(response.data));
             this.$emit('updated-comment', this.editingComment);
           }
         } else {
-          const parent_id = this.parent.data.name;
+          const parent_id = this.parent.name;
           const response = await this.$reddit.post(
             '/api/comment',
             {
-              thing_id: this.parent.data.name,
+              thing_id: this.parent.name,
               text: this.body,
               return_rtjson: true,
               api_type: 'json',
@@ -151,10 +152,7 @@ export default {
             );
             this.$emit('append-replies', tree);
           } else {
-            this.editingComment = {
-              kind: 't1',
-              data: response.data,
-            };
+            this.editingComment = undata(response.data);
             this.$emit('created-comment', this.editingComment);
           }
         }

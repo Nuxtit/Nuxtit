@@ -9,7 +9,7 @@ CommentTree.comment-tree-loaded(
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='fetching')
     i.fa.fa-fw.fa-btn.fa-chat(v-else)
-    | load more comments ({{ item.data.count }} replies)
+    | load more comments ({{ item.count }} replies)
 </template>
 
 <script>
@@ -37,7 +37,7 @@ export default {
     async loadMore($event) {
       const minWait = startMinWait();
       try {
-        const { children, name, parent_id } = this.item.data;
+        const { children, name, parent_id } = this.item;
         const { post_id } = this.$route.params;
         this.fetching = true;
 

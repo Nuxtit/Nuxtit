@@ -69,7 +69,6 @@ export default {
       };
     },
     isValidQueueable() {
-      const { kind, data } = this.item;
       const { payload } = this;
 
       if (!(payload && payload.route)) {
@@ -78,34 +77,35 @@ export default {
       return true;
     },
     payload() {
-      const { kind, data } = this.item;
-      const route = data.permalink || data.context;
+      const { item } = this;
+      const { kind, permalink, context } = item;
+      const route = permalink || context;
       const createdAt = now();
       if (kind === Kind.Comment) {
         return {
-          name: data.name,
-          text: (data.body || '').slice(0, 128),
+          name: item.name,
+          text: (item.body || '').slice(0, 128),
           route,
           createdAt,
         };
-        // console.log(data);
+        // console.log(item);
       } else if (kind === Kind.Post) {
         return {
-          name: data.name,
-          text: data.title,
+          name: item.name,
+          text: item.title,
           route,
           createdAt,
         };
-        // console.log(data);
+        // console.log(item);
       } else if (kind === Kind.Message) {
-        // console.log(data);
+        // console.log(item);
         return {
-          name: data.name,
-          title: data.subject,
+          name: item.name,
+          title: item.subject,
           route,
           createdAt,
         };
-        // console.log(data);
+        // console.log(item);
       } else {
         // console.log('kind', kind);
       }

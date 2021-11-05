@@ -1,7 +1,7 @@
 <template lang="pug">
   .posts-list
     PushshiftEntry(
-      v-for='item in items.data.children'
+      v-for='item in items.children'
       :item='item'
       :key='item.id'
     )

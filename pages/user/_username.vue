@@ -1,12 +1,11 @@
 <template lang="pug">
   div
     .row
-      .col
-        .subreddit-banner(:style='subredditBannerStyles')
+      .col.subreddit-banner(:style='subredditBannerStyles')
         br
         b-img.profile-icon-img(
-          v-if="user.data.icon_img"
-          :src="user.data.icon_img"
+          v-if="user.icon_img"
+          :src="user.icon_img"
           thumbnail
           width="128"
           height="128"
@@ -14,42 +13,45 @@
         br
         br
         br
-        h2(@click.prevent.stop="$write_clipboard(user.data.name)")
-          | /u/{{user.data.name}}
-        p(v-if="user.data.subreddit && user.data.subreddit.public_description" v-text="user.data.subreddit.public_description")
-        p(v-if="user.data.subreddit && user.data.subreddit.description" v-text="user.data.subreddit.description")
+        h2(@click.prevent.stop="$write_clipboard(user.name)")
+          | /u/{{user.name}}
+        p(v-if="user.subreddit && user.subreddit.public_description" v-text="user.subreddit.public_description")
+        p(v-if="user.subreddit && user.subreddit.description" v-text="user.subreddit.description")
       .col
         table.table.table-sm(style="width: unset; min-width:256px")
           tbody
-            tr(v-if="user.data.is_employee")
+            tr(v-if="user.is_employee")
               th is_employee
-              td(class="text-right") {{user.data.is_employee}}
+              td(class="text-right") {{user.is_employee}}
             tr
               th link_karma
-              td(class="text-right") {{user.data.link_karma}}
+              td(class="text-right") {{user.link_karma}}
             tr
               th comment_karma
-              td(class="text-right") {{user.data.comment_karma}}
+              td(class="text-right") {{user.comment_karma}}
             tr
               th awardee_karma
-              td(class="text-right") {{user.data.awardee_karma}}
-            tr(v-if="user.data.subreddit")
+              td(class="text-right") {{user.awardee_karma}}
+            tr(v-if="user.subreddit")
               th followers
-              td(class="text-right") {{user.data.subreddit.subscribers}}
+              td(class="text-right") {{user.subreddit.subscribers}}
             tr
               th accept_chats
-              td(class="text-right") {{user.data.accept_chats}}
+              td(class="text-right") {{user.accept_chats}}
             tr
               th accept_pms
-              td(class="text-right") {{user.data.accept_pms}}
+              td(class="text-right") {{user.accept_pms}}
+            tr(v-if="user.gold_expiration")
+              th gold_expiration
+              td(class="text-right") {{user.gold_expiration}}
     p
       SubscribeButton(:item='user')
       | &#32;
       FriendButton(:item='user')
       | &#32;
-      FollowButton(:item='user' v-if='user.data.subreddit')
+      FollowButton(:item='user' v-if='user.subreddit')
       | &#32;
-      TimeAgo(:value='user.data.created_utc')
+      TimeAgo(:value='user.created_utc')
       | &#32;
       a(
         :href='`https://www.reddit.com${$route.fullPath}`'
@@ -63,7 +65,7 @@
       )
         i.fa.fa-fw.fa-btn.fa-code
         | &#32;source
-    pre.small.text-monospace(v-if="showSource" v-text="user.data")
+    pre.small.text-monospace(v-if="showSource" v-text="user")
     b-nav(tabs)
       b-nav-item(
         :to='`/user/${$route.params.username}/about`'
@@ -153,6 +155,7 @@ import SubscribeButton from '~/components/SubscribeButton';
 import TimeAgo from '~/components/TimeAgo';
 import { makeComputeToggler } from '~/lib/toggle_open';
 import { mapGetters } from 'vuex';
+import undata from '~/lib/undata';
 
 export default {
   middleware: ['auth'],
@@ -177,7 +180,7 @@ export default {
     ...mapGetters('auth', ['MeData']),
     showSource: makeComputeToggler('source'),
     subredditBannerStyles() {
-      const { subreddit } = this.user.data;
+      const { subreddit } = this.user;
       const banner_img = subreddit ? subreddit.banner_img : null;
       return {
         'background-image': banner_img
@@ -186,7 +189,7 @@ export default {
       };
     },
     isAuthor() {
-      return this.MeData.name === this.user.data.name;
+      return this.MeData.name === this.user.name;
     },
     showUpvotedTab() {
       return this.isAuthor;
@@ -207,7 +210,7 @@ export default {
   async asyncData({ reddit, route }) {
     const { username } = route.params;
     return {
-      user: (await reddit.get(`/user/${username}/about`)).data,
+      user: undata((await reddit.get(`/user/${username}/about`)).data),
     };
   },
 };

@@ -1,6 +1,6 @@
 <template lang="pug">
   b-badge(v-if='crosspostedFrom' v-text="crosspostedFrom")
-  b-badge(v-else-if='post.data.num_crossposts > 0') [x-posts: {{ post.data.num_crossposts }}]&#32;
+  b-badge(v-else-if='post.num_crossposts > 0') [x-posts: {{ post.num_crossposts }}]&#32;
   span(v-else v-show="false")
 </template>
 
@@ -16,7 +16,7 @@ export default {
   computed: {
     crosspostedFrom() {
       const { post } = this;
-      const list = post && post.data && post.data.crosspost_parent_list;
+      const list = post && post.crosspost_parent_list;
       const list_len = list && list.length;
       if (!(list_len > 0)) return null;
       const parent = list[0];

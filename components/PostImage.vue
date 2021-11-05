@@ -1,38 +1,38 @@
 <template lang="pug">
   .post-image
-    ItemHtml(v-if="post.data.is_self" :item="post")
+    ItemHtml(v-if="post.is_self" :item="post")
     video.img-fluid(v-else-if="isRedditVideo" preload="auto" autoplay="false" loop="loop" controls)
-      source(:src="post.data.secure_media.reddit_video.fallback_url" type="video/mp4")
-      source(:src="post.data.secure_media.reddit_video.hls_url" type="application/x-mpegURL")
+      source(:src="post.secure_media.reddit_video.fallback_url" type="video/mp4")
+      source(:src="post.secure_media.reddit_video.hls_url" type="application/x-mpegURL")
     video.img-fluid(v-else-if="isImgurVideo" preload="auto" autoplay="false" loop="loop" controls)
       source(:src="imgurMp4Src" type="video/mp4")
       source(:src="imgurSrc" type="video/gifv")
-    span(v-else-if="isPostHintVideo && post.data.secure_media_embed && post.data.secure_media_embed.content"
-      v-html="post.data.secure_media_embed.content")
+    span(v-else-if="isPostHintVideo && post.secure_media_embed && post.secure_media_embed.content"
+      v-html="post.secure_media_embed.content")
     span(v-else-if="isOembed"
-      v-html="post.data.secure_media.oembed.html")
+      v-html="post.secure_media.oembed.html")
     span(v-else-if="imgurAlbumId && albumData === null")
       Loading
     span(v-else-if="imgurAlbumId && albumData !== false")
       ImgurAlbum(:album="albumData")
-    span(v-else-if="imgurAlbumId && albumData === false && post.data.media_embed && post.data.media_embed.content")
-      tt imgurAlbumId && post.data.media_embed.content
-      div(v-html='post.data.media_embed.content')
+    span(v-else-if="imgurAlbumId && albumData === false && post.media_embed && post.media_embed.content")
+      tt imgurAlbumId && post.media_embed.content
+      div(v-html='post.media_embed.content')
     span(v-else-if="redditGallery")
       RedditGallery(:album="redditGallery")
     b-img(
       v-else-if="imageSrc"
       :src="imageSrc"
-      :alt="post.data.title"
+      :alt="post.title"
       fluid
     )
-    span(v-else-if="post.data.thumbnail === 'image'")
+    span(v-else-if="post.thumbnail === 'image'")
       | image
-    span(v-else-if="post.data.thumbnail === 'default'" title="default")
+    span(v-else-if="post.thumbnail === 'default'" title="default")
       i.fa.fa-fw.fa-btn.fa-5x.fa-question-circle-o
-    span(v-else-if="post.data.thumbnail === 'self'" title="self")
+    span(v-else-if="post.thumbnail === 'self'" title="self")
       i.fa.fa-fw.fa-btn.fa-5x.fa-doc-text
-    span(v-else-if="post.data.thumbnail === 'spoiler'" title="spoiler")
+    span(v-else-if="post.thumbnail === 'spoiler'" title="spoiler")
       i.fa.fa-fw.fa-btn.fa-5x.fa-question-circle-o
     span(v-else) NO_THUMB
 </template>
@@ -85,38 +85,36 @@ export default {
         return true;
       }
       if (
-        includes(this.post.data.url, '//i.imgur.com/') &&
-        this.post.data.url.endsWith('.gifv')
+        includes(this.post.url, '//i.imgur.com/') &&
+        this.post.url.endsWith('.gifv')
       ) {
         return true;
       }
       return false;
     },
     isRedditVideo() {
-      return (
-        this.post.data.secure_media && this.post.data.secure_media.reddit_video
-      );
+      return this.post.secure_media && this.post.secure_media.reddit_video;
     },
     redditGallery() {
       return (
         getPostGallery(this.post) ||
-        map(this.post.data.crosspost_parent_list, getPostGallery)[0] ||
+        map(this.post.crosspost_parent_list, getPostGallery)[0] ||
         null
       );
     },
     isOembed() {
       if (
-        this.post.data.secure_media &&
-        this.post.data.secure_media.oembed &&
-        this.post.data.secure_media.oembed.html
+        this.post.secure_media &&
+        this.post.secure_media.oembed &&
+        this.post.secure_media.oembed.html
       ) {
         if (
-          this.post.data.post_hint === 'link' &&
-          this.post.data.secure_media.type === 'twitter.com'
+          this.post.post_hint === 'link' &&
+          this.post.secure_media.type === 'twitter.com'
         ) {
           return true;
         }
-        if (this.post.data.secure_media.type === 'gfycat.com') {
+        if (this.post.secure_media.type === 'gfycat.com') {
           return true;
         }
       }
@@ -128,15 +126,15 @@ export default {
         return this.imageSrc.replace('gifv', 'mp4');
       }
       if (
-        includes(this.post.data.url, '//i.imgur.com/') &&
-        this.post.data.url.endsWith('.gifv')
+        includes(this.post.url, '//i.imgur.com/') &&
+        this.post.url.endsWith('.gifv')
       ) {
-        return this.post.data.url.replace('gifv', 'mp4');
+        return this.post.url.replace('gifv', 'mp4');
       }
       return null;
     },
     isPostHintVideo() {
-      return includes(this.post.data.post_hint, 'video');
+      return includes(this.post.post_hint, 'video');
     },
   },
   watch: {
@@ -147,7 +145,7 @@ export default {
           fetchImgurAlbum(newValue).then(
             res => {
               this.albumData = res.data;
-              console.log('newAlbumData', res.data);
+              // console.log('newAlbumData', res.data);
             },
             err => {
               this.albumData = false;

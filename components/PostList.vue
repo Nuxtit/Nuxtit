@@ -3,7 +3,7 @@
     PostEntry(
       v-for='post in postsChildren'
       :post='post'
-      :key='post.data.id'
+      :key='post.id'
     )
 </template>
 
@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     postsChildren() {
-      return get(this, 'posts.data.children') || [];
+      return get(this, 'posts.children') || [];
     },
   },
 };

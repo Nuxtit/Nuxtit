@@ -1,16 +1,18 @@
 <template lang="pug">
   .post-comments-page
     PostEntry(:post='post')
-    .post-body.container(v-if='post.data.is_self')
+    .post-body.container(v-if='post.is_self')
       .card.card-block.bg-faded
         ItemHtml(:item='post')
     PostPoll(
-      v-if="post.data.poll_data"
+      v-if="post.poll_data"
       :post='post'
     )
-    p.alert.alert-danger(v-if='subreddit.data.user_is_banned')
+    p.alert.alert-danger(v-if='subreddit.user_is_banned')
       | You are banned from this subreddit.
-    p.alert.alert-danger(v-if='post.data.locked')
+    p.alert.alert-danger(v-if='subreddit.user_is_muted')
+      | You are muted from this subreddit.
+    p.alert.alert-danger(v-if='post.locked')
       | Comments are locked.
     p
       .btn.btn-secondary(

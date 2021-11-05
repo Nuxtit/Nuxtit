@@ -10,38 +10,38 @@
       .row
         .col
           nuxt-link(
-            v-if="post.data.is_self"
-            :to='post.data.permalink'
-            v-text='post.data.title'
+            v-if="post.is_self"
+            :to='post.permalink'
+            v-text='post.title'
           )
           a(
-            v-if="!post.data.is_self"
+            v-if="!post.is_self"
             :href='postUrl'
             target='_blank'
             ref='nofollow'
-            v-text='post.data.title'
+            v-text='post.title'
           )
           | &#32;
           FlairBadge(:item='post' type='link')
           | &#32;
-          b-badge(v-if='post.data.is_video') [video]&#32;
-          b-badge(v-if='post.data.stickied') [stickied]&#32;
-          b-badge(v-if='post.data.pinned') [pinned]&#32;
-          b-badge(v-if='post.data.over_18') [nsfw]&#32;
-          b-badge(v-if='post.data.spoiler') [spoiler]&#32;
-          b-badge(v-if='post.data.locked') [locked]&#32;
-          b-badge(v-if='post.data.contest_mode') [contest_mode]&#32;
-          b-badge(v-if='post.data.author_patreon_flair') [patreon]&#32;
-          b-badge(v-if='post.data.author_cakeday') [cakeday]&#32;
-          b-badge(v-if='post.data.author_premium') [author_premium={{post.data.author_premium}}]&#32;
-          b-badge(v-if='post.data.discussion_type') [discussion_type={{post.data.discussion_type}}]&#32;
-          b-badge(v-if='post.data.send_replies===false') [send_replies:0]&#32;
-          b-badge(v-if='post.data.poll_data') [poll]&#32;
+          b-badge(v-if='post.is_video') [video]&#32;
+          b-badge(v-if='post.stickied') [stickied]&#32;
+          b-badge(v-if='post.pinned') [pinned]&#32;
+          b-badge(v-if='post.over_18') [nsfw]&#32;
+          b-badge(v-if='post.spoiler') [spoiler]&#32;
+          b-badge(v-if='post.locked') [locked]&#32;
+          b-badge(v-if='post.contest_mode') [contest_mode]&#32;
+          b-badge(v-if='post.author_patreon_flair') [patreon]&#32;
+          b-badge(v-if='post.author_cakeday') [cakeday]&#32;
+          b-badge(v-if='post.author_premium') [author_premium={{post.author_premium}}]&#32;
+          b-badge(v-if='post.discussion_type') [discussion_type={{post.discussion_type}}]&#32;
+          b-badge(v-if='post.send_replies===false') [send_replies:0]&#32;
+          b-badge(v-if='post.poll_data') [poll]&#32;
           ApprovedBadge(:item="post")
           | &#32;
           RemovedBadge(:item="post")
           | &#32;
-          b-badge(v-if='post.data.spam', variant='danger') [spam]&#32;
+          b-badge(v-if='post.spam', variant='danger') [spam]&#32;
           PostCrossposts(:post="post")
           PostDomain(:post="post")
           .score.pull-right
@@ -54,12 +54,12 @@
         .col
           | submitted
           | &#32;
-          TimeAgo(:value='post.data.created_utc')
-          template(v-if='post.data.edited') *
+          TimeAgo(:value='post.created_utc')
+          template(v-if='post.edited') *
           | &#32;
           | by
           | &#32;
-          UserLink(:username='post.data.author')
+          UserLink(:username='post.author')
           | &#32;
           FlairBadge(:item='post' type='author')
           | &#32;
@@ -69,35 +69,35 @@
           | &#32;
           | to
           | &#32;
-          SubredditLink(:subreddit='post.data.subreddit')
+          SubredditLink(:subreddit='post.subreddit')
           | &#32;
-          b-badge(v-if='post.data.quarantine')
+          b-badge(v-if='post.quarantine')
             | [quarantine]
           | &#32;
-          b-badge(v-if='post.data.mod_reason_title', variant='danger')
-            | [mod_reason_title={{post.data.mod_reason_title}}]
+          b-badge(v-if='post.mod_reason_title', variant='danger')
+            | [mod_reason_title={{post.mod_reason_title}}]
           | &#32;
-          b-badge(v-if='post.data.mod_note', variant='danger')
-            | [mod_note={{post.data.mod_note}}]
+          b-badge(v-if='post.mod_note', variant='danger')
+            | [mod_note={{post.mod_note}}]
           | &#32;
-          b-badge(v-if='post.data.collapsed_reason', variant='warning')
-            | [collapsed_reason={{post.data.collapsed_reason}}]
+          b-badge(v-if='post.collapsed_reason', variant='warning')
+            | [collapsed_reason={{post.collapsed_reason}}]
           | &#32;
-          b-badge(v-if='post.data.distinguished', variant='info')
-            | [distinguished={{post.data.distinguished}}]
+          b-badge(v-if='post.distinguished', variant='info')
+            | [distinguished={{post.distinguished}}]
           | &#32;
       .row
         .col
           AddToQueueButton(:item='post')
           | &#32;
           nuxt-link(
-            :to='post.data.permalink'
+            :to='post.permalink'
           )
             i.fa.fa-fw.fa-btn.fa-chat
-            span comments ({{ post.data.num_comments }})
+            span comments ({{ post.num_comments }})
           | &#32;
           a(
-            :href='`https://www.reddit.com${post.data.permalink}`'
+            :href='`https://www.reddit.com${post.permalink}`'
             target='_blank'
           )
             i.fa.fa-fw.fa-btn.fa-reddit
@@ -109,7 +109,7 @@
           | &#32;
           HideButton(:item='post')
           | &#32;
-          template(v-if='post.data.can_mod_post')
+          template(v-if='post.can_mod_post')
             SpamButton(:item='post')
             | &#32;
             RemoveButton(:item='post')
@@ -122,7 +122,7 @@
             | &#32;
           AddContributorButton(:item='post')
           | &#32;
-          template(v-if='isAuthor || post.data.can_mod_post')
+          template(v-if='isAuthor || post.can_mod_post')
             NsfwButton(:item='post')
             | &#32;
             SpoilerButton(:item='post')
@@ -157,7 +157,7 @@
           )
             i.fa.fa-fw.fa-btn.fa-code
             | &#32;source
-  .row(v-if='post.data.crosspost_parent_list && post.data.crosspost_parent_list.length > 0 && showCrossPost')
+  .row(v-if='post.crosspost_parent_list && post.crosspost_parent_list.length > 0 && showCrossPost')
     .col
       div crosspost history:
       table.table.table-sm
@@ -168,7 +168,7 @@
           th title
           th created
         tbody
-          tr(v-for="p in post.data.crosspost_parent_list")
+          tr(v-for="p in post.crosspost_parent_list")
             td(v-text="p.score")
             td: SubredditLink(:subreddit='p.subreddit')
             td: UserLink(:username='p.author')
@@ -306,11 +306,11 @@ export default {
   computed: {
     ...mapGetters('auth', ['MeData', 'usernames']),
     isAuthor() {
-      const { author } = this.post.data;
+      const { author } = this.post;
       return this.usernames.includes(author);
     },
     postUrl() {
-      let url = this.post.data.url || '';
+      let url = this.post.url || '';
       url = url.replace(linkRegEx, newLink);
       return url;
     },
@@ -324,7 +324,7 @@ export default {
   //   if (this.reportsCount > 0) {
   //     this.showOptions = true;
   //   }
-  //   if (get(this.post, 'data.saved')) {
+  //   if (get(this.post, 'saved')) {
   //     this.showOptions = true;
   //   }
   // },
@@ -333,13 +333,11 @@ export default {
       // @todo
     },
     onCommentCreated(newComment) {
-      // this.comment.data.replies = this.comment.data.replies || {
-      //   data: {
-      //     children: [],
-      //   },
+      // this.comment.replies = this.comment.replies || {
+      //   children: [],
       // };
-      // this.comment.data.replies.data.children.push(newComment);
-      this.post.data.num_comments++;
+      // this.comment.replies.children.push(newComment);
+      this.post.num_comments++;
     },
     onCrossPostCreated(newCrossPost) {
       // @todo

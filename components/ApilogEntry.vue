@@ -35,7 +35,7 @@
           i.fa.fa-fw.fa-btn.fa-code
           | &#32;source
     .card-body(v-if='showPayload && item.method !== "get"')
-      pre.text-monospace {{ item.data }}
+      pre.text-monospace {{ item }}
     .card-body(
       v-if='showResult'
       :class='item.status >= 400 ? "bg-danger" : (item.status >= 300 ? "bg-warning" : "bg-success")'

@@ -1,14 +1,14 @@
 <template lang="pug">
   span.btn-approve(
-    v-disabled="busy || item.data.approved"
+    v-disabled="busy || item.approved"
     :class='classes'
     @click.stop.prevent="approve"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-check(v-else-if='item.data.approved')
-    span(v-if='busy && item.data.approved') unapproving
-    span(v-else-if='busy && !item.data.approved') approving
-    span(v-else-if='item.data.approved') approved
+    i.fa.fa-fw.fa-btn.fa-check(v-else-if='item.approved')
+    span(v-if='busy && item.approved') unapproving
+    span(v-else-if='busy && !item.approved') approving
+    span(v-else-if='item.approved') approved
     span(v-else) approve
 </template>
 
@@ -34,16 +34,16 @@ export default {
   computed: {
     classes() {
       return {
-        'text-success': this.item.data.approved === true,
+        'text-success': this.item.approved === true,
       };
     },
     isApproved() {
-      return this.item.data.approved;
+      return this.item.approved;
     },
   },
   methods: {
     async approve($event) {
-      const { approved, name } = this.item.data;
+      const { approved, name } = this.item;
       const minWait = startMinWait();
       try {
         this.busy = true;
@@ -51,12 +51,12 @@ export default {
           // category: '???',
           id: name, // fullname
         });
-        this.item.data.approved = true;
-        if (this.item.data.removed) {
-          this.item.data.removed = false;
+        this.item.approved = true;
+        if (this.item.removed) {
+          this.item.removed = false;
         }
-        if (this.item.data.spam) {
-          this.item.data.spam = false;
+        if (this.item.spam) {
+          this.item.spam = false;
         }
       } catch (err) {
         console.error(err);

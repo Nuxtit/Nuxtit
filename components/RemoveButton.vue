@@ -33,12 +33,12 @@ export default {
   },
   computed: {
     isRemoved() {
-      if (this.item.data.removed) {
+      if (this.item.removed) {
         return true;
       }
-      if (!this.item.data.approved) {
+      if (!this.item.approved) {
         // @link https://old.reddit.com/r/bugs/comments/ak741x/when_automoderator_removes_a_comment_in_the_api/?
-        if (this.item.data.banned_by) {
+        if (this.item.banned_by) {
           return true;
         }
       }
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     async remove($event) {
-      const { removed, name, subreddit } = this.item.data;
+      const { removed, name, subreddit } = this.item;
       const minWait = startMinWait();
       try {
         this.busy = true;
@@ -70,18 +70,18 @@ export default {
           // renderstyle: 'html',
           renderstyle: 'json',
         });
-        this.item.data.removed = true;
-        if (this.item.data.approved) {
-          this.item.data.approved = false;
+        this.item.removed = true;
+        if (this.item.approved) {
+          this.item.approved = false;
         }
-        if (this.item.data.spam) {
-          this.item.data.spam = false;
+        if (this.item.spam) {
+          this.item.spam = false;
         }
-        if (this.item.data.approved_by) {
-          this.item.data.approved_by = null;
+        if (this.item.approved_by) {
+          this.item.approved_by = null;
         }
-        if (this.item.data.approved_at_utc) {
-          this.item.data.approved_at_utc = null;
+        if (this.item.approved_at_utc) {
+          this.item.approved_at_utc = null;
         }
       } catch (err) {
         console.error(err);

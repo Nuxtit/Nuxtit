@@ -1,9 +1,9 @@
 <template lang="pug">
   div
     br
-    .container
+    .container(v-if="subreddit.submit_text_html")
       .alert.alert-primary
-        ItemHtml(:value='subreddit.data.submit_text_html')
+        ItemHtml(:value='subreddit.submit_text_html')
     br
     .container
       PostForm(

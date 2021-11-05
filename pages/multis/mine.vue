@@ -16,6 +16,8 @@
 import RedditItems from '~/mixins/RedditItems';
 import RedditPagination from '~/components/RedditPagination';
 import MultiList from '~/components/MultiList';
+import map from 'lodash/map';
+import undata from '~/lib/undata';
 
 export default {
   components: {
@@ -37,7 +39,7 @@ export default {
   ],
   computed: {
     collection() {
-      return { data: { children: this.items } };
+      return { children: map(this.items, undata) };
     },
   },
 };

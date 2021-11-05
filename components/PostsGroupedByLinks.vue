@@ -22,7 +22,7 @@
         PostEntry(
           v-for='(post, index) in link.posts'
           :post='post'
-          :key='post.data.id'
+          :key='post.id'
           :show-thumbnail='index===0'
         )
 </template>
@@ -35,8 +35,8 @@ import PostEntry from '~/components/PostEntry';
 import PushshiftMissingEntry from '~/components/PushshiftMissingEntry';
 import SubredditEntry from '~/components/SubredditEntry';
 
-// const notHidden = p => p.data.hidden !== true;
-const notAuthorDeleted = p => p.data.author !== '[deleted]';
+// const notHidden = p => p.hidden !== true;
+const notAuthorDeleted = p => p.author !== '[deleted]';
 
 export default {
   name: 'PostsGroupedByLinks',
@@ -59,11 +59,11 @@ export default {
   },
   computed: {
     links() {
-      let items = get(this.items, 'data.children') || [];
+      let items = get(this.items, 'children') || [];
       // items = items.filter(notHidden);
       items = items.filter(notAuthorDeleted);
       return items.reduce((carry, post) => {
-        const url = post.data.url || post.data.permalink;
+        const url = post.url || post.permalink;
         if (!carry[url]) {
           carry[url] = {
             url,
@@ -84,9 +84,9 @@ export default {
           // autocollapse link section if all items have been interacted with
           this.collapsedLinks[l.display_url] =
             l.posts.filter(p => {
-              if (p.data.hidden === true) return false;
-              if (p.data.saved === true) return false;
-              if (p.data.likes !== null) return false;
+              if (p.hidden === true) return false;
+              if (p.saved === true) return false;
+              if (p.likes !== null) return false;
               return true;
             }).length === 0;
         });

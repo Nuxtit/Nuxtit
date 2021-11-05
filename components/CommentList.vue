@@ -1,10 +1,10 @@
 <template lang="pug">
   .comments-list
     CommentEntry(
-      v-for='comment in comments.data.children'
+      v-for='comment in comments.children'
       v-show='!comment.nuxtitHide'
       :comment='comment'
-      :key='comment.data.id'
+      :key='comment.id'
     )
 </template>
 

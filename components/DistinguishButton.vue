@@ -1,33 +1,33 @@
 <template lang="pug">
-  span.btn-contributor(
-    v-disabled="busy || isContributorned"
+  span.btn-distinguish(
+    v-disabled="busy || isDistinguishned"
     :class='classes'
     @click.stop.prevent="prompt"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-plus(v-else)
-    .alert.alert-info(v-if='existingContributor') already a contributor
-    span(v-if='busy && isContributorned') uncontributorning
-    span(v-else-if='busy && !isContributorned') contributorning
-    span(v-else-if='isContributorned') contributorned
-    span(v-else) contributor
+    .alert.alert-info(v-if='existingDistinguish') already a distinguish
+    span(v-if='busy && isDistinguishned') undistinguishning
+    span(v-else-if='busy && !isDistinguishned') distinguishning
+    span(v-else-if='isDistinguishned') distinguishned
+    span(v-else) distinguish
     div(
-      v-if="showingContributorForm"
+      v-if="showingDistinguishForm"
       @click.stop.prevent
     )
-      h2 Contributor User
-      span It is safe to add a user who is already a contributor
+      h2 Distinguish User
+      span It is safe to add a user who is already a distinguish
       nuxt-link(
         v-if="add_subreddit"
-        :to="`/r/${add_subreddit}/about/contributors`"
-      ) Contributors Page
+        :to="`/r/${add_subreddit}/about/distinguishs`"
+      ) Distinguishs Page
       .form-group
         label subreddit:
         b-form-input(
           v-model="add_subreddit"
         )
       .form-group
-        label who to contributor:
+        label who to distinguish:
         b-form-input(
           v-model="name"
         )
@@ -48,21 +48,21 @@
             v-disabled="busy"
             size="sm"
             variant="primary"
-            @click="showingContributorForm=false"
+            @click="showingDistinguishForm=false"
           ) CANCEL
           b-button(
             v-if="success"
             v-disabled="busy"
             size="sm"
             variant="primary"
-            @click="showingContributorForm=false"
+            @click="showingDistinguishForm=false"
           ) DONE
           b-button(
             v-if="!success"
             v-disabled="busy"
             size="sm"
             variant="primary"
-            @click="contributor"
+            @click="distinguish"
           ) ADD
       br
 </template>
@@ -71,10 +71,10 @@
 import isString from 'lodash/isString';
 import { startMinWait } from '~/lib/sleep';
 import TimeAgo from '~/components/TimeAgo';
-// contributor is the moderator action of contributorning a user from subreddit participation
+// distinguish adds a sigil, usually to indicate moderator or admin
 
 export default {
-  name: 'AddContributorButton',
+  name: 'DistinguishButton',
   components: {
     TimeAgo,
   },
@@ -89,8 +89,8 @@ export default {
       busy: false,
       success: null,
       error: null,
-      showingContributorForm: false,
-      existingContributor: null,
+      showingDistinguishForm: false,
+      existingDistinguish: null,
 
       name: null,
       add_subreddit:
@@ -102,52 +102,25 @@ export default {
     };
   },
   computed: {
-    isContributorned() {
-      if (this.item.isRedusaContributorned) {
+    isDistinguishned() {
+      if (this.item.isRedusaDistinguishned) {
         return true;
       }
       return false;
     },
     classes() {
       return {
-        'text-success': this.isContributorned,
+        'text-success': this.isDistinguishned,
       };
     },
   },
   methods: {
     async prompt($event) {
-      if (this.showingContributorForm) return;
-      const { item, add_subreddit } = this;
-      const responses = {};
-
-      try {
-        this.busy = true;
-        this.showingContributorForm = true;
-
-        this.name = this.item.author;
-
-        this.existingContributor = false;
-        if (this.add_subreddit) {
-          // check if already contributorned
-          const contributornedListReponse = await this.$reddit.get(
-            `/r/${add_subreddit}/about/contributors`,
-            {
-              params: {
-                user: this.name,
-              },
-            },
-          );
-
-          this.existingContributor =
-            contributornedListReponse.data.data.children[0];
-        }
-      } finally {
-        this.busy = false;
-      }
+      this.showingDistinguishForm = true;
     },
-    async contributor(payload) {
+    async distinguish(payload) {
       const { add_subreddit } = this;
-      const { isRedusaContributorned } = this.item;
+      const { isRedusaDistinguishned } = this.item;
       const { author } = this.item;
       const minWait = startMinWait();
 
@@ -156,15 +129,15 @@ export default {
         const response = await this.$reddit.post(
           `/r/${add_subreddit}/api/friend`,
           {
-            // name: 'le contributorned username',
+            // name: 'le distinguishned username',
             name: this.name,
             api_type: 'json',
-            type: 'contributor',
+            type: 'distinguish',
           },
         );
-        this.item.isRedusaContributorned = !isRedusaContributorned;
+        this.item.isRedusaDistinguishned = !isRedusaDistinguishned;
 
-        this.success = 'Contributorned!';
+        this.success = 'Distinguishned!';
       } catch (err) {
         console.error(err);
         this.error = err;

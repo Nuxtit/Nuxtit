@@ -1,9 +1,9 @@
 <template lang="pug">
   .banned-users-list
     ModLogEntry(
-      v-for='log in items.data.children'
+      v-for='log in items.children'
       :log='log'
-      :key='log.data.id'
+      :key='log.id'
     )
 </template>
 

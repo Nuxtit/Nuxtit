@@ -2,6 +2,7 @@ import get from 'lodash/get';
 import includes from 'lodash/includes';
 import isFunction from 'lodash/isFunction';
 import { startMinWait } from '~/lib/sleep';
+import undata from '~/lib/undata';
 import QueryParamLimit, { defaultLimit } from '~/mixins/QueryParamLimit';
 
 const defaultParams = Object.freeze({
@@ -14,9 +15,7 @@ function returnTrue() {
 
 function emptyCollection() {
   return {
-    data: {
-      children: [],
-    },
+    children: [],
   };
 }
 
@@ -36,7 +35,7 @@ export default function({ path, query, shouldAttemptApi }) {
     },
     computed: {
       showBottomPagination() {
-        return get(this.items, 'data.children.length', 0) > 1;
+        return get(this.items, 'children.length', 0) > 1;
       },
       redditQuery() {
         return query({ route: this.$route });
@@ -45,7 +44,7 @@ export default function({ path, query, shouldAttemptApi }) {
         return JSON.stringify(this.redditQuery);
       },
       zeroResults() {
-        return !(get(this.items, 'data.children.length', 0) > 0);
+        return !(get(this.items, 'children.length', 0) > 0);
       },
     },
     async asyncData({ reddit, route, store }) {
@@ -60,14 +59,14 @@ export default function({ path, query, shouldAttemptApi }) {
           })
           .catch(err => {
             if (err.message === 'Network Error') {
-              return { data: emptyCollection() };
+              return emptyCollection();
             }
             throw err;
           })).data;
 
         // console.log('asyncData');
         return {
-          items,
+          items: undata(items),
         };
       } else {
         return emptyCollection();
@@ -89,7 +88,8 @@ export default function({ path, query, shouldAttemptApi }) {
               },
             })).data;
 
-            this.items = items;
+            console.log('RedditItems', { items });
+            this.items = undata(items);
             this.setItemsFilteredProperty();
           } finally {
             await minWait;
@@ -101,17 +101,17 @@ export default function({ path, query, shouldAttemptApi }) {
         const { text } = this.filterOptions;
         const lc_text = (text || '').toLowerCase();
 
-        if (!get(this.items, 'data.children.length')) {
+        if (!get(this.items, 'children.length')) {
           return;
         }
-        for (let i = this.items.data.children.length - 1, item; i >= 0; i--) {
-          item = this.items.data.children[i];
+        for (let i = this.items.children.length - 1, item; i >= 0; i--) {
+          item = this.items.children[i];
           this.$set(item, 'nuxtitHide', !isMatch(item));
         }
 
-        function isMatch({ kind, data }) {
+        function isMatch({ kind, body }) {
           if (lc_text) {
-            const lc_body = (data.body || '').toLowerCase();
+            const lc_body = (body || '').toLowerCase();
             if (includes(lc_body, lc_text)) {
               return true;
             }

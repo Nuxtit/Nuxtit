@@ -5,11 +5,11 @@
     @click.stop.prevent="setFriend"
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
-    i.fa.fa-fw.fa-btn.fa-minus(v-if="item.data.is_friend")
+    i.fa.fa-fw.fa-btn.fa-minus(v-if="item.is_friend")
     i.fa.fa-fw.fa-btn.fa-plus(v-else)
-    span(v-if='busy && item.data.is_friend') unfriending
-    span(v-else-if='busy && !item.data.is_friend') friending
-    span(v-else-if='item.data.is_friend') friend
+    span(v-if='busy && item.is_friend') unfriending
+    span(v-else-if='busy && !item.is_friend') friending
+    span(v-else-if='item.is_friend') friend
     span(v-else) friend
 </template>
 
@@ -33,14 +33,14 @@ export default {
   computed: {
     classes() {
       return {
-        'text-danger': this.item.data.is_friend === true,
-        'text-success': this.item.data.is_friend === false,
+        'text-danger': this.item.is_friend === true,
+        'text-success': this.item.is_friend === false,
       };
     },
   },
   methods: {
     async setFriend($event) {
-      const { is_friend, name } = this.item.data;
+      const { is_friend, name } = this.item;
       const minWait = startMinWait();
       try {
         this.busy = true;
@@ -60,7 +60,7 @@ export default {
             }),
           );
         }
-        this.item.data.is_friend = !is_friend;
+        this.item.is_friend = !is_friend;
       } catch (err) {
         console.error(err);
         this.error = err;

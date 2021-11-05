@@ -31,7 +31,7 @@
       i.fa.fa-fw.fa-btn.fa-trash(v-else)
     br
     br
-    AddToQueueButton(:item="item.rItem")
+    AddToQueueButton(v-if="item.rItem" :item="item.rItem")
     br
     br
     nuxt-link(

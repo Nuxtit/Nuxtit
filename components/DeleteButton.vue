@@ -7,9 +7,9 @@
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-trash(v-else)
     span(v-if='prompted') Are you sure? (delete)
-    span(v-else-if='busy && item.data.deleted') deleting
-    span(v-else-if='busy && !item.data.deleted') deleting
-    span(v-else-if='item.data.deleted') deleted
+    span(v-else-if='busy && item.deleted') deleting
+    span(v-else-if='busy && !item.deleted') deleting
+    span(v-else-if='item.deleted') deleted
     span(v-else) delete
 </template>
 
@@ -37,14 +37,14 @@ export default {
   computed: {
     classes() {
       return {
-        'text-danger': this.item.data.deleted,
+        'text-danger': this.item.deleted,
       };
     },
   },
   methods: {
     async trash($event) {
       if (this.prompted) {
-        const { deleted, name } = this.item.data;
+        const { deleted, name } = this.item;
         const minWait = startMinWait();
         try {
           this.busy = true;
@@ -55,13 +55,13 @@ export default {
               id: name, // fullname
             },
             {
-              username: get(this.item, 'data.author'),
+              username: get(this.item, 'author'),
             },
           );
           // deleted is not really defined
           // so we'll use the helper to ensure
           // reactivity is detected
-          this.$set(this.item.data, 'deleted', !deleted);
+          this.$set(this.item, 'deleted', !deleted);
         } catch (err) {
           console.error(err);
           this.error = err;

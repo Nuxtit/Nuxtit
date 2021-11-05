@@ -1,19 +1,19 @@
 <template lang="pug">
 .subreddit-entry
   .subreddit-row-1
-    SubredditLink(:subreddit='subreddit.data.display_name')
+    SubredditLink(:subreddit='subreddit.display_name')
     | &#32;
-    span(v-text='subreddit.data.title')
+    span(v-text='subreddit.title')
   .subreddit-row-2
-    ItemHtml(:value='subreddit.data.public_description_html')
+    ItemHtml(:value='subreddit.public_description_html')
   .subreddit-row-3.text-muted
     SubscribeButton(:item='subreddit')
     | &#32;|&#32;
-    | {{ subreddit.data.subscribers }} subscribers
+    | {{ subreddit.subscribers }} subscribers
     | &#32;|&#32;
     | created
     | &#32;
-    TimeAgo(:value='subreddit.data.created_utc')
+    TimeAgo(:value='subreddit.created_utc')
     | &#32;
     ReportButton(:item='subreddit')
     | &#32;|&#32;

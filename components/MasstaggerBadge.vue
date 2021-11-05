@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     username() {
-      return this.name || this.item.data.author;
+      return this.name || this.item.author;
     },
     mtDisabled() {
       return !this.$store.getters['settings/mtEnable'];

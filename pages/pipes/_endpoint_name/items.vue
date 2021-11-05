@@ -1,6 +1,17 @@
 <template lang="pug">
   div
-    .pull-right {{ collection.data.length }} of {{ collection.total }}
+    .pull-right
+      nuxt-link.btn.btn-secondary(
+        v-for="option in $options.sorts"
+        v-if="sortnt(option)"
+        :to="$mergeRouteQuery(option.mrq)"
+        :key="option.text"
+      )
+        | {{ option.text }}
+        i.fa.fa-sort-number-up(v-if="option.sortNumberUp")
+        i.fa.fa-sort-number-down(v-if="option.sortNumberDown")
+      | &#32;{{ collection.data.length }} of {{ collection.total }}
+    .btn-group
     FeathersPagination(:collection="collection")
     table.table: tbody: tr(v-for="item in collection.data" :key="item.id"): td
       .row(v-if="linksMap[item.id]")
@@ -9,11 +20,11 @@
       .row(v-if="linksMap[item.id]")
         .col(style="max-width: 50px")
         .col
-          MixedItem(:item="item.rItem")
+          MixedItem(v-if="item.rItem" :item="item.rItem")
         PipeItemMenu.col.pipe-right-col(:item="item")
       .row(v-else :key="item.id")
         .col
-          MixedItem(:item="item.rItem")
+          MixedItem(v-if="item.rItem" :item="item.rItem")
         PipeItemMenu.col.pipe-right-col(:item="item")
       br
     FeathersPagination(:collection="collection" v-if="collection.data.length > 2")
@@ -31,6 +42,10 @@ import PipeItemMenu from '~/components/Pipes/ItemMenu';
 import MixedItem from '~/components/MixedItem';
 import PostEntry from '~/components/PostEntry';
 import { Kind } from '~/lib/enum';
+import undata from '~/lib/undata';
+
+const ASC = '1';
+const DESC = '-1';
 
 export default {
   middleware: ['auth'],
@@ -42,6 +57,14 @@ export default {
     PipeItemMenu,
   },
   // mixins: [busyUntil],
+  sorts: Object.freeze([
+    { text: 'newest', mrq: { $sort: { saved_at: DESC } } },
+    { text: 'oldest', mrq: { $sort: { saved_at: ASC } } },
+    { text: 'score (asc)', mrq: { $sort: { score: ASC } }, sortNumberUp: 1 },
+    { text: 'score (desc)', mrq: { $sort: { score: DESC } }, sortNumberDown: 1 },
+    { text: 'link_id (asc)', mrq: { $sort: { link_id: ASC } }, sortNameUp: 1 },
+    { text: 'link_id (desc)', mrq: { $sort: { link_id: DESC } }, sortNameDown: 1 },
+  ]),
   props: {
     endpoint: {
       type: Object,
@@ -76,10 +99,32 @@ export default {
     });
 
     await appendRedditItems(reddit, collection.data);
+
+    // console.log({ collection });
     return {
       collection,
       linksMap: await linksForCollection(reddit, collection.data),
     };
+  },
+  methods: {
+    sortnt(option) {
+      const oldSort = this.$route.query.$sort;
+      const newSort = option.mrq.$sort;
+      // console.log(JSON.stringify({ newSort, oldSort }));
+      if (newSort && oldSort) {
+        for (var k in newSort) {
+          console.log(
+            `newSort[${k}] !== oldSort[${k}]`,
+            newSort[k] !== oldSort[k],
+          );
+          if (newSort[k] !== oldSort[k]) {
+            return true;
+          }
+        }
+        return false;
+      }
+      return true;
+    },
   },
 };
 
@@ -102,13 +147,12 @@ async function appendRedditItems(reddit, input) {
       },
     }))
   }
-  const redditChildren = flatten(
+  const redditChildren = map(flatten(
     responses.map(response => get(response, 'data.data.children')),
-  );
-  // console.log({ redditChildren });
+  ), undata);
   input.forEach((item) => {
     item.rItem = find(redditChildren, redditItem => {
-      return redditItem.data.name === item.id;
+      return redditItem.name === item.id;
     });
   });
 }
@@ -122,8 +166,8 @@ async function linksForCollection(reddit, input) {
   const comments = map(input, 'rItem').filter(item => {
     return item && item.kind === Kind.Comment
   });
-  const link_id_list = map(links, 'data.name');
-  const commentlink_id_list = map(comments, 'data.link_id');
+  const link_id_list = map(links, 'name');
+  const commentlink_id_list = map(comments, 'link_id');
   // console.log({link_id_list})
   // console.log({commentlink_id_list})
   // console.log({fetchableCommentLinkIdList: commentlink_id_list.filter(link_id => {
@@ -148,9 +192,9 @@ async function linksForCollection(reddit, input) {
       },
     }))
   }
-  const redditChildren = flatten(
+  const redditChildren = map(flatten(
     responses.map(response => get(response, 'data.data.children')),
-  );
+  ), undata);
   // console.log({ redditChildren });
   redditChildren.forEach((item) => {
     links.push(item);
@@ -158,9 +202,9 @@ async function linksForCollection(reddit, input) {
   // console.log({links});
   const linksMap = input.reduce((carry, item) => {
     if (item && item.rItem && item.rItem.kind === Kind.Comment) {
-      const link_id = item.rItem.data.link_id;
+      const link_id = item.rItem.link_id;
       // console.log(link_id);
-      const link = link_id ? find(links, l => l.data.name === link_id) : null;
+      const link = link_id ? find(links, l => l.name === link_id) : null;
       if (link) {
         carry[item.id] = link;
       }

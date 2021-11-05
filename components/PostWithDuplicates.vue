@@ -7,7 +7,7 @@
       )
         | comments
       nuxt-link.btn.btn-primary.pull-right(
-        :to='`/pushshift/search?kind=posts&url=${post.data.url}`'
+        :to='`/pushshift/search?kind=posts&url=${post.url}`'
       )
         i.fa.fa-search.fa-fw
         | pushshift: other threads
@@ -20,9 +20,9 @@
     .post-duplicates
       h2 Duplicate Links:
       PostEntry(
-        v-for='d in duplicates.data.children'
+        v-for='d in duplicates.children'
         :post='d'
-        :key='d.data.id'
+        :key='d.id'
       )
 </template>
 
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     youtubeId() {
-      const url = this.post && this.post.data && this.post.data.url;
+      const url = this.post && this.post && this.post.url;
       return (url && getYoutubeId(url)) || null;
     },
   },

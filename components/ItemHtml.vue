@@ -42,11 +42,11 @@ export default {
     html() {
       let html =
         this.value ||
-        get(this.item, 'data.body_html') ||
-        get(this.item, 'data.selftext_html') ||
+        get(this.item, 'body_html') ||
+        get(this.item, 'selftext_html') ||
         '';
       if (
-        get(this.item, 'data.body') === '[removed]' &&
+        get(this.item, 'body') === '[removed]' &&
         get(this.item, 'pushshiftEntry.body')
       ) {
         html =

@@ -9,6 +9,7 @@
 <script>
 import PostWithComments from '~/components/PostWithComments.vue';
 import first from 'lodash/first';
+import undata from '~/lib/undata';
 
 export default {
   middleware: ['auth'],
@@ -28,8 +29,8 @@ export default {
     )).data;
 
     return {
-      post: first(posts.data.children),
-      comments,
+      post: undata(first(posts.data.children)),
+      comments: undata(comments),
     };
   },
 };

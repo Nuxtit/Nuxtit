@@ -1,7 +1,7 @@
 <template lang="pug">
   .wikicontributor-users-list
     WikiContributorUserEntry(
-      v-for='user in users.data.children'
+      v-for='user in users.children'
       :user='user'
       :key='user.name'
     )

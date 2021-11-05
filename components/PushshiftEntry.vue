@@ -11,45 +11,45 @@
       //- .row
       //-   .col
       //-     nuxt-link(
-      //-       v-if="item.data.is_self"
-      //-       :to='item.data.permalink'
-      //-       v-text='item.data.title'
+      //-       v-if="item.is_self"
+      //-       :to='item.permalink'
+      //-       v-text='item.title'
       //-     )
       //-     a(
-      //-       v-if="!item.data.is_self"
-      //-       :href='item.data.url'
+      //-       v-if="!item.is_self"
+      //-       :href='item.url'
       //-       target='_blank'
       //-       ref='nofollow'
-      //-       v-text='item.data.title'
+      //-       v-text='item.title'
       //-     )
       //-     | &#32;
       //-     FlairBadge(:item='item' type='link')
       //-     | &#32;
-      //-     b-badge(v-if='item.data.is_video') [video]
+      //-     b-badge(v-if='item.is_video') [video]
       //-     | &#32;
-      //-     b-badge(v-if='item.data.stickied') [stickied]
+      //-     b-badge(v-if='item.stickied') [stickied]
       //-     | &#32;
-      //-     b-badge(v-if='item.data.pinned') [pinned]
+      //-     b-badge(v-if='item.pinned') [pinned]
       //-     | &#32;
-      //-     b-badge(v-if='item.data.over_18') [nsfw]
+      //-     b-badge(v-if='item.over_18') [nsfw]
       //-     | &#32;
-      //-     b-badge(v-if='item.data.spoiler') [spoiler]
+      //-     b-badge(v-if='item.spoiler') [spoiler]
       //-     | &#32;
-      //-     b-badge(v-if='item.data.locked') [locked]
+      //-     b-badge(v-if='item.locked') [locked]
       //-     | &#32;
-      //-     b-badge(v-if='item.data.author_patreon_flair') [patreon]
+      //-     b-badge(v-if='item.author_patreon_flair') [patreon]
       //-     | &#32;
-      //-     b-badge(v-if='item.data.author_cakeday') [cakeday]
+      //-     b-badge(v-if='item.author_cakeday') [cakeday]
       //-     | &#32;
-      //-     b-badge(v-if='item.data.approved', variant='success') [approved]
+      //-     b-badge(v-if='item.approved', variant='success') [approved]
       //-     | &#32;
-      //-     b-badge(v-if='item.data.removed', variant='danger')
-      //-       template(v-if='item.data.removal_reason') [removed: {{item.data.removal_reason}}]
+      //-     b-badge(v-if='item.removed', variant='danger')
+      //-       template(v-if='item.removal_reason') [removed: {{item.removal_reason}}]
       //-       template [removed]
       //-     | &#32;
-      //-     b-badge(v-if='item.data.spam', variant='danger') [spam]
+      //-     b-badge(v-if='item.spam', variant='danger') [spam]
       //-     | &#32;
-      //-     b-badge(v-if='item.data.num_crossposts') [crossposts: {{ item.data.num_crossposts }}]
+      //-     b-badge(v-if='item.num_crossposts') [crossposts: {{ item.num_crossposts }}]
       //-     | &#32;
       //-     PostDomain(:post="post")
       //-     .score.pull-right
@@ -62,12 +62,12 @@
       //-   .col.small
       //-     | submitted
       //-     | &#32;
-      //-     TimeAgo(:value='item.data.created_utc')
-      //-     template(v-if='item.data.edited') *
+      //-     TimeAgo(:value='item.created_utc')
+      //-     template(v-if='item.edited') *
       //-     | &#32;
       //-     | by
       //-     | &#32;
-      //-     UserLink(:username='item.data.author')
+      //-     UserLink(:username='item.author')
       //-     | &#32;
       //-     FlairBadge(:item='item' type='author')
       //-     | &#32;
@@ -77,9 +77,9 @@
       //-     | &#32;
       //-     | to
       //-     | &#32;
-      //-     SubredditLink(:subreddit='item.data.subreddit')
+      //-     SubredditLink(:subreddit='item.subreddit')
       //-     | &#32;
-      //-     b-badge(v-if='item.data.quarantine')
+      //-     b-badge(v-if='item.quarantine')
       //-       | [quarantine]
       //-     | &#32;
       .row
@@ -87,13 +87,13 @@
           //- AddToQueueButton(:item='item')
           //- | &#32;
           //- nuxt-link(
-          //-   :to='item.data.permalink'
+          //-   :to='item.permalink'
           //- )
           //-   i.fa.fa-fw.fa-btn.fa-chat
-          //-   span comments ({{ item.data.num_comments }})
+          //-   span comments ({{ item.num_comments }})
           //- | &#32;
           //- a(
-          //-   :href='`https://www.reddit.com${item.data.permalink}`'
+          //-   :href='`https://www.reddit.com${item.permalink}`'
           //-   target='_blank'
           //- )
           //-   i.fa.fa-fw.fa-btn.fa-reddit
@@ -105,7 +105,7 @@
           //- | &#32;
           //- HideButton(:item='item')
           //- | &#32;
-          //- template(v-if='item.data.can_mod_post')
+          //- template(v-if='item.can_mod_post')
           //-   SpamButton(:item='item')
           //-   | &#32;
           //-   RemoveButton(:item='item')
@@ -114,7 +114,7 @@
           //-   | &#32;
           //-   LockButton(:item='item')
           //-   | &#32;
-          //- template(v-if='isAuthor || item.data.can_mod_post')
+          //- template(v-if='isAuthor || item.can_mod_post')
           //-   NsfwButton(:item='item')
           //-   | &#32;
           //-   SpoilerButton(:item='item')
@@ -133,7 +133,7 @@
           //-   ReportButton(:item='item')
           //-   | &#32;
           //- span.btn-reply-toggle(
-          //-   vif="item.data.send_replies"
+          //-   vif="item.send_replies"
           //-   @click.prevent.stop='showReply^=true'
           //- )
           //-   i.fa.fa-fw.fa-btn.fa-reply
@@ -144,12 +144,12 @@
           //- )
           //- | &#32;
           //- span.btn-see-reports(
-          //-   v-if='item.data.user_reports.length > 0'
+          //-   v-if='item.user_reports.length > 0'
           //-   @click.prevent.stop='showReports^=true'
           //- )
           //-   i.fa.fa-fw.fa-btn.fa-megaphone
           //-   | &#32;
-          //-   span reports ({{ item.data.user_reports.length }})
+          //-   span reports ({{ item.user_reports.length }})
           //- | &#32;
           span.btn-see-source(
             @click.prevent.stop='showSource^=true'
@@ -262,7 +262,7 @@ export default {
   computed: {
     ...mapGetters('auth', ['MeData', 'usernames']),
     isAuthor() {
-      const { author } = this.comment.data;
+      const { author } = this.comment;
       return this.usernames.includes(author);
     },
     showSource: makeComputeToggler('source'),
@@ -277,13 +277,13 @@ export default {
       // @todo
     },
     onCommentCreated(newComment) {
-      // this.comment.data.replies = this.comment.data.replies || {
+      // this.comment.replies = this.comment.replies || {
       //   data: {
       //     children: [],
       //   },
       // };
-      // this.comment.data.replies.data.children.push(newComment);
-      this.item.data.num_comments++;
+      // this.comment.replies.children.push(newComment);
+      this.item.num_comments++;
     },
     onCrossPostCreated(newCrossPost) {
       // @todo

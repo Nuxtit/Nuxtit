@@ -34,13 +34,8 @@ import SelectQueryLimit from '~/components/SelectQueryLimit';
 import SelectRedditSort from '~/components/SelectRedditSort';
 
 function get_name(item) {
-  if (item) {
-    if (item.data && item.data.name) {
-      return item.data.name;
-    }
-    if (item.name) {
-      return item.name;
-    }
+  if (item && item.name) {
+    return item.name;
   }
   return null;
 }
@@ -64,17 +59,15 @@ export default {
   },
   computed: {
     lastId() {
-      return get_name(
-        findLast(get(this, 'collection.data.children'), get_name),
-      );
+      return get_name(findLast(get(this, 'collection.children'), get_name));
     },
     firstId() {
-      return get_name(find(get(this, 'collection.data.children'), get_name));
+      return get_name(find(get(this, 'collection.children'), get_name));
     },
     after() {
       const { collection, $route, lastId, count } = this;
-      if (get(collection, 'data.after')) {
-        return collection.data.after;
+      if (get(collection, 'after')) {
+        return collection.after;
       }
       // if (lastId) {
       //   if ($route.query.before || count === 0) {
@@ -88,8 +81,8 @@ export default {
     },
     before() {
       const { collection, $route, firstId, count } = this;
-      if (get(collection, 'data.before')) {
-        return collection.data.before;
+      if (get(collection, 'before')) {
+        return collection.before;
       }
       if (firstId) {
         if ($route.query.after || count > 0) {

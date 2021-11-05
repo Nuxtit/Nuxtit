@@ -210,7 +210,7 @@ export default {
     defaultBlog() {
       const { parent, blogs } = this;
       let blog;
-      const subreddit = get(parent, 'data.subreddit');
+      const subreddit = get(parent, 'subreddit');
       blog = subreddit
         ? find(
             blogs,

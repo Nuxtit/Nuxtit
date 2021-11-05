@@ -6,9 +6,9 @@
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-attention(v-else)
-    span(v-if='busy && item.data.over_18') unmarking nsfw
-    span(v-else-if='busy && !item.data.over_18') marking nsfw
-    span(v-else-if='item.data.over_18') unmark nsfw
+    span(v-if='busy && item.over_18') unmarking nsfw
+    span(v-else-if='busy && !item.over_18') marking nsfw
+    span(v-else-if='item.over_18') unmark nsfw
     span(v-else) mark nsfw
 </template>
 
@@ -32,13 +32,13 @@ export default {
   computed: {
     classes() {
       return {
-        'text-success': this.item.data.nsfw === true,
+        'text-success': this.item.nsfw === true,
       };
     },
   },
   methods: {
     async nsfw($event) {
-      const { over_18, name } = this.item.data;
+      const { over_18, name } = this.item;
       const minWait = startMinWait();
       try {
         this.busy = true;
@@ -49,7 +49,7 @@ export default {
             id: name, // fullname
           },
         );
-        this.item.data.over_18 = !over_18;
+        this.item.over_18 = !over_18;
       } catch (err) {
         console.error(err);
         this.error = err;

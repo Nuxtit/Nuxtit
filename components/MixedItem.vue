@@ -2,26 +2,26 @@
   CommentEntry(
     v-if='item.kind === "t1"'
     :comment='item'
-    :key='item.data.id'
+    :key='item.id'
   )
   PostEntry(
     v-else-if='item.kind === "t3"'
     :post='item'
-    :key='item.data.id'
+    :key='item.id'
   )
   SubredditEntry(
     v-else-if='item.kind === "t5"'
     :subreddit='item'
-    :key='item.data.id'
+    :key='item.id'
   )
   PushshiftMissingEntry(
     v-else-if="item.pushshiftMissing"
     :item='item'
-    :key='item.data.id'
+    :key='item.id'
   )
   div.alert.alert-danger(
     v-else
-    :key='item.data.id'
+    :key='item.id'
   )
     | Error: unsupported "kind" {{ item.kind }}
     | Error: unsupported "kind" {{ {item} }}

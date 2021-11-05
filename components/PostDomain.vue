@@ -1,6 +1,6 @@
 <template lang="pug">
   span.small.text-monospace(
-    v-if='post.data.domain'
+    v-if='post.domain'
     v-text='`(${text})`'
   )
 </template>
@@ -17,13 +17,13 @@ export default {
   computed: {
     // if we go back to this being a link, then
     // to() {
-    //   return this.post.data.is_self ? `/r/${this.post.data.domain.replace('self.')}` : `/domain/${this.post.data.domain}`;
+    //   return this.post.is_self ? `/r/${this.post.domain.replace('self.')}` : `/domain/${this.post.domain}`;
     // },
     text() {
-      if (this.post.data.is_self) {
-        return this.post.data.domain;
+      if (this.post.is_self) {
+        return this.post.domain;
       }
-      const { url, domain } = this.post.data;
+      const { url, domain } = this.post;
       const domain_length = domain.length;
       const index_of_qm = url.indexOf('?');
       const url_no_qm =
@@ -142,7 +142,7 @@ export default {
       }
       // @todo google.com/amp
       // default
-      return this.post.data.domain;
+      return this.post.domain;
     },
   },
 };

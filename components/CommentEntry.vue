@@ -1,61 +1,61 @@
 <template lang="pug">
 .comment-entry
-  .card(:class='{"border-info": (comment.data.id && comment.data.id === $route.params.comment_id)}')
+  .card(:class='{"border-info": (comment.id && comment.id === $route.params.comment_id)}')
     .card-header.text-muted.r-chps
-      b-badge(v-if='comment.data.stickied') [stickied]
+      b-badge(v-if='comment.stickied') [stickied]
       | &#32;
-      UserLink(:username='comment.data.author')
+      UserLink(:username='comment.author')
       | &#32;
-      b-badge(v-if='comment.data.is_submitter')
+      b-badge(v-if='comment.is_submitter')
         | [OP]
       | &#32;
-      b-badge(v-if='comment.data.body === "[removed]"') [removed]&#32;
-      b-badge(v-if='comment.data.locked') [locked]&#32;
+      b-badge(v-if='comment.body === "[removed]"') [removed]&#32;
+      b-badge(v-if='comment.locked') [locked]&#32;
       FlairBadge(:item='comment' type='author')
       | &#32;
       UsertagBadge(:item='comment' type='author')
       | &#32;
       GildedBadge(:item='comment')
       | &#32;
-      b-badge(v-if='comment.data.author_patreon_flair') [patreon]&#32;
-      b-badge(v-if='comment.data.author_cakeday') [cakeday]&#32;
-      b-badge(v-if='comment.data.author_premium') [author_premium={{comment.data.author_premium}}]&#32;
-      b-badge(v-if='comment.data.controversiality') [controversiality={{comment.data.controversiality}}]&#32;
-      b-badge(v-if='comment.data.collapsed_because_crowd_control') [collapsed_because_crowd_control={{comment.data.collapsed_because_crowd_control}}]&#32;
-      b-badge(v-if='comment.data.send_replies===false') [send_replies:0]&#32;
-      TimeAgo(:value='comment.data.created_utc')
-      template(v-if='comment.data.edited') *
+      b-badge(v-if='comment.author_patreon_flair') [patreon]&#32;
+      b-badge(v-if='comment.author_cakeday') [cakeday]&#32;
+      b-badge(v-if='comment.author_premium') [author_premium={{comment.author_premium}}]&#32;
+      b-badge(v-if='comment.controversiality') [controversiality={{comment.controversiality}}]&#32;
+      b-badge(v-if='comment.collapsed_because_crowd_control') [collapsed_because_crowd_control={{comment.collapsed_because_crowd_control}}]&#32;
+      b-badge(v-if='comment.send_replies===false') [send_replies:0]&#32;
+      TimeAgo(:value='comment.created_utc')
+      template(v-if='comment.edited') *
       | &#32;
       ApprovedBadge(:item="comment")
       | &#32;
       RemovedBadge(:item="comment")
       | &#32;
-      b-badge(v-if='comment.data.spam', variant='danger') [spam]
+      b-badge(v-if='comment.spam', variant='danger') [spam]
       | &#32;
-      b-badge(v-if='comment.data.mod_reason_title', variant='danger')
-        | [mod_reason_title={{comment.data.mod_reason_title}}]
+      b-badge(v-if='comment.mod_reason_title', variant='danger')
+        | [mod_reason_title={{comment.mod_reason_title}}]
       | &#32;
-      b-badge(v-if='comment.data.mod_note', variant='danger')
-        | [mod_note={{comment.data.mod_note}}]
+      b-badge(v-if='comment.mod_note', variant='danger')
+        | [mod_note={{comment.mod_note}}]
       | &#32;
-      b-badge(v-if='comment.data.collapsed_reason', variant='warning')
-        | [collapsed_reason={{comment.data.collapsed_reason}}]
+      b-badge(v-if='comment.collapsed_reason', variant='warning')
+        | [collapsed_reason={{comment.collapsed_reason}}]
       | &#32;
-      b-badge(v-if='comment.data.distinguished', variant='info')
-        | [distinguished={{comment.data.distinguished}}]
+      b-badge(v-if='comment.distinguished', variant='info')
+        | [distinguished={{comment.distinguished}}]
       | &#32;
       SubredditLink(
         v-if='showSubreddit'
-        :subreddit='comment.data.subreddit'
+        :subreddit='comment.subreddit'
       )
       | &#32;
       Awards(:item="comment")
       | &#32;
       nuxt-link(
-        v-if='!$route.params.post_id && comment.data.link_title'
-        :to='comment.data.permalink'
+        v-if='!$route.params.post_id && comment.link_title'
+        :to='comment.permalink'
       )
-        small on {{ comment.data.link_title }}
+        small on {{ comment.link_title }}
       .pull-right
         i.fa.fa-fw.fa-btn.btn-collapse(
           :class='collapsed ? "fa-plus" : "fa-minus"'
@@ -92,14 +92,14 @@
         AddToQueueButton(:item='comment')
         | &#32;
         a(
-          :href='`https://www.reddit.com${comment.data.permalink}`'
+          :href='`https://www.reddit.com${comment.permalink}`'
           target='_blank'
         )
           i.fa.fa-fw.fa-btn.fa-reddit
           span see on reddit
         | &#32;
         nuxt-link(
-          :to='comment.data.permalink'
+          :to='comment.permalink'
         )
           i.fa.fa-fw.fa-btn.fa-link-ext
           span permalink
@@ -131,7 +131,7 @@
         | &#32;
         //- HideButton(:item='comment')
         //- | &#32;
-        template(v-if='comment.data.can_mod_post')
+        template(v-if='comment.can_mod_post')
           SpamButton(:item='comment')
           | &#32;
           RemoveButton(:item='comment')
@@ -181,7 +181,7 @@
     pre.small.text-monospace(v-if="showSource && !collapsed" v-text="comment")
   CommentTree(
     v-if='showReplies && !collapsed'
-    :comments='comment.data.replies'
+    :comments='comment.replies'
   )
 </template>
 
@@ -263,7 +263,7 @@ export default {
   },
   data() {
     return {
-      collapsed: get(this.comment, 'data.collapsed'),
+      collapsed: get(this.comment, 'collapsed'),
       open: null,
       reply: null,
     };
@@ -271,30 +271,30 @@ export default {
   computed: {
     ...mapGetters('auth', ['MeData', 'usernames']),
     isRemoved() {
-      if (this.comment.data.removed) {
+      if (this.comment.removed) {
         return true;
       }
-      if (!this.comment.data.approved) {
+      if (!this.comment.approved) {
         // @link https://old.reddit.com/r/bugs/comments/ak741x/when_automoderator_removes_a_comment_in_the_api/?
-        if (this.comment.data.banned_by === 'AutoModerator') {
+        if (this.comment.banned_by === 'AutoModerator') {
           return true;
         }
       }
       return false;
     },
     showReplies() {
-      const { replies } = this.comment.data;
-      return replies && replies.data.children && replies.data.children.length;
+      const { replies } = this.comment;
+      return replies && replies.children && replies.children.length;
     },
     parentTo() {
-      const { parent_id, permalink, link_id, id } = this.comment.data;
+      const { parent_id, permalink, link_id, id } = this.comment;
       if (parent_id && parent_id !== link_id && permalink) {
         return permalink.replace(id, parent_id.slice(3));
       }
       return null;
     },
     linkTo() {
-      const { parent_id, permalink, link_id, id } = this.comment.data;
+      const { parent_id, permalink, link_id, id } = this.comment;
       if (parent_id && permalink) {
         const linkPath = permalink.replace(`/${id}/`, '/');
         if (this.$route.path !== linkPath) {
@@ -304,11 +304,11 @@ export default {
       return null;
     },
     isAuthor() {
-      const { author } = this.comment.data;
+      const { author } = this.comment;
       return this.usernames.includes(author);
     },
     showSubreddit() {
-      if (!this.comment.data.subreddit) return false;
+      if (!this.comment.subreddit) return false;
       if (!this.$route.params.subreddit) return true;
       return isVirtualSubreddit(this.$route.params.subreddit);
     },
@@ -320,10 +320,10 @@ export default {
     showOptions: makeComputeToggler('options'),
   },
   mounted() {
-    if (this.comment.data.num_reports > 0) {
+    if (this.comment.num_reports > 0) {
       this.showOptions = true;
     }
-    if (get(this.comment, 'data.saved')) {
+    if (get(this.comment, 'saved')) {
       this.showOptions = true;
     }
   },
@@ -338,13 +338,11 @@ export default {
       // @todo
     },
     onCommentCreated(newComment) {
-      this.comment.data.replies = this.comment.data.replies || {
-        data: {
-          children: [],
-        },
+      this.comment.replies = this.comment.replies || {
+        children: [],
       };
 
-      this.comment.data.replies.data.children.push(newComment);
+      this.comment.replies.children.push(newComment);
     },
     onCrossPostCreated(newPost) {
       //

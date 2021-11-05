@@ -1,7 +1,7 @@
 <template lang="pug">
   .moderator-users-list
     ModeratorUserEntry(
-      v-for='user in users.data.children'
+      v-for='user in users.children'
       :user='user'
       :key='user.name'
     )

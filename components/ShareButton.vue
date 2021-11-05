@@ -7,9 +7,9 @@
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-share(v-else)
-    span(v-if='busy && item.data.saved') unsharing
-    span(v-else-if='busy && !item.data.saved') sharing
-    span(v-else-if='item.data.saved') shared
+    span(v-if='busy && item.saved') unsharing
+    span(v-else-if='busy && !item.saved') sharing
+    span(v-else-if='item.saved') shared
     span(v-else) share
 </template>
 
@@ -33,13 +33,13 @@ export default {
   computed: {
     classes() {
       return {
-        // 'text-success': this.item.data.saved === true,
+        // 'text-success': this.item.saved === true,
       };
     },
   },
   methods: {
     async share($event) {
-      // const { saved, name } = this.item.data;
+      // const { saved, name } = this.item;
       // const minWait = startMinWait();
       // try {
       //   this.busy = true;
@@ -50,7 +50,7 @@ export default {
       //       id: name, // fullname
       //     },
       //   );
-      //   this.item.data.saved = !saved;
+      //   this.item.saved = !saved;
       // } catch (err) {
       //   console.error(err);
       //   this.error = err;

@@ -4,21 +4,21 @@
     variant='danger'
   )
     | removed
-    template(v-if="item.data.removal_reason") : {{item.data.removal_reason}}
+    template(v-if="item.removal_reason") : {{item.removal_reason}}
     | &#32;
-    template(v-if="item.data.banned_by && item.data.banned_by !== true")
+    template(v-if="item.banned_by && item.banned_by !== true")
       | [by
       | &#32;
-      UserLink.text-white(:username='item.data.banned_by')
+      UserLink.text-white(:username='item.banned_by')
       | ]
-    template(v-if="item.data.mod_reason_by && item.data.mod_reason_by !== true")
+    template(v-if="item.mod_reason_by && item.mod_reason_by !== true")
       | by
       | &#32;
-      UserLink.text-white(:username='item.data.mod_reason_by')
+      UserLink.text-white(:username='item.mod_reason_by')
     | &#32;
-    template(v-if="item.data.ban_note")  [ban_note={{item.data.ban_note}}]
+    template(v-if="item.ban_note")  [ban_note={{item.ban_note}}]
     | &#32;
-    TimeAgo.small(v-if="item.data.banned_at_utc" :value="item.data.banned_at_utc")
+    TimeAgo.small(v-if="item.banned_at_utc" :value="item.banned_at_utc")
   span(v-else v-show="false")
 </template>
 

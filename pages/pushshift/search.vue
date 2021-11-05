@@ -261,7 +261,7 @@ export default {
   methods: {
     pluckquickremoves(path) {
       return reduce(
-        get(this.items, 'data.children'),
+        get(this.items, 'children'),
         (carry, item) => {
           const name = get(item, `pushshiftEntry.${path}`);
           if (name) {

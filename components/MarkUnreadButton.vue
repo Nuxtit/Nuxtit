@@ -33,10 +33,10 @@ export default {
   computed: {
     isUnread: {
       get() {
-        return this.item.data.new;
+        return this.item.new;
       },
       set(value) {
-        this.item.data.new = !!value;
+        this.item.new = !!value;
       },
     },
     classes() {
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     async hide($event) {
-      const { name } = this.item.data;
+      const { name } = this.item;
       const { isUnread } = this;
       const minWait = startMinWait();
       try {

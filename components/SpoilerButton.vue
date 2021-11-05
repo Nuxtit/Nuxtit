@@ -6,9 +6,9 @@
   )
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-user-secret(v-else)
-    span(v-if='busy && item.data.spoiler') unmarking spoiler
-    span(v-else-if='busy && !item.data.spoiler') marking spoiler
-    span(v-else-if='item.data.spoiler') unspoiler
+    span(v-if='busy && item.spoiler') unmarking spoiler
+    span(v-else-if='busy && !item.spoiler') marking spoiler
+    span(v-else-if='item.spoiler') unspoiler
     span(v-else) spoiler
 </template>
 
@@ -32,13 +32,13 @@ export default {
   computed: {
     classes() {
       return {
-        // 'text-success': this.item.data.spoiler === true,
+        // 'text-success': this.item.spoiler === true,
       };
     },
   },
   methods: {
     async spoiler($event) {
-      const { spoiler, name } = this.item.data;
+      const { spoiler, name } = this.item;
       const minWait = startMinWait();
       try {
         this.busy = true;
@@ -49,7 +49,7 @@ export default {
             id: name, // fullname
           },
         );
-        this.item.data.spoiler = !spoiler;
+        this.item.spoiler = !spoiler;
       } catch (err) {
         console.error(err);
         this.error = err;

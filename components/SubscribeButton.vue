@@ -7,9 +7,9 @@
     i.fa.fa-fw.fa-btn.fa-spinner.fa-spin(v-if='busy')
     i.fa.fa-fw.fa-btn.fa-bookmark(v-else)
     | &nbsp;
-    span(v-if='busy && item.data.user_is_subscriber') unsubscribing
-    span(v-else-if='busy && !item.data.user_is_subscriber') subscribing
-    span(v-else-if='item.data.user_is_subscriber') subscribed
+    span(v-if='busy && item.user_is_subscriber') unsubscribing
+    span(v-else-if='busy && !item.user_is_subscriber') subscribing
+    span(v-else-if='item.user_is_subscriber') subscribed
     span(v-else) subscribe
 </template>
 
@@ -33,13 +33,13 @@ export default {
   computed: {
     classes() {
       return {
-        'text-success': this.item.data.user_is_subscriber === true,
+        'text-success': this.item.user_is_subscriber === true,
       };
     },
   },
   methods: {
     async subscribe($event) {
-      const { user_is_subscriber, name } = this.item.data;
+      const { user_is_subscriber, name } = this.item;
       const minWait = startMinWait();
       try {
         this.busy = true;
@@ -47,7 +47,7 @@ export default {
           action: user_is_subscriber ? 'unsub' : 'sub',
           sr: name, // fullname
         });
-        this.item.data.user_is_subscriber = !user_is_subscriber;
+        this.item.user_is_subscriber = !user_is_subscriber;
       } catch (err) {
         console.error(err);
         this.error = err;

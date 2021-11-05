@@ -1,38 +1,85 @@
 <template lang="pug">
   div
-    .container.subreddit-banner(:style='subredditBannerStyles')
-      br
-      //- b-img.profile-icon-img(
-      //-   v-if="subreddit.data.icon_img"
-      //-   :src="subreddit.data.icon_img"
-      //-   thumbnail
-      //-   width="128"
-      //-   height="128"
-      //- )
-      br
-      br
-      br
-    h3(@click.prevent.stop="$write_clipboard(subreddit.data.display_name)")
-      | /r/{{subreddit.data.display_name}}
-    h4 {{subreddit.data.title}}
-    p {{subreddit.data.subscribers}} subscribers
-    p
+    .row
+      .col
+        .container.subreddit-banner(:style='subredditBannerStyles')
+          br
+          b-img.profile-icon-img(
+            v-if="subreddit.icon_img"
+            :src="subreddit.icon_img"
+            thumbnail
+            width="128"
+            height="128"
+          )
+          br
+          br
+          br
+        h3(@click.prevent.stop="$write_clipboard(subreddit.display_name)")
+          | /r/{{subreddit.display_name}}
+        h4 {{subreddit.title}}
+      .col
+        table.table.table-sm(style="width: unset; min-width:256px" v-if="!subreddit.is_virtual")
+          tbody
+            tr
+              th restrict_posting
+              td(class="text-right") {{subreddit.restrict_posting}}
+            tr(v-if="subreddit.user_is_muted")
+              th user_is_muted
+              td(class="text-right") {{subreddit.user_is_muted}}
+            tr
+              th active_user_count
+              td(class="text-right") {{subreddit.active_user_count}}
+            tr
+              th accounts_active
+              td(class="text-right") {{subreddit.accounts_active}}
+            tr
+              th subscribers
+              td(class="text-right") {{subreddit.subscribers}}
+            tr(v-if="subreddit.quarantine")
+              th quarantine
+              td(class="text-right") {{subreddit.quarantine}}
+            tr(v-if="subreddit.hide_ads")
+              th hide_ads
+              td(class="text-right") {{subreddit.hide_ads}}
+            tr(v-if="subreddit.emojis_enabled")
+              th emojis_enabled
+              td(class="text-right") {{subreddit.emojis_enabled}}
+            tr(v-if="subreddit.advertiser_category")
+              th advertiser_category
+              td(class="text-right") {{subreddit.advertiser_category}}
+            tr
+              th should_archive_posts
+              td(class="text-right") {{subreddit.should_archive_posts}}
+            tr
+              th is_crosspostable_subreddit
+              td(class="text-right") {{subreddit.is_crosspostable_subreddit}}
+            tr
+              th subreddit_type
+              td(class="text-right") {{subreddit.subreddit_type}}
+            tr(v-if="subreddit.over18")
+              th over18
+              td(class="text-right") {{subreddit.over18}}
+            tr
+              th lang
+              td(class="text-right") {{subreddit.lang}}
+    p(v-if='subreddit.name')
       SubscribeButton(
-        v-if='subreddit.data.name'
         :item='subreddit'
       )
       | &#32;
-      a(:href="`https://old.reddit.com/r/${subreddit.data.display_name}`" target="_blank")
+      a(:href="`https://old.reddit.com/r/${subreddit.display_name}`" target="_blank")
         i.fa.fa-fw.fa-btn.fa-reddit
         | &#32;
         span.small see on reddit
+      | &#32;
+      TimeAgo(:value='subreddit.created_utc')
       | &#32;
       span.btn-see-source(
         @click.prevent.stop='showSource^=true'
       )
         i.fa.fa-fw.fa-btn.fa-code
         | &#32;source
-    p
+    p(v-if='subreddit.name')
       | Your flair on this sub looks like:
       | &#32;
       UserLink(:username='MeData.name')
@@ -42,8 +89,7 @@
         type='user'
         show-none
       )
-
-    pre.small.text-monospace(v-if='showSource' v-text="subreddit.data")
+    pre.small.text-monospace(v-if='showSource' v-text="subreddit")
     b-nav(tabs)
       b-nav-item(
         :to='`/r/${$route.params.subreddit}`'
@@ -80,13 +126,13 @@
       )
         i.fa.fa-fw.fa-btn.fa-edit
         | &#32;
-        | {{ subreddit.data.submit_text_label || "Submit a new link" }}
+        | {{ subreddit.submit_text_label || "Submit a new link" }}
       b-nav-item(
         :to='`/r/${$route.params.subreddit}/submit?selftext=true`'
       )
         i.fa.fa-fw.fa-btn.fa-edit
         | &#32;
-        | {{ subreddit.data.submit_link_label || "Submit a new text post" }}
+        | {{ subreddit.submit_link_label || "Submit a new text post" }}
       b-nav-item(
         :to='{ path: "/pushshift/search/", query: { kind: "comment", subreddit: $route.params.subreddit } }'
       )
@@ -94,56 +140,56 @@
         | &#32;
         | Pushshift
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/moderators`'
       )
         i.fa.fa-fw.fa-btn.fa-shield
         | &#32;
         | Moderators
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/contributors`'
       )
         i.fa.fa-fw.fa-btn.fa-check
         | &#32;
         | Approved Users
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/wikicontributors`'
       )
         i.fa.fa-fw.fa-btn.fa-book
         | &#32;
         | WikiContributors Users
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/banned`'
       )
         i.fa.fa-fw.fa-btn.fa-block
         | &#32;
         | Banned Users
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/muted`'
       )
         i.fa.fa-fw.fa-btn.fa-block
         | &#32;
         | Muted Users
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/wikibanned`'
       )
         i.fa.fa-fw.fa-btn.fa-block
         | &#32;
         | WikiBanned Users
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/about/log`'
       )
         i.fa.fa-fw.fa-btn.fa-th-list
         | &#32;
         | Mod Log
       b-nav-item(
-        v-if="subreddit.data.user_is_moderator"
+        v-if="subreddit.user_is_moderator"
         :to='`/r/${$route.params.subreddit}/wiki/config/automoderator`'
       )
         i.fa.fa-fw.fa-btn.fa-external-link
@@ -184,6 +230,7 @@ import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import CommunityDetails from '~/components/CommunityDetails';
 import ValidatePostSort from '~/mixins/ValidatePostSort';
 import FlairBadge from '~/components/FlairBadge';
+import TimeAgo from '~/components/TimeAgo';
 import PostList from '~/components/PostList.vue';
 import RedditPagination from '~/components/RedditPagination.vue';
 import SubscribeButton from '~/components/SubscribeButton.vue';
@@ -192,6 +239,7 @@ import RedditItems from '~/mixins/RedditItems';
 import { isVirtualSubreddit, makeVirtualSubreddit } from '~/lib/subreddit';
 import { makeComputeToggler } from '~/lib/toggle_open';
 import { mapGetters } from 'vuex';
+import undata from '~/lib/undata';
 
 export default {
   middleware: ['auth'],
@@ -202,6 +250,7 @@ export default {
     bNavItem,
     CommunityDetails,
     FlairBadge,
+    TimeAgo,
     PostList,
     RedditPagination,
     SubscribeButton,
@@ -216,7 +265,7 @@ export default {
     ...mapGetters('auth', ['MeData']),
     showSource: makeComputeToggler('source'),
     subredditBannerStyles() {
-      const subreddit = this.subreddit.data;
+      const subreddit = this.subreddit;
       const banner_img = subreddit ? subreddit.banner_img : null;
       return {
         'background-image': banner_img
@@ -239,33 +288,32 @@ export default {
         sidebar: null,
       };
     }
-    return {
-      subreddit: (await reddit
-        .get(`/r/${subreddit}/about`, {
-          params: {
-            api_type: 'json',
-          },
-        })
-        .catch(err => {
-          // attempting to handle 404 subreddit DNE
-          if (err.message === 'Network Error') {
-            return {
-              data: {
-                ...makeVirtualSubreddit(subreddit),
-                networkError: true,
-              },
-            };
-            // console.error(err);
-            // console.error(err.response); // undefined
-            // console.error(err.config); // valid, but useless
-            // console.error(err.request); // undefined
-            // console.error(err.code); // undefined
-            // console.error(err.message); // 'Network Error'
-            // console.error(err.prototype); // undefined
-          }
+    const subredditData = (await reddit
+      .get(`/r/${subreddit}/about`, {
+        params: {
+          api_type: 'json',
+        },
+      })
+      .catch(err => {
+        // attempting to handle 404 subreddit DNE
+        if (err.message === 'Network Error') {
+          return {
+            ...makeVirtualSubreddit(subreddit),
+            networkError: true,
+          };
+          // console.error(err);
+          // console.error(err.response); // undefined
+          // console.error(err.config); // valid, but useless
+          // console.error(err.request); // undefined
+          // console.error(err.code); // undefined
+          // console.error(err.message); // 'Network Error'
+          // console.error(err.prototype); // undefined
+        }
 
-          throw err;
-        })).data,
+        throw err;
+      })).data;
+    return {
+      subreddit: undata(subredditData),
       // rules: (await reddit.get(`/r/${subreddit}/about/rules`)).data,
       // docs are wrong, DNE
       // sidebar: (await reddit.get(`/r/${subreddit}/sidebar`)).data,

@@ -21,18 +21,18 @@ export default {
   },
   computed: {
     text() {
-      const { gildings } = this.item.data;
+      const { gildings } = this.item;
       if (gildings) {
         let text = '';
-        if (this.item.data.gildings.gid_1 > 0) {
+        if (this.item.gildings.gid_1 > 0) {
           if (text) text += ', ';
           text += `silver: ${gildings.gid_1}`;
         }
-        if (this.item.data.gildings.gid_2 > 0) {
+        if (this.item.gildings.gid_2 > 0) {
           if (text) text += ', ';
           text += `gold: ${gildings.gid_2}`;
         }
-        if (this.item.data.gildings.gid_3 > 0) {
+        if (this.item.gildings.gid_3 > 0) {
           if (text) text += ', ';
           text += `platinum: ${gildings.gid_3}`;
         }
