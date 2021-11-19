@@ -42,6 +42,11 @@ function negateList(csv) {
     .join(',');
 }
 
+const yn_to_bools = [
+  'is_video',
+  'is_self',
+];
+
 export default function({ path, query, shouldAttemptApi }) {
   if (!isFunction(shouldAttemptApi)) {
     shouldAttemptApi = returnTrue;
@@ -76,6 +81,14 @@ export default function({ path, query, shouldAttemptApi }) {
       if (params.domain && route.query.domainnegated) {
         params.domain = negateList(params.domain);
       }
+
+      yn_to_bools.each(key => {
+        if (params[key] === 'y' || params[key] === '1') {
+          params[key] = true;
+        } else if (params[key] === 'n' || params[key] === '0') {
+          params[key] = false;
+        }
+      });
       return params;
     };
   }
