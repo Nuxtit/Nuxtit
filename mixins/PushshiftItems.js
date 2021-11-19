@@ -82,7 +82,7 @@ export default function({ path, query, shouldAttemptApi }) {
         params.domain = negateList(params.domain);
       }
 
-      yn_to_bools.each(key => {
+      yn_to_bools.forEach(key => {
         if (params[key] === 'y' || params[key] === '1') {
           params[key] = true;
         } else if (params[key] === 'n' || params[key] === '0') {
