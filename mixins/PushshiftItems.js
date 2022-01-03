@@ -42,10 +42,40 @@ function negateList(csv) {
     .join(',');
 }
 
+// you can put these in the URL yourself,
+// if there is not a GUI component,
+// also pushshift does not support all of these
+// so maybe in the future we'll apply this client-side,
+// maybe pre-collapse them
 const yn_to_bools = [
   'is_video',
   'is_self',
+  'is_gallery',
+  'is_meta',
+  'quarantine',
+  'is_original_content',
+  'is_reddit_media_domain',
+  'is_created_from_ads_ui',
+  'author_premium',
+  'edited',
+  'allow_live_comments',
+  'is_crosspostable',
+  'over_18',
+  'stickied',
+  'pinned',
+  'media_only',
 ];
+
+// things that would be cool to filter by:
+// subreddit_subscribers > 100
+// num_crossposts > 0
+// num_comments > 0
+// score > 0
+// ups > 0
+// downs > 0
+// upvote_ratio > 0
+// gilded > 0
+// discussion_type = ??
 
 export default function({ path, query, shouldAttemptApi }) {
   if (!isFunction(shouldAttemptApi)) {
