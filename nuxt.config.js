@@ -3,6 +3,7 @@ const pkg = require('./package');
 
 /* eslint-disable */
 module.exports = {
+  // this line seems to break netlify builds
   // target: 'static',
 
   ssr: false,
