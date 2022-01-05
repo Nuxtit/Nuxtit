@@ -43,7 +43,7 @@
     "lighthouse-badges": "^1.1.7",
     "mark.js": "^8.11.1",
     "netlify-lambda": "^1.4.5",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "nodemon": "^2.0.3",
     "nuxt": "^2.12.0",
     "pug": "^3.0.1",
