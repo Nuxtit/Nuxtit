@@ -3,7 +3,7 @@ const pkg = require('./package');
 
 /* eslint-disable */
 module.exports = {
-  target: 'static',
+  // target: 'static',
 
   ssr: false,
 
