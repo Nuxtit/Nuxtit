@@ -256,6 +256,15 @@ export default {
     SubscribeButton,
     UserLink,
   },
+  head() {
+    let title = this.$route.params.subreddit;
+    if (this.subreddit && this.subreddit.display_name) {
+      title = `r/${this.subreddit.display_name}`;
+    }
+    return {
+      title,
+    };
+  },
   data() {
     return {
       open: null,
