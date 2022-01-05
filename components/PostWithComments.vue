@@ -1,6 +1,6 @@
 <template lang="pug">
   .post-comments-page
-    PostEntry(:post='post')
+    PostEntry(:post='post' @comment-created="onCommentCreated")
     .post-body.container(v-if='post.is_self')
       .card.card-block.bg-faded
         ItemHtml(:item='post')
@@ -63,6 +63,11 @@ export default {
     comments: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    onCommentCreated(newComment) {
+      this.$emit('comment-created', newComment);
     },
   },
 };

@@ -34,7 +34,6 @@ import MixedList from '~/components/MixedList';
 import PostEntry from '~/components/PostEntry';
 import PostList from '~/components/PostList';
 import PostThumbnail from '~/components/PostThumbnail';
-import PostWithComments from '~/components/PostWithComments.vue';
 import RedditPagination from '~/components/RedditPagination';
 import SelectQueryLimit from '~/components/SelectQueryLimit';
 import SelectRedditSort from '~/components/SelectRedditSort';

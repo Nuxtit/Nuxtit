@@ -3,6 +3,7 @@
     :subreddit='subreddit'
     :post='post'
     :comments='comments'
+    @comment-created="onCommentCreated"
   )
 </template>
 
@@ -32,6 +33,14 @@ export default {
       post: undata(first(posts.data.children)),
       comments: undata(comments),
     };
+  },
+  methods: {
+    onCommentCreated(newComment) {
+      this.comments.children = [
+        newComment,
+        ...this.comments.children,
+      ];
+    },
   },
 };
 </script>

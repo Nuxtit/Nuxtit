@@ -218,6 +218,9 @@ export default {
       }
       return !!this.parent;
     },
+    isSelf() {
+      return this.kind === 'self';
+    },
     isEditing() {
       return !!this.editingPost;
     },
@@ -303,8 +306,8 @@ export default {
               extension: 'json',
               sr: this.sr,
               title: this.title,
-              url: this.selftext ? void 0 : this.url,
-              text: this.selftext ? this.body : void 0,
+              url: this.isSelf ? void 0 : this.url,
+              text: this.isSelf ? this.body : void 0,
               return_rtjson: true,
               api_type: 'json',
               // flair_id: // a string no longer than 36 characters

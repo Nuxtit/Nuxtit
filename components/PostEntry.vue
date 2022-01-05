@@ -179,7 +179,8 @@
       CommentForm(
         v-if="showReply"
         :parent='post'
-        @updated-comment='onCommentCreated'
+        @updated-comment='onCommentUpdated'
+        @created-comment='onCommentCreated'
         @close='showReply = false'
       )
       PostForm(
@@ -332,12 +333,12 @@ export default {
     onPostUpdated(updatedPost) {
       // @todo
     },
+    onCommentUpdated(updatedComment) {
+      // @todo
+    },
     onCommentCreated(newComment) {
-      // this.comment.replies = this.comment.replies || {
-      //   children: [],
-      // };
-      // this.comment.replies.children.push(newComment);
       this.post.num_comments++;
+      this.$emit('comment-created', newComment);
     },
     onCrossPostCreated(newCrossPost) {
       // @todo
