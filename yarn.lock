@@ -5001,7 +5001,7 @@ loader-runner@^2.3.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-2.4.0.tgz#ed47066bfe534d7e84c4c7b9998c2a75607d9357"
 
-loader-utils@^0.2.11, loader-utils@^0.2.16:
+loader-utils@^0.2.16:
   version "0.2.17"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-0.2.17.tgz#f86e6374d43205a6e6c60e9196f17c0299bfb348"
   dependencies:
@@ -7487,12 +7487,6 @@ shallow-clone@^1.0.0:
     is-extendable "^0.1.1"
     kind-of "^5.0.0"
     mixin-object "^2.0.1"
-
-shared-worker-loader@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/shared-worker-loader/-/shared-worker-loader-0.2.0.tgz#b6e6b4ed2e4286078049df62a8c3d0fb22b13e91"
-  dependencies:
-    loader-utils "^0.2.11"
 
 shebang-command@^1.2.0:
   version "1.2.0"

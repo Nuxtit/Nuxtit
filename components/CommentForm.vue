@@ -45,6 +45,7 @@ import { startMinWait } from '~/lib/sleep';
 import thingsToTree from '~/lib/thingsToTree';
 import { mapGetters } from 'vuex';
 import undata from '~/lib/undata';
+import { Kind } from '~/lib/enum';
 
 export default {
   name: 'CommentForm',
@@ -152,6 +153,7 @@ export default {
             );
             this.$emit('append-replies', tree);
           } else {
+            response.data.kind = Kind.Comment
             this.editingComment = undata(response.data);
             this.$emit('created-comment', this.editingComment);
           }

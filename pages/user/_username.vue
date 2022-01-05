@@ -171,6 +171,15 @@ export default {
     SubscribeButton,
     TimeAgo,
   },
+  head() {
+    let title = this.$route.params.username;
+    if (this.user && this.user.name) {
+      title = `u/${this.user.name}`;
+    }
+    return {
+      title,
+    };
+  },
   data() {
     return {
       open: null,

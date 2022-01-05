@@ -18,7 +18,7 @@
         @remove-more='removeMore'
       )
       .text-danger(v-else)
-        | unknown entry type
+        | unknown entry type {{ comment.kind }}
 </template>
 
 <script>
@@ -38,9 +38,6 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  mounted() {
-    console.log('mounted', this.comments);
   },
   methods: {
     async collapseAll(value = true) {
