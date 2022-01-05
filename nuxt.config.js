@@ -3,6 +3,8 @@ const pkg = require('./package');
 
 /* eslint-disable */
 module.exports = {
+  target: 'static',
+
   server: {
     port: 10080, // default: 3000
     host: '0.0.0.0', // default: localhost
