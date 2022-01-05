@@ -29,7 +29,7 @@ export default {
           backgroundColor: '#' + color,
         };
       }
-      return {};
+      return null;
     },
   },
 };

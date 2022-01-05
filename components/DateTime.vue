@@ -4,7 +4,7 @@
 
 <script>
 import isNumber from 'lodash/isNumber';
-const formatDistanceToNow = require('date-fns/formatDistanceToNow');
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 const formatDistanceToNowOptions = { addSuffix: true };
 

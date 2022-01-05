@@ -1,11 +1,13 @@
 <template lang="pug">
   b-badge(
+    is="div"
     v-if='text'
     :class='cssclass'
     :style='style'
     v-text='text'
   )
   b-badge.no-flair(v-else-if='showNone')
+    is="div"
     | (no flair)
   span.no-flair(v-else)
 </template>
