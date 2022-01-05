@@ -5,12 +5,12 @@ const pkg = require('./package');
 module.exports = {
   target: 'static',
 
+  ssr: false,
+
   server: {
     port: 10080, // default: 3000
     host: '0.0.0.0', // default: localhost
   },
-
-  mode: 'spa',
 
   /*
   ** Headers of the page
