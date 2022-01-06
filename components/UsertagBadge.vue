@@ -28,15 +28,11 @@
     b-badge.no-flair(v-else-if='showNone')
       | (no tags)
     span.no-flair(v-else v-show="false")
-    b-modal(
-      v-model="showingUsertagModal"
-      title="Usertag User"
-      size="md"
-      no-close-on-backdrop
-      scrollable
-      lazy
+    .border.border-info(
+      v-if="showingUsertagModal"
       @click.stop.prevent
     )
+      h2 Usertag User
       nuxt-link(:to="`/nuxtit/settings/usertags`") Usertags Page
       .form-group
         label who to Usertag:

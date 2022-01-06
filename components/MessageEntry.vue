@@ -4,6 +4,16 @@
     .card-header
       b-badge(variant='info' v-if='message.new') new
       | &#32;
+      b-badge(variant='secondary' v-if='message.was_comment') was_comment
+      | &#32;
+      b-badge(variant='primary' v-if='message.distinguished' v-text="`distinguished: ${message.distinguished}`")
+      | &#32;
+      b-badge(variant='primary' v-if='message.type' v-text="`type: ${message.type}`")
+      | &#32;
+      b-badge(variant='danger' v-if='message.likes' v-text="`likes: ${message.likes}`")
+      | &#32;
+      b-badge(variant='danger' v-if='message.associated_awarding_id' v-text="`associated_awarding_id: ${message.associated_awarding_id}`")
+      | &#32;
       span(v-text='message.subject')
       | &#32;
       em: nuxt-link.text-muted(

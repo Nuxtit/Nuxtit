@@ -16,7 +16,6 @@ import { BButton } from 'bootstrap-vue/esm/components/button/button';
 import { BDropdownItem } from 'bootstrap-vue/esm/components/dropdown/dropdown-item';
 import { BBadge } from 'bootstrap-vue/esm/components/badge/badge';
 import { BFormSelect } from 'bootstrap-vue/esm/components/form-select';
-import { BModal } from 'bootstrap-vue/esm/components/modal/modal';
 import { BFormTextarea } from 'bootstrap-vue/esm/components/form-textarea/form-textarea';
 import { BTab, BTabs } from 'bootstrap-vue/esm/components/tabs';
 import { BNavItem } from 'bootstrap-vue/esm/components/nav/nav-item';
@@ -64,7 +63,6 @@ Vue.component('b-button', BButton);
 Vue.component('b-dropdown-item', BDropdownItem);
 Vue.component('b-badge', BBadge);
 Vue.component('b-select', BFormSelect);
-Vue.component('b-modal', BModal);
 Vue.component('b-nav', BNav);
 Vue.component('b-nav-item', BNavItem);
 
