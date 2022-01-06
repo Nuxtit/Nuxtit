@@ -111,10 +111,19 @@ module.exports = {
     },
   },
 
+  loadingIndicator: {
+    // name: 'circle',
+    // color: '#3B8070',
+    // background: 'black',
+  },
+
   /*
   ** Build configuration
   */
   build: {
+
+    extractCSS: true,
+
     analyze: {
       analyzerMode: 'static',
       openAnalyzer: false,
