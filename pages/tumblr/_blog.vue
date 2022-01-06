@@ -29,16 +29,12 @@
 </template>
 
 <script>
-import bNav from 'bootstrap-vue/es/components/nav/nav';
-import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import find from 'lodash/find';
 import { mapGetters } from 'vuex';
 
 export default {
   middleware: ['auth'],
   components: {
-    bNav,
-    bNavItem,
   },
   computed: {
     ...mapGetters('tumblr', ['blogs']),

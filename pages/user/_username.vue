@@ -143,9 +143,6 @@
 
 <script>
 import first from 'lodash/first';
-import bImg from 'bootstrap-vue/es/components/image/img';
-import bNav from 'bootstrap-vue/es/components/nav/nav';
-import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import FollowButton from '~/components/FollowButton.vue';
 import FriendButton from '~/components/FriendButton.vue';
 import PostList from '~/components/PostList.vue';
@@ -161,9 +158,6 @@ export default {
   middleware: ['auth'],
   defaultSort: 'new',
   components: {
-    bImg,
-    bNav,
-    bNavItem,
     FollowButton,
     FriendButton,
     PostList,

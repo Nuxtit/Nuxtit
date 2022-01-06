@@ -51,8 +51,6 @@
 import find from 'lodash/find';
 import get from 'lodash/get';
 import map from 'lodash/map';
-import bNav from 'bootstrap-vue/es/components/nav/nav';
-import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import MyBlogList from '~/components/Tumblr/MyBlogList';
 import { mapActions, mapGetters } from 'vuex';
 import { BindSettings } from '~/lib/settings';
@@ -61,8 +59,6 @@ import busyUntil from '~/mixins/busyUntil';
 export default {
   middleware: ['auth'],
   components: {
-    bNav,
-    bNavItem,
     MyBlogList,
   },
   mixins: [busyUntil],

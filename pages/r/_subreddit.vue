@@ -224,9 +224,6 @@
 
 <script>
 import first from 'lodash/first';
-import bImg from 'bootstrap-vue/es/components/image/img';
-import bNav from 'bootstrap-vue/es/components/nav/nav';
-import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import CommunityDetails from '~/components/CommunityDetails';
 import ValidatePostSort from '~/mixins/ValidatePostSort';
 import FlairBadge from '~/components/FlairBadge';
@@ -245,9 +242,6 @@ export default {
   middleware: ['auth'],
   defaultSort: 'hot',
   components: {
-    bImg,
-    bNav,
-    bNavItem,
     CommunityDetails,
     FlairBadge,
     TimeAgo,

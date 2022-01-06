@@ -26,15 +26,11 @@
 </template>
 
 <script>
-import bNav from 'bootstrap-vue/es/components/nav/nav';
-import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import { BindSettings } from '~/lib/settings';
 
 export default {
   middleware: ['auth'],
   components: {
-    bNav,
-    bNavItem,
   },
 };
 </script>

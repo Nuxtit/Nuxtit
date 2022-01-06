@@ -74,28 +74,28 @@ b-navbar(toggleable='md', type='dark')
 
 <script>
 import get from 'lodash/get';
-import bDropdownDivider from 'bootstrap-vue/es/components/dropdown/dropdown-divider';
-import bNavbar from 'bootstrap-vue/es/components/navbar/navbar';
-import bNavbarBrand from 'bootstrap-vue/es/components/navbar/navbar-brand';
-import bNavbarToggle from 'bootstrap-vue/es/components/navbar/navbar-toggle';
-import bNavbarNav from 'bootstrap-vue/es/components/navbar/navbar-nav';
-import bNavForm from 'bootstrap-vue/es/components/nav/nav-form';
-import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
-import bNavItemDropdown from 'bootstrap-vue/es/components/nav/nav-item-dropdown';
+import {BDropdownDivider} from 'bootstrap-vue/esm/components/dropdown/dropdown-divider';
+import {BNavbar} from 'bootstrap-vue/esm/components/navbar/navbar';
+import {BNavbarBrand} from 'bootstrap-vue/esm/components/navbar/navbar-brand';
+import {BNavbarToggle} from 'bootstrap-vue/esm/components/navbar/navbar-toggle';
+import {BNavbarNav} from 'bootstrap-vue/esm/components/navbar/navbar-nav';
+import {BNavForm} from 'bootstrap-vue/esm/components/nav/nav-form';
+import {BNavItem} from 'bootstrap-vue/esm/components/nav/nav-item';
+import {BNavItemDropdown} from 'bootstrap-vue/esm/components/nav/nav-item-dropdown';
 import SearchInput from '~/components/SearchInput';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'NavBar',
   components: {
-    bNavbar,
-    bNavbarBrand,
-    bNavbarToggle,
-    bNavbarNav,
-    bDropdownDivider,
-    bNavForm,
-    bNavItem,
-    bNavItemDropdown,
+    BNavbar,
+    BNavbarBrand,
+    BNavbarToggle,
+    BNavbarNav,
+    BDropdownDivider,
+    BNavForm,
+    BNavItem,
+    BNavItemDropdown,
     SearchInput,
   },
   computed: {

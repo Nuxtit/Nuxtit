@@ -37,16 +37,12 @@
 </template>
 
 <script>
-import bNav from 'bootstrap-vue/es/components/nav/nav';
-import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import { mapActions, mapGetters } from 'vuex';
 import { BindSettings } from '~/lib/settings';
 
 export default {
   middleware: ['auth'],
   components: {
-    bNav,
-    bNavItem,
   },
   computed: {
     ...mapGetters('masstagger', ['cachedCount']),

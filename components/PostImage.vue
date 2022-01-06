@@ -49,12 +49,12 @@ import getPostImageSrc from '~/lib/getPostImageSrc';
 import getPostGallery from '~/lib/getPostGallery';
 import getImgurAlbumId from '~/lib/imgur/getImgurAlbumId';
 import get from 'lodash/get';
-import bImg from 'bootstrap-vue/es/components/image/img';
+import {BImg} from 'bootstrap-vue/esm/components/image/img';
 
 export default {
   name: 'PostImage',
   components: {
-    bImg,
+    BImg,
     ImgurAlbum,
     ItemHtml,
     RedditGallery,

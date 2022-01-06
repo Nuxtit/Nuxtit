@@ -137,14 +137,14 @@ import TimeAgo from '~/components/TimeAgo';
 import ItemHtml from '~/components/ItemHtml';
 import TumblrAlbum from '~/components/Tumblr/TumblrAlbum';
 import QuickReblogButton from '~/components/Tumblr/QuickReblogButton';
-import bFormInput from 'bootstrap-vue/es/components/form-input/form-input';
-import bFormTextarea from 'bootstrap-vue/es/components/form-textarea/form-textarea';
+import {BFormInput} from 'bootstrap-vue/esm/components/form-input';
+import {BFormTextarea} from 'bootstrap-vue/esm/components/form-textarea';
 
 export default {
   name: 'TumblrPostRow',
   components: {
-    bFormTextarea,
-    bFormInput,
+    BFormTextarea,
+    BFormInput,
     ItemHtml,
     TimeAgo,
     TumblrAlbum,

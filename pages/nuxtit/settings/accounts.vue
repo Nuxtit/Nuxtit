@@ -83,8 +83,6 @@
 </template>
 
 <script>
-import bNav from 'bootstrap-vue/es/components/nav/nav';
-import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import { mapGetters, mapActions } from 'vuex';
 import TimeAgo from '~/components/TimeAgo';
 import { BindSettings } from '~/lib/settings';
@@ -93,8 +91,6 @@ import { getOAuthLoginHref } from '~/plugins/reddit';
 export default {
   // middleware: ['auth'],
   components: {
-    bNav,
-    bNavItem,
     TimeAgo,
   },
   data() {

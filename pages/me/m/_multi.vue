@@ -24,8 +24,6 @@
 </template>
 
 <script>
-import bNav from 'bootstrap-vue/es/components/nav/nav';
-import bNavItem from 'bootstrap-vue/es/components/nav/nav-item';
 import ValidatePostSort from '~/mixins/ValidatePostSort';
 import ItemHtml from '~/components/ItemHtml';
 import PostList from '~/components/PostList.vue';
@@ -42,8 +40,6 @@ export default {
   middleware: ['auth'],
   defaultSort: 'hot',
   components: {
-    bNav,
-    bNavItem,
     ItemHtml,
     PostList,
     RedditPagination,

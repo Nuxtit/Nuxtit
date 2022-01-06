@@ -152,7 +152,7 @@
 import get from 'lodash/get';
 import AddToQueueButton from '~/components/AddToQueueButton';
 import SelectAuthUsername from '~/components/SelectAuthUsername';
-import bFormInput from 'bootstrap-vue/es/components/form-input/form-input';
+import {BFormInput} from 'bootstrap-vue/esm/components/form-input/form-input';
 import QueryParamSelftext from '~/mixins/QueryParamSelftext';
 import UserLink from '~/components/UserLink';
 import { startMinWait } from '~/lib/sleep';
@@ -163,7 +163,7 @@ export default {
   name: 'PostForm',
   components: {
     AddToQueueButton,
-    bFormInput,
+    BFormInput,
     SelectAuthUsername,
     UserLink,
   },

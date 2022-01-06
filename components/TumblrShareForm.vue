@@ -102,8 +102,8 @@ import get from 'lodash/get';
 import find from 'lodash/find';
 import map from 'lodash/map';
 import AddToQueueButton from '~/components/AddToQueueButton';
-import bFormInput from 'bootstrap-vue/es/components/form-input/form-input';
-import bFormTextarea from 'bootstrap-vue/es/components/form-textarea/form-textarea';
+import {BFormInput} from 'bootstrap-vue/esm/components/form-input/form-input';
+import {BFormTextarea} from 'bootstrap-vue/esm/components/form-textarea/form-textarea';
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import QueryParamSelftext from '~/mixins/QueryParamSelftext';
 import UserLink from '~/components/UserLink';
@@ -116,8 +116,8 @@ export default {
   name: 'TumblrShareForm',
   components: {
     AddToQueueButton,
-    bFormInput,
-    bFormTextarea,
+    BFormInput,
+    BFormTextarea,
     UserLink,
     VueCtkDateTimePicker,
   },

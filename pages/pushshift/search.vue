@@ -148,7 +148,6 @@
 </template>
 
 <script>
-import bButton from 'bootstrap-vue/es/components/button/button';
 import QueryParamSavedsearchname from '~/mixins/QueryParamSavedsearchname';
 import ValidatePostSort from '~/mixins/ValidatePostSort';
 import MixedList from '~/components/MixedList.vue';
@@ -177,7 +176,6 @@ export default {
   middleware: ['auth'],
   defaultSort: 'new',
   components: {
-    bButton,
     MixedList,
     PushshiftList,
     RedditPagination,

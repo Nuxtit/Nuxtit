@@ -23,9 +23,9 @@
 
 <script>
 import get from 'lodash/get';
-import bNavForm from 'bootstrap-vue/es/components/nav/nav-form';
-import bFormInput from 'bootstrap-vue/es/components/form-input/form-input';
-import bButton from 'bootstrap-vue/es/components/button/button';
+import {BNavForm} from 'bootstrap-vue/esm/components/nav/nav-form';
+import {BFormInput} from 'bootstrap-vue/esm/components/form-input/form-input';
+import {BButton} from 'bootstrap-vue/esm/components/button/button';
 import { startMinWait } from '~/lib/sleep';
 
 const searchRegEx = /\bsearch\b/;
@@ -33,9 +33,9 @@ const searchRegEx = /\bsearch\b/;
 export default {
   name: 'SearchInput',
   components: {
-    bButton,
-    bFormInput,
-    bNavForm,
+    BButton,
+    BFormInput,
+    BNavForm,
   },
   props: {
     busy: {
