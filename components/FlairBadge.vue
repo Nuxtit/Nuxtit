@@ -8,7 +8,7 @@
   )
   b-badge.no-flair(is="span" v-else-if='showNone')
     | (no flair)
-  span.no-flair(v-else)
+  span.no-flair.d-none(v-else)
 </template>
 
 <script>
@@ -83,4 +83,5 @@ export default {
 };
 </script>
 
-<style lang="sass"></style>
+<style lang="sass">
+</style>
