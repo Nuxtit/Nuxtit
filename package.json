@@ -45,7 +45,7 @@
     "pug": "^3.0.1",
     "pug-plain-loader": "^1.0.0",
     "qs": "^6.10.3",
-    "sass-loader": "10",
+    "sass-loader": "12",
     "shell_exec": "^1.0.3",
     "tumblr.js": "3",
     "vue-backtotop": "^1.4.12",
