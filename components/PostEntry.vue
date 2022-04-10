@@ -86,6 +86,7 @@
           b-badge(v-if='post.distinguished', variant='info')
             | [distinguished={{post.distinguished}}]
           | &#32;
+          Awards(:item="post")
       .row
         .col
           AddToQueueButton(:item='post')
@@ -209,6 +210,7 @@ import AddToQueueButton from '~/components/AddToQueueButton';
 import ApproveButton from '~/components/ApproveButton';
 import ApprovedBadge from '~/components/ApprovedBadge';
 import AddContributorButton from '~/components/AddContributorButton';
+import Awards from '~/components/Awards';
 import BanButton from '~/components/BanButton';
 import CommentEntry from '~/components/CommentEntry';
 import CommentForm from '~/components/CommentForm';
@@ -250,6 +252,7 @@ const newLink = '/';
 export default {
   name: 'PostEntry',
   components: {
+    Awards,
     AddToQueueButton,
     ApproveButton,
     ApprovedBadge,
