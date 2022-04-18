@@ -4,6 +4,12 @@
   h1(v-else-if='error.statusCode === 403') Forbidden
   h1(v-else-if='error.statusCode === 401') Unauthenticated
   h1(v-else) An error occurred
+  p.btn-group(v-if='$route.name === "user-username"')
+    nuxt-link.btn.btn-primary(:to="{ path: '/pushshift/search', query: { author: $route.params.username, kind: 'post' } }") Pushshift Posts
+    nuxt-link.btn.btn-primary(:to="{ path: '/pushshift/search', query: { author: $route.params.username, kind: 'comment' } }") Pushshift Comments
+  p.btn-group(v-if='$route.name === "r-subreddit"')
+    nuxt-link.btn.btn-primary(:to="{ path: '/pushshift/search', query: { subreddit: $route.params.subreddit, kind: 'post' } }") Pushshift Posts
+    nuxt-link.btn.btn-primary(:to="{ path: '/pushshift/search', query: { subreddit: $route.params.subreddit, kind: 'comment' } }") Pushshift Comments
   br
   p
     | {{ error.statusCode }}

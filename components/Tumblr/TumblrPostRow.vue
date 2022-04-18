@@ -21,7 +21,7 @@ div.card: .card-body
         p Answer:
         ItemHtml(:value='post.answer')
       TumblrAlbum(
-        v-else-if='post.type === "photo"'
+        v-else-if='post.type === "photo" || post.type === "link"'
         :post="post"
       )
       div(v-else-if='post.type === "video"')
@@ -83,18 +83,44 @@ div.card: .card-body
         TimeAgo(:value="post.timestamp")
       div(v-if="canEdit")
         .form-group.row
+          label.col-xs-12.col-form-label type
+          b-form-input.col-xs-12(v-model="post.type" disabled)
+        .form-group.row
           label.col-xs-12.col-form-label state
           b-select.form-control.col-xs-12.r-select(
             name="state"
             v-model="dirty.state"
             :options="$options.fields.state.options"
           )
+        .form-group.row(v-if="dirty.title")
+          label.col-xs-12.col-form-label title
+          b-form-textarea.col-xs-12(name="title" v-model="dirty.title" :rows="3")
         .form-group.row
           label.col-xs-12.col-form-label caption
           b-form-textarea.col-xs-12(name="caption" v-model="dirty.caption" :rows="3")
         .form-group.row
           label.col-xs-12.col-form-label tags
           b-form-input.col-xs-12(v-model="dirty.tags")
+        .form-group.row
+          label.col-xs-12.col-form-label link_url
+          b-form-input.col-xs-12(v-model="dirty.link_url")
+          p: a(
+            v-if="dirty.link_url"
+            :href="updateIfOutdated(dirty.link_url)"
+            v-text="dirty.link_url"
+            target="_blank"
+            rel="noreferrer"
+          )
+        .form-group.row(v-if="dirty.url")
+          label.col-xs-12.col-form-label url
+          b-form-input.col-xs-12(v-model="dirty.url")
+          p: a(
+            v-if="dirty.url"
+            :href="updateIfOutdated(dirty.url)"
+            v-text="dirty.url"
+            target="_blank"
+            rel="noreferrer"
+          )
         .form-group.row.btn-group
           button.btn.btn-primary.mb-2(
             v-disabled="noChanges || updating"
@@ -212,6 +238,25 @@ export default {
         this.deleting = false;
       }
     },
+    updateIfOutdated (link_url) {
+      if (link_url) {
+        if (link_url.startsWith('https://redusa.netlify.com/')) {
+          return link_url.replace('https://redusa.netlify.com', window.location.origin)
+        }
+        if (link_url.startsWith('https://sappit.netlify.com/')) {
+          return link_url.replace('https://sappit.netlify.com', window.location.origin)
+        }
+        if (link_url.startsWith('https://nuxtit.netlify.app/')) {
+          return link_url.replace('https://nuxtit.netlify.app', window.location.origin)
+        }
+        if (link_url.startsWith('https://www.reddit.com/')) {
+          return link_url.replace('https://www.reddit.com', window.location.origin)
+        }
+        if (link_url.startsWith('https://old.reddit.com/')) {
+          return link_url.replace('https://old.reddit.com', window.location.origin)
+        }
+      }
+    },
   },
 };
 
@@ -223,6 +268,8 @@ function freshDirty(post) {
   return {
     state: post.state,
     caption: post.caption,
+    link_url: post.link_url,
+    url: post.url,
     tags: (post.tags || []).join(', '),
   };
 }

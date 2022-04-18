@@ -1,7 +1,28 @@
+<template lang="pug">
+  .container
+    br
+    .alert.alert-danger(v-show="user.is_suspended") This account has been suspended
+</template>
+
 <script>
-import Sort from './overview/index.vue';
 export default {
   middleware: ['auth'],
-  extends: Sort,
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
+  mounted () {
+    if (!this.user.is_suspended) {
+      this.$router.push({
+        ...this.$route,
+        name: 'user-username-overview',
+      })
+    }
+  }
 };
 </script>
+
+<style></style>
+    

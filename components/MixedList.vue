@@ -20,7 +20,7 @@
         :key='item.id'
       )
       PushshiftMissingEntry(
-        v-else-if="item.pushshiftMissing"
+        v-else-if="item.redditItemMissing"
         :item='item'
         :key='item.id'
       )

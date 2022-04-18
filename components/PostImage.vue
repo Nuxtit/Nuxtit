@@ -1,5 +1,6 @@
 <template lang="pug">
   .post-image
+    | PostImage
     ItemHtml(v-if="post.is_self" :item="post")
     video.img-fluid(v-else-if="isRedditVideo" preload="auto" autoplay="false" loop="loop" controls)
       source(:src="post.secure_media.reddit_video.fallback_url" type="video/mp4")

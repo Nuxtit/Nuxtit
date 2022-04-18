@@ -1,6 +1,6 @@
 <template lang="pug">
   .posts-thumbnail(
-    @click.prevent.default='$emit("expand")'
+    @click.prevent.stop='$emit("expand")'
   )
     span(v-if="!imageSrc && post.thumbnail === 'image'")
       | image
@@ -11,8 +11,8 @@
     span(v-else-if="post.thumbnail === 'spoiler'" title="spoiler")
       i.fa.fa-fw.fa-5x.fa-question-circle-o
     span.cursor-pointer(
-      v-else-if="post.thumbnail === 'nsfw'" title="nsfw"
-      @click.prevent.default='$emit("expand")'
+      v-else-if="false && post.thumbnail === 'nsfw'" title="nsfw"
+      @click.prevent.stop='$emit("expand")'
     )
       i.fa.fa-fw.fa-5x.fa-user-secret
     img.cursor-pointer(

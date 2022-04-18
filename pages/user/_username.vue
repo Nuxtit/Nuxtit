@@ -51,7 +51,7 @@
       | &#32;
       FollowButton(:item='user' v-if='user.subreddit')
       | &#32;
-      TimeAgo(:value='user.created_utc')
+      TimeAgo(v-if="user.created_utc" :value='user.created_utc')
       | &#32;
       a(
         :href='`https://www.reddit.com${$route.fullPath}`'
@@ -74,18 +74,21 @@
         | &#32;
         | About
       b-nav-item(
+        :disabled="user.is_suspended"
         :to='`/user/${$route.params.username}/overview`'
       )
         i.fa.fa-fw.fa-btn.fa-book
         | &#32;
         | Overview
       b-nav-item(
+        :disabled="user.is_suspended"
         :to='`/user/${$route.params.username}/submitted`'
       )
         i.fa.fa-fw.fa-btn.fa-list
         | &#32;
         | Submitted
       b-nav-item(
+        :disabled="user.is_suspended"
         :to='`/user/${$route.params.username}/comments`'
       )
         i.fa.fa-fw.fa-btn.fa-chat
@@ -93,6 +96,7 @@
         | Comments
       b-nav-item(
         v-if='showUpvotedTab'
+        :disabled="user.is_suspended"
         :to='`/user/${$route.params.username}/upvoted`'
       )
         i.fa.fa-fw.fa-btn.fa-up-big
@@ -100,6 +104,7 @@
         | Upvoted
       b-nav-item(
         v-if='showDownvotedTab'
+        :disabled="user.is_suspended"
         :to='`/user/${$route.params.username}/downvoted`'
       )
         i.fa.fa-fw.fa-btn.fa-down-big
@@ -107,6 +112,7 @@
         | Downvoted
       b-nav-item(
         v-if='showSavedTab'
+        :disabled="user.is_suspended"
         :to='`/user/${$route.params.username}/saved`'
       )
         i.fa.fa-fw.fa-btn.fa-floppy
@@ -114,6 +120,7 @@
         | Saved
       b-nav-item(
         v-if='showHiddenTab'
+        :disabled="user.is_suspended"
         :to='`/user/${$route.params.username}/hidden`'
       )
         i.fa.fa-fw.fa-btn.fa-minus-circled
@@ -121,6 +128,7 @@
         | Hidden
       b-nav-item(
         v-if='showGildedTab'
+        :disabled="user.is_suspended"
         :to='`/user/${$route.params.username}/gilded`'
       )
         i.fa.fa-fw.fa-btn.fa-money
@@ -131,8 +139,15 @@
       )
         i.fa.fa-fw.fa-btn.fa-list
         | &#32;
-        | Pushshift
+        | Pushshift Comments
       b-nav-item(
+        :to='{ path: "/pushshift/search/", query: { kind: "post", author: $route.params.username } }'
+      )
+        i.fa.fa-fw.fa-btn.fa-list
+        | &#32;
+        | Pushshift Posts
+      b-nav-item(
+        :disabled="user.is_suspended"
         :to='`/user/${$route.params.username}/unique`'
       )
         i.fa.fa-fw.fa-btn.fa-list

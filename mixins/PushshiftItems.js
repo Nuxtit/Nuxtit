@@ -77,20 +77,24 @@ const yn_to_bools = [
 // gilded > 0
 // discussion_type = ??
 
+const kindPathMap = {
+  [Kind.Comment]: 'comment',
+  [Kind.Post]: 'submission',
+  [Kind.Subreddit]: 'subreddit',
+}
+
+export function pathFromKind(kind) {
+  // console.log('path.kind', parseKind(route.query.kind));
+  const resource = kindPathMap[parseKind(kind)];
+  return `/reddit/search/${resource}`;
+}
+
 export default function({ path, query, shouldAttemptApi }) {
   if (!isFunction(shouldAttemptApi)) {
     shouldAttemptApi = returnTrue;
   }
   if (!isFunction(path)) {
-    path = ({ route }) => {
-      // console.log('path.kind', parseKind(route.query.kind));
-      const resource = {
-        [Kind.Comment]: 'comment',
-        [Kind.Post]: 'submission',
-        [Kind.Subreddit]: 'subreddit',
-      }[parseKind(route.query.kind)];
-      return `/reddit/search/${resource}`;
-    };
+    path = ({ route }) => pathFromKind(route.query.kind);
   }
   if (!isFunction(query)) {
     query = ({ route }) => {
@@ -295,29 +299,38 @@ async function pushshiftItemsToRedditItems({ reddit, input, route }) {
     responses.map(response => get(response, 'data.data.children')),
   ), undata);
   // console.log({ redditChildren });
-  const children = map(input, (item) => {
+  const children = map(input, (pushshiftEntry) => {
     const redditItem = find(redditChildren, redditItem => {
-      return redditItem.id === item.id;
+      return redditItem.id === pushshiftEntry.id;
     });
-    const redditLink = item.link_id ? find(redditChildren, redditItem => {
-      return item.link_id === Kind.Post+'_'+redditItem.id;
+    const redditLink = pushshiftEntry.link_id ? find(redditChildren, redditItem => {
+      return pushshiftEntry.link_id === Kind.Post+'_'+redditItem.id;
     }) : null;
     if (redditItem) {
-      redditItem.postEntry = redditLink || void 0;
+      // redditItem.postEntry = redditLink || void 0;
+      // if (redditItem.url && redditItem.url.includes('/deleted_by_user/') && pushshiftEntry.url) {
+      //   redditItem.url = pushshiftEntry.url
+      //   if (pushshiftEntry.domain) redditItem.domain = pushshiftEntry.domain
+      // }
+      // if (redditItem.title === '[deleted by user]') {
+      //   if (pushshiftEntry.title) redditItem.title = pushshiftEntry.title
+      // }
       return {
-        pushshiftEntry: item,
+        pushshiftEntry,
+        redditItem,
         ...redditItem,
+        ...pushshiftEntry,
       };
     }
-    item.kind = item.kind || kind;
-    item.postEntry = redditLink || void 0;
-    item.pushshiftMissing = true;
-    return item;
+    pushshiftEntry.kind = pushshiftEntry.kind || kind;
+    pushshiftEntry.postEntry = redditLink || void 0;
+    pushshiftEntry.redditItemMissing = true;
+    return pushshiftEntry;
     // return {
     //   kind,
-    //   ...item,
+    //   ...pushshiftEntry,
     //   postEntry: redditLink || void 0,
-    //   pushshiftMissing: true,
+    //   redditItemMissing: true,
     // };
   });
   return {

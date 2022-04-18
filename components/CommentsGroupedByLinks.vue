@@ -21,7 +21,7 @@
         )
       .card-body(v-if='!collapsedLinks[link.display_url]')
         PushshiftMissingEntry(
-          v-if="link.post && link.post.pushshiftMissing"
+          v-if="link.post && link.post.redditItemMissing"
           :item='link.post'
           :key='link.post.id'
         )
@@ -34,7 +34,7 @@
           v-for='(comment, index) in link.comments'
         )
           PushshiftMissingEntry(
-            v-if="comment.pushshiftMissing"
+            v-if="comment.redditItemMissing"
             :item='comment'
             :key='comment.id'
           )

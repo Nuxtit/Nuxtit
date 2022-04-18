@@ -154,6 +154,11 @@
           SeeReportsButton(:item="post" @click.prevent.stop='showReports^=true')
           | &#32;
           span.btn-see-source(
+            @click.prevent.stop='showPs^=true'
+          )
+            i.fa.fa-fw.fa-btn.fa-cog
+            | &#32;ps
+          span.btn-see-source(
             @click.prevent.stop='showSource^=true'
           )
             i.fa.fa-fw.fa-btn.fa-code
@@ -202,6 +207,7 @@
         @close='showImage = false'
       )
       ShowReports(v-if="showReports" :item="post")
+      ItemPushShiftMenu(v-if="showPs" :item.sync="post")
       pre.small.text-monospace(v-if='showSource' v-text="post")
 </template>
 
@@ -221,6 +227,7 @@ import DownVote from '~/components/DownVote';
 import FlairBadge from '~/components/FlairBadge';
 import GildedBadge from '~/components/GildedBadge';
 import HideButton from '~/components/HideButton';
+import ItemPushShiftMenu from '~/components/ItemPushShiftMenu';
 import LockButton from '~/components/LockButton';
 import UsertagBadge from '~/components/UsertagBadge';
 import NsfwButton from '~/components/NsfwButton';
@@ -267,6 +274,7 @@ export default {
     FlairBadge,
     GildedBadge,
     HideButton,
+    ItemPushShiftMenu,
     LockButton,
     UsertagBadge,
     NsfwButton,
@@ -318,6 +326,7 @@ export default {
       url = url.replace(linkRegEx, newLink);
       return url;
     },
+    showPs: makeComputeToggler('ps'),
     showSource: makeComputeToggler('source'),
     showReports: makeComputeToggler('reports'),
     showEdit: makeComputeToggler('edit'),

@@ -9,7 +9,7 @@ module.exports = {
   ssr: false,
 
   server: {
-    port: 10080, // default: 3000
+    port: 11080, // default: 3000
     host: '0.0.0.0', // default: localhost
   },
 
