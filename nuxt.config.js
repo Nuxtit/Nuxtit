@@ -170,11 +170,11 @@ module.exports = {
     public_key: process.env.SENTRY_DSN,
     config: {
       // Additional config
-      release: `${(process.env.BRANCH || 'NULL_BRANCH')}-${(process.env.COMMIT_REF || 'NULL_COMMIT_REF')}`
-                 .replace(/[^a-z0-9]/gi, '-')
-                 .replace(/^-|-$/g,''),
+      // release: `${(process.env.BRANCH || 'NULL_BRANCH')}-${(process.env.COMMIT_REF || 'NULL_COMMIT_REF')}`
+      //            .replace(/[^a-z0-9]/gi, '-')
+      //            .replace(/^-|-$/g,''),
     },
-    publishRelease: true,
+    // publishRelease: true,
   },
 
   router: {
