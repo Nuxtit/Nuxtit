@@ -21,7 +21,7 @@
       div(v-html='post.media_embed.content')
     span(v-else-if="redditGallery")
       RedditGallery(:album="redditGallery")
-    b-img(
+    BImg(
       v-else-if="imageSrc"
       :src="imageSrc"
       :alt="post.title"

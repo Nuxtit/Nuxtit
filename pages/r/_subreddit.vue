@@ -4,7 +4,7 @@
       .col
         .container.subreddit-banner(:style='subredditBannerStyles')
           br
-          b-img.profile-icon-img(
+          BImg.profile-icon-img(
             v-if="subreddit.icon_img"
             :src="subreddit.icon_img"
             thumbnail
@@ -233,6 +233,7 @@ import RedditPagination from '~/components/RedditPagination.vue';
 import SubscribeButton from '~/components/SubscribeButton.vue';
 import UserLink from '~/components/UserLink';
 import RedditItems from '~/mixins/RedditItems';
+import {BImg} from 'bootstrap-vue/esm/components/image/img';
 import { isVirtualSubreddit, makeVirtualSubreddit } from '~/lib/subreddit';
 import { makeComputeToggler } from '~/lib/toggle_open';
 import { mapGetters } from 'vuex';
@@ -242,6 +243,7 @@ export default {
   middleware: ['auth'],
   defaultSort: 'hot',
   components: {
+    BImg,
     CommunityDetails,
     FlairBadge,
     TimeAgo,

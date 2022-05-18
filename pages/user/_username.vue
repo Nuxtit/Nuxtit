@@ -3,7 +3,7 @@
     .row
       .col.subreddit-banner(:style='subredditBannerStyles')
         br
-        b-img.profile-icon-img(
+        BImg.profile-icon-img(
           v-if="user.icon_img"
           :src="user.icon_img"
           thumbnail
@@ -165,6 +165,7 @@ import RedditPagination from '~/components/RedditPagination.vue';
 import RedditItems from '~/mixins/RedditItems';
 import SubscribeButton from '~/components/SubscribeButton';
 import TimeAgo from '~/components/TimeAgo';
+import {BImg} from 'bootstrap-vue/esm/components/image/img';
 import { makeComputeToggler } from '~/lib/toggle_open';
 import { mapGetters } from 'vuex';
 import undata from '~/lib/undata';
@@ -173,6 +174,7 @@ export default {
   middleware: ['auth'],
   defaultSort: 'new',
   components: {
+    BImg,
     FollowButton,
     FriendButton,
     PostList,
