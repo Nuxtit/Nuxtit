@@ -155,6 +155,11 @@
         )
         SeeReportsButton(:item="comment" @click.prevent.stop='showReports^=true')
         span.btn-see-source(
+          @click.prevent.stop='showPs^=true'
+        )
+          i.fa.fa-fw.fa-btn.fa-cog
+          | &#32;ps
+        span.btn-see-source(
           @click.prevent.stop='showSource^=true'
         )
           i.fa.fa-fw.fa-btn.fa-code
@@ -178,6 +183,7 @@
       @close='showCrossPost = false'
     )
     ShowReports(v-if="showReports && !collapsed" :item="comment")
+    ItemPushShiftMenu(v-if="showPs" :item.sync="comment")
     pre.small.text-monospace(v-if="showSource && !collapsed" v-text="comment")
   CommentTree(
     v-if='showReplies && !collapsed'
@@ -201,6 +207,7 @@ import FlairBadge from '~/components/FlairBadge';
 import GildedBadge from '~/components/GildedBadge';
 import HideButton from '~/components/HideButton';
 import ItemHtml from '~/components/ItemHtml';
+import ItemPushShiftMenu from '~/components/ItemPushShiftMenu';
 import LockButton from '~/components/LockButton';
 import UsertagBadge from '~/components/UsertagBadge';
 import PostForm from '~/components/PostForm';
@@ -238,6 +245,7 @@ export default {
     GildedBadge,
     HideButton,
     ItemHtml,
+    ItemPushShiftMenu,
     LockButton,
     UsertagBadge,
     PostForm,
@@ -312,6 +320,7 @@ export default {
       if (!this.$route.params.subreddit) return true;
       return isVirtualSubreddit(this.$route.params.subreddit);
     },
+    showPs: makeComputeToggler('ps'),
     showSource: makeComputeToggler('source'),
     showReply: makeComputeToggler('reply'),
     showReports: makeComputeToggler('reports'),
