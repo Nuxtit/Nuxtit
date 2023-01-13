@@ -132,6 +132,7 @@ export default function({ path, query, shouldAttemptApi }) {
     mixins: [QueryParamLimit, QueryParamKind],
     data() {
       return {
+        statusCode: null,
         fetching: false,
         items: null,
         filterOptions: { text: '' },
@@ -205,18 +206,20 @@ export default function({ path, query, shouldAttemptApi }) {
           const minWait = startMinWait();
           try {
             this.fetching = true;
-            const items = (await pushshift.get(path({ route }), {
+            const res = (await pushshift.get(path({ route }), {
               params: {
                 ...defaultParams,
                 ...query({ route }),
               },
-            })).data.data;
+            }));
+            const items = res.data.data
 
             this.items = await pushshiftItemsToRedditItems({
               reddit,
               input: items,
               route,
             });
+            this.statusCode = res.status;
             this.setItemsFilteredProperty();
           } finally {
             await minWait;
