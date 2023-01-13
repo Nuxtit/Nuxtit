@@ -19,7 +19,8 @@ const defaultParams = Object.freeze({
   size: 25,
   // limit: 25,
   // pretty: false,
-  sort: 'desc',
+  // sort: "id" | "created_utc" | "score"
+  sort: 'created_utc',
   // sort_type: 'new',
 });
 
