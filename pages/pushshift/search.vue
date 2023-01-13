@@ -140,6 +140,12 @@
             :to="$mergeRouteQuery({ before: lastCreatedAt + 1 })"
             @click.native="nextPage"
           ) next page
+      .alert.alert-danger(
+        v-if="statusCode === 422"
+      )
+        pre.text-monospace(
+          v-text="JSON.stringify(items, null, 2)"
+        )
       template(v-if='$route.query.q && zeroResults')
         br
         .container
