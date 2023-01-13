@@ -31,7 +31,7 @@
     "date-fns": "2",
     "dotenv": "^10.0.0",
     "eslint": "5.16.0",
-    "eslint-loader": "^2.0.0",
+    "eslint-loader": "^4.0.0",
     "eslint-plugin-vue": "^5.2.3",
     "fontello-cli": "^0.6.2",
     "get-youtube-id": "^1.0.1",
