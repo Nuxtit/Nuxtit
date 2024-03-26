@@ -38,7 +38,7 @@
     "idb-keyval": "^6.1.0",
     "lodash": "^4.17.21",
     "mark.js": "^8.11.1",
-    "netlify-lambda": "^2.0.15",
+    "netlify-lambda": "^2.0.16",
     "node-sass": "6",
     "nodemon": "^2.0.3",
     "nuxt": "^2.12.0",
