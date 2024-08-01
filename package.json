@@ -25,7 +25,7 @@
     "argv": "^0.0.2",
     "axios-retry": "^3.1.2",
     "babel-eslint": "^10.0.2",
-    "bootstrap": "^4.6.1",
+    "bootstrap": "^5.0.0",
     "bootstrap-vue": "^2.21.2",
     "cryptico": "^1.0.2",
     "date-fns": "2",
